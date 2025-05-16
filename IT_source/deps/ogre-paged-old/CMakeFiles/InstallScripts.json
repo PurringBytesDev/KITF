@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/cmake_install.cmake",
+		"D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/source/cmake_install.cmake",
+		"D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,16 @@
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/CMakeFiles/INSTALL.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/CMakeFiles/ALL_BUILD.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/CMakeFiles/ZERO_CHECK.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/source/CMakeFiles/PagedGeometry.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/source/CMakeFiles/INSTALL.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example1.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example2.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example3.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example4.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example5.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example6.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example7.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example8.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example9.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/Example10.dir
+D:/CurrGamesProjects/ImpressiveTitleRemakePOCData/compare/IT_source/deps/ogre-paged-old/examples/CMakeFiles/INSTALL.dir

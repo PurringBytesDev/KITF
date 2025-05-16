@@ -128,7 +128,7 @@ protected:
 
         chooseSceneManager();
         createCamera();
-        createViewports();
+        createViewports(); 
 
         // Set default mipmap level (NB some APIs ignore this)
         TextureManager::getSingleton().setDefaultNumMipmaps(5);

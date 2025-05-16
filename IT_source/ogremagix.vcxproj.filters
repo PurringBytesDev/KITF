@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="paged">
+      <UniqueIdentifier>{3f33772b-f372-4f54-833c-c78691d7b363}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ogremagix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\BatchedGeometry.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\BatchPage.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\GrassLoader.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\ImpostorPage.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\PagedGeometry.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\PropertyMaps.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\StaticBillboardSet.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\TreeLoader2D.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\TreeLoader3D.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\WindBatchedGeometry.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+    <ClCompile Include="paged\source\WindBatchPage.cpp">
+      <Filter>paged</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\MagixAlertBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixCampaignManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixCharScreenManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixChatManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixCollisionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixCritterManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixEffectsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixExternalDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixFrameListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixGameStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixInputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixItemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixMiniMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixNetworkDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixNetworkManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixOwnershipManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixSkyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixSoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixUnitManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MagixWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ogremagix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="res\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\BatchedGeometry.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\BatchPage.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\GrassLoader.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\HeightFunction.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\ImpostorPage.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\MersenneTwister.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\PagedGeometry.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\PagedGeometryConfig.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\PGExampleApplication.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\PGExampleFrameListener.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\PropertyMaps.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\RandomTable.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\StaticBillboardSet.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\TreeLoader2D.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\TreeLoader3D.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\WindBatchedGeometry.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+    <ClInclude Include="paged\include\WindBatchPage.h">
+      <Filter>paged</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ogremagix.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="docs\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\ogremagix.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
