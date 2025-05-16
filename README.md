@@ -4,6 +4,7 @@ LICENSE :
 This version is made ONLY from the original Kolvu license and is directed by public domain rules.
 
 THIS PROJECT USE THE "DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE" AKA WTFPL
+
 Original Version : 2, December 2004, by Sam Hocevar
 Current Version : custom project, may 2025 by Purring Bytes
 
