@@ -49,8 +49,8 @@ protected:
 	unsigned short controlMode;
 	bool isLockedOn;
 	vector<Skill> skillSlot;
-	vector<const Skill> skillChangedList;
-	vector<const String> defaultAttackList;
+	vector<Skill> skillChangedList;
+	vector<String> defaultAttackList;
 	Skill *mCurrentSkill;
 	Skill *mNextSkill;
 	bool autoWalk;
@@ -603,9 +603,9 @@ public:
 	{
 		return autoAttackOnce;
 	}
-	const vector<const Skill> popSkillChangedList()
+	const vector<Skill> popSkillChangedList()
 	{
-		const vector<const Skill> tList = skillChangedList;
+		const vector<Skill> tList = skillChangedList;
 		skillChangedList.clear();
 		return tList;
 	}

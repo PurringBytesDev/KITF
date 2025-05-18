@@ -45,8 +45,8 @@ protected:
 	String mapEffect;
 	int staticGeometryX;
 	int staticGeometryY;
-	vector<const WorldCritter> critterSpawnList;
-	vector<const pair<Vector3,Vector3>> critterRoamAreaList;
+	vector<WorldCritter> critterSpawnList;
+	vector<pair<Vector3,Vector3>> critterRoamAreaList;
 	unsigned short critterSpawnLimit;
 public:
 	MagixWorld()
@@ -1175,7 +1175,7 @@ public:
 	{
 		return critterSpawnLimit;
 	}
-	const vector<const WorldCritter> getCritterSpawnList()
+	const vector<WorldCritter> getCritterSpawnList()
 	{
 		return critterSpawnList;
 	}

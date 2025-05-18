@@ -47,7 +47,7 @@ protected:
 	//ColourValue weatherSkyAdder;
 	String weatherEffect;
 	Real weatherEffectCountdown;
-	vector<const WeatherEvent> weatherCycleEventList;
+	vector<WeatherEvent> weatherCycleEventList;
 	bool hasWeatherSound;
 	bool interiorSky;
 	Real FOG_START, FOG_END;
@@ -67,6 +67,8 @@ public:
 		mStars = 0;
 		mSunLight = 0;
 		mMoonLight = 0;
+
+		// WUT ?
 		//for(int i=0;i<MAX_CLOUDS;i++)cloudSpeed[i] = 0;
 		skyDayTime = 500;
 		dayTimeFrozen = false;

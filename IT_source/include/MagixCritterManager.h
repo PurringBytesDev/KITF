@@ -476,7 +476,7 @@ protected:
 	vector<MagixCritter*> deadQueue;
 	vector<MagixCritter*> decisionQueue;
 	vector<MagixCritter*> stationaryQueue;
-	vector<const HitInfo> hitQueue;
+	vector<HitInfo> hitQueue;
 	MagixLiving *mPlayerTarget;
 	vector<MagixCritter*> myCritters;
 	vector<const unsigned short> sentID;
@@ -945,13 +945,13 @@ public:
 		deadQueue.clear();
 		return tList;
 	}
-	const vector<const HitInfo> popHitQueue()
+	const vector<HitInfo> popHitQueue()
 	{
-		const vector<const HitInfo> tList = hitQueue;
+		const vector<HitInfo> tList = hitQueue;
 		hitQueue.clear();
 		return tList;
 	}
-	void pushHitQueue(const HitInfo &info)
+	void pushHitQueue(HitInfo &info)
 	{
 		hitQueue.push_back(info);
 	}

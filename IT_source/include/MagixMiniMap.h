@@ -14,8 +14,8 @@ protected:
 	OverlayElement *mMapTag;
 	vector<bool> hasPortalMarker;
 	vector<bool> hasGateMarker;
-	vector<const pair<Vector2,String>> portalMap;
-	vector<const pair<Vector2,String>> gateMap;
+	vector<pair<Vector2,String>> portalMap;
+	vector<pair<Vector2,String>> gateMap;
 	Real zoomRatio;
 	bool mapTagUseCharName;
 	vector<const unsigned char> pingUnitMarkers;

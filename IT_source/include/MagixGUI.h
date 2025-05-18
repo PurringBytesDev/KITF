@@ -1458,7 +1458,7 @@ public:
 			if(!mGameStateManager->isCampaign())mNetworkManager->sendHPUpdate();
 		}
 		//Skill changes
-		const vector<const Skill> tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
+		const vector<Skill> tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
 		for(int i=0;i<(int)tSkillChange.size();i++)
 		{
 			if(!mGameStateManager->isCampaign())mNetworkManager->sendSkillUpdate(tSkillChange[i].name,tSkillChange[i].stock);

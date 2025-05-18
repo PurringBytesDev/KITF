@@ -9,8 +9,8 @@ struct ScriptedUnit
 	MagixUnit *chaseUnit;
 	Real timer;
 	CampaignEventList eventList;
-	vector<const String>nextEvent;
-	vector<vector<const String>>eventConditionList;
+	vector<String>nextEvent;
+	vector<vector<String>>eventConditionList;
 	ScriptedUnit()
 	{
 		mUnit = 0;
@@ -51,8 +51,8 @@ protected:
 	vector<Skill> skillsCheckpoint;
 	String campaignFilename;
 	CampaignEventList eventList;
-	vector<const String>nextEvent;
-	vector<vector<const String>>eventConditionList;
+	vector<String>nextEvent;
+	vector<vector<String>>eventConditionList;
 	bool ignoreGameOver;
 public:
 	MagixCampaignManager()
@@ -1026,7 +1026,7 @@ public:
 	}
 	void registerEventConditions(const CampaignEvent &cEvent, ScriptedUnit *sUnit=0)
 	{
-		vector<const String> tLine;
+		vector<String> tLine;
 		for(int i=0;i<(int)cEvent.size();i++)
 		{
 			if(compare(cEvent[i].first,"EventCondition"))tLine.push_back(cEvent[i].second);
@@ -1036,7 +1036,7 @@ public:
 	}
 	void checkEventCondition(ScriptedUnit *sUnit=0)
 	{
-		const vector<vector<const String>> tList = sUnit?sUnit->eventConditionList:eventConditionList;
+		const vector<vector<String>> tList = sUnit?sUnit->eventConditionList:eventConditionList;
 		unsigned short listID = -1;
 		for(int i=0;i<(int)tList.size();i++)
 		{

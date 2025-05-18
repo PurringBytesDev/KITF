@@ -68,7 +68,7 @@ protected:
 	float musicVolume;
 	float guiVolume;
 	float soundVolume;
-	list<const LoopedSound> loopedSound;
+	list<LoopedSound> loopedSound;
 	Real musicSilenceTimeout;
 	bool isRandomPlaylist;
 	vector<String> musicList;
@@ -175,7 +175,7 @@ public:
 	}
 	void updateLoopedSounds(const Vector3 &camPosition, const Real &timeElapsed)
 	{
-		list<const LoopedSound>::iterator it = loopedSound.begin();
+		list<LoopedSound>::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -312,7 +312,7 @@ public:
 		tSound.delay = delay;
 		loopedSound.push_back(tSound);
 	}
-	const list<const LoopedSound>::iterator stopLoopedSound(const list<const LoopedSound>::iterator &it)
+	const list<LoopedSound>::iterator stopLoopedSound(const list<LoopedSound>::iterator &it)
 	{
 		if(!mSoundMgr)return loopedSound.end();
 
@@ -326,7 +326,7 @@ public:
 		if(!node)return;
 
 		const int tLoopedSound = ( type=="" ? INVALID_SOUND_INDEX : mSoundMgr->CreateLoopedSound(String(type)) );
-		list<const LoopedSound>::iterator it = loopedSound.begin();
+		list<LoopedSound>::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -338,7 +338,7 @@ public:
 	{
 		if(!mSoundMgr)return false;
 		const int tLoopedSound = mSoundMgr->CreateLoopedSound(String(type));
-		list<const LoopedSound>::iterator it = loopedSound.begin();
+		list<LoopedSound>::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -349,7 +349,7 @@ public:
 	}
 	void stopAllLoopedSounds()
 	{
-		list<const LoopedSound>::iterator it = loopedSound.begin();
+		list<LoopedSound>::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())it = stopLoopedSound(it);
 	}
 	void playAmbientSound(const char *type, const float &volume=1)
@@ -398,7 +398,7 @@ public:
 		if(!mSoundMgr)return;
 		soundVolume = ratio;
 
-		list<const LoopedSound>::iterator it = loopedSound.begin();
+		list<LoopedSound>::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;

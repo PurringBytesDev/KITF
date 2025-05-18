@@ -86,7 +86,7 @@ protected:
 	bool acceptedFlag;
 	Real updateCount;
 	Real moveUpdateCount;
-	vector<const PlayerData> playerList;
+	vector<PlayerData> playerList;
 	bool playerListUpdated;
 	String targetBioUpdated;
 	NetworkMessage networkMessage;
@@ -463,13 +463,13 @@ public:
 	{
 		vector<const String> tList;
 		vector<const String> tMapList;
-		vector<const unsigned short> tCountList;
+		vector<unsigned short> tCountList;
 		tList.clear();
 		tMapList.clear();
 		tCountList.clear();
 
 		//Count players in each map
-		for(vector<const PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			bool tHasMap = false;
@@ -506,7 +506,7 @@ public:
 	bool isPlayerOnline(String name)
 	{
 		StringUtil::toLowerCase(name);
-		for(vector<const PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			String tName = tData->name;
@@ -518,7 +518,7 @@ public:
 	const String getPlayerMap(String name)
 	{
 		StringUtil::toLowerCase(name);
-		for(vector<const PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			String tName = tData->name;
@@ -1481,7 +1481,7 @@ public:
 			char tMapName[32];
 			stringCompressor->DecodeString(tMapName,32,&tBitStream);
 
-			for(vector<const PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+			for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
 			{
 				PlayerData *tData = &*it;
 				if(tData->name == tName)
@@ -1495,7 +1495,7 @@ public:
 		}
 		else
 		{
-			for(vector<const PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+			for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
 			{
 				PlayerData *tData = &*it;
 				if(tData->name == tName)

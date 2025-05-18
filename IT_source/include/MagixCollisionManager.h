@@ -502,7 +502,7 @@ public:
 		}
 		return 0;
 	}
-	void getPortalMap(vector<const pair<Vector2,String>> &map)
+	void getPortalMap(vector<pair<Vector2,String>> &map)
 	{
 		map.clear();
 		list<Portal>::iterator it = portal.begin();
@@ -598,7 +598,7 @@ public:
 		}
 		return 0;
 	}
-	void getGateMap(vector<const pair<Vector2,String>> &map)
+	void getGateMap(vector<pair<Vector2,String>> &map)
 	{
 		map.clear();
 		list<Gate>::iterator it = gate.begin();

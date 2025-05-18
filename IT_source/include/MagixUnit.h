@@ -96,7 +96,7 @@ protected:
 	bool hasNewAttack;
 	bool hasStoppedAttack;
 	Real hitTimeout;
-	vector<const String> attackList;
+	vector<String> attackList;
 	unsigned short attackCounter;
 	Real headTurnCount;
 	bool isInWater;
@@ -2144,6 +2144,7 @@ public:
 	}
 	bool isReadyToAttack()
 	{
+		// what is this 0.6 value ? magic numbers ....
 		return (nextAttackName=="" && attackList.size()>attackCounter && !isDisabled() &&
 				( (attackName=="" && attackTimeout==0)
 				||(attackName!="" &&(attackTimeout>0 || mBodyEnt->getAnimationState(animBase)->getTimePosition()>mBodyEnt->getAnimationState(animBase)->getLength()*0.6))));

@@ -4,7 +4,7 @@
 using namespace Ogre;
 using namespace std;
 
-typedef vector<const pair<String,String>> CampaignEvent;
+typedef vector<pair<String,String>> CampaignEvent;
 typedef vector<CampaignEvent> CampaignEventList;
 
 #define MAX_HOTKEYF 8
@@ -113,13 +113,14 @@ struct Critter
 	bool invulnerable;
 	bool isDrawPoint;
 	bool isUncustomizable;
-	vector<const pair<String,Real>> dropList;
+	vector<pair<String,Real>> dropList;
 	pair<String,unsigned char> skillDrop;
 	Real maxSpeed;
 	unsigned char decisionMin;
 	unsigned char decisionDeviation;
 	Real scale;
-	vector<const CritterAttack> attackList;
+	// could be public ?
+	vector<CritterAttack> attackList;
 	String sound;
 	String material;
 	Critter()
@@ -201,8 +202,8 @@ public:
 	vector<String> itemParticle;
 	vector<String> itemParticleOffset;
 	vector<bool> itemParticleOnNode;
-	vector<const Attack> attackList;
-	vector<const Critter> critterList;
+	vector<Attack> attackList;
+	vector<Critter> critterList;
 
 	MagixExternalDefinitions()
 	{
@@ -637,7 +638,7 @@ public:
 	}
 	bool XOR7FileGen(const String &infile, const String &outfile, bool decrypt, bool checksum=false)
 	{
-		vector<const String> tBuffer;
+		vector<String> tBuffer;
 		unsigned long tChecksum = 0;
 		ifstream inFile;
 		inFile.open(infile.c_str(),(decrypt?ios_base::binary:ifstream::in));
@@ -672,6 +673,7 @@ public:
 		}
 		return true;
 	}
+	// this old cold could be removed ?
 	/*bool loadWorld(const String &name, String &terrain, Real &x, Real &z, Vector3 &spawnSquare, String &grassMat, String &grassMap, String &grassColourMap, String &tree1, String &tree2, String &tree3, unsigned short &treeCount, String &bush1, String &bush2, String &bush3)
 	{
 		long tSize = 0;
@@ -893,7 +895,7 @@ public:
 				if(tName==name)
 				{
 					fileName = tLine[1];
-					const vector<const String> tEvent;
+					const vector<String> tEvent;
 					loadCampaignScript(tLine[1],tEvent,data,0,true);
 					return true;
 				}
@@ -901,7 +903,7 @@ public:
 		}
 		return (customCampaigns?false:loadCampaign(name,data,fileName,true));
 	}
-	void loadCampaignScript(const String &filename, const vector<const String> &nextEvent, CampaignEventList &data, const unsigned short &eventCount=0, bool loadFirstSection=false)
+	void loadCampaignScript(const String &filename, const vector<String> &nextEvent, CampaignEventList &data, const unsigned short &eventCount=0, bool loadFirstSection=false)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -1593,7 +1595,7 @@ public:
 		outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
 		outFile.close();
 	}*/
-	void loadWeatherCycle(const String &type, vector<const WeatherEvent> &list, bool isCustom=false)
+	void loadWeatherCycle(const String &type, vector<WeatherEvent> &list, bool isCustom=false)
 	{
 		String tFilename = "";
 		list.clear();
@@ -1886,13 +1888,13 @@ public:
 		}
 		return Critter();
 	}
-	const vector<const pair<String,Real>> getCritterDropList(const String &type)
+	const vector<pair<String,Real>> getCritterDropList(const String &type)
 	{
 		for(int i=0;i<(int)critterList.size();i++)
 		{
 			if(critterList[i].type==type)return critterList[i].dropList;
 		}
-		const vector<const pair<String,Real>> tList;
+		const vector<pair<String,Real>> tList;
 		return tList;
 	}
 	const pair<String,unsigned char> getCritterSkillDrop(const String &type)
@@ -1948,7 +1950,7 @@ public:
 		{
 			if(critterList[i].type==type)
 			{
-				vector<const unsigned char> tList;
+				vector<unsigned char> tList;
 				for(int j=0;j<(int)critterList[i].attackList.size();j++)
 					if(getNonHeal^critterList[i].attackList[j].hitAlly)tList.push_back(j+1);
 				if(tList.size()==0)return 0;
@@ -1973,7 +1975,7 @@ public:
 		}
 		return pair<CritterAttack,String>(CritterAttack(0,0,Vector3::ZERO),"");
 	}
-	bool loadCritterSpawnList(const String &worldName, unsigned short &limit, vector<const WorldCritter> &list, vector<const pair<Vector3,Vector3>> &roamArea, const String &customFilename="")
+	bool loadCritterSpawnList(const String &worldName, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea, const String &customFilename="")
 	{
 		//Hardcoded goodness
 		if(worldName!="Default")
@@ -1983,12 +1985,13 @@ public:
 			list.push_back(WorldCritter("Draw Point",0.05));
 		}
 		else return true;
+		// NB : should do it from ./
 		if(loadCritterSpawnListFile("cd2.dat",worldName,limit,list,roamArea))return true;
 		
 		if(loadCustomCritterSpawnList("../../media/terrains/"+worldName+"/"+customFilename,limit,list,roamArea))return true;
 		return false;
 	}
-	bool loadCritterSpawnListFile(const String &filename, const String &worldName, unsigned short &limit, vector<const WorldCritter> &list, vector<const pair<Vector3,Vector3>> &roamArea)
+	bool loadCritterSpawnListFile(const String &filename, const String &worldName, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea)
 	{
 		const String tFilename = filename + ".cfg";
 		if(!XOR7FileGen(filename,tFilename,true,true))return false;
@@ -2035,7 +2038,7 @@ public:
 		_unlink(tFilename.c_str());
 		return false;
 	}
-	bool loadCustomCritterSpawnList(const String &filename, unsigned short &limit, vector<const WorldCritter> &list, vector<const pair<Vector3,Vector3>> &roamArea)
+	bool loadCustomCritterSpawnList(const String &filename, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea)
 	{
 		long tSize = 0;
 		char *tBuffer;

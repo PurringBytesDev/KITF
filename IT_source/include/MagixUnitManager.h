@@ -116,7 +116,7 @@ protected:
 	vector<const pair<OwnerToken,String>> partyMembers;
 	bool partyChanged;
 	OwnerToken partyInviter;
-	vector<const HitInfo> hitQueue;
+	vector<HitInfo> hitQueue;
 	TameData tameFlag;
 
 public:
@@ -1493,7 +1493,7 @@ public:
 	{
 		if(!critter)return;
 		//Item drops
-		const vector<const pair<String,Real>> tDropList = mDef->getCritterDropList(critter->getCritterType());
+		const vector<pair<String,Real>> tDropList = mDef->getCritterDropList(critter->getCritterType());
 		for(int j=0;j<(int)tDropList.size();j++)
 			if(Math::UnitRandom()<tDropList[j].second)
 			{
@@ -1502,7 +1502,7 @@ public:
 				else itemDropQueue.push_back(pair<String,Vector2>(tDropList[j].first,Vector2(tPos.x,tPos.z)));
 			}
 		//Skill drops
-		const pair<String,unsigned char> tSkill = critter->getIsDrawPoint()?
+		const pair<String, unsigned char> tSkill = critter->getIsDrawPoint()?
 													mDef->getRandomSkillDrop():
 													mDef->getCritterSkillDrop(critter->getCritterType());
 		if(tSkill.first!="")
@@ -1589,9 +1589,9 @@ public:
 			if(partyMembers[i].first==token)return partyMembers[i];
 		return pair<OwnerToken,String>(0,"");
 	}
-	const vector<const HitInfo> popHitQueue()
+	const vector<HitInfo> popHitQueue()
 	{
-		const vector<const HitInfo> tList = hitQueue;
+		const vector<HitInfo> tList = hitQueue;
 		hitQueue.clear();
 		return tList;
 	}

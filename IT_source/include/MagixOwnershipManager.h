@@ -94,7 +94,7 @@ public:
 		//Spawn Critters
 		if(spawnTimer<=0 && mCritterManager->getNumCritters()<mWorld->getCritterSpawnLimit())
 		{
-			const vector<const WorldCritter> tList = mWorld->getCritterSpawnList();
+			const vector<WorldCritter> tList = mWorld->getCritterSpawnList();
 			if(tList.size()>0)
 			{
 				unsigned short tID = Math::RangeRandom(0,(int)tList.size());
@@ -312,7 +312,7 @@ public:
 		if(!mGameStateManager->isCampaign())
 		{
 			//HitInfo
-			const vector<const HitInfo> tCritterHitList = mCritterManager->popHitQueue();
+			const vector<HitInfo> tCritterHitList = mCritterManager->popHitQueue();
 			for(int i=0;i<(int)tCritterHitList.size();i++)
 			{
 				mNetworkManager->sendCritterHit(tCritterHitList[i].ID,tCritterHitList[i].hp,tCritterHitList[i].force);
@@ -354,7 +354,7 @@ public:
 		//HitInfo
 		if(!mGameStateManager->isCampaign())
 		{
-			const vector<const HitInfo> tUnitHitList = mUnitManager->popHitQueue();
+			const vector<HitInfo> tUnitHitList = mUnitManager->popHitQueue();
 			for(int i=0;i<(int)tUnitHitList.size();i++)
 			{
 				mNetworkManager->sendPlayerHit(tUnitHitList[i].ID,tUnitHitList[i].hp,tUnitHitList[i].force);
