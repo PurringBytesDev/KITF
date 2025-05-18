@@ -92,9 +92,9 @@ protected:
 	NetworkMessage networkMessage;
 	bool isMainServerConnection;
 	unsigned short countsIntoGame;
-	vector<const pair<unsigned char,SystemAddress>> serverAdd;
+	vector<pair<unsigned char,SystemAddress>> serverAdd;
 	bool sentPlayerUpdate;
-	vector<const pair<OwnerToken,PositionInfo>> playerPositionQueue;
+	vector<pair<OwnerToken,PositionInfo>> playerPositionQueue;
 	pair<Vector3,Real> lastMovePosition;
 	Degree lastFaceDirection;
 	pair<bool,Quaternion> lastLookQuaternion;
@@ -329,7 +329,7 @@ public:
 				{
 					//Remove disconnected server from server list
 					unsigned char tServerID = MAX_SERVERS;
-					for(vector<const pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+					for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 					{
 						const pair<unsigned char,SystemAddress> tServer = *it;
 						if(tServer.second==packet->systemAddress)
@@ -361,7 +361,7 @@ public:
 				{
 					//Remove disconnected server from server list
 					unsigned char tServerID = MAX_SERVERS;
-					for(vector<const pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+					for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 					{
 						const pair<unsigned char,SystemAddress> tServer = *it;
 						if(tServer.second==packet->systemAddress)
@@ -459,10 +459,10 @@ public:
 		else
 			return (unsigned char) p->data[0];
 	}
-	const vector<const String> getPlayersOnline()
+	const vector<String> getPlayersOnline()
 	{
-		vector<const String> tList;
-		vector<const String> tMapList;
+		vector<String> tList;
+		vector<String> tMapList;
 		vector<unsigned short> tCountList;
 		tList.clear();
 		tMapList.clear();
@@ -742,7 +742,7 @@ public:
 		if(tBadData)mChatManager->message("Error notice:" + tAddName + "has sent erroneous data.");
 
 		//Process early position packets
-		for(vector<const pair<OwnerToken,PositionInfo>>::iterator it=playerPositionQueue.begin();it!=playerPositionQueue.end();it++)
+		for(vector<pair<OwnerToken,PositionInfo>>::iterator it=playerPositionQueue.begin();it!=playerPositionQueue.end();it++)
 		{
 			const pair<OwnerToken,PositionInfo> tPos = *it;
 			if(tPos.first==tToken)
@@ -2231,7 +2231,7 @@ public:
 		tBitStream.Write(MessageID(ID_INFO));
 		tBitStream.Write(unsigned char(INFO_PARTYACCEPTED));
 		tBitStream.Write(target);
-		const vector<const pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+		const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
 		for(int i=0;i<(int)tParty.size();i++)
 		{
 			tBitStream.Write(true);
@@ -2258,7 +2258,7 @@ public:
 	}
 	void sendPartyLeave()
 	{
-		const vector<const pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+		const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
 		for(int i=0;i<(int)tParty.size();i++)sendInfo(INFO_PARTYLEAVE,tParty[i].first);
 		mUnitManager->clearPartyMembers();
 		mChatManager->message("You have left the party.");
@@ -3283,7 +3283,7 @@ public:
 		}
 		else
 		{
-			for(vector<const pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+			for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 			{
 				const pair<unsigned char,SystemAddress> tServer = *it;
 				if(tServer.second==tAdd)

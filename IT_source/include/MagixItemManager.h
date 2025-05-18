@@ -48,7 +48,7 @@ protected:
 	MagixExternalDefinitions *mDef;
 	MagixEffectsManager *mEffectsManager;
 	vector<MagixItem*> itemList;
-	vector<const String> itemStash;
+	vector<String> itemStash;
 public:
 	MagixItemManager()
 	{
@@ -221,7 +221,7 @@ public:
 	{
 		String tItem = "";
 		unsigned short tCount = 0;
-		for(vector<const String>::iterator it = itemStash.begin(); it != itemStash.end(); it++)
+		for(vector<String>::iterator it = itemStash.begin(); it != itemStash.end(); it++)
 		{
 			if(tCount == line)
 			{
@@ -233,7 +233,7 @@ public:
 		}
 		return tItem;
 	}
-	const vector<const String> getStash()
+	const vector<String> getStash()
 	{
 		return itemStash;
 	}

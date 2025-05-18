@@ -192,7 +192,7 @@ public:
 	{
 		String tTerrain="",tGrassMat="",tGrassMap="",tGrassColourMap="",tTree1="",tTree2="",tTree3="",tBush1="",tBush2="",tBush3="";
 		unsigned short tTreeCount;
-		vector<const pair<String, bool>> tTreesFilename,tBushesFilename,tFloatingBushesFilename;
+		vector<pair<String, bool>> tTreesFilename,tBushesFilename,tFloatingBushesFilename;
 		String tCritterSpawnFilename = "";
 		tTreesFilename.clear();
 		tBushesFilename.clear();

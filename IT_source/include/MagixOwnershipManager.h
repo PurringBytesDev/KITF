@@ -319,7 +319,7 @@ public:
 				if(!tCritterHitList[i].isMine)mNetworkManager->sendCritterTakeover(tCritterHitList[i].ID);
 			}
 			//Itemdrop
-			const vector<const pair<String,Vector2>> tItemList = mUnitManager->popItemDropQueue();
+			const vector<pair<String,Vector2>> tItemList = mUnitManager->popItemDropQueue();
 			for(int i=0;i<(int)tItemList.size();i++)
 			{
 				const Vector2 tPos = tItemList[i].second;

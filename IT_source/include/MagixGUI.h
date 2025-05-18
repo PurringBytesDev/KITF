@@ -2114,7 +2114,7 @@ public:
 	void updateStashBox()
 	{
 		if(!mBox[GUI_STASHBOX]->isVisible())return;
-		const vector<const String> tStash = mItemManager->getStash();
+		const vector<String> tStash = mItemManager->getStash();
 		vector<String> tList;
 		for(int i=0;i<(int)tStash.size();i++)
 		{
@@ -2128,7 +2128,7 @@ public:
 		{
 			//Update Party List
 			String tPartyList = "";
-			const vector<const pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+			const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
 			for(int i=0;i<(int)tParty.size();i++)
 			{
 				tPartyList += tParty[i].second+"\n";
@@ -2277,7 +2277,7 @@ public:
 		//Players online
 		friendBoxList.push_back("ONLINE PLAYERS:");
 		friendBoxListButton.push_back(LISTBUTTON_NONE);
-		const vector<const String> tOnlineList = mNetworkManager->getPlayersOnline();
+		const vector<String> tOnlineList = mNetworkManager->getPlayersOnline();
 		for(int i=0;i<(int)tOnlineList.size();i++)
 		{
 			friendBoxList.push_back(tOnlineList[i]);
@@ -2389,7 +2389,7 @@ public:
 		if(doChannelBlink && (mHoverButton!=mButton[BUTTON_TEXTINPUT3]||!leftClick))
 		{
 			bool tHasNewLine = false;
-			const vector<const unsigned char> tChannels = mChatManager->getOtherChannels();
+			const vector<unsigned char> tChannels = mChatManager->getOtherChannels();
 			for(int i=0;i<(int)tChannels.size();i++)
 				if(mChatManager->getHasNewLine(tChannels[i]))
 				{
@@ -2934,7 +2934,7 @@ public:
 			{
 				Real tFontHeight = 0;
 				short tApparentLine = 0;
-				const vector<const String> tList = mItemManager->getStash();
+				const vector<String> tList = mItemManager->getStash();
 				const short tButtonLine = getListButtonLine(GUI_STASHBOX,SCROLLER_STASHBOX,(int)tList.size(),tFontHeight,tApparentLine);
 				if(tButtonLine==-1 || tButtonLine>=(int)tList.size())return;
 
@@ -3807,7 +3807,7 @@ public:
 					{
 						if(mUnitManager->hasParty())
 						{
-							const vector<const pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+							const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
 							for(int i=0;i<(int)tParty.size();i++)
 								mNetworkManager->sendPartyChat(tParty[i].first,tCaption,tType,tLipSync);
 						}

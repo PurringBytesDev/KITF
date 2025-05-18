@@ -479,7 +479,7 @@ protected:
 	vector<HitInfo> hitQueue;
 	MagixLiving *mPlayerTarget;
 	vector<MagixCritter*> myCritters;
-	vector<const unsigned short> sentID;
+	vector<unsigned short> sentID;
 	unsigned short critterCount;
 	String weatherEffectRequest;
 public:
@@ -904,7 +904,7 @@ public:
 		while(!tFound)
 		{
 			tFound = true;
-			for(vector<const unsigned short>::iterator it = sentID.begin(); it != sentID.end(); it++)
+			for(vector<unsigned short>::iterator it = sentID.begin(); it != sentID.end(); it++)
 			{
 				if(*it==tID)
 				{
@@ -1007,7 +1007,7 @@ public:
 	}
 	void popSentID(const unsigned short &iID)
 	{
-		for(vector<const unsigned short>::iterator it=sentID.begin();it!=sentID.end();it++)
+		for(vector<unsigned short>::iterator it=sentID.begin();it!=sentID.end();it++)
 		{
 			if(*it==iID)
 			{

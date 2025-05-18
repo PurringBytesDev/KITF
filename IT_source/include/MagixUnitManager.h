@@ -110,10 +110,10 @@ protected:
 	bool playerTargetChanged;
 	bool shouldNameTagsBeVisible;
 	MapChangeData mapChange;
-	vector<const pair<String,Vector2>> itemDropQueue;
+	vector<pair<String,Vector2>> itemDropQueue;
 	String pickupText;
 	bool playerHasNewAttack;
-	vector<const pair<OwnerToken,String>> partyMembers;
+	vector<pair<OwnerToken,String>> partyMembers;
 	bool partyChanged;
 	OwnerToken partyInviter;
 	vector<HitInfo> hitQueue;
@@ -1469,9 +1469,9 @@ public:
 		if(mPlayerTarget==critter)setPlayerTarget(0);
 		mCritterManager->deleteCritter(iID);
 	}
-	const vector<const pair<String,Vector2>> popItemDropQueue()
+	const vector<pair<String,Vector2>> popItemDropQueue()
 	{
-		const vector<const pair<String,Vector2>> tList = itemDropQueue;
+		const vector<pair<String,Vector2>> tList = itemDropQueue;
 		itemDropQueue.clear();
 		return tList;
 	}
@@ -1531,7 +1531,7 @@ public:
 	}
 	bool removePartyMember(const String &name)
 	{
-		for(vector<const pair<OwnerToken,String>>::iterator it=partyMembers.begin();it!=partyMembers.end();it++)
+		for(vector<pair<OwnerToken,String>>::iterator it=partyMembers.begin();it!=partyMembers.end();it++)
 		{
 			const pair<OwnerToken,String> tMember = *it;
 			if(tMember.second==name)
@@ -1552,7 +1552,7 @@ public:
 	{
 		return (partyMembers.size()>=MAX_PARTYMEMBERS);
 	}
-	const vector<const pair<OwnerToken,String>> getPartyMembers()
+	const vector<pair<OwnerToken,String>> getPartyMembers()
 	{
 		return partyMembers;
 	}

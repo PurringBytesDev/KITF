@@ -514,9 +514,9 @@ public:
 	{
 		return channel;
 	}
-	const vector<const unsigned char> getOtherChannels()
+	const vector<unsigned char> getOtherChannels()
 	{
-		vector<const unsigned char> tChannels;
+		vector<unsigned char> tChannels;
 		for(int i=0;i<MAX_CHANNELS;i++)
 			if(i!=channel)tChannels.push_back(i);
 		return tChannels;

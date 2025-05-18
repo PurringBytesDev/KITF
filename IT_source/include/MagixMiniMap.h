@@ -18,11 +18,11 @@ protected:
 	vector<pair<Vector2,String>> gateMap;
 	Real zoomRatio;
 	bool mapTagUseCharName;
-	vector<const unsigned char> pingUnitMarkers;
+	vector<unsigned char> pingUnitMarkers;
 	unsigned char pingCounter;
 	Real pingTimer;
 public:
-	MagixMiniMap()
+	MagixMiniMap()   
 	{
 		mDef = 0;
 		mUnitManager = 0;
