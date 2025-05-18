@@ -80,7 +80,8 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying exe to samples bin directory ...</Message>
-      <Command>copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\build\$(Configuration)\$(TargetFileName)"</Command>
+      <Command>copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\build\$(Configuration)\$(TargetFileName)"
+copy "$(OutDir)*.pdb" "$(SolutionDir)\build\$(Configuration)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -189,6 +190,7 @@
     <ClInclude Include="include\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="res\ogremagix.ico" />
   </ItemGroup>
   <ItemGroup>
