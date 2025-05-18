@@ -190,7 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ogremagix.ico" />
-    <None Include="docs\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ogremagix.rc" />

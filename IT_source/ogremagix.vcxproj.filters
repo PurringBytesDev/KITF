@@ -205,7 +205,6 @@
     <None Include="res\ogremagix.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="docs\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ogremagix.rc">
