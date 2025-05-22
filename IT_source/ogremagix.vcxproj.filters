@@ -24,37 +24,37 @@
     <ClCompile Include="include\SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\BatchedGeometry.cpp">
+    <ClCompile Include="paged\BatchedGeometry.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\BatchPage.cpp">
+    <ClCompile Include="paged\BatchPage.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\GrassLoader.cpp">
+    <ClCompile Include="paged\GrassLoader.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\ImpostorPage.cpp">
+    <ClCompile Include="paged\ImpostorPage.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\PagedGeometry.cpp">
+    <ClCompile Include="paged\PagedGeometry.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\PropertyMaps.cpp">
+    <ClCompile Include="paged\PropertyMaps.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\StaticBillboardSet.cpp">
+    <ClCompile Include="paged\StaticBillboardSet.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\TreeLoader2D.cpp">
+    <ClCompile Include="paged\TreeLoader2D.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\TreeLoader3D.cpp">
+    <ClCompile Include="paged\TreeLoader3D.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\WindBatchedGeometry.cpp">
+    <ClCompile Include="paged\WindBatchedGeometry.cpp">
       <Filter>paged</Filter>
     </ClCompile>
-    <ClCompile Include="paged\source\WindBatchPage.cpp">
+    <ClCompile Include="paged\WindBatchPage.cpp">
       <Filter>paged</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,55 +149,55 @@
     <ClInclude Include="include\SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\BatchedGeometry.h">
+    <ClInclude Include="paged\BatchedGeometry.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\BatchPage.h">
+    <ClInclude Include="paged\BatchPage.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\GrassLoader.h">
+    <ClInclude Include="paged\GrassLoader.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\HeightFunction.h">
+    <ClInclude Include="paged\HeightFunction.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\ImpostorPage.h">
+    <ClInclude Include="paged\ImpostorPage.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\MersenneTwister.h">
+    <ClInclude Include="paged\MersenneTwister.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\PagedGeometry.h">
+    <ClInclude Include="paged\PagedGeometry.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\PagedGeometryConfig.h">
+    <ClInclude Include="paged\PagedGeometryConfig.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\PGExampleApplication.h">
+    <ClInclude Include="paged\PGExampleApplication.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\PGExampleFrameListener.h">
+    <ClInclude Include="paged\PGExampleFrameListener.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\PropertyMaps.h">
+    <ClInclude Include="paged\PropertyMaps.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\RandomTable.h">
+    <ClInclude Include="paged\RandomTable.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\StaticBillboardSet.h">
+    <ClInclude Include="paged\StaticBillboardSet.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\TreeLoader2D.h">
+    <ClInclude Include="paged\TreeLoader2D.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\TreeLoader3D.h">
+    <ClInclude Include="paged\TreeLoader3D.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\WindBatchedGeometry.h">
+    <ClInclude Include="paged\WindBatchedGeometry.h">
       <Filter>paged</Filter>
     </ClInclude>
-    <ClInclude Include="paged\include\WindBatchPage.h">
+    <ClInclude Include="paged\WindBatchPage.h">
       <Filter>paged</Filter>
     </ClInclude>
   </ItemGroup>
@@ -206,6 +206,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\README.md" />
+    <None Include="paged\PagedGeometryConfig.h.in">
+      <Filter>paged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ogremagix.rc">

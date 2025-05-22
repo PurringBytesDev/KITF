@@ -1,11 +1,16 @@
+#pragma once
+#include "Ogre.h"
+#include <OgreStreamSerialiser.h>
+#include <OgreException.h>
+
 #ifndef __MagixExternalDefinitions_h_
 #define __MagixExternalDefinitions_h_
 
 using namespace Ogre;
 using namespace std;
 
-typedef vector<pair<String,String>> CampaignEvent;
-typedef vector<CampaignEvent> CampaignEventList;
+typedef Ogre::vector<std::pair<String,String>>::type CampaignEvent;
+typedef Ogre::vector<CampaignEvent>::type CampaignEventList;
 
 #define MAX_HOTKEYF 8
 
@@ -17,7 +22,7 @@ struct WeatherEvent
 	ColourValue skyAdder;
 	String type;
 	Real rate;
-	vector<String> effect;
+	Ogre::vector<String>::type effect;
 	Real effectFrequency;
 	bool isConstant;
 	WeatherEvent()
@@ -55,7 +60,7 @@ struct Attack
 {
 	String name;
 	String anim;
-	vector<AttackFX> FX;
+	Ogre::vector<AttackFX>::type FX;
 	Real range;
 	Vector3 hitForce;
 	Vector3 offset;
@@ -113,14 +118,14 @@ struct Critter
 	bool invulnerable;
 	bool isDrawPoint;
 	bool isUncustomizable;
-	vector<pair<String,Real>> dropList;
+	Ogre::vector<pair<String,Real>>::type dropList;
 	pair<String,unsigned char> skillDrop;
 	Real maxSpeed;
 	unsigned char decisionMin;
 	unsigned char decisionDeviation;
 	Real scale;
 	// could be public ?
-	vector<CritterAttack> attackList;
+	Ogre::vector<CritterAttack>::type attackList;
 	String sound;
 	String material;
 	Critter()
@@ -183,27 +188,27 @@ public:
 	unsigned short maxBodyMarks;
 	unsigned short maxHeadMarks;
 	unsigned short maxTailMarks;
-	vector<String> headMesh;
-	vector<String> maneMesh;
-	vector<String> tailMesh;
-	vector<String> wingMesh;
-	vector<String> tuftMesh;
+	Ogre::vector<String>::type headMesh;
+	Ogre::vector<String>::type maneMesh;
+	Ogre::vector<String>::type tailMesh;
+	Ogre::vector<String>::type wingMesh;
+	Ogre::vector<String>::type tuftMesh;
 	unsigned short maxEmotes;
-	vector<String> emoteName;
-	vector<String> emoteAnims;
-	vector<Real> emoteEyelidState;
+	Ogre::vector<String>::type emoteName;
+	Ogre::vector<String>::type emoteAnims;
+	Ogre::vector<Real>::type emoteEyelidState;
 	unsigned short maxItems;
-	vector<String> itemMesh;
-	vector<String> itemBone;
-	vector<String> itemName;
-	vector<bool> itemIsPrivate;
-	vector<bool> itemHasOffset;
-	vector<bool> itemHasAltAnim;
-	vector<String> itemParticle;
-	vector<String> itemParticleOffset;
-	vector<bool> itemParticleOnNode;
-	vector<Attack> attackList;
-	vector<Critter> critterList;
+	Ogre::vector<String>::type itemMesh;
+	Ogre::vector<String>::type itemBone;
+	Ogre::vector<String>::type itemName;
+	Ogre::vector<bool>::type itemIsPrivate;
+	Ogre::vector<bool>::type itemHasOffset;
+	Ogre::vector<bool>::type itemHasAltAnim;
+	Ogre::vector<String>::type itemParticle;
+	Ogre::vector<String>::type itemParticleOffset;
+	Ogre::vector<bool>::type itemParticleOnNode;
+	Ogre::vector<Attack>::type attackList;
+	Ogre::vector<Critter>::type critterList;
 
 	MagixExternalDefinitions()
 	{
@@ -297,11 +302,11 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tPart = StringUtil::split(tData,"[#",4);
+		const Ogre::vector<String> tPart = StringUtil::split(tData,"[#",4);
 		if(tPart.size()==4)
 		for(int i=0;i<4;i++)
 		{
-			const vector<String> tMesh = StringUtil::split(tPart[i],"\n");
+			const Ogre::vector<String> tMesh = StringUtil::split(tPart[i],"\n");
 
 			if(tMesh[0]=="HeadMesh]")
 			{
@@ -354,11 +359,11 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		maxEmotes = int(tPart.size());
 		for(int i=0;i<maxEmotes;i++)
 		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n",3);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n",3);
 			if(tLine.size()==3)
 			{
 				String tName = tLine[0];
@@ -397,11 +402,11 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		vector<String> tPart = StringUtil::split(tData,"[#");
+		Ogre::vector<String> tPart = StringUtil::split(tData,"[#");
 		if(tPart.size()>0)
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			vector<String> tLine = StringUtil::split(tPart[i],"\n");
+			Ogre::vector<String> tLine = StringUtil::split(tPart[i],"\n");
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -440,7 +445,7 @@ public:
 			delete[] tBuffer;
 		}
 
-		const vector<String> tLine = StringUtil::split(tData,"\n#",16);
+		const Ogre::vector<String>::type tLine = StringUtil::split(tData,"\n#",16);
 		if(tLine.size()>=7)
 		{
 			isTablet = StringConverter::parseBool(tLine[0]);
@@ -602,7 +607,7 @@ public:
 		else
 		{
 			int tYear = 0, tDay = 0;
-			const vector<String> tPart = StringUtil::split(tDate,";",1);
+			const Ogre::vector<String>::type tPart = StringUtil::split(tDate,";",1);
 			if(tPart.size()>0)tYear = StringConverter::parseInt(tPart[0]);
 			if(tPart.size()>1)tDay = StringConverter::parseInt(tPart[1]);
 			
@@ -638,7 +643,7 @@ public:
 	}
 	bool XOR7FileGen(const String &infile, const String &outfile, bool decrypt, bool checksum=false)
 	{
-		vector<String> tBuffer;
+		Ogre::vector<String>::type tBuffer;
 		unsigned long tChecksum = 0;
 		ifstream inFile;
 		inFile.open(infile.c_str(),(decrypt?ios_base::binary:ifstream::in));
@@ -692,10 +697,10 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		vector<String> tMap = StringUtil::split(tData,"[#");
+		Ogre::vector<String> tMap = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tMap.size());i++)
 		{
-			vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
+			Ogre::vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -735,7 +740,7 @@ public:
 		tMap = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tMap.size());i++)
 		{
-			vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
+			Ogre::vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -784,10 +789,10 @@ public:
 			delete[] tBuffer;
 		}
 
-		const vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n",6);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n",6);
 			if(tLine.size()>0)
 			{
 				if(StringUtil::startsWith(tLine[0],"Initialize",false) && tLine.size()>=5)
@@ -826,7 +831,7 @@ public:
 
 		return tData;
 	}
-	void loadCampaignList(vector<String> &list, bool customCampaigns=false)
+	void loadCampaignList(Ogre::vector<String>::type &list, bool customCampaigns=false)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -849,10 +854,10 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tCampaign = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tCampaign = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tCampaign.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tCampaign[i],"\n",2);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tCampaign[i],"\n",2);
 			if(tLine.size()>0)
 			{
 				String tName = tLine[0];
@@ -884,10 +889,10 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tCampaign = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tCampaign = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tCampaign.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tCampaign[i],"\n",2);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tCampaign[i],"\n",2);
 			if(tLine.size()>0)
 			{
 				String tName = tLine[0];
@@ -895,7 +900,7 @@ public:
 				if(tName==name)
 				{
 					fileName = tLine[1];
-					const vector<String> tEvent;
+					const Ogre::vector<String>::type tEvent;
 					loadCampaignScript(tLine[1],tEvent,data,0,true);
 					return true;
 				}
@@ -903,7 +908,7 @@ public:
 		}
 		return (customCampaigns?false:loadCampaign(name,data,fileName,true));
 	}
-	void loadCampaignScript(const String &filename, const vector<String> &nextEvent, CampaignEventList &data, const unsigned short &eventCount=0, bool loadFirstSection=false)
+	void loadCampaignScript(const String &filename, const Ogre::vector<String>::type&nextEvent, CampaignEventList &data, const unsigned short &eventCount=0, bool loadFirstSection=false)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -921,7 +926,7 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tSection = StringUtil::split(tData,"[");
+		const Ogre::vector<String>::type tSection = StringUtil::split(tData,"[");
 
 		if(nextEvent.size()>0)
 			for(int i=0;i<(int)nextEvent.size();i++)
@@ -930,7 +935,7 @@ public:
 				CampaignEvent tEvent;
 				for(int j=0;j<(int)tSection.size();j++)
 				{
-					const vector<String> tLine = StringUtil::split(tSection[j],"\n");
+					const Ogre::vector<String>::type tLine = StringUtil::split(tSection[j],"\n");
 					if(tLine.size()<=0)continue;
 					String tNextEvent = tLine[0];
 					tNextEvent.erase(tNextEvent.find_first_of("]"),1);
@@ -938,7 +943,7 @@ public:
 					{
 						for(int k=1;k<(int)tLine.size();k++)
 						{
-							const vector<String> tPart = StringUtil::split(tLine[k],"=",1);
+							const Ogre::vector<String>::type tPart = StringUtil::split(tLine[k],"=",1);
 							if(tPart.size()>0)
 							{
 								const pair<String,String> tEventLine(tPart[0],tPart.size()>1?tPart[1]:"");
@@ -958,10 +963,10 @@ public:
 			{
 				if(tCounter==eventCount || loadFirstSection)
 				{
-					const vector<String> tLine = StringUtil::split(tSection[j],"\n");
+					const Ogre::vector<String>::type tLine = StringUtil::split(tSection[j],"\n");
 					for(int k=1;k<(int)tLine.size();k++)
 					{
-						const vector<String> tPart = StringUtil::split(tLine[k],"=",1);
+						const Ogre::vector<String>::type tPart = StringUtil::split(tLine[k],"=",1);
 						if(tPart.size()>0)
 						{
 							const pair<String,String> tEventLine(tPart[0],tPart.size()>1?tPart[1]:"");
@@ -975,7 +980,7 @@ public:
 			data.push_back(tEvent);
 		}
 	}
-	bool loadCredits(const String &filename, vector<String> &credits)
+	bool loadCredits(const String &filename, Ogre::vector<String>::type &credits)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -996,7 +1001,7 @@ public:
 
 		credits.clear();
 
-		const vector<String> tLine = StringUtil::split(tData,";#");
+		const Ogre::vector<String>::type tLine = StringUtil::split(tData,";#");
 		for(int i=0;i<int(tLine.size());i++)
 		{
 			if(tLine[i].length()>0)
@@ -1129,7 +1134,7 @@ public:
 
 		outFile.close();
 	}
-	const vector<String> loadFriendList(bool isBlockList=false)
+	const Ogre::vector<String>::type loadFriendList(bool isBlockList=false)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -1139,7 +1144,7 @@ public:
 		inFile.open( (isBlockList?"block.list":"friend.list"), ifstream::in);
 		if(!inFile.good())
 		{
-			vector<String> tBlank;
+			Ogre::vector<String>::type tBlank;
 			tBlank.clear();
 			return tBlank;
 		}
@@ -1155,20 +1160,21 @@ public:
 
 		if(tData=="")
 		{
-			vector<String> tBlank;
+			Ogre::vector<String>::type tBlank;
 			tBlank.clear();
 			return tBlank;
 		}
 
 		return StringUtil::split(tData,"\n;");
 	}
-	const vector<String> loadBlockedList()
+	const Ogre::vector<String>::type loadBlockedList()
 	{
 		return loadFriendList(true);
 	}
 	void editFriendList(const String &name, bool add, bool isBlockList=false)
 	{
-		vector<String> tFriendList = loadFriendList(isBlockList);
+		// maybe not all vectors are ogre strings
+		Ogre::vector<String>::type tFriendList = loadFriendList(isBlockList);
 
 		//File doesn't exist
 		if(tFriendList.size()==0)
@@ -1185,7 +1191,7 @@ public:
 		}
 
 		//Find existing name
-		for(vector<String>::iterator it=tFriendList.begin(); it!=tFriendList.end() ; it++)
+		for(Ogre::vector<String>::type::iterator it=tFriendList.begin(); it!=tFriendList.end() ; it++)
 		{
 			if(*it==name)
 			{
@@ -1200,8 +1206,9 @@ public:
 		//Rewrite file
 		ofstream outFile;
 		outFile.open( (isBlockList?"block.list":"friend.list"), ofstream::out);
-
-		for(vector<String>::iterator it=tFriendList.begin(); it!=tFriendList.end() ; it++)
+		
+		// if member we manage is a const, use a const iterator
+		for(Ogre::vector<String>::type::iterator it=tFriendList.begin(); it!=tFriendList.end() ; it++)
 		{
 			const String tBuffer = *it + "\n";
 			outFile.write(tBuffer.c_str(),(int)tBuffer.length());
@@ -1223,7 +1230,7 @@ public:
 	bool isInFriendList(String name, bool isBlockList=false)
 	{
 		StringUtil::toLowerCase(name);
-		const vector<String> tFriendList = loadFriendList(isBlockList);
+		const Ogre::vector<String>::type tFriendList = loadFriendList(isBlockList);
 		for(int i=0;i<(int)tFriendList.size();i++)
 		{
 			String tName = tFriendList[i];
@@ -1336,12 +1343,12 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tLine = StringUtil::split(tData,"\n#");
+		const Ogre::vector<String>::type tLine = StringUtil::split(tData,"\n#");
 
 		maxItems = int(tLine.size());
 		for(int i=0;i<maxItems;i++)
 		{
-			const vector<String> tPart = StringUtil::split(tLine[i],";",9);
+			const Ogre::vector<String>::type tPart = StringUtil::split(tLine[i],";",9);
 
 			if(tPart.size()>0)itemMesh.push_back(tPart[0]);
 			if(tPart.size()>1)itemName.push_back(tPart[1]);
@@ -1433,7 +1440,7 @@ public:
 		}
 		inFile.close();
 
-		const vector<String> tLine= StringUtil::split(tData,"\n#");
+		const Ogre::vector<String>::type tLine= StringUtil::split(tData,"\n#");
 		if((int)tLine.size()==MAX_HOTKEYF)
 			for(int i=0; i<MAX_HOTKEYF; i++)hotkeyF[i] = tLine[i];
 		else
@@ -1530,13 +1537,13 @@ public:
 			delete[] tBuffer;
 		}
 
-		vector<String> tMeshname;
-		vector<String> tStuff;
+		Ogre::vector<String> tMeshname;
+		Ogre::vector<String> tStuff;
 
-		const vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String> tPart = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+			const Ogre::vector<String> tLine = StringUtil::split(tPart[i],"\n");
 			if(tLine.size()>0)
 			{
 				if(StringUtil::startsWith(tLine[0],"Object",false))
@@ -1561,7 +1568,7 @@ public:
 		newFilename += ".cfg";
 		outFile.open(newFilename.c_str());
 
-		vector<int> tWritten;
+		Ogre::vector<int> tWritten;
 
 		for(int i=0;i<(int)tMeshname.size();i++)
 		{
@@ -1595,7 +1602,7 @@ public:
 		outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
 		outFile.close();
 	}*/
-	void loadWeatherCycle(const String &type, vector<WeatherEvent> &list, bool isCustom=false)
+	void loadWeatherCycle(const String &type, Ogre::vector<WeatherEvent>::type&list, bool isCustom=false)
 	{
 		String tFilename = "";
 		list.clear();
@@ -1617,10 +1624,10 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n",2);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n",2);
 			if(tLine.size()>1)
 			{
 				String tType = tLine[0];
@@ -1682,10 +1689,10 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n",4);
+			const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n",4);
 			if(tLine.size()>=2)
 			{
 				if(StringUtil::startsWith(tLine[0],type,false))
@@ -1729,7 +1736,7 @@ public:
             {
 				if(StringUtil::startsWith(i->first,"trailfx"))
 				{
-					const vector<String> tPart = StringUtil::split(i->second,",",1);
+					const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",1);
 					if(tPart.size()==2)
 					{
 						const unsigned short tFxID = StringConverter::parseInt(tPart[0])-1;
@@ -1849,17 +1856,17 @@ public:
 				else if(StringUtil::startsWith(i->first,"maxspeed"))tC.maxSpeed = StringConverter::parseReal(i->second);
 				else if(StringUtil::startsWith(i->first,"droplist"))
 				{
-					const vector<String> tPart = StringUtil::split(i->second,",",1);
+					const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",1);
 					if(tPart.size()>=2)tC.dropList.push_back(pair<String,Real>(tPart[0],StringConverter::parseReal(tPart[1])));
 				}
 				else if(StringUtil::startsWith(i->first,"skilldrop"))
 				{
-					const vector<String> tPart = StringUtil::split(i->second,",",1);
+					const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",1);
 					if(tPart.size()>=2)tC.skillDrop = pair<String,unsigned char>(tPart[0],StringConverter::parseInt(tPart[1]));
 				}
 				else if(StringUtil::startsWith(i->first,"attacklist"))
 				{
-					const vector<String> tPart = StringUtil::split(i->second,",",5);
+					const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",5);
 					if(tPart.size()>=2)tC.attackList.push_back(CritterAttack(StringConverter::parseReal(tPart[0]),
 																			StringConverter::parseReal(tPart[1]),
 																			(tPart.size()>=5 ? Vector3(StringConverter::parseReal(tPart[2]),StringConverter::parseReal(tPart[3]),StringConverter::parseReal(tPart[4])) : Vector3(0,0,1)),
@@ -1888,13 +1895,13 @@ public:
 		}
 		return Critter();
 	}
-	const vector<pair<String,Real>> getCritterDropList(const String &type)
+	const Ogre::vector<pair<String,Real>>::type getCritterDropList(const String &type)
 	{
 		for(int i=0;i<(int)critterList.size();i++)
 		{
 			if(critterList[i].type==type)return critterList[i].dropList;
 		}
-		const vector<pair<String,Real>> tList;
+		const Ogre::vector<pair<String,Real>>::type tList;
 		return tList;
 	}
 	const pair<String,unsigned char> getCritterSkillDrop(const String &type)
@@ -1950,7 +1957,7 @@ public:
 		{
 			if(critterList[i].type==type)
 			{
-				vector<unsigned char> tList;
+				Ogre::vector<unsigned char>::type tList;
 				for(int j=0;j<(int)critterList[i].attackList.size();j++)
 					if(getNonHeal^critterList[i].attackList[j].hitAlly)tList.push_back(j+1);
 				if(tList.size()==0)return 0;
@@ -1975,7 +1982,7 @@ public:
 		}
 		return pair<CritterAttack,String>(CritterAttack(0,0,Vector3::ZERO),"");
 	}
-	bool loadCritterSpawnList(const String &worldName, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea, const String &customFilename="")
+	bool loadCritterSpawnList(const String &worldName, unsigned short &limit, Ogre::vector<WorldCritter>::type &list, Ogre::vector<pair<Vector3,Vector3>>::type &roamArea, const String &customFilename="")
 	{
 		//Hardcoded goodness
 		if(worldName!="Default")
@@ -1991,7 +1998,7 @@ public:
 		if(loadCustomCritterSpawnList("../../media/terrains/"+worldName+"/"+customFilename,limit,list,roamArea))return true;
 		return false;
 	}
-	bool loadCritterSpawnListFile(const String &filename, const String &worldName, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea)
+	bool loadCritterSpawnListFile(const String &filename, const String &worldName, unsigned short &limit, Ogre::vector<WorldCritter>::type &list, Ogre::vector<pair<Vector3,Vector3>>::type&roamArea)
 	{
 		const String tFilename = filename + ".cfg";
 		if(!XOR7FileGen(filename,tFilename,true,true))return false;
@@ -2013,7 +2020,7 @@ public:
 					else if(StringUtil::startsWith(i->first,"clearlist") && StringConverter::parseBool(i->second))list.clear();
 					else if(StringUtil::startsWith(i->first,"critterlist"))
 					{
-						const vector<String> tPart = StringUtil::split(i->second,",",3);
+						const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",3);
 						if(tPart.size()>=2)list.push_back(WorldCritter(tPart[0],
 																		StringConverter::parseReal(tPart[1]),
 																		(tPart.size()>=4 ? StringConverter::parseBool(tPart[2]) : false),
@@ -2022,7 +2029,7 @@ public:
 					}
 					else if(StringUtil::startsWith(i->first,"roamarea"))
 					{
-						const vector<String> tPart = StringUtil::split(i->second,",",5);
+						const Ogre::vector<String>::type tPart = StringUtil::split(i->second,",",5);
 						if(tPart.size()>=6)roamArea.push_back(pair<Vector3,Vector3>(Vector3(StringConverter::parseReal(tPart[0]),StringConverter::parseReal(tPart[1]),StringConverter::parseReal(tPart[2])),
 																				Vector3(StringConverter::parseReal(tPart[3]),StringConverter::parseReal(tPart[4]),StringConverter::parseReal(tPart[5]))
 																				));
@@ -2038,7 +2045,7 @@ public:
 		_unlink(tFilename.c_str());
 		return false;
 	}
-	bool loadCustomCritterSpawnList(const String &filename, unsigned short &limit, vector<WorldCritter> &list, vector<pair<Vector3,Vector3>> &roamArea)
+	bool loadCustomCritterSpawnList(const String &filename, unsigned short &limit, Ogre::vector<WorldCritter>::type&list, Ogre::vector<pair<Vector3,Vector3>>::type &roamArea)
 	{
 		long tSize = 0;
 		char *tBuffer;
@@ -2068,10 +2075,10 @@ public:
 		list.clear();
 		roamArea.clear();
 
-		const vector<String> tSection = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tSection = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tSection.size());i++)
 		{
-			const vector<String> tLine = StringUtil::split(tSection[i],"\n");
+			const Ogre::vector<String>::type tLine = StringUtil::split(tSection[i],"\n");
 			if(tLine.size()>0)
 			{
 				if(StringUtil::startsWith(tLine[0],"Limit",false) && tLine.size()>=2)
@@ -2084,7 +2091,7 @@ public:
 					WorldCritter tC;
 					for(int j=1;j<(int)tLine.size();j++)
 					{
-						const vector<String> tPart = StringUtil::split(tLine[j],"=");
+						const Ogre::vector<String>::type tPart = StringUtil::split(tLine[j],"=");
 						if(tPart.size()<2)continue;
 						if(StringUtil::startsWith(tPart[0],"type"))tC.type = tPart[1];
 						else if(StringUtil::startsWith(tPart[0],"rate"))tC.spawnRate = StringConverter::parseReal(tPart[1]);
@@ -2105,7 +2112,7 @@ public:
 					pair<Vector3,Vector3> tArea(Vector3::ZERO,Vector3::ZERO);
 					for(int j=1;j<(int)tLine.size();j++)
 					{
-						const vector<String> tPart = StringUtil::split(tLine[j],"=");
+						const Ogre::vector<String>::type tPart = StringUtil::split(tLine[j],"=");
 						if(tPart.size()<2)continue;
 						if(StringUtil::startsWith(tPart[0],"start"))tArea.first = StringConverter::parseVector3(tPart[1]);
 						else if(StringUtil::startsWith(tPart[0],"range"))tArea.second = StringConverter::parseVector3(tPart[1]);
@@ -2133,7 +2140,7 @@ public:
 	}
 	const String getMapName(const String &name)
 	{
-		const vector<String> tMapName = StringUtil::split(name,";",1);
+		const Ogre::vector<String>::type tMapName = StringUtil::split(name,";",1);
 		return (tMapName.size()>0?tMapName[0]:name);
 	}
 };

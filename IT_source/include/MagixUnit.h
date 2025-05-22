@@ -96,7 +96,7 @@ protected:
 	bool hasNewAttack;
 	bool hasStoppedAttack;
 	Real hitTimeout;
-	vector<String> attackList;
+	Ogre::vector<String>::type attackList;
 	unsigned short attackCounter;
 	Real headTurnCount;
 	bool isInWater;
@@ -1824,7 +1824,7 @@ public:
 		{
 			if(mode == def->emoteName[i])
 			{
-				const vector<String> tAnim = StringUtil::split(def->emoteAnims[i],";");
+				const Ogre::vector<String>::type tAnim = StringUtil::split(def->emoteAnims[i],";");
 				for(int j=0;j<int(tAnim.size());j++)
 				{
 					setFaceAnimState(tAnim[j],weight,mode==emoteMode);
@@ -2076,7 +2076,7 @@ public:
 	}
 	void setColours(const String &colourString)
 	{
-		std::vector<String> tParam = StringUtil::split(colourString,";",11);
+		Ogre::vector<String>::type tParam = StringUtil::split(colourString,";",11);
 		if(tParam.size()==10 || tParam.size()==11)
 		{
 			setColours(StringConverter::parseColourValue(tParam[0]),
@@ -2354,7 +2354,7 @@ public:
 		if(!mEquipEnt[iID])return "";
 
 		const String tEquip = getEquip(iID);
-		mEquipEnt[iID]->detatchFromParent();
+		mEquipEnt[iID]->detachFromParent();
 
 		sceneMgr->destroyEntity(mEquipEnt[iID]);
 		mEquipEnt[iID] = 0;
