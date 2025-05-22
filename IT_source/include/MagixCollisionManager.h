@@ -7,8 +7,8 @@ struct Collision
 	Real range;
 	Vector3 offset;
 	Vector3 force;
-	vector<unsigned short> hitID;
-	vector<unsigned short> critterHitID;
+	Ogre::vector<unsigned short>::type hitID;
+	Ogre::vector<unsigned short>::type critterHitID;
 	short hp;
 	unsigned char alliance;
 	bool hitAlly;
@@ -220,14 +220,14 @@ class MagixCollisionManager
 protected:
 	SceneManager *mSceneMgr;
 	
-	list<Wall> wall;
-	list<Portal> portal;
-	list<Gate> gate;
-	list<WaterBox> waterBox;
-	list<CollBox> collBox;
-	list<CollSphere> collSphere;
+	Ogre::list<Wall>::type wall;
+	Ogre::list<Portal>::type portal;
+	Ogre::list<Gate>::type gate;
+	Ogre::list<WaterBox>::type waterBox;
+	Ogre::list<CollBox>::type collBox;
+	Ogre::list<CollSphere>::type collSphere;
 public:
-	list<Collision> coll;
+	Ogre::list<Collision>::type coll;
 	MagixCollisionManager()
 	{
 		mSceneMgr = 0;
@@ -356,13 +356,13 @@ public:
 		tColl.hitAlly = hitAlly;
 		coll.push_back(tColl);
 	}
-	const list<Collision>::iterator destroyCollision(const list<Collision>::iterator &it)
+	const Ogre::list<Collision>::type::iterator destroyCollision(const Ogre::list<Collision>::type::iterator &it)
 	{
 		return coll.erase(it);
 	}
 	void destroyCollisionByOwnerNode(SceneNode *node)
 	{
-		list<Collision>::iterator it = coll.begin();
+		Ogre::list<Collision>::type::iterator it = coll.begin();
 		while(it!=coll.end())
 		{
 			Collision *tColl = &*it;
@@ -370,10 +370,10 @@ public:
 			else it++;
 		}
 	}
-	const vector<Collision*> getCollisionHitList(const unsigned short &unitID, const unsigned short &alliance, const AxisAlignedBox &target)
+	const Ogre::vector<Collision*>::type getCollisionHitList(const unsigned short &unitID, const unsigned short &alliance, const AxisAlignedBox &target)
 	{
-		vector<Collision*> tList;
-		list<Collision>::iterator it = coll.begin();
+		Ogre::vector<Collision*>::type tList;
+		Ogre::list<Collision>::type::iterator it = coll.begin();
 		while(it!=coll.end())
 		{
 			Collision *tColl = &*it;
@@ -389,10 +389,10 @@ public:
 		}
 		return tList;
 	}
-	const vector<Collision*> getCollisionHitListForCritter(const unsigned short &iID, const unsigned short &alliance, const AxisAlignedBox &target)
+	const Ogre::vector<Collision*>::type getCollisionHitListForCritter(const unsigned short &iID, const unsigned short &alliance, const AxisAlignedBox &target)
 	{
-		vector<Collision*> tList;
-		list<Collision>::iterator it = coll.begin();
+		Ogre::vector<Collision*>::type tList;
+		Ogre::list<Collision>::type::iterator it = coll.begin();
 		while(it!=coll.end())
 		{
 			Collision *tColl = &*it;
@@ -428,14 +428,14 @@ public:
 		tWall.range = Vector3(range,0,0);
 		wall.push_back(tWall);
 	}
-	const list<Wall>::iterator destroyWall(const list<Wall>::iterator &it)
+	const Ogre::list<Wall>::type::iterator destroyWall(const Ogre::list<Wall>::type::iterator &it)
 	{
 		return wall.erase(it);
 	}
 	void destroyWall(const unsigned short &iID)
 	{
 		unsigned short tID = 0;
-		list<Wall>::iterator it = wall.begin();
+		Ogre::list<Wall>::type::iterator it = wall.begin();
 		while(it!=wall.end())
 		{
 			if(tID==iID){wall.erase(it);return;}
@@ -443,10 +443,10 @@ public:
 			tID++;
 		}
 	}
-	const vector<Wall*> getWallHitList(const Vector3 &target)
+	const Ogre::vector<Wall*>::type getWallHitList(const Vector3& target)
 	{
-		vector<Wall*> tList;
-		list<Wall>::iterator it = wall.begin();
+		Ogre::vector<Wall*>::type tList;
+		Ogre::list<Wall>::type::iterator it = wall.begin();
 		while(it!=wall.end())
 		{
 			Wall *tWall = &*it;
@@ -470,7 +470,7 @@ public:
 		tPortal.mEnt->setMaterialName("Portal/"+destName);
 		portal.push_back(tPortal);
 	}
-	const list<Portal>::iterator destroyPortal(list<Portal>::iterator it)
+	const Ogre::list<Portal>::type::iterator destroyPortal(Ogre::list<Portal>::type::iterator it)
 	{
 		if(!mSceneMgr)return ++it;
 		Portal *tPortal = &*it;
@@ -485,7 +485,7 @@ public:
 	}
 	void destroyAllPortals()
 	{
-		list<Portal>::iterator it = portal.begin();
+		Ogre::list<Portal>::type::iterator it = portal.begin();
 		while(it!=portal.end())
 		{
 			it = destroyPortal(it);
@@ -493,7 +493,7 @@ public:
 	}
 	Portal* getPortalHit(const AxisAlignedBox &target)
 	{
-		list<Portal>::iterator it = portal.begin();
+		Ogre::list<Portal>::type::iterator it = portal.begin();
 		while(it!=portal.end())
 		{
 			Portal *tPortal = &*it;
@@ -502,10 +502,10 @@ public:
 		}
 		return 0;
 	}
-	void getPortalMap(vector<pair<Vector2,String>> &map)
+	void getPortalMap(Ogre::vector<pair<Vector2,String>>::type &map)
 	{
 		map.clear();
-		list<Portal>::iterator it = portal.begin();
+		Ogre::list<Portal>::type::iterator it = portal.begin();
 		while(it!=portal.end())
 		{
 			Portal *tPortal = &*it;
@@ -526,13 +526,13 @@ public:
 		tBox.isSolid = isSolid;
 		waterBox.push_back(tBox);
 	}
-	const list<WaterBox>::iterator destroyWaterBox(const list<WaterBox>::iterator &it)
+	const Ogre::list<WaterBox>::type::iterator destroyWaterBox(const Ogre::list<WaterBox>::type::iterator &it)
 	{
 		return waterBox.erase(it);
 	}
 	void destroyAllWaterBoxes()
 	{
-		list<WaterBox>::iterator it = waterBox.begin();
+		Ogre::list<WaterBox>::type::iterator it = waterBox.begin();
 		while(it!=waterBox.end())
 		{
 			it = destroyWaterBox(it);
@@ -540,7 +540,7 @@ public:
 	}
 	WaterBox* getWaterBoxHit(const Vector3 &target)
 	{
-		list<WaterBox>::iterator it = waterBox.begin();
+		Ogre::list<WaterBox>::type::iterator it = waterBox.begin();
 		while(it!=waterBox.end())
 		{
 			WaterBox *tBox = &*it;
@@ -566,7 +566,7 @@ public:
 		tGate.mEnt->setCastShadows(false);
 		gate.push_back(tGate);
 	}
-	const list<Gate>::iterator destroyGate(list<Gate>::iterator it)
+	const Ogre::list<Gate>::type::iterator destroyGate(Ogre::list<Gate>::type::iterator it)
 	{
 		if(!mSceneMgr)return ++it;
 		Gate *tGate = &*it;
@@ -581,7 +581,7 @@ public:
 	}
 	void destroyAllGates()
 	{
-		list<Gate>::iterator it = gate.begin();
+		Ogre::list<Gate>::type::iterator it = gate.begin();
 		while(it!=gate.end())
 		{
 			it = destroyGate(it);
@@ -589,7 +589,7 @@ public:
 	}
 	Gate* getGateHit(const AxisAlignedBox &target)
 	{
-		list<Gate>::iterator it = gate.begin();
+		Ogre::list<Gate>::type::iterator it = gate.begin();
 		while(it!=gate.end())
 		{
 			Gate *tGate = &*it;
@@ -598,10 +598,10 @@ public:
 		}
 		return 0;
 	}
-	void getGateMap(vector<pair<Vector2,String>> &map)
+	void getGateMap(Ogre::vector<pair<Vector2,String>>::type &map)
 	{
 		map.clear();
-		list<Gate>::iterator it = gate.begin();
+		Ogre::list<Gate>::type::iterator it = gate.begin();
 		while(it!=gate.end())
 		{
 			Gate *tGate = &*it;
@@ -620,10 +620,10 @@ public:
 		tBox.range = range;
 		collBox.push_back(tBox);
 	}
-	const vector<CollBox*> getCollBoxHitList(const Vector3 &target, const Real &headHeight)
+	const Ogre::vector<CollBox*>::type getCollBoxHitList(const Vector3 &target, const Real &headHeight)
 	{
-		vector<CollBox*> tList;
-		list<CollBox>::iterator it = collBox.begin();
+		Ogre::vector<CollBox*>::type tList;
+		Ogre::list<CollBox>::type::iterator it = collBox.begin();
 		while(it!=collBox.end())
 		{
 			CollBox *tBox = &*it;
@@ -639,10 +639,10 @@ public:
 		tSphere.range = range;
 		collSphere.push_back(tSphere);
 	}
-	const vector<CollSphere*> getCollSphereHitList(const Vector3 &target)
+	const Ogre::vector<CollSphere*>::type getCollSphereHitList(const Vector3 &target)
 	{
-		vector<CollSphere*> tList;
-		list<CollSphere>::iterator it = collSphere.begin();
+		Ogre::vector<CollSphere*>::type tList;
+		Ogre::list<CollSphere>::type::iterator it = collSphere.begin();
 		while(it!=collSphere.end())
 		{
 			CollSphere *tSphere = &*it;
