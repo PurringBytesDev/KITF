@@ -110,13 +110,13 @@ protected:
 	bool playerTargetChanged;
 	bool shouldNameTagsBeVisible;
 	MapChangeData mapChange;
-	vector<pair<String,Vector2>> itemDropQueue;
+	Ogre::vector<pair<String,Vector2>>::type itemDropQueue;
 	String pickupText;
 	bool playerHasNewAttack;
-	vector<pair<OwnerToken,String>> partyMembers;
+	Ogre::vector<pair<OwnerToken,String>>::type partyMembers;
 	bool partyChanged;
 	OwnerToken partyInviter;
-	vector<HitInfo> hitQueue;
+	Ogre::vector<HitInfo>::type hitQueue;
 	TameData tameFlag;
 
 public:
@@ -417,8 +417,8 @@ public:
 		}
 
 		//Check hit collisions
-		vector<Collision*>tHitList = mCollisionManager->getCollisionHitList(unit->getUnitID(),unit->getAlliance(),unit->getBodyEnt()->getWorldBoundingBox());
-		for(vector<Collision*>::iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+		Ogre::vector<Collision*>::type tHitList = mCollisionManager->getCollisionHitList(unit->getUnitID(),unit->getAlliance(),unit->getBodyEnt()->getWorldBoundingBox());
+		for(Ogre::vector<Collision*>::type::iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 		{
 			Collision *coll = *it;
 			//Only if i'm hit or i hit someone (or this is offline)
@@ -491,8 +491,8 @@ public:
 	}
 	void updateWallCollisions(MagixUnit *unit)
 	{
-		const vector<Wall*>tHitList = mCollisionManager->getWallHitList(unit->getPosition());
-		for(vector<Wall*>::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+		const Ogre::vector<Wall*>::type tHitList = mCollisionManager->getWallHitList(unit->getPosition());
+		for(Ogre::vector<Wall*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 		{
 			Wall *tWall = *it;
 			if(tWall->isSphere)
@@ -574,8 +574,8 @@ public:
 	void updateCollBoxCollisions(MagixUnit *unit, const FrameEvent &evt)
 	{
 		const Real headHeight = unit->getObjectNode()->getScale().y*12;
-		const vector<CollBox*>tHitList = mCollisionManager->getCollBoxHitList(unit->getPosition(),headHeight);
-		for(vector<CollBox*>::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+		const Ogre::vector<CollBox*>::type tHitList = mCollisionManager->getCollBoxHitList(unit->getPosition(),headHeight);
+		for(Ogre::vector<CollBox*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 		{
 			CollBox *tBox = *it;
 			
@@ -610,8 +610,8 @@ public:
 				}
 			}
 		}
-		const vector<CollSphere*>tHitList2 = mCollisionManager->getCollSphereHitList(unit->getPosition());
-		for(vector<CollSphere*>::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
+		const Ogre::vector<CollSphere*>::type tHitList2 = mCollisionManager->getCollSphereHitList(unit->getPosition());
+		for(Ogre::vector<CollSphere*>::type::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
 		{
 			CollSphere *tSphere = *it;
 
@@ -873,7 +873,7 @@ public:
 				tLast = tLast->getPrevious();
 			}
 			//Critters
-			const vector<MagixCritter*> tCritter = mCritterManager->getCritterList();
+			const Ogre::vector<MagixCritter*>::type tCritter = mCritterManager->getCritterList();
 			for(int i=0;i<(int)tCritter.size();i++)
 			{
 				if(!tCritter[i]->getIsDead())
@@ -907,7 +907,7 @@ public:
 			tLast = tLast->getPrevious();
 		}
 		//Critters
-		const vector<MagixCritter*> tCritter = mCritterManager->getCritterList();
+		const Ogre::vector<MagixCritter*>::type tCritter = mCritterManager->getCritterList();
 		for(int i=0;i<(int)tCritter.size();i++)
 		{
 			if(!tCritter[i]->getIsDead())
@@ -977,16 +977,16 @@ public:
 		if(checkCollBoxCollision)
 		{
 			const Vector3 tVect = Vector3(x,tHeight,z);
-			const vector<CollBox*>tHitList = mCollisionManager->getCollBoxHitList(tVect,12);
-			for(vector<CollBox*>::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+			const Ogre::vector<CollBox*>::type tHitList = mCollisionManager->getCollBoxHitList(tVect,12);
+			for(Ogre::vector<CollBox*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 			{
 				CollBox *tBox = *it;
 				const Real tMaxY = tBox->center.y+tBox->range.y;
 				if(tHeight<tMaxY)tHeight = tMaxY;
 			}
 			const Vector3 tVect2 = Vector3(x,tHeight,z);
-			const vector<CollSphere*>tHitList2 = mCollisionManager->getCollSphereHitList(tVect2);
-			for(vector<CollSphere*>::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
+			const Ogre::vector<CollSphere*>::type tHitList2 = mCollisionManager->getCollSphereHitList(tVect2);
+			for(Ogre::vector<CollSphere*>::type::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
 			{
 				CollSphere *tSphere = *it;
 				if(tSphere->range==0)continue;
@@ -1292,9 +1292,9 @@ public:
 		mPlayer->reset();
 		mPlayer->setAlliance(ALLIANCE_FRIEND);
 	}
-	const vector<MagixIndexedUnit*> getUnitList()
+	const Ogre::vector<MagixIndexedUnit*>::type getUnitList()
 	{
-		vector<MagixIndexedUnit*> tUnitList;
+		Ogre::vector<MagixIndexedUnit*>::type tUnitList;
 		tUnitList.clear();
 
 		MagixIndexedUnit *tLast = mLastUnit;
@@ -1469,9 +1469,9 @@ public:
 		if(mPlayerTarget==critter)setPlayerTarget(0);
 		mCritterManager->deleteCritter(iID);
 	}
-	const vector<pair<String,Vector2>> popItemDropQueue()
+	const Ogre::vector<pair<String,Vector2>>::type popItemDropQueue()
 	{
-		const vector<pair<String,Vector2>> tList = itemDropQueue;
+		const Ogre::vector<pair<String,Vector2>>::type tList = itemDropQueue;
 		itemDropQueue.clear();
 		return tList;
 	}
@@ -1493,7 +1493,7 @@ public:
 	{
 		if(!critter)return;
 		//Item drops
-		const vector<pair<String,Real>> tDropList = mDef->getCritterDropList(critter->getCritterType());
+		const Ogre::vector<pair<String,Real>>::type tDropList = mDef->getCritterDropList(critter->getCritterType());
 		for(int j=0;j<(int)tDropList.size();j++)
 			if(Math::UnitRandom()<tDropList[j].second)
 			{
@@ -1531,7 +1531,7 @@ public:
 	}
 	bool removePartyMember(const String &name)
 	{
-		for(vector<pair<OwnerToken,String>>::iterator it=partyMembers.begin();it!=partyMembers.end();it++)
+		for(Ogre::vector<pair<OwnerToken,String>>::type::iterator it=partyMembers.begin();it!=partyMembers.end();it++)
 		{
 			const pair<OwnerToken,String> tMember = *it;
 			if(tMember.second==name)
@@ -1552,7 +1552,7 @@ public:
 	{
 		return (partyMembers.size()>=MAX_PARTYMEMBERS);
 	}
-	const vector<pair<OwnerToken,String>> getPartyMembers()
+	const Ogre::vector<pair<OwnerToken,String>>::type getPartyMembers()
 	{
 		return partyMembers;
 	}
@@ -1589,9 +1589,9 @@ public:
 			if(partyMembers[i].first==token)return partyMembers[i];
 		return pair<OwnerToken,String>(0,"");
 	}
-	const vector<HitInfo> popHitQueue()
+	const Ogre::vector<HitInfo>::type popHitQueue()
 	{
-		const vector<HitInfo> tList = hitQueue;
+		const Ogre::vector<HitInfo>::type tList = hitQueue;
 		hitQueue.clear();
 		return tList;
 	}

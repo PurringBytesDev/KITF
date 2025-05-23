@@ -47,8 +47,8 @@ protected:
 	SceneManager *mSceneMgr;
 	MagixExternalDefinitions *mDef;
 	MagixEffectsManager *mEffectsManager;
-	vector<MagixItem*> itemList;
-	vector<String> itemStash;
+	Ogre::vector<MagixItem*>::type itemList;
+	Ogre::vector<String>::type itemStash;
 public:
 	MagixItemManager()
 	{
@@ -79,7 +79,7 @@ public:
 	}
 	void update(const FrameEvent &evt, MagixCamera *camera=0)
 	{
-		for(vector<MagixItem*>::iterator it = itemList.begin(); it != itemList.end(); it++)
+		for(Ogre::vector<MagixItem*>::type::iterator it = itemList.begin(); it != itemList.end(); it++)
 		{
 			MagixItem *tItem = *it;
 			//Range check
@@ -113,7 +113,7 @@ public:
 		MagixItem *item = new MagixItem(node,iID,meshName);
 		itemList.push_back(item);
 	}
-	void deleteItem(MagixItem *tItem, const vector<MagixItem*>::iterator &it)
+	void deleteItem(MagixItem *tItem, const Ogre::vector<MagixItem*>::type::iterator &it)
 	{
 		if(!tItem)return;
 		SceneNode *tObjectNode = tItem->getObjectNode();
@@ -129,7 +129,7 @@ public:
 	}
 	void deleteItem(const unsigned short &iID)
 	{
-		for(vector<MagixItem*>::iterator it = itemList.begin(); it != itemList.end(); it++)
+		for(Ogre::vector<MagixItem*>::type::iterator it = itemList.begin(); it != itemList.end(); it++)
 		{
 			MagixItem *tItem = *it;
 			if(tItem->getID()==iID)
@@ -143,7 +143,7 @@ public:
 	{
 		while(itemList.size()>0)
 		{
-			vector<MagixItem*>::iterator it = itemList.end();
+			Ogre::vector<MagixItem*>::type::iterator it = itemList.end();
 			it--;
 			MagixItem *tItem = *it;
 			deleteItem(tItem,it);
@@ -151,7 +151,7 @@ public:
 	}
 	MagixItem* getByObjectNode(SceneNode *node)
 	{
-		for(vector<MagixItem*>::iterator it = itemList.begin(); it != itemList.end(); it++)
+		for(Ogre::vector<MagixItem*>::type::iterator it = itemList.begin(); it != itemList.end(); it++)
 		{
 			MagixItem *tItem = *it;
 			if(tItem->getObjectNode()==node)
@@ -163,7 +163,7 @@ public:
 	}
 	MagixItem* getByID(const unsigned short &iID)
 	{
-		for(vector<MagixItem*>::iterator it = itemList.begin(); it != itemList.end(); it++)
+		for(Ogre::vector<MagixItem*>::type::iterator it = itemList.begin(); it != itemList.end(); it++)
 		{
 			MagixItem *tItem = *it;
 			if(tItem->getID()==iID)
@@ -184,7 +184,7 @@ public:
 		while(!tFound)
 		{
 			tFound = true;
-			for(vector<MagixItem*>::iterator it = itemList.begin(); it != itemList.end(); it++)
+			for(Ogre::vector<MagixItem*>::type::iterator it = itemList.begin(); it != itemList.end(); it++)
 			{
 				MagixItem *tItem = *it;
 				if(tItem->getID()==tID)
@@ -198,7 +198,7 @@ public:
 		}
 		return tID;
 	}
-	const vector<MagixItem*> getItemList()
+	const Ogre::vector<MagixItem*>::type getItemList()
 	{
 		return itemList;
 	}
@@ -221,7 +221,7 @@ public:
 	{
 		String tItem = "";
 		unsigned short tCount = 0;
-		for(vector<String>::iterator it = itemStash.begin(); it != itemStash.end(); it++)
+		for(Ogre::vector<String>::type::iterator it = itemStash.begin(); it != itemStash.end(); it++)
 		{
 			if(tCount == line)
 			{
@@ -233,7 +233,7 @@ public:
 		}
 		return tItem;
 	}
-	const vector<String> getStash()
+	const Ogre::vector<String>::type getStash()
 	{
 		return itemStash;
 	}

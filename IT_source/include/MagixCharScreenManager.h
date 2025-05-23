@@ -1106,7 +1106,7 @@ public:
 	}
 	void updateCharData(bool isPreset=false)
 	{
-		const vector<String> tMesh = StringUtil::split(mUnit->getMeshString(),";",5);
+		const Ogre::vector<String>::type tMesh = StringUtil::split(mUnit->getMeshString(),";",5);
 		if(tMesh.size()==5)
 		{
 			for(int i=0;i<mDef->maxHeads;i++)
@@ -1134,7 +1134,7 @@ public:
 					break;
 				}
 		}
-		const vector<String> tMesh2 = StringUtil::split(mUnit->getMeshString2(),";",1);
+		const Ogre::vector<String>::type tMesh2 = StringUtil::split(mUnit->getMeshString2(),";",1);
 		if(tMesh2.size()==1)
 		{
 			for(int i=0;i<mDef->maxTufts;i++)
@@ -1147,7 +1147,7 @@ public:
 		if(!isPreset)
 		{
 			mUnit->getMarkings(bodyMarkID,headMarkID,tailMarkID);
-			const vector<String> tColour = StringUtil::split(mUnit->getColourString(),";",MAX_COLOURS);
+			const Ogre::vector<String>::type tColour = StringUtil::split(mUnit->getColourString(),";",MAX_COLOURS);
 			for(int i=0;i<(int)tColour.size();i++)
 					colourVal[i] = StringConverter::parseColourValue(tColour[i]);
 		}
@@ -1165,11 +1165,11 @@ public:
 			static_cast<MagixPlayer*>(mUnit)->reset();
 		}
 		
-		const vector<String> tString = StringUtil::split(data,"|\n",2);
+		const Ogre::vector<String>::type tString = StringUtil::split(data,"|\n",2);
 		//Loaded successfully
 		if(tString.size()>0)
 		{
-			const vector<String> tParam = StringUtil::split(tString[0],";");
+			const Ogre::vector<String>::type tParam = StringUtil::split(tString[0],";");
 			if(tParam.size()>=7 && tParam.size()<=12)
 			{
 				setName(tParam[0]);

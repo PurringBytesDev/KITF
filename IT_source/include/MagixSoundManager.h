@@ -68,10 +68,10 @@ protected:
 	float musicVolume;
 	float guiVolume;
 	float soundVolume;
-	list<LoopedSound> loopedSound;
+	Ogre::list<LoopedSound>::type loopedSound;
 	Real musicSilenceTimeout;
 	bool isRandomPlaylist;
-	vector<String> musicList;
+	Ogre::vector<String>::type musicList;
 public:
 	MagixSoundManager()
 	{
@@ -175,7 +175,7 @@ public:
 	}
 	void updateLoopedSounds(const Vector3 &camPosition, const Real &timeElapsed)
 	{
-		list<LoopedSound>::iterator it = loopedSound.begin();
+		Ogre::list<LoopedSound>::type::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -312,7 +312,7 @@ public:
 		tSound.delay = delay;
 		loopedSound.push_back(tSound);
 	}
-	const list<LoopedSound>::iterator stopLoopedSound(const list<LoopedSound>::iterator &it)
+	const Ogre::list<LoopedSound>::type::iterator stopLoopedSound(const Ogre::list<LoopedSound>::type::iterator &it)
 	{
 		if(!mSoundMgr)return loopedSound.end();
 
@@ -326,7 +326,7 @@ public:
 		if(!node)return;
 
 		const int tLoopedSound = ( type=="" ? INVALID_SOUND_INDEX : mSoundMgr->CreateLoopedSound(String(type)) );
-		list<LoopedSound>::iterator it = loopedSound.begin();
+		Ogre::list<LoopedSound>::type::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -338,7 +338,7 @@ public:
 	{
 		if(!mSoundMgr)return false;
 		const int tLoopedSound = mSoundMgr->CreateLoopedSound(String(type));
-		list<LoopedSound>::iterator it = loopedSound.begin();
+		Ogre::list<LoopedSound>::type::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;
@@ -349,7 +349,7 @@ public:
 	}
 	void stopAllLoopedSounds()
 	{
-		list<LoopedSound>::iterator it = loopedSound.begin();
+		Ogre::list<LoopedSound>::type::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())it = stopLoopedSound(it);
 	}
 	void playAmbientSound(const char *type, const float &volume=1)
@@ -398,7 +398,7 @@ public:
 		if(!mSoundMgr)return;
 		soundVolume = ratio;
 
-		list<LoopedSound>::iterator it = loopedSound.begin();
+		Ogre::list<LoopedSound>::type::iterator it = loopedSound.begin();
 		while(it!=loopedSound.end())
 		{
 			LoopedSound *sound = &*it;

@@ -45,8 +45,8 @@ protected:
 	String mapEffect;
 	int staticGeometryX;
 	int staticGeometryY;
-	vector<WorldCritter> critterSpawnList;
-	vector<pair<Vector3,Vector3>> critterRoamAreaList;
+	Ogre::vector<WorldCritter>::type critterSpawnList;
+	Ogre::vector<pair<Vector3,Vector3>>::type critterRoamAreaList;
 	unsigned short critterSpawnLimit;
 public:
 	MagixWorld()
@@ -192,7 +192,7 @@ public:
 	{
 		String tTerrain="",tGrassMat="",tGrassMap="",tGrassColourMap="",tTree1="",tTree2="",tTree3="",tBush1="",tBush2="",tBush3="";
 		unsigned short tTreeCount;
-		vector<pair<String, bool>> tTreesFilename,tBushesFilename,tFloatingBushesFilename;
+		Ogre::vector<pair<String, bool>>::type tTreesFilename,tBushesFilename,tFloatingBushesFilename;
 		String tCritterSpawnFilename = "";
 		tTreesFilename.clear();
 		tBushesFilename.clear();
@@ -233,10 +233,10 @@ public:
 								mDef->loadWorldObjects("../../media/terrains/"+worldName+"/CustomPortals.txt");
 		if(tBuffer.length()>0)
 		{
-			const vector<String> tPart = StringUtil::split(tBuffer,"[#");
+			const Ogre::vector<String>::type tPart = StringUtil::split(tBuffer,"[#");
 			for(int i=0;i<int(tPart.size());i++)
 			{
-				const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+				const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 				if(tLine.size()>0)
 				{
 					if(StringUtil::startsWith(tLine[0],"Portal",false) && tLine.size()==4)
@@ -251,7 +251,7 @@ public:
 						const String tMatName = tLine[1];
 						const Vector3 tPosition = StringConverter::parseVector3(tLine[2]);
 						const String tDestName = tLine[3];
-						const vector<String> tCoords = StringUtil::split(tLine[4]," ",3);
+						const Ogre::vector<String>::type tCoords = StringUtil::split(tLine[4], " ", 3);
 						Vector3 tDestVect;
 						bool tHasVectY = true;
 						if(tCoords.size()==2)
@@ -592,15 +592,15 @@ public:
 				const String tObjects = mDef->loadWorldObjects("../../media/terrains/"+worldName+"/"+tTreesFilename[h].first);
 				if(tObjects.length()>0)
 				{
-					const vector<String> tPart = StringUtil::split(tObjects,"[#");
+					const Ogre::vector<String>::type tPart = StringUtil::split(tObjects,"[#");
 					for(int i=0;i<(int)tPart.size();i++)
 					{
-						const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+						const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 						if(tLine.size()>1)
 						{
 							numTreeMeshes++;
 							String tMesh = tLine[0];
-							const vector<String> tMeshMat = StringUtil::split(tMesh,";]");
+							const Ogre::vector<String>::type tMeshMat = StringUtil::split(tMesh,";]");
 							if(tMeshMat.size()>0)tMesh = tMeshMat[0];
 							Entity *tree = 0;
 							tree = mSceneMgr->createEntity("Tree"+StringConverter::toString(numTreeMeshes), tMesh);
@@ -610,7 +610,7 @@ public:
 								{
 									if(StringUtil::endsWith(tMeshMat[j],")"))
 									{
-										const vector<String> tMat = StringUtil::split(tMeshMat[j],"()");
+										const Ogre::vector<String>::type tMat = StringUtil::split(tMeshMat[j],"()");
 										if(tMat.size()>=2)
 										{
 											SubEntity *tSub = tree->getSubEntity(StringConverter::parseInt(tMat[1]));
@@ -626,7 +626,7 @@ public:
 							}
 							for(int j=1;j<(int)tLine.size();j++)
 							{
-								const vector<String> tSegment = StringUtil::split(tLine[j],";");
+								const Ogre::vector<String>::type tSegment = StringUtil::split(tLine[j],";");
 								if(tSegment.size()==3)
 								{
 									Vector3 position;
@@ -756,15 +756,15 @@ public:
 				const String tObjects = mDef->loadWorldObjects("../../media/terrains/"+worldName+"/"+tBushesFilename[h].first);
 				if(tObjects.length()>0)
 				{
-					const vector<String> tPart = StringUtil::split(tObjects,"[#");
+					const Ogre::vector<String>::type tPart = StringUtil::split(tObjects,"[#");
 					for(int i=0;i<(int)tPart.size();i++)
 					{
-						const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+						const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 						if(tLine.size()>1)
 						{
 							numBushMeshes++;
 							String tMesh = tLine[0];
-							const vector<String> tMeshMat = StringUtil::split(tMesh,";]");
+							const Ogre::vector<String>::type tMeshMat = StringUtil::split(tMesh,";]");
 							if(tMeshMat.size()>0)tMesh = tMeshMat[0];
 							Entity *bush = 0;
 							bush = mSceneMgr->createEntity("Bush"+StringConverter::toString(numBushMeshes), tMesh);
@@ -774,7 +774,7 @@ public:
 								{
 									if(StringUtil::endsWith(tMeshMat[j],")"))
 									{
-										const vector<String> tMat = StringUtil::split(tMeshMat[j],"()");
+										const Ogre::vector<String>::type tMat = StringUtil::split(tMeshMat[j],"()");
 										if(tMat.size()>=2)
 										{
 											SubEntity *tSub = bush->getSubEntity(StringConverter::parseInt(tMat[1]));
@@ -790,7 +790,7 @@ public:
 							}
 							for(int j=1;j<(int)tLine.size();j++)
 							{
-								const vector<String> tSegment = StringUtil::split(tLine[j],";");
+								const Ogre::vector<String>::type tSegment = StringUtil::split(tLine[j], ";");
 								if(tSegment.size()==3)
 								{
 									Vector3 position;
@@ -840,15 +840,15 @@ public:
 			const String tObjects = mDef->loadWorldObjects("../../media/terrains/"+worldName+"/"+tFloatingBushesFilename[h].first);
 			if(tObjects.length()>0)
 			{
-				const vector<String> tPart = StringUtil::split(tObjects,"[#");
+				const Ogre::vector<String>::type tPart = StringUtil::split(tObjects,"[#");
 				for(int i=0;i<(int)tPart.size();i++)
 				{
-					const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+					const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 					if(tLine.size()>1)
 					{
 						numBushMeshes++;
 						String tMesh = tLine[0];
-						const vector<String> tMeshMat = StringUtil::split(tMesh,";]");
+						const Ogre::vector<String>::type tMeshMat = StringUtil::split(tMesh,";]");
 						if(tMeshMat.size()>0)tMesh = tMeshMat[0];
 						Entity *bush = 0;
 						bush = mSceneMgr->createEntity("Bush"+StringConverter::toString(numBushMeshes), tMesh);
@@ -858,7 +858,7 @@ public:
 							{
 								if(StringUtil::endsWith(tMeshMat[j],")"))
 								{
-									const vector<String> tMat = StringUtil::split(tMeshMat[j],"()");
+									const Ogre::vector<String>::type tMat = StringUtil::split(tMeshMat[j],"()");
 									if(tMat.size()>=2)
 									{
 										SubEntity *tSub = bush->getSubEntity(StringConverter::parseInt(tMat[1]));
@@ -874,7 +874,7 @@ public:
 						}
 						for(int j=1;j<(int)tLine.size();j++)
 						{
-							const vector<String> tSegment = StringUtil::split(tLine[j],";");
+							const Ogre::vector<String>::type tSegment = StringUtil::split(tLine[j],";");
 							if(tSegment.size()==3)
 							{
 								const Vector3 position = StringConverter::parseVector3(tSegment[0]);
@@ -1175,7 +1175,7 @@ public:
 	{
 		return critterSpawnLimit;
 	}
-	const vector<WorldCritter> getCritterSpawnList()
+	const Ogre::vector<WorldCritter>::type getCritterSpawnList()
 	{
 		return critterSpawnList;
 	}

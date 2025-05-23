@@ -471,15 +471,15 @@ protected:
 	MagixWorld *mWorld;
 	MagixCamera *mCamera;
 	RaySceneQuery *mRayQuery;
-	vector<MagixCritter*> critterList;
-	vector<MagixCritter*> killedQueue;
-	vector<MagixCritter*> deadQueue;
-	vector<MagixCritter*> decisionQueue;
-	vector<MagixCritter*> stationaryQueue;
-	vector<HitInfo> hitQueue;
+	Ogre::vector<MagixCritter*>::type critterList;
+	Ogre::vector<MagixCritter*>::type killedQueue;
+	Ogre::vector<MagixCritter*>::type deadQueue;
+	Ogre::vector<MagixCritter*>::type decisionQueue;
+	Ogre::vector<MagixCritter*>::type stationaryQueue;
+	Ogre::vector<HitInfo>::type hitQueue;
 	MagixLiving *mPlayerTarget;
-	vector<MagixCritter*> myCritters;
-	vector<unsigned short> sentID;
+	Ogre::vector<MagixCritter*>::type myCritters;
+	Ogre::vector<unsigned short>::type sentID;
 	unsigned short critterCount;
 	String weatherEffectRequest;
 public:
@@ -538,7 +538,7 @@ public:
 	}
 	void update(const FrameEvent &evt, SceneNode *playerNode=0)
 	{
-		for(vector<MagixCritter*>::iterator it = critterList.begin(); it != critterList.end(); it++)
+		for(Ogre::vector<MagixCritter*>::type::iterator it = critterList.begin(); it != critterList.end(); it++)
 		{
 			MagixCritter *tCritter = *it;
 			//Range check
@@ -663,10 +663,12 @@ public:
 	}
 	void updateCollision(MagixCritter *critter, SceneNode *playerNode, bool inRange=false)
 	{
-		const vector<Collision*>tHitList = mCollisionManager->getCollisionHitListForCritter(critter->getID(),critter->getAlliance(),critter->getEnt()->getWorldBoundingBox());
-		for(vector<Collision*>::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+		const Ogre::vector<Collision*>::type tHitList = mCollisionManager->getCollisionHitListForCritter(critter->getID(),critter->getAlliance(),critter->getEnt()->getWorldBoundingBox());
+
+		for(Ogre::vector<Collision*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 		{
 			Collision *coll = *it;
+			// this need full rework
 			if(!mGameStateManager->isCampaign())
 				pushHitQueue(HitInfo(critter->getID(),coll->hp,(coll->getForce(false)==Vector3::ZERO?Vector3::ZERO:coll->getForce(true,critter->getPosition())),(critter->imTheOwner()||critter->getIsPet())));
 			hitCritter(critter,coll->hp,coll->getForce(true,critter->getPosition()),0,inRange);
@@ -733,16 +735,16 @@ public:
 		if(checkCollBoxCollision)
 		{
 			const Vector3 tVect = critter->getPosition();
-			const vector<CollBox*>tHitList = mCollisionManager->getCollBoxHitList(tVect,critter->getHeight());
-			for(vector<CollBox*>::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
+			const Ogre::vector<CollBox*>::type tHitList = mCollisionManager->getCollBoxHitList(tVect,critter->getHeight());
+			for(Ogre::vector<CollBox*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 			{
 				CollBox *tBox = *it;
 				const Real tMaxY = tBox->center.y+tBox->range.y;
 				if(tHeight<tMaxY)tHeight = tMaxY;
 			}
 			const Vector3 tVect2 = critter->getPosition();
-			const vector<CollSphere*>tHitList2 = mCollisionManager->getCollSphereHitList(tVect2);
-			for(vector<CollSphere*>::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
+			const Ogre::vector<CollSphere*>::type tHitList2 = mCollisionManager->getCollSphereHitList(tVect2);
+			for(Ogre::vector<CollSphere*>::type::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
 			{
 				CollSphere *tSphere = *it;
 				if(tSphere->range==0)continue;
@@ -799,31 +801,31 @@ public:
 		tC->setWorldCritterID(worldID);
 		return tC;
 	}
-	void deleteCritter(MagixCritter *tCritter, const vector<MagixCritter*>::iterator &it)
+	void deleteCritter(MagixCritter *tCritter, const Ogre::vector<MagixCritter*>::type::iterator &it)
 	{
 		if(!tCritter)return;
 		if(!tCritter->getIsPet())critterCount--;
 		removeChaseTarget(tCritter);
 		removeFromMyCritters(tCritter);
-		for(vector<MagixCritter*>::iterator i=stationaryQueue.begin();i!=stationaryQueue.end();i++)
+		for(Ogre::vector<MagixCritter*>::type::iterator i=stationaryQueue.begin();i!=stationaryQueue.end();i++)
 			if(*i==tCritter)
 			{
 				stationaryQueue.erase(i);
 				break;
 			}
-		for(vector<MagixCritter*>::iterator i=decisionQueue.begin();i!=decisionQueue.end();i++)
+		for(Ogre::vector<MagixCritter*>::type::iterator i=decisionQueue.begin();i!=decisionQueue.end();i++)
 			if(*i==tCritter)
 			{
 				decisionQueue.erase(i);
 				break;
 			}
-		for(vector<MagixCritter*>::iterator i=killedQueue.begin();i!=killedQueue.end();i++)
+		for(Ogre::vector<MagixCritter*>::type::iterator i=killedQueue.begin();i!=killedQueue.end();i++)
 			if(*i==tCritter)
 			{
 				killedQueue.erase(i);
 				break;
 			}
-		for(vector<MagixCritter*>::iterator i=deadQueue.begin();i!=deadQueue.end();i++)
+		for(Ogre::vector<MagixCritter*>::type::iterator i=deadQueue.begin();i!=deadQueue.end();i++)
 			if(*i==tCritter)
 			{
 				deadQueue.erase(i);
@@ -845,7 +847,7 @@ public:
 	}
 	void deleteCritter(const unsigned short &iID)
 	{
-		for(vector<MagixCritter*>::iterator it = critterList.begin(); it != critterList.end(); it++)
+		for(Ogre::vector<MagixCritter*>::type::iterator it = critterList.begin(); it != critterList.end(); it++)
 		{
 			MagixCritter *tCritter = *it;
 			if(tCritter->getID()==iID)
@@ -859,7 +861,7 @@ public:
 	{
 		while(critterList.size()>0)
 		{
-			vector<MagixCritter*>::iterator it = critterList.end();
+			Ogre::vector<MagixCritter*>::type::iterator it = critterList.end();
 			it--;
 			MagixCritter *tCritter = *it;
 			deleteCritter(tCritter,it);
@@ -867,7 +869,7 @@ public:
 	}
 	MagixCritter* getByObjectNode(SceneNode *node)
 	{
-		for(vector<MagixCritter*>::iterator it = critterList.begin(); it != critterList.end(); it++)
+		for(Ogre::vector<MagixCritter*>::type::iterator it = critterList.begin(); it != critterList.end(); it++)
 		{
 			MagixCritter *tCritter = *it;
 			if(tCritter->getObjectNode()==node)
@@ -879,7 +881,7 @@ public:
 	}
 	MagixCritter* getByID(const unsigned short &iID)
 	{
-		for(vector<MagixCritter*>::iterator it = critterList.begin(); it != critterList.end(); it++)
+		for(Ogre::vector<MagixCritter*>::type::iterator it = critterList.begin(); it != critterList.end(); it++)
 		{
 			MagixCritter *tCritter = *it;
 			if(tCritter->getID()==iID)
@@ -904,7 +906,7 @@ public:
 		while(!tFound)
 		{
 			tFound = true;
-			for(vector<unsigned short>::iterator it = sentID.begin(); it != sentID.end(); it++)
+			for(Ogre::vector<unsigned short>::type::iterator it = sentID.begin(); it != sentID.end(); it++)
 			{
 				if(*it==tID)
 				{
@@ -914,7 +916,7 @@ public:
 			}
 			if(tFound)
 			{
-				for(vector<MagixCritter*>::iterator it = critterList.begin(); it != critterList.end(); it++)
+				for(Ogre::vector<MagixCritter*>::type::iterator it = critterList.begin(); it != critterList.end(); it++)
 				{
 					MagixCritter *tCritter = *it;
 					if(tCritter->getID()==tID)
@@ -929,25 +931,25 @@ public:
 		}
 		return tID;
 	}
-	const vector<MagixCritter*> getCritterList()
+	const Ogre::vector<MagixCritter*>::type getCritterList()
 	{
 		return critterList;
 	}
-	const vector<MagixCritter*> popKilledQueue()
+	const Ogre::vector<MagixCritter*>::type popKilledQueue()
 	{
-		const vector<MagixCritter*> tList = killedQueue;
+		const Ogre::vector<MagixCritter*>::type tList = killedQueue;
 		killedQueue.clear();
 		return tList;
 	}
-	const vector<MagixCritter*> popDeadQueue()
+	const Ogre::vector<MagixCritter*>::type popDeadQueue()
 	{
-		const vector<MagixCritter*> tList = deadQueue;
+		const Ogre::vector<MagixCritter*>::type tList = deadQueue;
 		deadQueue.clear();
 		return tList;
 	}
-	const vector<HitInfo> popHitQueue()
+	const Ogre::vector<HitInfo>::type popHitQueue()
 	{
-		const vector<HitInfo> tList = hitQueue;
+		const Ogre::vector<HitInfo>::type tList = hitQueue;
 		hitQueue.clear();
 		return tList;
 	}
@@ -955,19 +957,19 @@ public:
 	{
 		hitQueue.push_back(info);
 	}
-	const vector<MagixCritter*> popDecisionQueue()
+	const Ogre::vector<MagixCritter*>::type popDecisionQueue()
 	{
-		const vector<MagixCritter*> tList = decisionQueue;
+		const Ogre::vector<MagixCritter*>::type tList = decisionQueue;
 		decisionQueue.clear();
 		return tList;
 	}
-	const vector<MagixCritter*> popStationaryQueue()
+	const Ogre::vector<MagixCritter*>::type popStationaryQueue()
 	{
-		const vector<MagixCritter*> tList = stationaryQueue;
+		const Ogre::vector<MagixCritter*>::type tList = stationaryQueue;
 		stationaryQueue.clear();
 		return tList;
 	}
-	const vector<MagixCritter*> getMyCritters()
+	const Ogre::vector<MagixCritter*>::type getMyCritters()
 	{
 		return myCritters;
 	}
@@ -977,7 +979,7 @@ public:
 	}
 	void removeFromMyCritters(MagixCritter *critter)
 	{
-		for(vector<MagixCritter*>::iterator i=myCritters.begin();i!=myCritters.end();i++)
+		for(Ogre::vector<MagixCritter*>::type::iterator i=myCritters.begin();i!=myCritters.end();i++)
 			if(*i==critter)
 			{
 				myCritters.erase(i);
@@ -1007,7 +1009,7 @@ public:
 	}
 	void popSentID(const unsigned short &iID)
 	{
-		for(vector<unsigned short>::iterator it=sentID.begin();it!=sentID.end();it++)
+		for(Ogre::vector<unsigned short>::type::iterator it=sentID.begin();it!=sentID.end();it++)
 		{
 			if(*it==iID)
 			{

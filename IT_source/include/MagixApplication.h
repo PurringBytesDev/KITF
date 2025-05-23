@@ -249,7 +249,7 @@ protected:
 				//Scan for wildcard filenames like ../../media/terrains/(World.txt)
 				if(archName.at(archName.length()-1)==')')
 				{
-					const vector<String> tFilenameVect = StringUtil::split(archName,"()");
+					const Ogre::vector<String>::type tFilenameVect = StringUtil::split(archName,"()");
 					if(tFilenameVect.size()>1)
 					{
 						const String tFilename = tFilenameVect[0]+tFilenameVect[1];
@@ -270,7 +270,7 @@ protected:
 						tData = tBuffer;
 						delete[] tBuffer;
 
-						const vector<String> tLine = StringUtil::split(tData,"\n#");
+						const Ogre::vector<String>::type tLine = StringUtil::split(tData,"\n#");
 						for(int j=0;j<(int)tLine.size();j++)
 						{
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE

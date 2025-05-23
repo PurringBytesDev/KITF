@@ -47,7 +47,7 @@ protected:
 	//ColourValue weatherSkyAdder;
 	String weatherEffect;
 	Real weatherEffectCountdown;
-	vector<WeatherEvent> weatherCycleEventList;
+	Ogre::vector<WeatherEvent>::type weatherCycleEventList;
 	bool hasWeatherSound;
 	bool interiorSky;
 	Real FOG_START, FOG_END;

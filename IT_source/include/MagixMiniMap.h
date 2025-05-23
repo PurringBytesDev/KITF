@@ -12,13 +12,13 @@ protected:
 	OverlayElement *mMapCone;
 	OverlayElement *mMapArrow;
 	OverlayElement *mMapTag;
-	vector<bool> hasPortalMarker;
-	vector<bool> hasGateMarker;
-	vector<pair<Vector2,String>> portalMap;
-	vector<pair<Vector2,String>> gateMap;
+	Ogre::vector<bool>::type hasPortalMarker;
+	Ogre::vector<bool>::type hasGateMarker;
+	Ogre::vector<pair<Vector2,String>>::type portalMap;
+	Ogre::vector<pair<Vector2,String>>::type gateMap;
 	Real zoomRatio;
 	bool mapTagUseCharName;
-	vector<unsigned char> pingUnitMarkers;
+	Ogre::vector<unsigned char>::type pingUnitMarkers;
 	unsigned char pingCounter;
 	Real pingTimer;
 public:
@@ -189,7 +189,7 @@ public:
 		}
 
 		//Units
-		const vector<MagixIndexedUnit*> tUnitList = mUnitManager->getUnitList();
+		const Ogre::vector<MagixIndexedUnit*>::type tUnitList = mUnitManager->getUnitList();
 
 		for(int i=0;i<(int)tUnitList.size();i++)
 		{

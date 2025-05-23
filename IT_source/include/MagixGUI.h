@@ -305,10 +305,10 @@ protected:
 	String listButtonData;
 	unsigned short listButtonType;
 	unsigned short listButtonLine;
-	vector<String> friendBoxList;
-	vector<unsigned short> friendBoxListButton;
-	vector<String> bioList;
-	vector<String> targetBioList;
+	Ogre::vector<String>::type friendBoxList;
+	Ogre::vector<unsigned short>::type friendBoxListButton;
+	Ogre::vector<String>::type bioList;
+	Ogre::vector<String>::type targetBioList;
 
 	bool isCreateAccount;
 	bool isEditAccount;
@@ -319,7 +319,7 @@ protected:
 	OverlayElement *mEditAccountTextBox[MAX_EDITACCOUNTINFO];
 	String editAccountInfo[MAX_EDITACCOUNTINFO];
 
-	vector<String> campaignList;
+	Ogre::vector<String>::type campaignList;
 	unsigned short campaignPage;
 
 public:
@@ -1458,7 +1458,7 @@ public:
 			if(!mGameStateManager->isCampaign())mNetworkManager->sendHPUpdate();
 		}
 		//Skill changes
-		const vector<Skill> tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
+		const Ogre::vector<Skill>::type tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
 		for(int i=0;i<(int)tSkillChange.size();i++)
 		{
 			if(!mGameStateManager->isCampaign())mNetworkManager->sendSkillUpdate(tSkillChange[i].name,tSkillChange[i].stock);
@@ -2057,7 +2057,7 @@ public:
 	void updateEmoteBox()
 	{
 		if(!mBox[GUI_EMOTEBOX]->isVisible())return;
-		vector<String> tList;
+		Ogre::vector<String>::type tList;
 		tList.push_back("ACTIONS:");
 		if(mUnitManager->getPlayer()->isLaying()||mUnitManager->getPlayer()->isPlopped())tList.push_back("Plop Down");
 		else if(mUnitManager->getPlayer()->isSitting())tList.push_back("Lay");
@@ -2114,8 +2114,8 @@ public:
 	void updateStashBox()
 	{
 		if(!mBox[GUI_STASHBOX]->isVisible())return;
-		const vector<String> tStash = mItemManager->getStash();
-		vector<String> tList;
+		const Ogre::vector<String>::type tStash = mItemManager->getStash();
+		Ogre::vector<String>::type tList;
 		for(int i=0;i<(int)tStash.size();i++)
 		{
 			tList.push_back(mDef->getItemName(tStash[i]));
@@ -2128,7 +2128,7 @@ public:
 		{
 			//Update Party List
 			String tPartyList = "";
-			const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+			const Ogre::vector<pair<OwnerToken,String>>::type tParty = mUnitManager->getPartyMembers();
 			for(int i=0;i<(int)tParty.size();i++)
 			{
 				tPartyList += tParty[i].second+"\n";
@@ -2143,7 +2143,7 @@ public:
 				mButton[BUTTON_PARTYBOX1]->hide();
 			}
 			//Update MiniMap as well
-			const vector<MagixIndexedUnit*> tUnitList = mUnitManager->getUnitList();
+			const Ogre::vector<MagixIndexedUnit*>::type tUnitList = mUnitManager->getUnitList();
 			for(int i=0;i<(int)tUnitList.size();i++)mMiniMap->updateUnitMarker(tUnitList[i]);
 		}
 	}
@@ -2170,7 +2170,7 @@ public:
 			mBox[GUI_SELECTBOX]->show();
 			mBox[GUI_SELECTBOX]->setPosition(mSelectPanel->getLeft(),mSelectPanel->getTop());
 
-			vector<unsigned short> tButton;
+			Ogre::vector<unsigned short>::type tButton;
 			tButton.clear();
 			if(mButtonText[BUTTON_SELECTBOX1]->getCaption()=="")mButton[BUTTON_SELECTBOX1]->hide();
 			else
@@ -2237,8 +2237,8 @@ public:
 		//Online Friends
 		friendBoxList.push_back("ONLINE FRIENDS:");
 		friendBoxListButton.push_back(LISTBUTTON_NONE);
-		const vector<String> tFriendList = mDef->loadFriendList();
-		vector<String> tOfflineList;
+		const Ogre::vector<String>::type tFriendList = mDef->loadFriendList();
+		Ogre::vector<String>::type tOfflineList;
 		tOfflineList.clear();
 
 		for(int i=0;i<(int)tFriendList.size();i++)
@@ -2277,7 +2277,7 @@ public:
 		//Players online
 		friendBoxList.push_back("ONLINE PLAYERS:");
 		friendBoxListButton.push_back(LISTBUTTON_NONE);
-		const vector<String> tOnlineList = mNetworkManager->getPlayersOnline();
+		const Ogre::vector<String>::type tOnlineList = mNetworkManager->getPlayersOnline();
 		for(int i=0;i<(int)tOnlineList.size();i++)
 		{
 			friendBoxList.push_back(tOnlineList[i]);
@@ -2294,7 +2294,7 @@ public:
 		//Blocked list
 		friendBoxList.push_back("BLOCKED LIST:");
 		friendBoxListButton.push_back(LISTBUTTON_NONE);
-		const vector<String> tBlockedList = mDef->loadBlockedList();
+		const Ogre::vector<String>::type tBlockedList = mDef->loadBlockedList();
 		for(int i=0;i<(int)tBlockedList.size();i++)
 		{
 			friendBoxList.push_back(tBlockedList[i]);
@@ -2389,7 +2389,7 @@ public:
 		if(doChannelBlink && (mHoverButton!=mButton[BUTTON_TEXTINPUT3]||!leftClick))
 		{
 			bool tHasNewLine = false;
-			const vector<unsigned char> tChannels = mChatManager->getOtherChannels();
+			const Ogre::vector<unsigned char>::type tChannels = mChatManager->getOtherChannels();
 			for(int i=0;i<(int)tChannels.size();i++)
 				if(mChatManager->getHasNewLine(tChannels[i]))
 				{
@@ -2934,7 +2934,7 @@ public:
 			{
 				Real tFontHeight = 0;
 				short tApparentLine = 0;
-				const vector<String> tList = mItemManager->getStash();
+				const Ogre::vector<String>::type tList = mItemManager->getStash();
 				const short tButtonLine = getListButtonLine(GUI_STASHBOX,SCROLLER_STASHBOX,(int)tList.size(),tFontHeight,tApparentLine);
 				if(tButtonLine==-1 || tButtonLine>=(int)tList.size())return;
 
@@ -3730,7 +3730,7 @@ public:
 					}
 					else if(tParam==COMMAND_BAN &&(mDef->isAdmin||mDef->isMod))
 					{
-						const vector<String> tPart = StringUtil::split(tCaption,";",1);
+						const Ogre::vector<String>::type tPart = StringUtil::split(tCaption,";",1);
 						const unsigned short tDays = mDef->isAdmin ? (tPart.size()>1?StringConverter::parseInt(tPart[1]):0) : 1;
 						if(tPart.size()>0)mNetworkManager->sendKick(tPart[0],true,tDays);
 					}
@@ -3807,7 +3807,7 @@ public:
 					{
 						if(mUnitManager->hasParty())
 						{
-							const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+							const Ogre::vector<pair<OwnerToken,String>>::type tParty = mUnitManager->getPartyMembers();
 							for(int i=0;i<(int)tParty.size();i++)
 								mNetworkManager->sendPartyChat(tParty[i].first,tCaption,tType,tLipSync);
 						}
@@ -4418,7 +4418,7 @@ public:
 			if(mScrollerMarker[i]&& mScrollerMarker[i]==scroller)return i;
 		return -1;
 	}
-	void updateBoxScrollerCaption(const unsigned short &boxID, const unsigned short &scrollerID, const vector<String> &captionList)
+	void updateBoxScrollerCaption(const unsigned short &boxID, const unsigned short &scrollerID, const Ogre::vector<String>::type &captionList)
 	{
 		if(boxID>=MAX_BOXES)return;
 		if(!mBox[boxID] || !mBoxText[boxID])return;
@@ -4791,7 +4791,7 @@ public:
 			OverlayManager::getSingleton().getOverlayElement("GUI/Credits")->show();
 		OverlayElement *tCaption = OverlayManager::getSingleton().getOverlayElement("GUI/CreditsCaption");
 		tCaption->setCaption(caption);
-		vector<String> tLines = StringUtil::split(caption,"\n");
+		Ogre::vector<String>::type tLines = StringUtil::split(caption,"\n");
 		tCaption->setTop(0.5-StringConverter::parseReal(tCaption->getParameter("char_height"))*int(tLines.size())/2);
 	}
 	void updateSkillText(const Skill *skill)
@@ -5128,7 +5128,7 @@ public:
 	}
 	void doRoll(const String &input)
 	{
-		const vector<String> tInput = StringUtil::split(input," ",2);
+		const Ogre::vector<String>::type tInput = StringUtil::split(input," ",2);
 		if(tInput.size()!=2)
 		{
 			mChatManager->message("Usage: /roll [dice] [sides]");

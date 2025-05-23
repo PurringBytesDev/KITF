@@ -55,9 +55,9 @@
 class MagixChatManager
 {
 protected:
-	vector<String> chatString[MAX_CHANNELS];
-	vector<String> chatSayer[MAX_CHANNELS];
-	vector<unsigned char> chatType[MAX_CHANNELS];
+	Ogre::vector<String>::type chatString[MAX_CHANNELS];
+	Ogre::vector<String>::type chatSayer[MAX_CHANNELS];
+	Ogre::vector<unsigned char>::type chatType[MAX_CHANNELS];
 	bool hasNewLine[MAX_CHANNELS];
 	unsigned char channel;
 public:
@@ -103,7 +103,7 @@ public:
 	}
 	const String getChatBlock(const unsigned short &lines, const Real &boxWidth, const Real &charHeight, const Real &lastOffset)
 	{
-		vector<String> tChatBlock;
+		Ogre::vector<String>::type tChatBlock;
 		tChatBlock.clear();
 		String tFinalChat = "";
 		unsigned short tFinalLines = 0;
@@ -113,7 +113,7 @@ public:
 		for(int i=start;i<int(chatString[channel].size());i++)
 		{
 			const String tLineBlock = prefixChatLine(processChatString(chatString[channel][i],chatSayer[channel][i],chatType[channel][i],boxWidth,charHeight),chatSayer[channel][i],chatType[channel][i]);
-			vector<String> tCaption = StringUtil::split(tLineBlock,"\n");
+			Ogre::vector<String>::type tCaption = StringUtil::split(tLineBlock,"\n");
 
 			for(int j=0;j<int(tCaption.size());j++)
 			{
@@ -378,7 +378,7 @@ public:
 		//Private message
 		if(StringUtil::startsWith(caption,"/"))
 		{
-			const vector<String> tSplit = StringUtil::split(caption,":",1);
+			const Ogre::vector<String>::type tSplit = StringUtil::split(caption,":",1);
 			if(tSplit.size()>1 && tSplit[0].length()>1)
 			{
 				param = tSplit[0];
@@ -514,9 +514,9 @@ public:
 	{
 		return channel;
 	}
-	const vector<unsigned char> getOtherChannels()
+	const Ogre::vector<unsigned char>::type getOtherChannels()
 	{
-		vector<unsigned char> tChannels;
+		Ogre::vector<unsigned char>::type tChannels;
 		for(int i=0;i<MAX_CHANNELS;i++)
 			if(i!=channel)tChannels.push_back(i);
 		return tChannels;

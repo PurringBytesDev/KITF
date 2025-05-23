@@ -381,7 +381,7 @@ public:
 		else if(tCommand==COMMAND_GOTO)
 		{
 			if(!mDef->isAdmin && !mDef->isMod)return;
-			const vector<String> tPart = StringUtil::split(tParam,":",1);
+			const Ogre::vector<String>::type tPart = StringUtil::split(tParam,":",1);
 			if(tPart.size()<=0)return;
 			const String tMap = tPart[0];
 

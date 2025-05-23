@@ -193,7 +193,7 @@ void MovableTextOverlay::_computeTextSize()
 	//compute text width/height
 	const Font *pFont = mAttrs->getFont();
 
-	std::vector<String> tText = StringUtil::split(mCaption,"\n");
+	Ogre::vector<String>::type tText = StringUtil::split(mCaption,"\n");
 	Real tLongestWidth = 0;
 
 	for(int i=0; i<int(tText.size()); i++)

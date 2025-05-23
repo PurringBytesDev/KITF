@@ -57,8 +57,8 @@ public:
 		ownershipTimer = 2.5;
 
 		const Vector3 tPlayerPosition = mUnitManager->getPlayer()->getPosition();
-		const vector<MagixCritter*> tCritterList = mCritterManager->getMyCritters();
-		vector<MagixCritter*> tAbandonList;
+		const Ogre::vector<MagixCritter*>::type tCritterList = mCritterManager->getMyCritters();
+		Ogre::vector<MagixCritter*>::type tAbandonList;
 		for(int i=0;i<(int)tCritterList.size();i++)
 		{
 			MagixCritter *tC = tCritterList[i];
@@ -67,7 +67,7 @@ public:
 				tAbandonList.push_back(tC);
 			}
 		}
-		const vector<MagixIndexedUnit*> tUnitList = mUnitManager->getUnitList();
+		const Ogre::vector<MagixIndexedUnit*>::type tUnitList = mUnitManager->getUnitList();
 		for(int i=0;i<(int)tAbandonList.size();i++)
 		{
 			MagixCritter *tC = tAbandonList[i];
@@ -94,7 +94,7 @@ public:
 		//Spawn Critters
 		if(spawnTimer<=0 && mCritterManager->getNumCritters()<mWorld->getCritterSpawnLimit())
 		{
-			const vector<WorldCritter> tList = mWorld->getCritterSpawnList();
+			const Ogre::vector<WorldCritter>::type tList = mWorld->getCritterSpawnList();
 			if(tList.size()>0)
 			{
 				unsigned short tID = Math::RangeRandom(0,(int)tList.size());
@@ -136,7 +136,7 @@ public:
 		}
 
 		//Clear dead critters
-		const vector<MagixCritter*> tDList = mCritterManager->popDeadQueue();
+		const Ogre::vector<MagixCritter*>::type tDList = mCritterManager->popDeadQueue();
 		for(int i=0;i<(int)tDList.size();i++)mUnitManager->deleteCritter(tDList[i]->getID());
 
 
@@ -145,7 +145,7 @@ public:
 		if(stationaryCritterTimer<=0)
 		{
 			stationaryCritterTimer = 0.5;
-			const vector<MagixCritter*> tCritterStationaryList = mCritterManager->popStationaryQueue();
+			const Ogre::vector<MagixCritter*>::type tCritterStationaryList = mCritterManager->popStationaryQueue();
 			for(int i=0;i<(int)tCritterStationaryList.size();i++)
 			{
 				MagixCritter *tC = tCritterStationaryList[i];
@@ -159,7 +159,7 @@ public:
 				}
 				if(tSquaredDist<90000 && Math::UnitRandom()<0.002){tC->setDecisionTimer(tC->getDecisionTimer()+1); continue;}
 				//From other units
-				const vector<MagixIndexedUnit*> tUnitList = mUnitManager->getUnitList();
+				const Ogre::vector<MagixIndexedUnit*>::type tUnitList = mUnitManager->getUnitList();
 				for(int j=0;j<(int)tUnitList.size();j++)
 				{
 					MagixIndexedUnit *tUnit = tUnitList[j];
@@ -175,7 +175,7 @@ public:
 		}
 
 		//Update and send critter decisions
-		const vector<MagixCritter*> tCritterDecisionList = mCritterManager->popDecisionQueue();
+		const Ogre::vector<MagixCritter*>::type tCritterDecisionList = mCritterManager->popDecisionQueue();
 		for(int i=0;i<(int)tCritterDecisionList.size();i++)
 		{
 			MagixCritter *tC = tCritterDecisionList[i];
@@ -312,14 +312,14 @@ public:
 		if(!mGameStateManager->isCampaign())
 		{
 			//HitInfo
-			const vector<HitInfo> tCritterHitList = mCritterManager->popHitQueue();
+			const Ogre::vector<HitInfo>::type tCritterHitList = mCritterManager->popHitQueue();
 			for(int i=0;i<(int)tCritterHitList.size();i++)
 			{
 				mNetworkManager->sendCritterHit(tCritterHitList[i].ID,tCritterHitList[i].hp,tCritterHitList[i].force);
 				if(!tCritterHitList[i].isMine)mNetworkManager->sendCritterTakeover(tCritterHitList[i].ID);
 			}
 			//Itemdrop
-			const vector<pair<String,Vector2>> tItemList = mUnitManager->popItemDropQueue();
+			const Ogre::vector<pair<String,Vector2>>::type tItemList = mUnitManager->popItemDropQueue();
 			for(int i=0;i<(int)tItemList.size();i++)
 			{
 				const Vector2 tPos = tItemList[i].second;
@@ -328,7 +328,7 @@ public:
 		}
 
 		//Reward for killed critters
-		const vector<MagixCritter*> tKList = mCritterManager->popKilledQueue();
+		const Ogre::vector<MagixCritter*>::type tKList = mCritterManager->popKilledQueue();
 		for(int i=0;i<(int)tKList.size();i++)
 		{
 			//Disable killed pets (i.e. wounded)
@@ -354,7 +354,7 @@ public:
 		//HitInfo
 		if(!mGameStateManager->isCampaign())
 		{
-			const vector<HitInfo> tUnitHitList = mUnitManager->popHitQueue();
+			const Ogre::vector<HitInfo>::type tUnitHitList = mUnitManager->popHitQueue();
 			for(int i=0;i<(int)tUnitHitList.size();i++)
 			{
 				mNetworkManager->sendPlayerHit(tUnitHitList[i].ID,tUnitHitList[i].hp,tUnitHitList[i].force);

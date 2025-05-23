@@ -9,8 +9,8 @@ struct ScriptedUnit
 	MagixUnit *chaseUnit;
 	Real timer;
 	CampaignEventList eventList;
-	vector<String>nextEvent;
-	vector<vector<String>>eventConditionList;
+	Ogre::vector<String>::type nextEvent;
+	Ogre::vector<Ogre::vector<String>::type>::type eventConditionList;
 	ScriptedUnit()
 	{
 		mUnit = 0;
@@ -42,17 +42,17 @@ protected:
 	Real cinematicTimer;
 	bool randomSpawn;
 	Real randomSpawnTimer;
-	vector<MagixUnit*> mSpawn;
-	vector<ScriptedUnit> mScriptedUnits;
-	vector<String> credits;
+	Ogre::vector<MagixUnit*>::type mSpawn;
+	Ogre::vector<ScriptedUnit>::type mScriptedUnits;
+	Ogre::vector<String>::type credits;
 	Real creditsTimeout;
 	unsigned short creditsCounter;
 	Real gameOverTimeout;
-	vector<Skill> skillsCheckpoint;
+	Ogre::vector<Skill>::type skillsCheckpoint;
 	String campaignFilename;
 	CampaignEventList eventList;
-	vector<String>nextEvent;
-	vector<vector<String>>eventConditionList;
+	Ogre::vector<String>::type nextEvent;
+	Ogre::vector<Ogre::vector<String>::type>::type eventConditionList;
 	bool ignoreGameOver;
 public:
 	MagixCampaignManager()
@@ -146,7 +146,7 @@ public:
 	}
 	void updateScriptedUnits(const FrameEvent &evt)
 	{
-		for(vector<ScriptedUnit>::iterator it=mScriptedUnits.begin();it!=mScriptedUnits.end();it++)
+		for(Ogre::vector<ScriptedUnit>::type::iterator it=mScriptedUnits.begin();it!=mScriptedUnits.end();it++)
 		{
 			ScriptedUnit *sUnit = &*it;
 			if(sUnit->timer>0)sUnit->timer -= evt.timeSinceLastFrame;
@@ -247,7 +247,7 @@ public:
 	}
 	void updateSpawns()
 	{
-		for(vector<MagixUnit*>::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
+		for(Ogre::vector<MagixUnit*>::type::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
 		{
 			MagixUnit *tUnit = *it;
 			
@@ -280,7 +280,7 @@ public:
 	}
 	void killSpawns()
 	{
-		for(vector<MagixUnit*>::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
+		for(Ogre::vector<MagixUnit*>::type::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
 		{
 			MagixUnit *tUnit = *it;
 			tUnit->kill();
@@ -392,18 +392,18 @@ public:
 			}
 			else if(compare(cEvent[i].first,"World_CreateBoxWall"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()==3)mCollisionManager->createBoxWall(parseVector3(tPart[0]),parseVector3(tPart[1]),StringConverter::parseBool(tPart[2]));
 			}
 			else if(compare(cEvent[i].first,"World_CreateSphereWall"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()==3)mCollisionManager->createSphereWall(parseVector3(tPart[0]),StringConverter::parseReal(tPart[1]),StringConverter::parseBool(tPart[2]));
 			}
 			else if(compare(cEvent[i].first,"World_DestroyWall"))mCollisionManager->destroyWall(StringConverter::parseInt(cEvent[i].second));
 			else if(compare(cEvent[i].first,"World_CreatePortal"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=2)
 				{
 					mCollisionManager->createPortal(parseVector3(tPart[0],sUnit),tPart.size()>=3?parseReal(tPart[2]):25,tPart[1]);
@@ -412,7 +412,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"World_CreateGate"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=3)
 				{
 					mCollisionManager->createGate(parseVector3(tPart[0],sUnit),tPart[1],parseVector3(tPart[2],sUnit),tPart.size()>=4?tPart[3]:"GateMatBlack",(tPart.size()>=5?StringConverter::parseBool(tPart[4]):false));
@@ -429,7 +429,7 @@ public:
 			else if(compare(cEvent[i].first,"Sky_WeatherTime"))mSkyManager->setWeatherTime(parseReal(cEvent[i].second));
 			else if(compare(cEvent[i].first,"Unit_Create"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",8);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",8);
 				if(tPart.size()==9)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -449,7 +449,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetColours"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",11);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",11);
 				if(tPart.size()>=10)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -461,7 +461,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetMarkings"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",3);
 				if(tPart.size()>=4)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -470,7 +470,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetScript"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -497,7 +497,7 @@ public:
 				MagixUnit *unit = parseUnit(cEvent[i].second,sUnit);
 				if(unit)
 				{
-					for(vector<ScriptedUnit>::iterator it=mScriptedUnits.begin();it!=mScriptedUnits.end();it++)
+					for(Ogre::vector<ScriptedUnit>::type::iterator it=mScriptedUnits.begin();it!=mScriptedUnits.end();it++)
 					{
 						ScriptedUnit *tUnit = &*it;
 						if(tUnit->mUnit==unit){mScriptedUnits.erase(it); break;}
@@ -506,7 +506,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetMaterial"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -533,7 +533,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetHP"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -542,7 +542,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetHPRatio"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -551,7 +551,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_AddHP"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -567,7 +567,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_PushAttackList"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -586,7 +586,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetAttack"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -605,7 +605,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetEmote"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -614,7 +614,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetPosition"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -623,7 +623,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetScale"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -632,7 +632,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetLookDirection"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -641,7 +641,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetYaw"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -650,7 +650,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetAutoTrackObject"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -659,7 +659,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetTarget"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -668,7 +668,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetIsWalking"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -677,7 +677,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetAntiGravity"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -686,7 +686,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetFreeLook"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -695,7 +695,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetAlliance"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -704,7 +704,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetCustomAnimation"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",5);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",5);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -713,7 +713,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_ClampToTerrain"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>0)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -722,7 +722,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetForce"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -731,7 +731,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_AddForce"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -740,7 +740,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_CreateParticle"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()==3)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -749,7 +749,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_CreateParticleOnBone"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",3);
 				if(tPart.size()==4)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -759,7 +759,7 @@ public:
 			
 			else if(compare(cEvent[i].first,"Unit_EquipItem"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=3)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -768,7 +768,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_UnequipItem"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -777,7 +777,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_DoLipSync"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -791,7 +791,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_SetMaxSpeed"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -800,7 +800,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_DoSit"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=1)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -809,7 +809,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_DoSideLay"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=1)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -818,7 +818,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_DoPrimaryAction"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",3);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -832,7 +832,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Unit_DoSecondaryAction"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",3);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -850,7 +850,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Item_Create"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()==3)
 				{
 					mUnitManager->createItem(StringConverter::parseInt(tPart[0]),tPart[1],parseVector2(tPart[2],sUnit));
@@ -860,12 +860,12 @@ public:
 			else if(compare(cEvent[i].first,"Player_ResetSkills"))mUnitManager->getPlayer()->resetSkills();
 			else if(compare(cEvent[i].first,"Player_AddSkill"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)mUnitManager->getPlayer()->addSkill(tPart[0],StringConverter::parseInt(tPart[1]));
 			}
 			else if(compare(cEvent[i].first,"Sound_PlayOnUnit"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -874,7 +874,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Sound_PlayLoopedOnUnit"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -883,7 +883,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Sound_StopLoopedOnUnit"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=1)
 				{
 					MagixUnit *unit = parseUnit(tPart[0]);
@@ -892,7 +892,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Sound_PlayAmbient"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=1)
 				{
 					mSoundManager->playAmbientSound(tPart[0].c_str(),tPart.size()>=1?parseReal(tPart[1]):1);
@@ -903,18 +903,18 @@ public:
 			else if(compare(cEvent[i].first,"Music_Stop"))mSoundManager->stopMusic(StringConverter::parseBool(cEvent[i].second));
 			else if(compare(cEvent[i].first,"Music_Play"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)mSoundManager->playMusic(tPart[0].c_str(),tPart.size()>=2?StringConverter::parseBool(tPart[1]):true);
 				else mSoundManager->playMusic(cEvent[i].second.c_str());
 			}
 			else if(compare(cEvent[i].first,"Effect_CreateParticle"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",3);
 				if(tPart.size()>=4)mEffectsManager->createParticle(0,tPart[1],parseReal(tPart[3]),false,false,true,parseVector3(tPart[2],sUnit),tPart[0]);
 			}
 			else if(compare(cEvent[i].first,"Effect_SetParticlePosition"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					ParticleSystem *pSys = mEffectsManager->getParticle(tPart[0]);
@@ -923,7 +923,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Effect_SetParticleEmissionRate"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>=2)
 				{
 					ParticleSystem *pSys = mEffectsManager->getParticle(tPart[0]);
@@ -934,13 +934,13 @@ public:
 			else if(compare(cEvent[i].first,"ToggleCinematic"))toggleCinematic(cEvent[i].second==""?false:StringConverter::parseBool(cEvent[i].second));
 			else if(compare(cEvent[i].first,"FadeIn"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>1)mGui->fadeIn(StringConverter::parseReal(tPart[0]),StringConverter::parseColourValue(tPart[1]));
 				else mGui->fadeIn(StringConverter::parseReal(cEvent[i].second));
 			}
 			else if(compare(cEvent[i].first,"FadeOut"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()>1)mGui->fadeOut(StringConverter::parseReal(tPart[0]),StringConverter::parseColourValue(tPart[1]));
 				else mGui->fadeOut(StringConverter::parseReal(cEvent[i].second));
 			}
@@ -958,7 +958,7 @@ public:
 			else if(compare(cEvent[i].first,"Camera_ResetCameraTrack"))mCamera->resetCameraTrack(StringConverter::parseReal(cEvent[i].second));
 			else if(compare(cEvent[i].first,"Camera_AddCameraTrack"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()>=2)
 				{
 					const Real tFrame = StringConverter::parseReal(tPart[0]);
@@ -970,7 +970,7 @@ public:
 			}
 			else if(compare(cEvent[i].first,"Camera_DoCameraTrack"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",2);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",2);
 				if(tPart.size()==3)
 				{
 					MagixUnit *unit = parseUnit(tPart[2]);
@@ -1001,7 +1001,7 @@ public:
 			else if(compare(cEvent[i].first,"ChatBox_SayPlayer"))mGui->getChatManager()->say(mUnitManager,mUnitManager->getPlayer(),cEvent[i].second,CHAT_LOCAL);
 			else if(compare(cEvent[i].first,"ChatBox_SayUnit"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
@@ -1015,7 +1015,7 @@ public:
 			else if(compare(cEvent[i].first,"IgnoreGameOver"))ignoreGameOver = StringConverter::parseBool(cEvent[i].second);
 			else if(compare(cEvent[i].first,"Cinematic_Caption"))
 			{
-				const vector<String> tPart = StringUtil::split(cEvent[i].second,",",1);
+				const Ogre::vector<String>::type tPart = StringUtil::split(cEvent[i].second,",",1);
 				if(tPart.size()==2)mGui->showCinematicCaption(StringConverter::parseReal(tPart[0]),tPart[1]);
 			}
 			else if(compare(cEvent[i].first,"ToggleMotionBlur"))mGui->toggleMotionBlur();
@@ -1026,7 +1026,7 @@ public:
 	}
 	void registerEventConditions(const CampaignEvent &cEvent, ScriptedUnit *sUnit=0)
 	{
-		vector<String> tLine;
+		Ogre::vector<String>::type tLine;
 		for(int i=0;i<(int)cEvent.size();i++)
 		{
 			if(compare(cEvent[i].first,"EventCondition"))tLine.push_back(cEvent[i].second);
@@ -1036,14 +1036,14 @@ public:
 	}
 	void checkEventCondition(ScriptedUnit *sUnit=0)
 	{
-		const vector<vector<String>> tList = sUnit?sUnit->eventConditionList:eventConditionList;
+		const Ogre::vector<Ogre::vector<String>::type>::type tList = sUnit?sUnit->eventConditionList:eventConditionList;
 		unsigned short listID = -1;
 		for(int i=0;i<(int)tList.size();i++)
 		{
 			unsigned short trueConditions = 0;
 			for(int j=0;j<(int)tList[i].size();j++)
 			{
-				const vector<String> tPart = StringUtil::split(tList[i][j],",",3);
+				const Ogre::vector<String>::type tPart = StringUtil::split(tList[i][j],",",3);
 				if(tPart.size()==2)
 				{
 					if(compare(tPart[0],"PROGRESS") && progress==parseProgress(tPart[1]))trueConditions++;
@@ -1138,7 +1138,7 @@ public:
 	const Vector3 parseVector3(const String &data, ScriptedUnit *sUnit=0, bool isVector2=false)
 	{
 		Vector3 tVect = Vector3::ZERO;
-		vector<String> tPart = StringUtil::split(data,"+");
+		Ogre::vector<String>::type tPart = StringUtil::split(data,"+");
 		if(tPart.size()==0)tPart.push_back(data);
 		for(int i=0;i<(int)tPart.size();i++)
 		{

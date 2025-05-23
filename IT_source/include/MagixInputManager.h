@@ -164,7 +164,7 @@ public:
 				const Real tHeight = StringConverter::parseReal(mInputBoxText->getParameter("char_height"));
 				if(tHeight>0)
 				{
-					vector<String> tLine;
+					Ogre::vector<String>::type tLine;
 					tLine.clear();
 					String tCaption = "";
 					for(int i=0;i<(int)caption.length();i++)

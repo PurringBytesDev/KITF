@@ -11,7 +11,7 @@
 #include "MagixUnit.h"
 
 using namespace Ogre;
-
+// this should NOT be here
 struct Skill
 {
 	String name;
@@ -22,6 +22,7 @@ struct Skill
 		stock = skillStock;
 	}
 };
+// this neither
 struct PetFlags
 {
 	bool stay;
@@ -48,9 +49,9 @@ class MagixPlayer : public MagixUnit
 protected:
 	unsigned short controlMode;
 	bool isLockedOn;
-	vector<Skill> skillSlot;
-	vector<Skill> skillChangedList;
-	vector<String> defaultAttackList;
+	Ogre::vector<Skill>::type skillSlot;
+	Ogre::vector<Skill>::type skillChangedList;
+	Ogre::vector<String>::type defaultAttackList;
 	Skill *mCurrentSkill;
 	Skill *mNextSkill;
 	bool autoWalk;
@@ -421,24 +422,26 @@ public:
 	{
 		return isLockedOn;
 	}
+
+	// maybe all of this should be in a separated class
 	void resetSkills()
 	{
 		skillSlot.clear();
 		mCurrentSkill = 0;
 	}
-	void setSkills(const vector<Skill> &skills)
+	void setSkills(const Ogre::vector<Skill>::type &skills)
 	{
 		skillSlot.clear();
 		skillSlot = skills;
 		mCurrentSkill = 0;
 	}
-	const vector<Skill>& getSkills()
+	const Ogre::vector<Skill>::type& getSkills()
 	{
 		return skillSlot;
 	}
 	void addSkill(const String &name, const unsigned short &stock)
 	{
-		for(vector<Skill>::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
+		for(Ogre::vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *skill = &*it;
 			if(skill->name == name)
@@ -460,7 +463,7 @@ public:
 		if(skill->stock==0)
 		{
 			if(mCurrentSkill==skill)setCurrentSkill(0);
-			for(vector<Skill>::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
+			for(Ogre::vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 			{
 				Skill *tSkill = &*it;
 				if(tSkill == skill)
@@ -492,7 +495,7 @@ public:
 			setAttackListToDefault();
 			return;
 		}
-		for(vector<Skill>::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
+		for(Ogre::vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *tSkill = &*it;
 			if(tSkill == skill)
@@ -508,7 +511,7 @@ public:
 	{
 		bool nextOneIsIt = false;
 		Skill *tSkill = 0;
-		for(vector<Skill>::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
+		for(Ogre::vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *skill = &*it;
 			if(nextOneIsIt)
@@ -524,7 +527,7 @@ public:
 	}
 	Skill* getSkill(const String &name)
 	{
-		for(vector<Skill>::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
+		for(Ogre::vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *skill = &*it;
 			if(skill->name == name)
@@ -542,6 +545,9 @@ public:
 	{
 		return (mCurrentSkill!=0);
 	}
+	/// <summary>
+	/// end of skill block of functions
+	/// </summary>
 	void toggleAutoWalk()
 	{
 		autoWalk = !autoWalk;
@@ -603,9 +609,9 @@ public:
 	{
 		return autoAttackOnce;
 	}
-	const vector<Skill> popSkillChangedList()
+	const Ogre::vector<Skill>::type popSkillChangedList()
 	{
-		const vector<Skill> tList = skillChangedList;
+		const Ogre::vector<Skill>::type tList = skillChangedList;
 		skillChangedList.clear();
 		return tList;
 	}

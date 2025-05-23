@@ -88,7 +88,7 @@ public:
 		//compute text width/height
 		const Font *pFont = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(ALERT_FONT).getPointer());
 
-		vector<String> tText = StringUtil::split(caption,"\n");
+		Ogre::vector<String>::type tText = StringUtil::split(caption,"\n");
 		Real tLongestWidth = 0;
 
 		for(int i=0; i<int(tText.size()); i++)

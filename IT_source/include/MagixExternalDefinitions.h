@@ -302,7 +302,7 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		const Ogre::vector<String> tPart = StringUtil::split(tData,"[#",4);
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#",4);
 		if(tPart.size()==4)
 		for(int i=0;i<4;i++)
 		{
@@ -402,11 +402,11 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		Ogre::vector<String> tPart = StringUtil::split(tData,"[#");
+		Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		if(tPart.size()>0)
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			Ogre::vector<String> tLine = StringUtil::split(tPart[i],"\n");
+			Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -700,7 +700,7 @@ public:
 		Ogre::vector<String> tMap = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tMap.size());i++)
 		{
-			Ogre::vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
+			Ogre::vector<String>::type tLine = StringUtil::split(tMap[i],"\n",15);
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -740,7 +740,7 @@ public:
 		tMap = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tMap.size());i++)
 		{
-			Ogre::vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
+			Ogre::vector<String>::type tLine = StringUtil::split(tMap[i],"\n",15);
 			if(tLine.size()>0)
 			{
 				tLine[0].erase(tLine[0].find_first_of("]"));
@@ -1540,10 +1540,10 @@ public:
 		Ogre::vector<String> tMeshname;
 		Ogre::vector<String> tStuff;
 
-		const Ogre::vector<String> tPart = StringUtil::split(tData,"[#");
+		const Ogre::vector<String>::type tPart = StringUtil::split(tData,"[#");
 		for(int i=0;i<int(tPart.size());i++)
 		{
-			const Ogre::vector<String> tLine = StringUtil::split(tPart[i],"\n");
+			const Ogre::vector<String>::type tLine = StringUtil::split(tPart[i],"\n");
 			if(tLine.size()>0)
 			{
 				if(StringUtil::startsWith(tLine[0],"Object",false))

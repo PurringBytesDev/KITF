@@ -86,15 +86,15 @@ protected:
 	bool acceptedFlag;
 	Real updateCount;
 	Real moveUpdateCount;
-	vector<PlayerData> playerList;
+	Ogre::vector<PlayerData>::type playerList;
 	bool playerListUpdated;
 	String targetBioUpdated;
 	NetworkMessage networkMessage;
 	bool isMainServerConnection;
 	unsigned short countsIntoGame;
-	vector<pair<unsigned char,SystemAddress>> serverAdd;
+	Ogre::vector<pair<unsigned char,SystemAddress>>::type serverAdd;
 	bool sentPlayerUpdate;
-	vector<pair<OwnerToken,PositionInfo>> playerPositionQueue;
+	Ogre::vector<pair<OwnerToken,PositionInfo>>::type playerPositionQueue;
 	pair<Vector3,Real> lastMovePosition;
 	Degree lastFaceDirection;
 	pair<bool,Quaternion> lastLookQuaternion;
@@ -329,7 +329,7 @@ public:
 				{
 					//Remove disconnected server from server list
 					unsigned char tServerID = MAX_SERVERS;
-					for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+					for(Ogre::vector<pair<unsigned char,SystemAddress>>::type::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 					{
 						const pair<unsigned char,SystemAddress> tServer = *it;
 						if(tServer.second==packet->systemAddress)
@@ -361,7 +361,7 @@ public:
 				{
 					//Remove disconnected server from server list
 					unsigned char tServerID = MAX_SERVERS;
-					for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+					for(Ogre::vector<pair<unsigned char,SystemAddress>>::type::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 					{
 						const pair<unsigned char,SystemAddress> tServer = *it;
 						if(tServer.second==packet->systemAddress)
@@ -459,17 +459,17 @@ public:
 		else
 			return (unsigned char) p->data[0];
 	}
-	const vector<String> getPlayersOnline()
+	const Ogre::vector<String>::type getPlayersOnline()
 	{
-		vector<String> tList;
-		vector<String> tMapList;
-		vector<unsigned short> tCountList;
+		Ogre::vector<String>::type tList;
+		Ogre::vector<String>::type tMapList;
+		Ogre::vector<unsigned short>::type tCountList;
 		tList.clear();
 		tMapList.clear();
 		tCountList.clear();
 
 		//Count players in each map
-		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(Ogre::vector<PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			bool tHasMap = false;
@@ -506,7 +506,7 @@ public:
 	bool isPlayerOnline(String name)
 	{
 		StringUtil::toLowerCase(name);
-		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(Ogre::vector<PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			String tName = tData->name;
@@ -518,7 +518,7 @@ public:
 	const String getPlayerMap(String name)
 	{
 		StringUtil::toLowerCase(name);
-		for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+		for(Ogre::vector<PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 		{
 			const PlayerData *tData = &*it;
 			String tName = tData->name;
@@ -670,9 +670,9 @@ public:
 		stringCompressor->DecodeString(tMeshString2,32,&tBitStream);
 		tBitStream.Read(tDefaultScale);
 
-		const vector<String> tParam = StringUtil::split(String(tMeshString),";",5);
+		const Ogre::vector<String>::type tParam = StringUtil::split(String(tMeshString), ";", 5);
 		if(tParam.size()!=5)tBadData = true;
-		const vector<String> tParam2 = StringUtil::split(String(tMeshString2),";",1);
+		const Ogre::vector<String>::type tParam2 = StringUtil::split(String(tMeshString2),";",1);
 		if(tParam2.size()!=1)tBadData = true;
 
 		//Unit already exists, don't create
@@ -742,7 +742,7 @@ public:
 		if(tBadData)mChatManager->message("Error notice:" + tAddName + "has sent erroneous data.");
 
 		//Process early position packets
-		for(vector<pair<OwnerToken,PositionInfo>>::iterator it=playerPositionQueue.begin();it!=playerPositionQueue.end();it++)
+		for(Ogre::vector<pair<OwnerToken,PositionInfo>>::type::iterator it=playerPositionQueue.begin();it!=playerPositionQueue.end();it++)
 		{
 			const pair<OwnerToken,PositionInfo> tPos = *it;
 			if(tPos.first==tToken)
@@ -1481,7 +1481,7 @@ public:
 			char tMapName[32];
 			stringCompressor->DecodeString(tMapName,32,&tBitStream);
 
-			for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+			for(Ogre::vector<PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 			{
 				PlayerData *tData = &*it;
 				if(tData->name == tName)
@@ -1495,7 +1495,7 @@ public:
 		}
 		else
 		{
-			for(vector<PlayerData>::iterator it=playerList.begin(); it!=playerList.end(); it++)
+			for(Ogre::vector<PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 			{
 				PlayerData *tData = &*it;
 				if(tData->name == tName)
@@ -1694,7 +1694,7 @@ public:
 			{
 				char tHP[16];
 				stringCompressor->DecodeString(tHP,16,&tBitStream);
-				const vector<String> tPart = StringUtil::split(tHP,";\n");
+				const Ogre::vector<String>::type tPart = StringUtil::split(tHP,";\n");
 				const unsigned short tMaxHP = StringConverter::parseInt(tPart[1]);
 				if(tPart.size()>1)mUnitManager->getPlayer()->setHP(tMaxHP==0?500:tMaxHP,0);
 				if(tPart.size()>0)mUnitManager->getPlayer()->addHP(StringConverter::parseInt(tPart[0]));
@@ -1708,10 +1708,10 @@ public:
 			{
 				char tSkills[512];
 				stringCompressor->DecodeString(tSkills,512,&tBitStream);
-				const vector<String> tLine = StringUtil::split(tSkills,"|\n");
+				const Ogre::vector<String>::type tLine = StringUtil::split(tSkills,"|\n");
 				for(int i=0;i<(int)tLine.size();i++)
 				{
-					const vector<String> tPart = StringUtil::split(tLine[i],";");
+					const Ogre::vector<String>::type tPart = StringUtil::split(tLine[i],";");
 					if(tPart.size()==2)
 					{
 						mUnitManager->getPlayer()->addSkill(tPart[0],StringConverter::parseInt(tPart[1]));
@@ -1886,7 +1886,7 @@ public:
 	}
 	void sendAllItems(const OwnerToken &token)
 	{
-		const vector<MagixItem*> tList = mItemManager->getItemList();
+		const Ogre::vector<MagixItem*>::type tList = mItemManager->getItemList();
 		for(int i=0;i<(int)tList.size();i++)
 		{
 			MagixItem *tItem = tList[i];
@@ -2231,7 +2231,7 @@ public:
 		tBitStream.Write(MessageID(ID_INFO));
 		tBitStream.Write(unsigned char(INFO_PARTYACCEPTED));
 		tBitStream.Write(target);
-		const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+		const Ogre::vector<pair<OwnerToken,String>>::type tParty = mUnitManager->getPartyMembers();
 		for(int i=0;i<(int)tParty.size();i++)
 		{
 			tBitStream.Write(true);
@@ -2258,7 +2258,7 @@ public:
 	}
 	void sendPartyLeave()
 	{
-		const vector<pair<OwnerToken,String>> tParty = mUnitManager->getPartyMembers();
+		const Ogre::vector<pair<OwnerToken,String>>::type tParty = mUnitManager->getPartyMembers();
 		for(int i=0;i<(int)tParty.size();i++)sendInfo(INFO_PARTYLEAVE,tParty[i].first);
 		mUnitManager->clearPartyMembers();
 		mChatManager->message("You have left the party.");
@@ -2407,7 +2407,7 @@ public:
 	}
 	void disownCritters(const OwnerToken &target)
 	{
-		const vector<MagixCritter*> tList = mCritterManager->getCritterList();
+		const Ogre::vector<MagixCritter*>::type tList = mCritterManager->getCritterList();
 		const Vector3 tPlayerPos = mUnitManager->getPlayer()->getPosition();
 		for(int i=0;i<(int)tList.size();i++)
 		{
@@ -2812,7 +2812,7 @@ public:
 	}
 	void sendMyCritters(const OwnerToken &target)
 	{
-		const vector<MagixCritter*> tList = mCritterManager->getMyCritters();
+		const Ogre::vector<MagixCritter*>::type tList = mCritterManager->getMyCritters();
 		MagixCritter *tPet = 0;
 		for(int i=0;i<(int)tList.size();i++)
 		{
@@ -3283,7 +3283,7 @@ public:
 		}
 		else
 		{
-			for(vector<pair<unsigned char,SystemAddress>>::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
+			for(Ogre::vector<pair<unsigned char,SystemAddress>>::type::iterator it=serverAdd.begin();it!=serverAdd.end();it++)
 			{
 				const pair<unsigned char,SystemAddress> tServer = *it;
 				if(tServer.second==tAdd)

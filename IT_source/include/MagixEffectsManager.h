@@ -247,7 +247,7 @@ public:
 	{
 		if(mParticle[tID]/* && mSceneMgr->hasParticleSystem("FXParticle"+StringConverter::toString(tID))*/)
 		{
-			mParticle[tID]->detatchFromParent();
+			mParticle[tID]->detachFromParent();
 			mSceneMgr->destroyParticleSystem(mParticle[tID]);
 			mParticle[tID] = 0;
 			if(particleHasOwnNode[tID])mSceneMgr->destroySceneNode(mParticleNode[tID]);
