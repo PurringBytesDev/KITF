@@ -26,7 +26,8 @@ Description: Base class for all the OGRE examples
 #include "MagixHandler.h"
 #include "MagixFrameListener.h"
 #include "MagixLoadingBar.h"
-
+// protected zips from "https://wiki.ogre3d.org/Obfuscated Zip I/O"
+#include "ObfuscatedZip.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #include <CoreFoundation/CoreFoundation.h>
@@ -79,16 +80,22 @@ public:
 		mResourcePath = "";
 #endif
     }
-    /// Standard destructor
+    /// Game destructor, to be renamed.
     virtual ~MagixApplication()
     {
 		if (mFrameListener)
             delete mFrameListener;
 		if (mRoot)
 			delete mRoot;
+
+        // no new school one liners, add bracing whenever.
+        if (mObfuscatedZipFactory)
+        {
+            delete mObfuscatedZipFactory;
+        }
     }
 
-    /// Start the example
+    /// Start the game
     virtual void go(void)
     {
         if (!setup())
@@ -109,6 +116,11 @@ protected:
 	Ogre::String mResourcePath;
 	MagixHandler *mMagixHandler;
 	MagixLoadingBar* mLoadingBar;
+
+    /// <summary>
+    ///  we declare our own namespaces now.
+    /// </summary>
+    ObfuscatedZip::ObfuscatedZipFactory* mObfuscatedZipFactory;
 
     // These internal methods package up the stages in the startup process
     /** Sets up the application - returns false if the user chooses to abandon configuration. */
@@ -215,6 +227,9 @@ protected:
     /// Method which will define the source of resources (other than current folder)
     virtual void setupResources(void)
     {
+        // initiate the protected zip factory
+        mObfuscatedZipFactory = new ObfuscatedZip::ObfuscatedZipFactory();
+        ArchiveManager::getSingleton().addArchiveFactory(mObfuscatedZipFactory);
         // Load resource paths from config file
         ConfigFile cf;
         cf.load(mResourcePath + "resources.cfg");

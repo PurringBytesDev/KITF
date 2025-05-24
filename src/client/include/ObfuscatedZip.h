@@ -13,7 +13,7 @@
 typedef struct zzip_dir ZZIP_DIR;
 typedef struct zzip_file ZZIP_FILE;
 
-namespace MyNameSpace
+namespace ObfuscatedZip
 {
     /** Specialisation of the Archive class to allow reading of files from an
         obfuscated zip format source archive.

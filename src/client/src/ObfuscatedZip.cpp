@@ -8,7 +8,7 @@
 #include <zzip/plugin.h>
 
 
-namespace MyNameSpace
+namespace ObfuscatedZip
 {
     // Change this magic number to a value of your choosing.
     static const int xor_value = 0x10;
