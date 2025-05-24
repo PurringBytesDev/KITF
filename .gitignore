@@ -399,6 +399,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/IT_source/build
-/IT_source/kitomedia
-/IT_source/media
+/output
+/build

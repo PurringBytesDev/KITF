@@ -519,6 +519,7 @@ public:
 			}
 
 			// We got a packet, get the identifier with our handy function
+			// for debug, do the printf ?
 			const unsigned char packetIdentifier = GetPacketIdentifier(p);
 			//printf("Packet: %u\n", packetIdentifier);
 
@@ -541,6 +542,8 @@ public:
 			PacketPriority tPacketPriority = NUMBER_OF_PRIORITIES;
 			PacketReliability tPacketReliability = NUMBER_OF_RELIABILITIES;
 			char tOrderingChannel = 9;
+
+			// this should be in a separate cpp class with a function to return, definitively splitting that.
 			// Check if this is a network message packet
 			switch (packetIdentifier)
 			{
@@ -1704,10 +1707,19 @@ public:
                                                 bool tIsHit = false;
 
 						tReceiveBit.Read(tMessage);
+						
+						// redo the healing fix but NOT exactly how kito did.
+						BitSize_t healNeeded;
 						if(tReadSenderToken)
 						{ //printf("RTok\n");
 
 							tReceiveBit.Read(tSender);
+
+							// we have a read in the if & also in else case
+							// the tReceiveBit data gets applied in tIsHit 
+							// where we assign the value of the tReceiveBit.GetReadOffset();
+							healNeeded = tReceiveBit.GetReadOffset();
+
 							if(tSender<=0 || tSender>MAX_CLIENTS)break;
 							tMapName = clientMap[tSender-1];
 							tDimension = clientDimension[tSender-1];
@@ -1716,6 +1728,8 @@ public:
 						}
 						else 
 						{
+							// same here, before it is read
+							healNeeded = tReceiveBit.GetReadOffset();
 							getOwnerToken(p,tMapName,tDimension);
 							tReceiveBit.Read(tSender);
                                                         tReceiveBit.Read(tIsUpdate);
@@ -1737,6 +1751,8 @@ public:
 								stringCompressor->EncodeString(tCaption.c_str(),512,&wBitStream);
 								sendMyPlayers(server,&wBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 							}
+							// we apply now
+							tReceiveBit.SetReadOffset(healNeeded);
 						}
                                                 //Complete packet relay
                                                 RakNet::BitStream tBitStream;
