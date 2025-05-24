@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\client\include\movabletextoverlay.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client\src\ogremagix.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client\include\SoundManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client\src\ObfuscatedZip.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config\GameConfig.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixAlertBox.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixApplication.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixCamera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixCampaignManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixCharScreenManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixChatManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixCollisionManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixCritterManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixEffectsManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixExternalDefinitions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixFrameListener.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixGameStateManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixGUI.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixHandler.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixInputManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixItemManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixLoadingBar.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixMiniMap.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixNetworkDefines.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixNetworkManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixObject.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixOwnershipManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixPlayer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixSkyManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixSoundManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixUnit.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixUnitManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\MagixWorld.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\ogremagix.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\res\Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\SoundManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\ObfuscatedZip.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\client\res\ogremagix.ico">
+      <Filter>Res</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{a6c66257-734f-4aed-b4a1-9f5ab923f99c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Res">
+      <UniqueIdentifier>{f96e3bd0-8fc9-468a-996f-dd579c00b56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{53ae5462-1469-4ed2-bb1d-60d18ec0849f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\client\res\ogremagix.rc">
+      <Filter>Res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
