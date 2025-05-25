@@ -15,9 +15,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config\GameConfig.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\client\include\MagixAlertBox.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -113,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="src\client\include\ObfuscatedZip.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="config\GameConfig.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
