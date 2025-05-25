@@ -1479,7 +1479,9 @@ public:
 		{
 			if(mUnitManager->getPlayer()->getIsWounded())
 			{
-				mUnitManager->getPlayer()->doCrouch(true);
+				//mUnitManager->getPlayer()->doCrouch(true);
+				// for some reason doing a faint instead of a crouch fix the issue ? why ?
+				mUnitManager->getPlayer()->doFaint();
 				mUnitManager->getPlayer()->cancelAction(7,"Faint");
 				mUnitManager->getPlayer()->setFreeLook(false);
 				mUnitManager->getPlayer()->setAutoAttack(0);
