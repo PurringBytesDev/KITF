@@ -130,6 +130,9 @@
     <Filter Include="Sources">
       <UniqueIdentifier>{53ae5462-1469-4ed2-bb1d-60d18ec0849f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{293bbbd1-a676-4355-9d8f-f523e7267c43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\client\res\ogremagix.rc">

@@ -44,6 +44,11 @@ namespace ObfuscatedZip
         /// @copydoc Archive::open
         Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly = true) /*const*/;
 
+        // missing for protected zips
+        Ogre::DataStreamPtr create(const Ogre::String& filename) const;
+
+        void remove(const Ogre::String& filename);
+
         /// @copydoc Archive::list
         Ogre::StringVectorPtr list(bool recursive = true, bool dirs = false);
 
@@ -95,6 +100,10 @@ namespace ObfuscatedZip
         ~ObfuscatedZipDataStream();
         /// @copydoc DataStream::read
         size_t read(void* buf, size_t count);
+
+        // missing
+        size_t write(void* buff, size_t count);
+
         /// @copydoc DataStream::skip
         void skip(long count);
         /// @copydoc DataStream::seek
