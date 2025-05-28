@@ -119,7 +119,7 @@ xcopy  "$(SolutionDir)static\server\*" "$(SolutionDir)build\server\" /e /i /h /q
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\RakNet-3.25\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\RakNet-3.25\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>RakNetLibStatic.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

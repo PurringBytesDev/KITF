@@ -117,7 +117,7 @@
       <AdditionalDependencies>fmodex_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;ws2_32.lib;zlib.lib;zziplib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -183,10 +183,10 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodex_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;ws2_32.lib;zlib.lib;zziplib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmodex64_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;ws2_32.lib;zlib.lib;zziplib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\x64;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
