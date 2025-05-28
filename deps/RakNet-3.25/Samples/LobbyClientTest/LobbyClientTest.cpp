@@ -1,6 +1,8 @@
+// NEEDS FGETS FIX fgets(strvar, sizeof(strvar), stdin) is the template to follow
 #include "RakPeerInterface.h"
 #include "RakNetworkFactory.h"
 #include "BitStream.h"
+#include <iostream>
 #include "RakSleep.h"
 #include <stdlib.h> // For atoi
 #include <cstring> // For strlen
@@ -24,6 +26,7 @@
 bool quit;
 
 using namespace RakNet;
+using namespace std;
 
 void PrintDownloadClansResult( LobbyDBSpec::GetClans_Data *callResult );
 
@@ -178,13 +181,13 @@ int main(void)
 	unsigned short port;
 	char str[512];
 	printf("Enter port of lobby server: ");
-	gets(str);
+	fgets(str, sizeof(str), stdin);
 	if (str[0]!=0)
 		port = atoi(str);
 	else
 		port=60000; // Arbitrary, Hardcoded into LobbyServerTest.cpp
 	printf("Enter IP address of lobby server: ");
-	gets(str);
+	fgets(str, sizeof(str), stdin);
 	if (str[0]==0)
 		strcpy(str, "127.0.0.1"); // Loopback
 	SocketDescriptor sd(0,0); // Autochoose local port
@@ -295,13 +298,13 @@ int main(void)
 						char titlePw[512];
 						printf("Set title ID.\n");
 						printf("Enter title name (string): ");
-						gets(titleIdStr);
+						fgets(str, sizeof(titleIdStr), stdin);
 						if (titleIdStr[0]==0) strcpy(titleIdStr, "Hangman EXTREME!");
 
 						// For games in which users can host their own servers, the password is not secret so is just an identifier for the game.
 						// For games where users cannot host their own servers, the password should be kept secure so that ranking can be uploaded accurately.
 						printf("Enter title identifier / password.\nThis should have been setup on the database beforehand.\nSee the LobbyServerTest sample.\n(binary, entered here as string): ");
-						gets(titlePw);
+						fgets(titlePw, sizeof(titlePw), stdin);
 						if (titlePw[0]==0) strcpy(titlePw, "SECRET_PER_GAME_LOGIN_PW_PREVIOUSLY_SETUP_ON_THE_DB");
 						int titleLoginPwLength = (int) strlen(titlePw);
 						lobbyClient.SetTitleLoginId(titleIdStr,titlePw,titleLoginPwLength);
@@ -317,24 +320,24 @@ int main(void)
 
 						// These two fields are mandatory
 						printf("Enter what handle you want to use: ");
-						gets(str);
+						fgets(str, sizeof(str), stdin);
 						if (str[0]==0) strcpy(str, "Rak'kar the great");
 						accountData.handle=str;
 						printf("Enter your password: ");
-						gets(str);
+						fgets(str, sizeof(str), stdin);
 						if (str[0]==0) strcpy(str, "fakePW");
 						accountData.password=str;
 						// These two are optional, as are all the rest
 						printf("Enter your password recovery question: ");
-						gets(str);
+						fgets(str, sizeof(str), stdin);
 						if (str[0]==0) strcpy(str, "2+2=?");
 						accountData.passwordRecoveryQuestion=str;
 						printf("Enter your password recovery answer: ");
-						gets(str);
+						fgets(str, sizeof(str), stdin);
 						if (str[0]==0) strcpy(str, "4");
 						accountData.passwordRecoveryAnswer=str;
 						printf("Enter your email address: ");
-						gets(str);
+						fgets(str, sizeof(str), stdin);
 						if (str[0]==0) strcpy(str, "johndoe@fakeEmailAddress.com");
 						accountData.emailAddress=str;
 
@@ -422,12 +425,12 @@ int main(void)
 
 					char str[512];
 					printf("Enter your CCV: ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					if (str[0]==0) strcpy(str, "12345");
 					userData.input.creditCardCVV = str; // Should fail if defaultAllowUpdateCCInfo==false, or if the title wans't yet set
 
 					printf("Enter your account number: ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					if (str[0]==0) strcpy(str, "98765");
 					userData.input.accountNumber = atoi(str); // Should fail if defaultAllowUpdateAccountNumber==false, or if the title wans't yet set
 
@@ -440,7 +443,7 @@ int main(void)
 					printf("Changing handle.\n");
 					char str[512];
 					printf("Enter handle (string): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					if (str[0]==0) strcpy(str, "My new handle");
 
 					lobbyClient.ChangeHandle(str);
@@ -460,7 +463,7 @@ int main(void)
 					char str[512];
 					char friendHandle[512];
 					printf("Enter invitation text: ");
-					gets(str); // Can be blank
+					fgets(str, sizeof(str), stdin); // Can be blank
 					printf("Enter friend handle: ");
 					gets(friendHandle);
 					if (friendHandle[0]==0) strcpy(friendHandle, "Rak'kar the great");
@@ -474,7 +477,7 @@ int main(void)
 					char str[512];
 					char friendIdStr[512];
 					printf("Enter acceptance text: ");
-					gets(str); // Can be blank
+					fgets(str, sizeof(str), stdin); // Can be blank
 					printf("Enter friend id (integer): ");
 					gets(friendIdStr);
 					if (friendIdStr[0]==0) strcpy(friendIdStr, "1");
@@ -492,7 +495,7 @@ int main(void)
 					char str[512];
 					char friendIdStr[512];
 					printf("Enter declination text: ");
-					gets(str); // Can be blank
+					fgets(str, sizeof(str), stdin); // Can be blank
 					printf("Enter friend id (integer): ");
 					gets(friendIdStr);
 					if (friendIdStr[0]==0) strcpy(friendIdStr, "1");
@@ -583,10 +586,10 @@ int main(void)
 					char str[256];
 					printf("Downloading emails.\n");
 					printf("Download from (I)nbox or (S)ent emails?: ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					bool inbox=(str[0]=='i');
 					printf("Sort by date (A)scending or (D)escending?: ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					bool ascendingSort=(str[0]=='a');
 
 					lobbyClient.DownloadEmails(ascendingSort, inbox, 0);
@@ -664,7 +667,7 @@ int main(void)
 					char str[512];
 					EmailId emailId;
 					printf("Enter email id (integer): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					emailId = atoi(str);						
 					lobbyClient.DeleteEmail(&emailId);
 
@@ -677,15 +680,15 @@ int main(void)
 					char str[512];
 					EmailId emailId;
 					printf("Enter email id (integer): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					emailId = atoi(str);
 					int newStatus;
 					printf("Enter status (integer): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					newStatus = atoi(str);
 					bool wasOpened;
 					printf("Mark the email as opened? (y/n): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					if (str[0]=='y')
 						wasOpened=true;
 					else
@@ -772,21 +775,21 @@ int main(void)
 					gets(roomPassword);
 					char str[256];
 					printf("Invite only? (y/n): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					roomIsHidden=(str[0]=='y');
 					printf("Number of public slots: ");
-					gets(str); if (str[0]==0) strcpy(str, "10");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str, "10");
 					publicSlots=atoi(str);
 					printf("Number of private slots: ");
-					gets(str); if (str[0]==0) strcpy(str, "5");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str, "5");
 					privateSlots=atoi(str);
 					printf("Allow spectators? (y/n): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					allowSpectators=(str[0]!='n');
 
 					// Just entering one column as a sample, but it can have any number of columns of string, binary, or numerical
 					printf("Enter name of custom property column: ");
-					gets(str); if (str[0]==0) strcpy(str, "My custom column");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str, "My custom column");
 					printf("Enter property value: ");
 					gets(columnValue); if (columnValue[0]==0) strcpy(columnValue, "My custom value");
 					customPropertiesTable.AddColumn(str, DataStructures::Table::STRING); // Note there is binary and numeric as well.
@@ -880,10 +883,10 @@ int main(void)
 					bool joinAsSpectator;
 					char str[256];
 					printf("Enter room id (integer): ");
-					gets(str); if (str[0]==0) strcpy(str,"0");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"0");
 					roomId=atoi(str);
 					printf("Enter as spectator? (y/n): ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					joinAsSpectator=(str[0]=='y');
 
 					lobbyClient.JoinRoom(&roomId, "", 0, joinAsSpectator);
@@ -894,7 +897,7 @@ int main(void)
 				{
 					printf("Enter chat message: \n");
 					char str[4096];
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					lobbyClient.RoomChat(str,0,0,0);
 					break;
 				}
@@ -906,7 +909,7 @@ int main(void)
 					gets(userName); if (userName[0]==0) strcpy(str,"Rak'kar the great");
 					printf("Enter room invite message\n");
 					char str[4096];
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					lobbyClient.InviteToRoom(userName,0, str,0,0,0,true);
 					break;
 				}
@@ -917,7 +920,7 @@ int main(void)
 					bool isReady;
 					char str[512];
 					printf("Ready to play? (y/n)\n");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					isReady = (str[0]=='y');
 					lobbyClient.SetReadyToPlayStatus(isReady);
 					break;
@@ -928,7 +931,7 @@ int main(void)
 					printf("Kick room member\n");
 
 					printf("Enter memberId to kick: ");
-					gets(str); if (str[0]==0) strcpy(str,"1");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"1");
 					LobbyClientUserId id;
 					id = atoi(str);
 					lobbyClient.KickRoomMember(&id);
@@ -941,7 +944,7 @@ int main(void)
 					printf("Set room invite only\n");
 					char str[512];
 					printf("Invite only? (y/n)\n");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					bool b = (str[0]=='y');
 					lobbyClient.SetRoomIsHidden(b);
 
@@ -953,7 +956,7 @@ int main(void)
 					printf("Set room allow spectators\n");
 					char str[512];
 					printf("Allow (new) spectators? (y/n)\n");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					bool b = (str[0]=='y');
 					lobbyClient.SetRoomAllowSpectators(b);
 
@@ -965,11 +968,11 @@ int main(void)
 					printf("Change room slot counts\n");
 
 					printf("Enter number of public slots: ");
-					gets(str); if (str[0]==0) strcpy(str,"1");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"1");
 					int publicSlots = atoi(str);
 
 					printf("Enter number of reserved slots: ");
-					gets(str); if (str[0]==0) strcpy(str,"1");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"1");
 					int reservedSlots = atoi(str);
 
 					lobbyClient.ChangeNumSlots(publicSlots, reservedSlots);
@@ -981,7 +984,7 @@ int main(void)
 				{
 					printf("Grant moderator\n");
 					printf("Enter moderator id: ");
-					gets(str); if (str[0]==0) strcpy(str,"1");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"1");
 					LobbyClientUserId id;
 					id = atoi(str);
 					lobbyClient.GrantModerator(&id);
@@ -1001,10 +1004,10 @@ int main(void)
 				{
 					printf("Quick match\n");
 					printf("Enter required players: \n");
-					gets(str); if (str[0]==0) strcpy(str,"2");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"2");
 					int requiredPlayers = atoi(str);
 					printf("Enter timeout in seconds: \n");
-					gets(str); if (str[0]==0) strcpy(str,"30");
+					fgets(str, sizeof(str), stdin); if (str[0]==0) strcpy(str,"30");
 					int timeout = atoi(str);
 					lobbyClient.QuickMatch(requiredPlayers,timeout);
 
@@ -1050,7 +1053,7 @@ int main(void)
 				{
 					printf("Download action history\n");
 					printf("Sort by date (A)scending or (D)escending?: ");
-					gets(str);
+					fgets(str, sizeof(str), stdin);
 					bool ascendingSort=(str[0]=='a');
 					lobbyClient.DownloadActionHistory(ascendingSort);
 					break;
@@ -1438,7 +1441,7 @@ int main(void)
 				{
 					printf("Download clan member\n");
 					ClanId clanId=1;
-					gets(inputStr);
+					fgets(inputStr, sizeof(inputStr), stdin);
 					if (inputStr[0]==0) strcpy(inputStr, "Dogbert");
 					lobbyClient.DownloadClanMember(0,&clanId,inputStr,0);
 					break;

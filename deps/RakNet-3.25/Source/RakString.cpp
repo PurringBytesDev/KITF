@@ -714,6 +714,6 @@ int main(void)
 	}
 
 	char str[128];
-	gets(str);
+	fgets(str, sizeof(str), stdin);
 	return 1;
 	*/
