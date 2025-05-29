@@ -130,7 +130,7 @@ bool SoundManager::Initialize(void)
    }
 
    system->set3DSettings(DOPPLER_SCALE, DISTANCE_FACTOR, ROLLOFF_SCALE);
-   result = system->setFileSystem(&fmodFileOpenCallback, &fmodFileCloseCallback, &fmodFileReadCallback, &fmodFileSeekCallback, 2048);
+   result = system->setFileSystem(&fmodFileOpenCallback, &fmodFileCloseCallback, &fmodFileReadCallback, &fmodFileSeekCallback, 0, 0, 2048);
    if (result != FMOD_OK)
    {
 		Ogre::LogManager::getSingleton().logMessage("FMOD error! (" + StringConverter::toString(result) + "): " + FMOD_ErrorString(result));
