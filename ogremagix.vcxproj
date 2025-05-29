@@ -102,7 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.08.08\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\zziplib-0.13.57;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.44.64\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\zziplib-0.13.57;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -121,7 +121,7 @@
       <AdditionalDependencies>fmodex_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;ws2_32.lib;zlib.lib;zziplib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.44.64\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -159,8 +159,8 @@ echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_Direc
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 </Command>
@@ -172,7 +172,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.08.08\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\zziplib-0.13.57;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.44.64\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\zziplib-0.13.57;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -191,7 +191,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <AdditionalDependencies>fmodex64_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;ws2_32.lib;zlib.lib;zziplib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\x64;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.44.64\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release;$(SolutionDir)deps\OgreSDK_1.7-64\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib\x64;$(SolutionDir)deps\ogre-paged-1.1.4\lib\$(Configuration);$(SolutionDir)deps\zziplib-0.13.57\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -228,8 +228,8 @@ echo copy "$(SolutionDir)deps\OgreSDK_1.7-64\bin\release\RenderSystem_Direct3D9.
 copy "$(SolutionDir)deps\OgreSDK_1.7-64\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\OgreSDK_1.7-64\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\OgreSDK_1.7-64\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 </Command>
@@ -241,7 +241,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.08.08\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.44.64\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -260,7 +260,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <AdditionalDependencies>fmodex_vc.lib;OIS_d.lib;RakNetLibStaticDebug.lib;PagedGeometry.lib;OgreMain_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.44.64\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -298,8 +298,8 @@ echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     </PostBuildEvent>
@@ -310,7 +310,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.08.08\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmodex-4.44.64\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_1.7-64\include\OGRE;$(SolutionDir)deps\OgreSDK_1.7-64\include\OIS;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -328,7 +328,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
       <AdditionalDependencies>fmodex_vc.lib;OIS_d.lib;RakNetLibStaticDebug.lib;PagedGeometry.lib;OgreMain_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.08.08\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.44.64\lib;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug;$(SolutionDir)deps\OgreSDK_1.7-64\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -365,8 +365,8 @@ echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\fmodex-4.08.08\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\fmodex-4.44.64\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     </PostBuildEvent>
