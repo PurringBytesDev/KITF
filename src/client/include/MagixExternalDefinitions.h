@@ -624,7 +624,114 @@ public:
 		}
 		return true;
 	}
+	
+	///
+	/// ROT 13 replacement
+	/// 
+	
+	// this take input and throws out a rot13 key, only chars in A-Z and a-z are parsed the rest stays normal
+	const String ROT13(const std::string& input)
+	{
+		String output = "";
 
+		String key = ROTKEY;
+		int keysize = key.size();
+		
+		// this should happen like never.		
+		//if (keyLen == 0) return input; // no key means no change
+		for (size_t i = 0; i < input.size(); ++i) {
+			char tC = input[i];
+
+			// Get key char at position modulo key length
+			char keyChar = ROTKEY[i % keysize];
+
+			// Compute shift amount as 0-based letter index if letter, else zero
+			int shift = 0;
+			if ((keyChar >= 'a' && keyChar <= 'z')) shift = keyChar - 'a';
+			else if ((keyChar >= 'A' && keyChar <= 'Z')) shift = keyChar - 'A';
+
+			// Apply shift only to letters
+			if (tC >= 'a' && tC <= 'z') {
+				tC = 'a' + (tC - 'a' + shift) % 26;
+			}
+			else if (tC >= 'A' && tC <= 'Z') {
+				tC = 'A' + (tC - 'A' + shift) % 26;
+			}
+			// else keep tC unchanged for non-letters
+
+			// Keep printable range only (32..126), else revert to original input char
+			if (tC < 32 || tC > 126) {
+				tC = input[i];
+			}
+
+			output += tC;
+		}
+
+		return output;
+	}
+	// this generate but do not decipher, for deciphering, have a tool external to game
+	// warning : you are responsible for your cfg backups, do not distribute them.
+	bool ROT13CipherGen(const String& inputIO, const std::string& outputIO) {
+		std::ifstream inFile(inputIO.c_str());
+
+		// input file not found or can't be opened, this need logging
+		if (!inFile.is_open()) {
+			return false; 
+		}
+
+		std::vector<String> buffer;
+		std::string line;
+
+		// Read input file line by line
+		while (std::getline(inFile, line)) {
+			buffer.push_back(ROT13(line));
+		}
+		inFile.close();
+
+		// Write ciphered lines to output file
+		std::ofstream outFile(outputIO);
+		if (!outFile.is_open()) {
+			return false; // output file can't be opened for writing
+		}
+
+		for (const auto& cipheredLine : buffer) {
+			outFile << cipheredLine << "\n";
+		}
+		outFile.close();
+
+		return true; // success
+	}
+	// this is similar to how XORInternal works
+	vector<String>::type ROT13Decipher(const String& inFile)
+	{
+		vector<String>::type buffer;
+
+		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
+
+		if (stream.isNull())
+		{
+			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND,
+				"Cannot locate file " + inFile + " for ROT13 decipher.",
+				"ROT13Decipher");
+		}
+
+		while (!stream->eof())
+		{
+			String line = stream->getLine(false); // false = do not trim
+			if (line.empty() && stream->eof()) // to avoid processing last empty line after EOF
+				break;
+
+			// Apply ROT13 to decipher line
+			String decipheredLine = ROT13(line);
+
+			buffer.push_back(decipheredLine);
+		}
+
+		return buffer;
+	}
+	///
+	/// END of ROT 13 functions
+	/// 
 	// let temporary but gona be replaced with a rot13 soon.
 	// this probably derivate from some askme or stackoverflow and must therefore be
 	// rewritten.

@@ -5,7 +5,7 @@
 // 0 to disable
 
 // PSEUDO CIPHERING VARS
-// // Enable encrypted items.cfg
+// Enable encrypted items.cfg
 // 0 = Reads items.cfg
 // 1 = Reads items.dat (like ad1.dat)
 #define ENCRYPTED_ITEMS 0
@@ -55,6 +55,7 @@
 
 // Uncomment the next line and change the key
 #define XORKEY 0 // Change this key like: 3*(i%2)+3*(i%7)+4
+#define ROTKEY "MyPrivateKey"
 #define CUSTOMCRITTERS 1 // allows users custom critters
 #define MAXDIMS 100 // Maximum number of dims
 
