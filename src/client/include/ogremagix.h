@@ -606,8 +606,8 @@ protected:
 			HWND hwnd;
 			mWindow->getCustomAttribute("WINDOW", (void*)&hwnd);
 			LONG iconID   = (LONG)LoadIcon( GetModuleHandle(0), MAKEINTRESOURCE(IDI_APPICON) );
+			
 			// for 32 bit its GCL_HICON
-
 			//SetClassLongPtr(hwnd, GCLP_HICON, iconID);
 #endif
 			SetClassLongPtr(hwnd, GCLP_HICON, iconID);
