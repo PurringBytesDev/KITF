@@ -36,6 +36,7 @@ public:
 	}
 
 	// when are we called ? in what context ?
+	// actually second question if we are a pet class, why do we care about world ? or sky ? effect can be in an EFFECT class!!!
 	void initialize(MagixExternalDefinitions *def,MagixGameStateManager *gameStateMgr, MagixCritterManager *critterMgr, MagixUnitManager *unitMgr, MagixNetworkManager *networkMgr, MagixWorld *world, MagixChatManager *chatMgr, MagixSkyManager *skyMgr)
 	{
 		mDef = def;
@@ -373,6 +374,7 @@ public:
 
 		//Player has target
 		MagixLiving *tCritter = mCritterManager->popPlayerTarget();
+		
 		if(tCritter)
 		{
 			//Set critter hit by player to be target, if any
@@ -465,6 +467,7 @@ public:
 		if(!mGameStateManager->isCampaign())
 		{
 			const vector<HitInfo>::type tUnitHitList = mUnitManager->popHitQueue();
+
 			for(int i=0;i<(int)tUnitHitList.size();i++)
 			{
 				mNetworkManager->sendPlayerHit(tUnitHitList[i].ID,tUnitHitList[i].hp,tUnitHitList[i].force);
