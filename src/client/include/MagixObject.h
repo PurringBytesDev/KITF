@@ -206,7 +206,10 @@ public:
 			mForce.z = maxSpeed * speedMultiplier * (mForce.z<0?-1:1) * Math::Sin(tAngle) *evt.timeSinceLastFrame;
 		}
 		//Terminal Velocity
-		if(Math::Abs(mForce.y)>TERMINAL_VEL*evt.timeSinceLastFrame*(antiGravity?0.5:1))mForce.y = TERMINAL_VEL * (mForce.y<0?-1:1)*evt.timeSinceLastFrame*(antiGravity?0.5:1);
+		if (Math::Abs(mForce.y) > TERMINAL_VEL * evt.timeSinceLastFrame * (antiGravity ? 0.5 : 1))
+		{
+			mForce.y = (Real)(TERMINAL_VEL * (mForce.y < 0 ? -1 : 1) * evt.timeSinceLastFrame * (antiGravity ? 0.5 : 1));
+		}
 		
 		//apply forces to node
 		lastPosition = mObjectNode->getPosition();
