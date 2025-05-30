@@ -463,6 +463,7 @@ public:
 	}
 	void updateUnits(const FrameEvent &evt)
 	{
+		// like WTF ? there is not even an else case for if not in campaign
 		//HitInfo
 		if(!mGameStateManager->isCampaign())
 		{

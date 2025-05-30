@@ -48,6 +48,7 @@ protected:
 	String mapEffect;
 	int staticGeometryX;
 	int staticGeometryY;
+	// with a reference to the world this could be managed somewhere else
 	vector<WorldCritter>::type critterSpawnList;
 	vector<std::pair<Vector3,Vector3>>::type critterRoamAreaList;
 	unsigned short critterSpawnLimit;

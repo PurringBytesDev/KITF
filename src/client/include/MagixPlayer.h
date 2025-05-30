@@ -427,12 +427,15 @@ public:
 		skillSlot.clear();
 		mCurrentSkill = 0;
 	}
+
+	// used only by campaign or what ?
 	void setSkills(const vector<Skill>::type &skills)
 	{
 		skillSlot.clear();
 		skillSlot = skills;
 		mCurrentSkill = 0;
 	}
+
 	const vector<Skill>::type& getSkills()
 	{
 		return skillSlot;

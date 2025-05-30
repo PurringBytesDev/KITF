@@ -49,6 +49,7 @@ protected:
 	unsigned short creditsCounter;
 	Real gameOverTimeout;
 	vector<Skill>::type skillsCheckpoint;
+	// order to be changed
 	String campaignFilename;
 	CampaignEventList eventList;
 	vector<String>::type nextEvent;
@@ -78,6 +79,7 @@ public:
 		creditsTimeout = 0;
 		creditsCounter = 0;
 		gameOverTimeout = 0;
+		// this is it not really ever used
 		skillsCheckpoint.clear();
 		campaignFilename = "";
 		eventList.clear();
@@ -104,6 +106,7 @@ public:
 		mCollisionManager = collisionMgr;
 		mEffectsManager = fxMgr;
 	}
+
 	void loadCampaign()
 	{
 		progress = 0;
@@ -116,23 +119,39 @@ public:
 
 		CampaignEventList tEventList;
 		mDef->loadCampaign(mGameStateManager->getCampaignName(),tEventList,campaignFilename);
-		if(tEventList.size()<=0)return;
+		
+		if(tEventList.size()<=0)
+		{
+			return;
+		}
+
 		const CampaignEvent tInit = tEventList[0];
 		processEvent(tInit,true);
 
 		eventList.clear();
 		eventConditionList.clear();
 		mDef->loadCampaignScript(campaignFilename,nextEvent,eventList,progress+1);
-		for(int i=0;i<(int)eventList.size();i++)registerEventConditions(eventList[i]);
+		
+		for(int i=0;i<(int)eventList.size();i++)
+		{
+			registerEventConditions(eventList[i]);
+		}
 	}
+
 	void update(const FrameEvent &evt)
 	{
 		if(cinematicTimer>0)
 		{
 			cinematicTimer -= evt.timeSinceLastFrame;
-			if(cinematicTimer<0)cinematicTimer=0;
+			
+			if(cinematicTimer<0)
+			{
+				cinematicTimer = 0;
+			}
 		}
+		
 		updateSpawns();
+		
 		if(randomSpawn && mSpawn.size()==0)
 		{
 			if(randomSpawnTimer==0)randomSpawnTimer = Math::RangeRandom(5,10);
@@ -143,27 +162,49 @@ public:
 				doRandomSpawn();
 			}
 		}
-		if(!checkGameOver(evt))checkEventCondition();
+		if(!checkGameOver(evt))
+		{
+			checkEventCondition();
+		}
+
 		updateScriptedUnits(evt);
 	}
+
 	void updateScriptedUnits(const FrameEvent &evt)
 	{
 		for(vector<ScriptedUnit>::type::iterator it=mScriptedUnits.begin();it!=mScriptedUnits.end();it++)
 		{
 			ScriptedUnit *sUnit = &*it;
-			if(sUnit->timer>0)sUnit->timer -= evt.timeSinceLastFrame;
-			if(sUnit->timer<0)sUnit->timer = 0;
+			if(sUnit->timer>0)
+			{
+				sUnit->timer -= evt.timeSinceLastFrame;
+			}
+			
+			if(sUnit->timer<0)
+			{
+				sUnit->timer = 0;
+			}
+			
 			checkEventCondition(sUnit);
-			if(sUnit->attackFrequency>0 && Math::UnitRandom()<sUnit->attackFrequency)sUnit->mUnit->doAttack(mDef);
+			
+			if(sUnit->attackFrequency>0 && Math::UnitRandom()<sUnit->attackFrequency)
+			{
+				sUnit->mUnit->doAttack(mDef);
+			}
+			
 			if(sUnit->chaseUnit)
 			{
 				MagixUnit *unit = sUnit->mUnit;
 				MagixUnit *target = sUnit->chaseUnit;
+				
 				if(Vector2(unit->getPosition().x-target->getPosition().x,unit->getPosition().z-target->getPosition().z).squaredLength()>2500)
-				unit->setTarget(Vector3(target->getPosition().x,unit->getPosition().y,target->getPosition().z),TARGET_RUNTO);
+				{
+					unit->setTarget(Vector3(target->getPosition().x, unit->getPosition().y, target->getPosition().z), TARGET_RUNTO);
+				}
 			}
 		}
 	}
+
 	void continueCampaign()
 	{
 		mScriptedUnits.clear();
@@ -172,12 +213,21 @@ public:
 		mUnitManager->getPlayer()->resetTarget();
 		mUnitManager->getPlayer()->setHPRatio(1);
 		mUnitManager->getPlayer()->setCurrentSkill(0);
-		if(mUnitManager->getPlayer()->getIsStance())mUnitManager->getPlayer()->toggleStance(mDef);
+		
+		if(mUnitManager->getPlayer()->getIsStance())
+		{
+			mUnitManager->getPlayer()->toggleStance(mDef);
+		}
+		
 		mCamera->reset(false);
 		mGameStateManager->setGameState(GAMESTATE_INGAMECAMPAIGN);
 
 		progress = progressCheckpoint;
-		if(progress!=0)mUnitManager->getPlayer()->setSkills(skillsCheckpoint);
+		if(progress!=0)
+		{
+			mUnitManager->getPlayer()->setSkills(skillsCheckpoint);
+		}
+
 		cinematicTimer = 0;
 		randomSpawn = false;
 		randomSpawnTimer = 0;
@@ -186,11 +236,20 @@ public:
 		eventList.clear();
 		eventConditionList.clear();
 		mDef->loadCampaignScript(campaignFilename,nextEvent,eventList,progress+1);
-		for(int i=0;i<(int)eventList.size();i++)registerEventConditions(eventList[i]);
+
+		for(int i=0;i<(int)eventList.size();i++)
+		{
+			registerEventConditions(eventList[i]);
+		}
 	}
+
 	bool checkGameOver(const FrameEvent &evt)
 	{
-		if(ignoreGameOver)return false;
+		if(ignoreGameOver)
+		{
+			return false;
+		}
+		
 		if(gameOverTimeout==0 && mUnitManager->getPlayer()->getHPRatio()<=0)
 		{
 			if(!mGameStateManager->isCinematic())toggleCinematic(true);
@@ -200,6 +259,7 @@ public:
 			gameOverTimeout = 1.5;
 			return true;
 		}
+
 		if(gameOverTimeout>0)
 		{
 			gameOverTimeout -= evt.timeSinceLastFrame;
@@ -214,19 +274,28 @@ public:
 				mGui->showMouse(true);
 				mGameStateManager->setGameState(GAMESTATE_GAMEOVER);
 			}
+
 			return true;
 		}
 		return false;
 	}
+
 	void doRandomSpawn()
 	{
 		unsigned short tSpawns = 0;
 		Real tRnd = Math::UnitRandom();
-		if(tRnd<0.6)tSpawns = 1;
-		else tSpawns = 2;
+		if(tRnd<0.6)
+		{
+			tSpawns = 1;
+		}
+		else
+		{
+			tSpawns = 2;
+		}
 
 		createSpawns(tSpawns);
 	}
+
 	void createSpawns(unsigned short number)
 	{
 		for(int i=0;i<number;i++)
@@ -247,6 +316,7 @@ public:
 			mSpawn.push_back(shadow);
 		}
 	}
+
 	void updateSpawns()
 	{
 		for(vector<MagixUnit*>::type::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
@@ -259,6 +329,7 @@ public:
 				mSpawn.erase(it);
 				break;
 			}
+
 			if(!tUnit->isDying() && tUnit->getHPRatio()<=0)
 			{
 				tUnit->setDeathTimeout(1);
@@ -266,7 +337,11 @@ public:
 				tUnit->setAutoTrackObject(0);
 				mUnitManager->getPlayer()->addSkill("Cure",1);
 				mGui->showPickupText("Cure x1");
-				if(mUnitManager->getPlayer()->getCurrentSkill() && mUnitManager->getPlayer()->getCurrentSkill()->name=="Cure")mGui->updateSkillText(mUnitManager->getPlayer()->getCurrentSkill());
+				
+				if(mUnitManager->getPlayer()->getCurrentSkill() && mUnitManager->getPlayer()->getCurrentSkill()->name=="Cure")
+				{
+					mGui->updateSkillText(mUnitManager->getPlayer()->getCurrentSkill());
+				}
 			}
 			else if(tUnit->isDying())
 			{
@@ -275,11 +350,19 @@ public:
 			}
 			else
 			{
-				if(tUnit->getPosition().squaredDistance(mUnitManager->getPlayer()->getPosition())>2500)tUnit->setTarget(mUnitManager->getPlayer()->getPosition(),TARGET_RUNTO);
-				if(Math::UnitRandom()>0.97)tUnit->doAttack(mDef);
+				if(tUnit->getPosition().squaredDistance(mUnitManager->getPlayer()->getPosition())>2500)
+				{
+					tUnit->setTarget(mUnitManager->getPlayer()->getPosition(), TARGET_RUNTO);
+				}
+				
+				if(Math::UnitRandom()>0.97)
+				{
+					tUnit->doAttack(mDef);
+				}
 			}
 		}
 	}
+
 	void killSpawns()
 	{
 		for(vector<MagixUnit*>::type::iterator it = mSpawn.begin();it != mSpawn.end(); it++)
@@ -292,17 +375,25 @@ public:
 			updateSpawns();
 		}
 	}
+
 	bool unitIsInRegion(MagixUnit *unit, const Vector2 &center, const Real &range)
 	{
-		if(!unit)return false;
+		// again : WHY would it happen ?
+		if(!unit)
+		{
+			return false;
+		}
 		Sphere tSphere(Vector3(center.x,unit->getPosition().y,center.y),range);
+	
 		return tSphere.intersects(unit->getPosition());
 	}
+	
 	void setCheckpoint()
 	{
 		progressCheckpoint = progress;
 		skillsCheckpoint = mUnitManager->getPlayer()->getSkills();
 	}
+
 	void toggleCinematic(bool skipTransition=false)
 	{
 		mGameStateManager->toggleCinematic();
@@ -310,6 +401,7 @@ public:
 		mGui->showGUI(!mGameStateManager->isCinematic());
 		mGui->showCinematicBars(mGameStateManager->isCinematic(),skipTransition);
 	}
+
 	void closeCampaign(unsigned short restartState=GAMESTATE_INITIALIZE, const String &creditsName="")
 	{
 		mGui->getChatManager()->reset(true);
@@ -331,6 +423,7 @@ public:
 		}
 		else if(restartState==GAMESTATE_STARTSCREEN)mGui->resetCampaignScreen();
 	}
+	
 	void updateCredits(const FrameEvent &evt)
 	{
 		if(creditsCounter==0 && credits.size()>0)
@@ -374,12 +467,21 @@ public:
 			return;
 		}
 	}
+	
 	bool compare(String first, String second)
 	{
 		StringUtil::toLowerCase(first);
 		StringUtil::toLowerCase(second);
 		return first==second;
 	}
+
+	/// <summary>
+	/// this is campaign events and should be moved. this is also a HUGE part of the code
+	/// this would be solo only for sure as we wont rewrite this
+	/// </summary>
+	/// <param name="cEvent"></param>
+	/// <param name="isInitialize"></param>
+	/// <param name="sUnit"></param>
 	void processEvent(const CampaignEvent &cEvent, bool isInitialize=false, ScriptedUnit *sUnit=0)
 	{
 		bool tProgressChanged = false;
@@ -1101,6 +1203,8 @@ public:
 			}
 		}
 	}
+
+	// should be a generic "OGREMAGIX::UTILS" member when created
 	const Real parseReal(const String &data)
 	{
 		if(StringUtil::match(data,"RANDOM(*)",false))
@@ -1113,30 +1217,48 @@ public:
 		}
 		return StringConverter::parseReal(data);
 	}
+
 	const unsigned short parseProgress(const String &data)
 	{
-		if(compare(data,"NEXT"))return progress;
-		else return StringConverter::parseInt(data);
+		if(compare(data, "NEXT"))
+		{
+			return progress;
+		}
+		else
+		{
+			return StringConverter::parseInt(data);
+		}
 	}
+
 	MagixUnit* parseUnit(const String &data, ScriptedUnit *sUnit=0)
 	{
 		MagixUnit* unit = 0;
-		if(compare(data,"PLAYER"))unit = mUnitManager->getPlayer();
-		else if(StringUtil::match(data,"BY_NAME(*)",false))
+		if(compare(data, "PLAYER"))
+		{
+			unit = mUnitManager->getPlayer();
+		}
+		else if(StringUtil::match(data, "BY_NAME(*)", false))
 		{
 			String tNameString = data;
 			tNameString.erase(0,tNameString.find_first_of("(")+1);
 			tNameString.erase(tNameString.find_first_of(")"),1);
 			unit = mUnitManager->getByName(tNameString);
 		}
-		else if(compare(data,"THIS_UNIT") && sUnit)unit = sUnit->mUnit;
+		else if(compare(data,"THIS_UNIT") && sUnit)
+		{
+			unit = sUnit->mUnit;
+		}
+		
 		return unit;
 	}
+
 	const Vector2 parseVector2(const String &data, ScriptedUnit *sUnit=0)
 	{
-		const Vector3 tVect3 = parseVector3(data,sUnit,true);
+		const Vector3 tVect3 = parseVector3(data, sUnit, true);
+
 		return Vector2(tVect3.x,tVect3.z);
 	}
+
 	const Vector3 parseVector3(const String &data, ScriptedUnit *sUnit=0, bool isVector2=false)
 	{
 		Vector3 tVect = Vector3::ZERO;
@@ -1144,28 +1266,45 @@ public:
 		if(tPart.size()==0)tPart.push_back(data);
 		for(int i=0;i<(int)tPart.size();i++)
 		{
-			if(compare(tPart[i],"CAMERA_POSITION"))tVect += mCamera->getCamNode()->_getDerivedPosition();
-			else if(compare(tPart[i],"PLAYER_POSITION"))tVect += mUnitManager->getPlayer()->getPosition();
-			else if(compare(tPart[i],"THIS_UNIT_POSITION") && sUnit)tVect += sUnit->mUnit->getPosition();
+			if(compare(tPart[i],"CAMERA_POSITION"))
+			{
+				tVect += mCamera->getCamNode()->_getDerivedPosition();
+			}
+			else if (compare(tPart[i], "PLAYER_POSITION"))
+			{
+				tVect += mUnitManager->getPlayer()->getPosition();
+			}
+			else if(compare(tPart[i],"THIS_UNIT_POSITION") && sUnit)
+			{
+				tVect += sUnit->mUnit->getPosition();
+			}
 			else if(StringUtil::match(tPart[i],"POSITION_BY_NAME(*)",false))
 			{
 				String tNameString = tPart[i];
 				tNameString.erase(0,tNameString.find_first_of("(")+1);
 				tNameString.erase(tNameString.find_first_of(")"),1);
 				MagixUnit *unit = mUnitManager->getByName(tNameString);
-				if(unit)tVect += unit->getPosition();
+				
+				if(unit)
+				{
+					tVect += unit->getPosition();
+				}
 			}
 			else if(StringUtil::match(tPart[i],"(*)",false))
 			{
 				String tVectString = tPart[i];
 				tVectString.erase(0,tVectString.find_first_of("(")+1);
 				tVectString.erase(tVectString.find_first_of(")"),1);
+				
 				if(isVector2)
 				{
 					const Vector2 tVect2 = StringConverter::parseVector2(tVectString);
 					tVect += Vector3(tVect2.x, 0, tVect2.y);
 				}
-				else tVect += StringConverter::parseVector3(tVectString);
+				else
+				{
+					tVect += StringConverter::parseVector3(tVectString);
+				}
 			}
 			else 
 			{
@@ -1174,11 +1313,16 @@ public:
 					const Vector2 tVect2 = StringConverter::parseVector2(tPart[i]);
 					tVect += Vector3(tVect2.x, 0, tVect2.y);
 				}
-				else tVect += StringConverter::parseVector3(tPart[i]);
+				else
+				{
+					tVect += StringConverter::parseVector3(tPart[i]);
+				}
 			}
 		}
+
 		return tVect;
 	}
+
 	const Quaternion parseQuaternion(const String &data)
 	{
 		Quaternion tQuat;
@@ -1188,26 +1332,62 @@ public:
 			const Vector3 pyr = StringConverter::parseVector3(data);
 			tQuat = Quaternion(Degree(pyr.y),Vector3::UNIT_Y)*Quaternion(Degree(pyr.x),Vector3::UNIT_X)*Quaternion(Degree(pyr.z),Vector3::UNIT_Z);
 		}
+
 		return tQuat;
 	}
+
 	const unsigned short parseAction(const String &data)
 	{
-		if(compare(data,"TARGET_RUNTO"))return TARGET_RUNTO;
-		if(compare(data,"TARGET_LOOKAT"))return TARGET_LOOKAT;
-		if(compare(data,"TARGET_PICKUP"))return TARGET_RUNTOPICKUP;
+		if(compare(data, "TARGET_RUNTO"))
+		{
+			return TARGET_RUNTO;
+		}
+		
+		if(compare(data, "TARGET_LOOKAT"))
+		{
+			return TARGET_LOOKAT;
+		}
+		
+		if(compare(data, "TARGET_PICKUP"))
+		{
+			return TARGET_RUNTOPICKUP;
+		}
+
 		return TARGET_RUNTO;
 	}
+
 	const unsigned short parseAlliance(const String &data)
 	{
-		if(compare(data,"ALLIANCE_PLAYER"))return ALLIANCE_PLAYER;
-		if(compare(data,"ALLIANCE_FRIEND"))return ALLIANCE_FRIEND;
-		if(compare(data,"ALLIANCE_ENEMY"))return ALLIANCE_ENEMY;
+		if(compare(data, "ALLIANCE_PLAYER"))
+		{
+			return ALLIANCE_PLAYER;
+		}
+		
+		if(compare(data, "ALLIANCE_FRIEND"))
+		{
+			return ALLIANCE_FRIEND;
+		}
+		
+		if(compare(data, "ALLIANCE_ENEMY"))
+		{
+			return ALLIANCE_ENEMY;
+		}
+
 		return ALLIANCE_PLAYER;
 	}
+
 	const short parseItemSlot(const String &data, MagixUnit *unit=0)
 	{
-		if(unit && compare(data,"NEXT_EMPTY_ITEM_SLOT"))return mUnitManager->getNextEmptyItemSlot(unit);
-		if(unit && compare(data,"NEXT_FILLED_ITEM_SLOT"))return mUnitManager->getNextFilledItemSlot(unit);
+		if(unit && compare(data,"NEXT_EMPTY_ITEM_SLOT"))
+		{
+			return mUnitManager->getNextEmptyItemSlot(unit);
+		}
+
+		if(unit && compare(data,"NEXT_FILLED_ITEM_SLOT"))
+		{
+			return mUnitManager->getNextFilledItemSlot(unit);
+		}
+
 		return StringConverter::parseInt(data);
 	}
 };
