@@ -139,10 +139,16 @@ public:
 	{
 		if(mPeer)
 		{
-			if(mPeer->IsActive())disconnect();
+			if (mPeer->IsActive())
+			{
+				disconnect();
+			}
+
 			RakNetworkFactory::DestroyRakPeerInterface(mPeer);
 		}
 	}
+
+	// are we following an initialize function template ? how are we called and from where ? we might want to not init ?
 	void initialize(MagixExternalDefinitions *def, MagixGameStateManager *gamestateMgr, MagixItemManager *itemMgr, MagixCritterManager *critterMgr, MagixUnitManager *unitMgr, MagixWorld *world, MagixSkyManager *skyMgr, MagixChatManager *chatMgr, MagixAlertBox *alertBox, MagixCharScreenManager *charscreenMgr)
 	{
 		mDef = def;

@@ -5,6 +5,8 @@
 #include "GameConfig.h"
 #include <OgreStreamSerialiser.h>
 #include <OgreException.h>
+
+// if aint used then can be removed ?
 //using namespace std;
 using namespace Ogre;
 
@@ -12,7 +14,7 @@ typedef vector<std::pair<String, String>>::type CampaignEvent;
 typedef vector<CampaignEvent>::type CampaignEventList;
 
 #define MAX_HOTKEYF 8
-
+// All the structs should be moved to a ... MAGIX STRUCTS !!! 
 struct WeatherEvent
 {
 	Real start;
@@ -258,77 +260,44 @@ public:
 	void loadUnitMeshes(const String& filename)
 	{
 		maxHeads = GMAXHEADS;
-		for (int i = 1; i <= maxHeads; i++)headMesh.push_back("Head" + StringConverter::toString(i));
+		for (int i = 1; i <= maxHeads; i++)
+		{
+			headMesh.push_back("Head" + StringConverter::toString(i));
+		}
+
 		maxManes = GMAXMANES;
 		maneMesh.push_back("Maneless");
-		for (int i = 2; i <= maxManes; i++)maneMesh.push_back("Mane" + StringConverter::toString(i));
+		for (int i = 2; i <= maxManes; i++)
+		{
+			maneMesh.push_back("Mane" + StringConverter::toString(i));
+		}
+
 		maxTails = GMAXTAILS;
-		for (int i = 1; i <= maxTails; i++)tailMesh.push_back("Tail" + StringConverter::toString(i));
+		for (int i = 1; i <= maxTails; i++)
+		{
+			tailMesh.push_back("Tail" + StringConverter::toString(i));
+		}
+
 		maxWings = GMAXWINGS;
 		wingMesh.push_back("Wingless");
 		wingMesh.push_back("Wings");
-		for (int i = 2; i < maxWings; i++)wingMesh.push_back("Wings" + StringConverter::toString(i));
+		for (int i = 2; i < maxWings; i++)
+		{
+			wingMesh.push_back("Wings" + StringConverter::toString(i));
+		}
+
 		maxTufts = GMAXTUFTS;
 		tuftMesh.push_back("Tuftless");
-		for (int i = 1; i < maxTufts; i++)tuftMesh.push_back("Tuft" + StringConverter::toString(i));
+		for (int i = 1; i < maxTufts; i++)
+		{
+			tuftMesh.push_back("Tuft" + StringConverter::toString(i));
+		}
+		
 		maxBodyMarks = GMAXBODYMARKS;
 		maxHeadMarks = GMAXHEADMARKS;
 		maxTailMarks = GMAXTAILMARKS;
-
-		/*maxHeads = 0;
-		maxManes = 0;
-		maxTails = 0;
-		maxWings = 0;
-		headMesh.clear();
-		maneMesh.clear();
-		tailMesh.clear();
-		wingMesh.clear();
-
-		long tSize = 0;
-		char *tBuffer;
-		String tData="";
-
-		std::ifstream inFile;
-		inFile.open(filename.c_str(), std::ifstream::in);
-		inFile.seekg(0,std::ios::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0,std::ios::beg);
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-		inFile.getline(tBuffer,tSize,'#');
-		inFile.close();
-		tData = tBuffer;
-		delete[] tBuffer;
-
-		const vector<String> tPart = StringUtil::split(tData,"[#",4);
-		if(tPart.size()==4)
-		for(int i=0;i<4;i++)
-		{
-			const vector<String> tMesh = StringUtil::split(tPart[i],"\n");
-
-			if(tMesh[0]=="HeadMesh]")
-			{
-				maxHeads = int(tMesh.size())-1;
-				for(int j=1;j<=maxHeads;j++)headMesh.push_back(tMesh[j]);
-			}
-			else if(tMesh[0]=="ManeMesh]")
-			{
-				maxManes = int(tMesh.size())-1;
-				for(int j=1;j<=maxManes;j++)maneMesh.push_back(tMesh[j]);
-			}
-			else if(tMesh[0]=="TailMesh]")
-			{
-				maxTails = int(tMesh.size())-1;
-				for(int j=1;j<=maxTails;j++)tailMesh.push_back(tMesh[j]);
-			}
-			else if(tMesh[0]=="WingMesh]")
-			{
-				maxWings = int(tMesh.size())-1;
-				for(int j=1;j<=maxWings;j++)wingMesh.push_back(tMesh[j]);
-			}
-		}*/
-
 	}
+
 	void loadUnitEmotes(const String& filename)
 	{
 		maxEmotes = 0;
@@ -384,38 +353,7 @@ public:
 		}
 		return false;
 
-		/*long tSize = 0;
-		char *tBuffer;
-		String tData="";
 
-		std::ifstream inFile;
-		inFile.open("MeshRestrictions.cfg", std::ifstream::in);
-		inFile.seekg(0,ios::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0,ios::beg);
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-		inFile.getline(tBuffer,tSize,'#');
-		inFile.close();
-		tData = tBuffer;
-		delete[] tBuffer;
-
-		vector<String> tPart = StringUtil::split(tData,"[#");
-		if(tPart.size()>0)
-		for(int i=0;i<int(tPart.size());i++)
-		{
-			vector<String> tLine = StringUtil::split(tPart[i],"\n");
-			if(tLine.size()>0)
-			{
-				tLine[0].erase(tLine[0].find_first_of("]"));
-				if(tLine[0]==headMesh[headID])
-				for(int j=1;j<int(tLine.size());j++)
-				{
-					if(maneMesh[maneID]==tLine[j])return true;
-				}
-			}
-		}
-		return false;*/
 	}
 	bool isRestrictedTuft(const short& tuftID)
 	{
@@ -820,95 +758,7 @@ public:
 		}
 		return true;
 	}
-	/*bool loadWorld(const String &name, String &terrain, Real &x, Real &z, Vector3 &spawnSquare, String &grassMat, String &grassMap, String &grassColourMap, String &tree1, String &tree2, String &tree3, unsigned short &treeCount, String &bush1, String &bush2, String &bush3)
-	{
-		long tSize = 0;
-		char *tBuffer;
-		String tData="";
 
-		std::ifstream inFile;
-		inFile.open("Worlds.cfg", std::ifstream::in);
-		inFile.seekg(0,std::ios::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0,std::ios::beg);
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-		inFile.getline(tBuffer,tSize,'#');
-		inFile.close();
-		tData = tBuffer;
-		delete[] tBuffer;
-
-		vector<String> tMap = StringUtil::split(tData,"[#");
-		for(int i=0;i<int(tMap.size());i++)
-		{
-			vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
-			if(tLine.size()>0)
-			{
-				tLine[0].erase(tLine[0].find_first_of("]"));
-				if(tLine[0]==name)
-				{
-					terrain = tLine[1];
-					x = StringConverter::parseReal(tLine[2]);
-					z = StringConverter::parseReal(tLine[3]);
-					spawnSquare = StringConverter::parseVector3(tLine[4]);
-					if(tLine.size()>=6)grassMat = tLine[5];
-					if(tLine.size()>=7)grassMap = tLine[6];
-					if(tLine.size()>=8)grassColourMap = tLine[7];
-					if(tLine.size()>=9)tree1 = tLine[8];
-					if(tLine.size()>=10)tree2 = tLine[9];
-					if(tLine.size()>=11)tree3 = tLine[10];
-					if(tLine.size()>=12)treeCount = StringConverter::parseInt(tLine[11]);
-					if(tLine.size()>=13)bush1 = tLine[12];
-					if(tLine.size()>=14)bush2 = tLine[13];
-					if(tLine.size()>=15)bush3 = tLine[14];
-					return true;
-				}
-			}
-		}
-
-		//Look in customWorlds.cfg
-		inFile.open("CustomWorlds.cfg", std::ifstream::in);
-		inFile.seekg(0,std::ios::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0,std::ios::beg);
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-		inFile.getline(tBuffer,tSize,'#');
-		inFile.close();
-		tData = tBuffer;
-		delete[] tBuffer;
-
-		tMap = StringUtil::split(tData,"[#");
-		for(int i=0;i<int(tMap.size());i++)
-		{
-			vector<String> tLine = StringUtil::split(tMap[i],"\n",15);
-			if(tLine.size()>0)
-			{
-				tLine[0].erase(tLine[0].find_first_of("]"));
-				if(tLine[0]==name)
-				{
-					terrain = tLine[1];
-					x = StringConverter::parseReal(tLine[2]);
-					z = StringConverter::parseReal(tLine[3]);
-					spawnSquare = StringConverter::parseVector3(tLine[4]);
-					if(tLine.size()>=6)grassMat = tLine[5];
-					if(tLine.size()>=7)grassMap = tLine[6];
-					if(tLine.size()>=8)grassColourMap = tLine[7];
-					if(tLine.size()>=9)tree1 = tLine[8];
-					if(tLine.size()>=10)tree2 = tLine[9];
-					if(tLine.size()>=11)tree3 = tLine[10];
-					if(tLine.size()>=12)treeCount = StringConverter::parseInt(tLine[11]);
-					if(tLine.size()>=13)bush1 = tLine[12];
-					if(tLine.size()>=14)bush2 = tLine[13];
-					if(tLine.size()>=15)bush3 = tLine[14];
-					return true;
-				}
-			}
-		}
-
-
-		return false;
-	}*/
 	bool loadWorld(const String& filename, String& terrain, Real& x, Real& z, Vector3& spawnSquare, Vector2& worldBounds)
 	{
 		long tSize = 0;
@@ -949,6 +799,7 @@ public:
 		}
 		return false;
 	}
+
 	const String loadWorldObjects(const String& filename)
 	{
 		long tSize = 0;
@@ -1160,6 +1011,8 @@ public:
 
 		return true;
 	}
+
+	// this is ingame logic it should be separate
 	void decrypt(String& input)
 	{
 		for (int i = 0; i < (int)input.length(); i++)
@@ -1174,6 +1027,7 @@ public:
 			input[i] = input[i] + 10;
 		}
 	}
+
 	bool loadSavePoint(String& mapName, Vector2& point, unsigned char& dimension)
 	{
 		return loadHomePoint(mapName, point, dimension, true);
@@ -1427,6 +1281,10 @@ public:
 
 		return tData;
 	}
+	/// <summary>
+	/// end of logic stuf to be separated
+	/// </summary>
+	/// <returns></returns>
 	const String loadUpdateCaption()
 	{
 		long tSize = 0;
@@ -1687,92 +1545,8 @@ public:
 	{
 		return (id < maxTailMarks);
 	}
-	/*void processObjects(const String &filename)
-	{
-		long tSize = 0;
-		char *tBuffer;
-		String tData="";
 
-		std::ifstream inFile;
-		inFile.open(filename.c_str(), std::ifstream::in);
-		if(inFile.good())
-		{
-			inFile.seekg(0,std::ios::end);
-			tSize = inFile.tellg();
-			inFile.seekg(0,std::ios::beg);
-			tBuffer = new char[tSize];
-			strcpy(tBuffer,"");
-			inFile.getline(tBuffer,tSize,'#');
-			inFile.close();
-			tData = tBuffer;
-			delete[] tBuffer;
-		}
-
-		vector<String> tMeshname;
-		vector<String> tStuff;
-
-		const vector<String> tPart = StringUtil::split(tData,"[#");
-		for(int i=0;i<int(tPart.size());i++)
-		{
-			const vector<String> tLine = StringUtil::split(tPart[i],"\n");
-			if(tLine.size()>0)
-			{
-				if(StringUtil::startsWith(tLine[0],"Object",false))
-				{
-					String tMesh = tLine[1];
-					if(tLine.size()>6)tMesh += ";"+tLine[6];
-					tMeshname.push_back(tMesh);
-					const Vector3 tPos = StringConverter::parseVector3(tLine[2]);
-					String tRestofstuff = StringConverter::toString(tPos);
-					tRestofstuff += ";";
-					const Vector3 t1 = StringConverter::parseVector3(tLine[3]);
-					const Vector3 t2 = StringConverter::parseVector3(tLine[4]);
-					tRestofstuff += StringConverter::toString(t1) + ";";
-					tRestofstuff += StringConverter::toString(t2);
-					tStuff.push_back(tRestofstuff);
-				}
-			}
-		}
-
-		std::ofstream outFile;
-		String newFilename = filename.c_str();
-		newFilename += ".cfg";
-		outFile.open(newFilename.c_str());
-
-		vector<int> tWritten;
-
-		for(int i=0;i<(int)tMeshname.size();i++)
-		{
-			bool isWritten = false;
-			for(int k=0;k<(int)tWritten.size();k++)
-			{
-				if(tWritten[k]==i)
-				{
-					isWritten = true;
-					break;
-				}
-			}
-			if(isWritten)continue;
-			String tBuffer2 = "["+tMeshname[i]+"]\n";
-			outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
-			tBuffer2 = tStuff[i]+"\n";
-			outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
-
-			for(int j=i+1;j<(int)tMeshname.size();j++)
-			{
-				if(tMeshname[i]==tMeshname[j])
-				{
-					tBuffer2 = tStuff[j]+"\n";
-					outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
-					tWritten.push_back(j);
-				}
-			}
-		}
-
-		const String tBuffer2 = "#";
-		outFile.write(tBuffer2.c_str(),(int)tBuffer2.length());
-		outFile.close();
-	}*/
+	// this is a .. maybe, and by maybe i mean a "customizable central folder" not separated everywhere
 	void loadWeatherCycle(const String& type, vector<WeatherEvent>::type& list, bool isCustom = false)
 	{
 		String tFilename = "";
@@ -1810,6 +1584,7 @@ public:
 				}
 			}
 		}
+
 		if (tFilename == "" && !isCustom)
 		{
 			loadWeatherCycle(type, list, true);
@@ -1818,14 +1593,17 @@ public:
 
 		ConfigFile cf;
 		cf.load("media/weather/" + tFilename);
+		
 		ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
 		while (seci.hasMoreElements())
 		{
 			const String tSectionName = seci.peekNextKey();
+			
 			ConfigFile::SettingsMultiMap* settings = seci.getNext();
 			ConfigFile::SettingsMultiMap::iterator i;
 			WeatherEvent tEvent;
+			
 			for (i = settings->begin(); i != settings->end(); ++i)
 			{
 				if (StringUtil::startsWith(i->first, "start"))tEvent.start = StringConverter::parseReal(i->second);
@@ -1838,9 +1616,16 @@ public:
 				else if (StringUtil::startsWith(i->first, "effectfrequency"))tEvent.effectFrequency = StringConverter::parseReal(i->second);
 				else if (StringUtil::startsWith(i->first, "effect"))tEvent.effect.push_back(i->second);
 			}
-			if (tSectionName != "")list.push_back(tEvent);
+
+			if (tSectionName != "")
+			{
+				list.push_back(tEvent);
+			}
 		}
 	}
+
+	// by design weather should be separate and under same namespace as sky.. and the code simplifiedn why sometimes using ConfigFile and others a ifstream ?
+	// also, we could have a single function that do it all and returns a buffer
 	void loadWeather(const String& type, String& particle, Vector3& offset, String& sound, bool isCustom = false)
 	{
 		long tSize = 0;
@@ -1869,14 +1654,23 @@ public:
 				if (StringUtil::startsWith(tLine[0], type, false))
 				{
 					particle = tLine[1];
-					if (tLine.size() >= 3)offset = StringConverter::parseVector3(tLine[2]);
-					if (tLine.size() >= 4)sound = tLine[3];
+					if (tLine.size() >= 3)
+					{
+						offset = StringConverter::parseVector3(tLine[2]);
+					}
+					if (tLine.size() >= 4)
+					{
+						sound = tLine[3];
+					}
+
 					return;
 				}
 			}
 		}
 		if (!isCustom)loadWeather(type, particle, offset, sound, true);
 	}
+
+	// again, gameplay stuff
 	void loadAttacks(const String& filename, bool isCustom)
 	{
 		String tFilename = filename;
@@ -1950,7 +1744,10 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)return attackList[i];
+			if (attackList[i].name == name)
+			{
+				return attackList[i];
+			}
 		}
 		return Attack();
 	}
@@ -1958,26 +1755,40 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)return attackList[i].anim;
+			if (attackList[i].name == name)
+			{
+				return attackList[i].anim;
+			}
 		}
+
 		return "Attack1";
 	}
 	bool isSkillTargetsAllies(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)return attackList[i].hitAlly;
+			if (attackList[i].name == name)
+			{
+				return attackList[i].hitAlly;
+			}
 		}
+
 		return false;
 	}
 	bool isSkillTargetsSelf(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)return attackList[i].hitAlly;
+			if (attackList[i].name == name)
+			{
+				return attackList[i].hitAlly;
+			}
 		}
+
 		return false;
 	}
+
+	// wip notes : this is gameplay, should also be out
 	// unsure of the fix but meh, ref is not on typecast
 	void loadCritters(const String &filename, bool isCustom)
 	{
@@ -1988,12 +1799,12 @@ public:
 			if (!inFile.good())return;
 			else inFile.close();
 		}
-		//Genereate temp file
+		// temp file.. ok but what ? do this uncipher .dat ?
 		else
 		{
 			tFilename = filename + ".cfg";
 			if (!XOR7FileGen(filename, tFilename, true, true))
-				throw(Exception(9, "Corrupted Data File", filename + ", please run the autopatcher."));
+				throw(Exception(9, "XOR7FileGen unable to run. Corrupted Data File ?", filename + ", re-run the IT XOR tool if you are sure of your file."));
 		}
 		ConfigFile cf;
 		cf.load(tFilename);
@@ -2084,21 +1895,35 @@ public:
 		}
 		return std::pair<String, unsigned char>("", 0);
 	}
+
 	const std::pair<String, unsigned char> getRandomSkillDrop()
 	{
 		const unsigned short MAX_RANDOMSKILL = 8;
 		unsigned short tID = (unsigned short)Math::RangeRandom(0, MAX_RANDOMSKILL);
-		if (tID >= MAX_RANDOMSKILL)tID = MAX_RANDOMSKILL - 1;
+		
+		if (tID >= MAX_RANDOMSKILL)
+		{
+			tID = MAX_RANDOMSKILL - 1;
+		}
+
 		switch (tID)
 		{
-		case 0: return std::pair<String, unsigned char>("Cure", 10);
-		case 1: return std::pair<String, unsigned char>("Lunge", 10);
-		case 2: return std::pair<String, unsigned char>("Sweep", 10);
-		case 3: return std::pair<String, unsigned char>("Stomp", 10);
-		case 4: return std::pair<String, unsigned char>("Backflip", 10);
-		case 5: return std::pair<String, unsigned char>("Tame", 3);
-		case 6: return std::pair<String, unsigned char>("Roar", 6);
-		case 7: return std::pair<String, unsigned char>("Zoom", 10);
+			case 0:
+				return std::pair<String, unsigned char>("Cure", 10);
+			case 1: 
+				return std::pair<String, unsigned char>("Lunge", 10);
+			case 2: 
+				return std::pair<String, unsigned char>("Sweep", 10);
+			case 3: 
+				return std::pair<String, unsigned char>("Stomp", 10);
+			case 4: 
+				return std::pair<String, unsigned char>("Backflip", 10);
+			case 5: 
+				return std::pair<String, unsigned char>("Tame", 3);
+			case 6: 
+				return std::pair<String, unsigned char>("Roar", 6);
+			case 7: 
+				return std::pair<String, unsigned char>("Zoom", 10);
 		}
 		return std::pair<String, unsigned char>("", 0);
 	}
@@ -2108,16 +1933,29 @@ public:
 		{
 			if (critterList[i].type == type)
 			{
-				if (critterList[i].attackList.size() == 0)return 0;
+				if (critterList[i].attackList.size() == 0)
+				{
+					return 0;
+				}
+				
 				//Attacks 2 and above are rarer
 				if (critterList[i].attackList.size() == 1 || Math::UnitRandom() < 0.5)
 				{
 					if (hitAlly)*hitAlly = critterList[i].attackList[0].hitAlly;
 					return 1;
 				}
+				
 				unsigned char tID = Math::RangeRandom(1, (int)critterList[i].attackList.size());
-				if (tID >= (int)critterList[i].attackList.size())tID -= 1;
-				if (hitAlly)*hitAlly = critterList[i].attackList[tID].hitAlly;
+				
+				if (tID >= (int)critterList[i].attackList.size())
+				{
+					tID -= 1;
+				}
+				if (hitAlly)
+				{
+					*hitAlly = critterList[i].attackList[tID].hitAlly;
+				}
+
 				return tID + 1;
 			}
 		}
@@ -2130,30 +1968,54 @@ public:
 			if (critterList[i].type == type)
 			{
 				vector<unsigned char>::type tList;
+
 				for (int j = 0; j < (int)critterList[i].attackList.size(); j++)
+				{
 					if (getNonHeal ^ critterList[i].attackList[j].hitAlly)tList.push_back(j + 1);
-				if (tList.size() == 0)return 0;
+				}
+					
+				if (tList.size() == 0)
+				{
+					return 0;
+				}
+
 				//Attacks 2 and above are rarer
-				if (tList.size() == 1 || Math::UnitRandom() < 0.5)return tList[0];
+				if (tList.size() == 1 || Math::UnitRandom() < 0.5)
+				{
+					return tList[0];
+				}
+
 				unsigned char tID = Math::RangeRandom(1, (int)tList.size());
-				if (tID >= (int)tList.size())tID -= 1;
+				if (tID >= (int)tList.size())
+				{
+					tID -= 1;
+				}
+
 				return tList[tID];
 			}
 		}
 		return 0;
 	}
+
 	const std::pair<CritterAttack, String> getCritterAttackAndSound(const String& type, const unsigned char& iID)
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
 			if (critterList[i].type == type)
 			{
-				if (iID >= 0 && iID < (int)critterList[i].attackList.size())return std::pair<CritterAttack, String>(critterList[i].attackList[iID], critterList[i].sound);
-				else return std::pair<CritterAttack, String>(CritterAttack(0, 0, Vector3::ZERO), critterList[i].sound);
+				if (iID >= 0 && iID < (int)critterList[i].attackList.size())
+				{
+					return std::pair<CritterAttack, String>(critterList[i].attackList[iID], critterList[i].sound);
+				}
+				else
+				{
+					return std::pair<CritterAttack, String>(CritterAttack(0, 0, Vector3::ZERO), critterList[i].sound);
+				}
 			}
 		}
 		return std::pair<CritterAttack, String>(CritterAttack(0, 0, Vector3::ZERO), "");
 	}
+
 	bool loadCritterSpawnList(const String& worldName,
 		unsigned short& limit,
 		vector<WorldCritter>::type& list,

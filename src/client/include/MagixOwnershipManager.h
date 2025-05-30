@@ -33,7 +33,9 @@ public:
 	~MagixOwnershipManager()
 	{
 	}
-	void initialize(MagixExternalDefinitions *def,MagixGameStateManager *gameStateMgr,MagixCritterManager *critterMgr,MagixUnitManager *unitMgr,MagixNetworkManager *networkMgr,MagixWorld *world,MagixChatManager *chatMgr,MagixSkyManager *skyMgr)
+
+	// when are we called ? in what context ?
+	void initialize(MagixExternalDefinitions *def,MagixGameStateManager *gameStateMgr, MagixCritterManager *critterMgr, MagixUnitManager *unitMgr, MagixNetworkManager *networkMgr, MagixWorld *world, MagixChatManager *chatMgr, MagixSkyManager *skyMgr)
 	{
 		mDef = def;
 		mGameStateManager = gameStateMgr;
@@ -44,6 +46,7 @@ public:
 		mChatManager = chatMgr;
 		mSkyManager = skyMgr;
 	}
+
 	void update(const FrameEvent &evt)
 	{
 		if(!mGameStateManager->isCampaign())updateCritterOwnership(evt);

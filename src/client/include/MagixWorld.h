@@ -19,6 +19,7 @@ using namespace Forests;
 class MagixWorld
 {
 protected:
+	// no include but its almost the same, criminal use of classes like that
 	MagixExternalDefinitions *mDef;
 	MagixGameStateManager *mGameStateManager;
 	MagixSoundManager *mSoundManager;
@@ -27,6 +28,7 @@ protected:
 	SceneManager *mSceneMgr;
 	RenderWindow *mWindow;
 	PagedGeometry *mGrass,*mTrees,*mBushes,*mLargeTrees,*mFloatingBushes;
+	// all non class variables should be away
 	unsigned short numTreeMeshes;
 	unsigned short numBushMeshes;
 	Entity *mCeiling;

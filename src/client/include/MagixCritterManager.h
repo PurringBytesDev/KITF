@@ -511,6 +511,8 @@ public:
 		reset();
 		if(mRayQuery)delete mRayQuery;
 	}
+
+	// how and when are we called
 	void initialize(SceneManager *sceneMgr, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixEffectsManager *effectsMgr, MagixCollisionManager *collMgr, MagixSoundManager *soundMgr, MagixWorld *world, MagixCamera *camera)
 	{
 		mSceneMgr = sceneMgr;

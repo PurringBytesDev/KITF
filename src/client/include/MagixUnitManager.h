@@ -95,6 +95,7 @@ protected:
 	MagixGameStateManager *mGameStateManager;
 	MagixPlayer *mPlayer;
 	MagixIndexedUnit *mLastUnit;
+	// why there ?? we are dynamic ? 
 	MagixWorld *mWorld;
 	MagixEffectsManager *mEffectsManager;
 	MagixCollisionManager *mCollisionManager;
@@ -160,6 +161,7 @@ public:
 		if(mUserTagAttr)delete mUserTagAttr;
 		if(mChatBubbleAttr)delete mChatBubbleAttr;
 	}
+	// this should not be here ?
 	void initialize(SceneManager *sceneMgr, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixWorld *world, MagixEffectsManager *effectsMgr, MagixCollisionManager *collisionMgr, MagixSoundManager *soundMgr, MagixItemManager *itemMgr, MagixCritterManager *critterMgr, MagixCamera *camera)
 	{
 		mSceneMgr = sceneMgr;

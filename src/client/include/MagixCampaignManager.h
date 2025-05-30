@@ -89,6 +89,8 @@ public:
 	{
 		mScriptedUnits.clear();
 	}
+
+	// how and when are we called
 	void initialize(MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr,	MagixGUI *gui, MagixUnitManager *unitMgr, MagixWorld *world, MagixSkyManager *skyMgr, MagixCamera *camera, MagixSoundManager *soundMgr, MagixCollisionManager *collisionMgr, MagixEffectsManager *fxMgr)
 	{
 		mDef = def;

@@ -210,6 +210,7 @@ class MagixGUI
 protected:
 	SceneManager *mSceneMgr;
 	RenderWindow *mWindow;
+	// crime lays here in this having too much shit. NOT SANE !!
 	MagixExternalDefinitions *mDef;
 	MagixGameStateManager *mGameStateManager;
 	MagixItemManager *mItemManager;
@@ -4026,6 +4027,7 @@ public:
 				return true;
 			}
 			//Object is player
+			// only isSkillTargetsSelf call ? LEL NO !!! this has to be moved to a specific skills class
 			if(isRightClick && object==mUnitManager->getPlayer()->getObjectNode() && mUnitManager->getPlayer()->getCurrentSkill() && mDef->isSkillTargetsSelf(mUnitManager->getPlayer()->getCurrentSkill()->name))
 			{
 				mCurrentObject = object;
