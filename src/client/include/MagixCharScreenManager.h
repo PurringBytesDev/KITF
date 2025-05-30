@@ -182,18 +182,21 @@ public:
 			}
 			if(page==PAGE_EDIT)
 			{
+				// kids, this is a lesson from uncle purring bytes.
+				// do you know why we need casting ?
+				// BECAUSE SOMEONE USED MAGIC NUMBERS LIKE AN IDIOT INSTEAD OF DECLARING A VAR !!!
 				if(deleteConfirmation=="")
 				{
 					deleteConfirmation = getName();
 					setName("");
 					mName->setPosition(0.05,0.5);
 					mName->show();
-					mAlertBox->showAlert("Enter character name to confirm delete",mName->getLeft()+0.25,mName->getTop()+mName->getHeight()+0.05);
+					mAlertBox->showAlert("Enter character name to confirm delete", mName->getLeft() + (Real)0.25, mName->getTop() + mName->getHeight() + (Real)0.05);
 					return 0;
 				}
 				if(deleteConfirmation!=getName())
 				{
-					mAlertBox->showAlert("Character name mismatch",mName->getLeft()+0.25,mName->getTop()+mName->getHeight()+0.05);
+					mAlertBox->showAlert("Character name mismatch", mName->getLeft() + (Real)0.25, mName->getTop() + mName->getHeight() + (Real)0.05);
 					return 0;
 				}
 				const short tID = charID;
@@ -326,25 +329,50 @@ public:
 		else if(iID==5)
 		{
 			bodyMarkID += (increment?1:-1);
-			if(bodyMarkID<0)bodyMarkID = mDef->maxBodyMarks-1;
-			if(bodyMarkID>=mDef->maxBodyMarks)bodyMarkID = 0;
-			mUnit->setMarkings(bodyMarkID,headMarkID,tailMarkID);
+			
+			if(bodyMarkID<0)
+			{
+				bodyMarkID = mDef->maxBodyMarks - 1;
+			}
+			
+			if(bodyMarkID>=mDef->maxBodyMarks)
+			{
+				bodyMarkID = 0;
+			}
+			mUnit->setMarkings((char)bodyMarkID, (char)headMarkID, (char)tailMarkID);
 		}
 		//head mark
 		else if(iID==6)
 		{
-			headMarkID += (increment?1:-1);
-			if(headMarkID<0)headMarkID = mDef->maxHeadMarks-1;
-			if(headMarkID>=mDef->maxHeadMarks)headMarkID = 0;
-			mUnit->setMarkings(bodyMarkID,headMarkID,tailMarkID);
+			headMarkID += (increment ? 1 : -1);
+			if(headMarkID<0)
+			{
+				headMarkID = mDef->maxHeadMarks - 1;
+			}
+
+			if(headMarkID>=mDef->maxHeadMarks)
+			{
+				headMarkID = 0;
+			}
+			
+			mUnit->setMarkings((char)bodyMarkID, (char)headMarkID, (char)tailMarkID);
 		}
 		//tail mark
 		else if(iID==7)
 		{
 			tailMarkID += (increment?1:-1);
-			if(tailMarkID<0)tailMarkID = mDef->maxTailMarks-1;
-			if(tailMarkID>=mDef->maxTailMarks)tailMarkID = 0;
-			mUnit->setMarkings(bodyMarkID,headMarkID,tailMarkID);
+			
+			if(tailMarkID<0)
+			{
+				tailMarkID = mDef->maxTailMarks - 1;
+			}
+			
+			if(tailMarkID>=mDef->maxTailMarks)
+			{
+				tailMarkID = 0;
+			}
+
+			mUnit->setMarkings((char)bodyMarkID, (char)headMarkID, (char)tailMarkID);
 		}
 		refreshPage();
 	}
@@ -428,11 +456,20 @@ public:
 			mBackButton->setPosition(0.01,0.85);
 			if(getName()!="")
 			{
-				if(!mNextButton->isVisible())mNextButton->show();
+				if(!mNextButton->isVisible())
+				{
+					mNextButton->show();
+				}
+				
 				mNextButtonText->setCaption("Start");
-				mNextButton->setPosition(0.38,0.85);
-				if(!mDeleteButton->isVisible())mDeleteButton->show();
-				mDeleteButton->setPosition(0.85-mDeleteButton->getWidth()+mRButton[0]->getWidth(),0.85);
+				mNextButton->setPosition(0.38, 0.85);
+				
+				if(!mDeleteButton->isVisible())
+				{
+					mDeleteButton->show();
+				}
+				
+				mDeleteButton->setPosition((Real)0.85 - mDeleteButton->getWidth() + mRButton[0]->getWidth(), 0.85);
 				mDeleteButtonText->setCaption("Edit");
 			}
 			else

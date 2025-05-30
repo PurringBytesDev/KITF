@@ -341,6 +341,7 @@ public:
 			}
 		}
 	}
+
 	bool isRestricted(const short& headID, const short& maneID)
 	{
 		if (headID == 0 || headID == 4)
@@ -355,11 +356,13 @@ public:
 
 
 	}
+
 	bool isRestrictedTuft(const short& tuftID)
 	{
 		if (tuftID == 8)return true;
 		return false;
 	}
+
 	void loadSettings(bool& isTablet, Real& mouseSensitivity, Real& musicVol, Real& guiVol, Real& soundVol, bool& isShadowsOn, bool& isBloom, String& username, bool& generalCharname, bool& localUsername, bool& channelBlink, bool& runMode, bool& doubleJumpOn, bool& autoLipSync, bool& useWindowsCursor)
 	{
 		long tSize = 0;
@@ -1485,7 +1488,7 @@ public:
 			hotkeyF[7] = "Tongue";
 		}
 	}
-	void saveHotkeys(const String& filename)
+	const void saveHotkeys(const String& filename)
 	{
 		std::ofstream outFile;
 		outFile.open(filename.c_str(), std::ofstream::out);
@@ -1533,15 +1536,15 @@ public:
 			if (tuftMesh[i] == mesh)return true;
 		return false;
 	}
-	bool hasBodyMark(const unsigned char& id)
+	const bool hasBodyMark(const unsigned char& id)
 	{
 		return (id < maxBodyMarks);
 	}
-	bool hasHeadMark(const unsigned char& id)
+	const bool hasHeadMark(const unsigned char& id)
 	{
 		return (id < maxHeadMarks);
 	}
-	bool hasTailMark(const unsigned char& id)
+	const bool hasTailMark(const unsigned char& id)
 	{
 		return (id < maxTailMarks);
 	}
