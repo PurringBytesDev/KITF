@@ -247,7 +247,7 @@ public:
 			moveUpdateCount -= evt.timeSinceLastFrame;
 			if(moveUpdateCount<=0)
 			{
-				moveUpdateCount += (mUnitManager->getPlayer()->getIsCrouching()?0.75:(mUnitManager->getPlayer()->getIsWalking()?0.5:0.25));
+				moveUpdateCount += (mUnitManager->getPlayer()->getIsCrouching() ? (Real)0.75 : (mUnitManager->getPlayer()->getIsWalking() ? (Real)0.5 : (Real)0.25));
 				sendMovePosition();
 				sendFaceDirection();
 			}

@@ -2126,5 +2126,4 @@ public:
 		return tFlag;
 	}
 };
-
 #endif

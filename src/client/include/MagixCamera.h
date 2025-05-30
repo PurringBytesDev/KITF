@@ -416,7 +416,7 @@ public:
 	}
 	void doCameraZoom(Real dY)
 	{
-		camZoom += dY * -0.1;
+		camZoom += dY * -(Real)0.1;
 		if(camZoom<0.25)camZoom = 0.25;
 		if(camZoom>5)camZoom = 5;
 		mCamNode->setPosition(0,0,0);

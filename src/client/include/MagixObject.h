@@ -10,6 +10,9 @@
 #define ALLIANCE_FRIEND 2
 #define ALLIANCE_ENEMY 3
 
+/// <summary>
+///  ENUMS SHOULD GO IN A MAGIX :: ENUMS !!! 
+/// </summary>
 enum OBJECT_TYPE
 {
 	OBJECT_BASIC,

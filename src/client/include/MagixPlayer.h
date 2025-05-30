@@ -30,6 +30,7 @@ struct PetFlags
 	bool shrink;
 	bool evolve;
 	bool hasHeal;
+
 	PetFlags()
 	{
 		stay = false;
@@ -38,12 +39,13 @@ struct PetFlags
 		evolve = false;
 		hasHeal = false;
 	}
+
 	void reset()
 	{
 		attackTarget = 0;
 	}
 };
-
+// so a derivative control more than a controller ?
 class MagixPlayer : public MagixUnit
 {
 protected:
@@ -71,6 +73,7 @@ protected:
 	unsigned short nextAttackRange;
 	
 public:
+	// this exist basically so input manager can set it, hilarious.
 	bool up;
 	bool down;
 	bool left;
@@ -80,6 +83,7 @@ public:
 	bool defaultControlModeIsAbsolute;
 	bool isReadyToDoubleJump;
 	bool setPlayerTargetOnHit;
+
 	MagixPlayer()
 	{
 		controlMode = CONTROL_ABSOLUTE;
@@ -114,12 +118,14 @@ public:
 		petFlags = PetFlags();
 		nextAttackRange = 0;
 	}
+
 	~MagixPlayer()
 	{
 		skillSlot.clear();
 		defaultAttackList.clear();
 		skillChangedList.clear();
 	}
+
 	void reset()
 	{
 		controlMode = (defaultControlModeIsAbsolute?CONTROL_ABSOLUTE:CONTROL_RELATIVE);
@@ -135,6 +141,7 @@ public:
 		petFlags.reset();
 		nextAttackRange = 0;
 	}
+
 	void resetChanges()
 	{
 		skillChangedList.clear();
@@ -142,9 +149,14 @@ public:
 		maxHPChanged = false;
 		woundChanged = false;
 	}
+
 	void updateMovement(const FrameEvent &evt, const Quaternion &camOrientation=Quaternion::ZERO)
 	{
-		if(isDisabled())return;
+		if(isDisabled())
+		{
+			return;
+		}
+		
 		if(isAttacking())
 		{
 			targetAction = 0;
@@ -166,30 +178,57 @@ public:
 					targetAction = 0;
 				}
 			}
+
 			//Doublejump recharge
 			if(distanceFromGround()<=GROUND_THRESHOLD)
 			{
 				isReadyToDoubleJump = false;
 				hasDoubleJumped = false;
 			}
+
 			return;
 		}
 
 		if(controlMode == CONTROL_RELATIVE)
 		{
-			if(up)addForce(mObjectNode->getOrientation().zAxis()*10*evt.timeSinceLastFrame);
-			if(down)addForce(mObjectNode->getOrientation().zAxis()*-5*evt.timeSinceLastFrame);
-			if(left)yaw(Degree(180*evt.timeSinceLastFrame));
-			if(right)yaw(Degree(-180*evt.timeSinceLastFrame));
+			if(up)
+			{
+				addForce(mObjectNode->getOrientation().zAxis() * 10 * evt.timeSinceLastFrame);
+			}
+			
+			if(down)
+			{
+				addForce(mObjectNode->getOrientation().zAxis() * -5 * evt.timeSinceLastFrame);
+			}
+			
+			if(left)
+			{
+				yaw(Degree(180 * evt.timeSinceLastFrame));
+			}
+
+			if(right)
+			{
+				yaw(Degree(-180 * evt.timeSinceLastFrame));
+			}
 		}
 		else if(controlMode == CONTROL_ABSOLUTE || controlMode == CONTROL_FIRSTPERSON)
 		{
 			if(up||down||left||right||ascend||descend)
 			{
 				Degree tYaw = Degree(camOrientation.getYaw()) + Degree(180);
-				if(tYaw<Degree(0))tYaw += Degree(360);
-				if(tYaw>=Degree(360))tYaw -= Degree(360);
+
+				if(tYaw<Degree(0))
+				{
+					tYaw += Degree(360);
+				}
+
+				if(tYaw>=Degree(360))
+				{
+					tYaw -= Degree(360);
+				}
+				
 				Vector2 tVect = Vector2(0,0);
+				
 				if(tYaw==Degree(0)||tYaw==Degree(180))
 				{
 					tVect.y = 1 * (tYaw==Degree(180)?-1:1);
@@ -225,22 +264,37 @@ public:
 				if(left)
 				{
 					addForce(Vector3(tVect.perpendicular().x,0,tVect.perpendicular().y)*-10*evt.timeSinceLastFrame);
+					
 					if(controlMode==CONTROL_FIRSTPERSON)
-						setYaw(Degree(90)+tYaw+(up?Degree(-45):Degree(0))+(down?Degree(225):Degree(0)));
-					else setYaw(Degree(90)+tYaw+(up?Degree(-45):Degree(0))+(down?Degree(45):Degree(0)));
+					{
+						setYaw(Degree(90) + tYaw + (up ? Degree(-45) : Degree(0)) + (down ? Degree(225) : Degree(0)));
+					}
+					else 
+					{
+						setYaw(Degree(90) + tYaw + (up ? Degree(-45) : Degree(0)) + (down ? Degree(45) : Degree(0)));
+					}
 				}
 				else if(right)
 				{
 					addForce(Vector3(tVect.perpendicular().x,0,tVect.perpendicular().y)*10*evt.timeSinceLastFrame);
+					
 					if(controlMode==CONTROL_FIRSTPERSON)
-						setYaw(Degree(270)+tYaw+(up?Degree(45):Degree(0))+(down?Degree(-225):Degree(0)));
-					else setYaw(Degree(270)+tYaw+(up?Degree(45):Degree(0))+(down?Degree(-45):Degree(0)));
+					{
+						setYaw(Degree(270) + tYaw + (up ? Degree(45) : Degree(0)) + (down ? Degree(-225) : Degree(0)));
+					}
+					else 
+					{
+						setYaw(Degree(270) + tYaw + (up ? Degree(45) : Degree(0)) + (down ? Degree(-45) : Degree(0)));
+					}
 				}
 			}
 		}
 
-		if(jump && distanceFromGround()<(MAX_JUMPHEIGHT*hasDoubleJumped?2:1) && mForce.y>=0)
-			addForce(Vector3(0,GRAVITY*evt.timeSinceLastFrame + (distanceFromGround()<=GROUND_THRESHOLD?2:0),0));
+		if (jump && distanceFromGround() < (MAX_JUMPHEIGHT * hasDoubleJumped ? 2 : 1) && mForce.y >= 0)
+		{
+			addForce(Vector3(0, GRAVITY * evt.timeSinceLastFrame + (distanceFromGround() <= GROUND_THRESHOLD ? 2 : 0), 0));
+		}
+		
 		//Doublejump recharge
 		if(distanceFromGround()<=GROUND_THRESHOLD)
 		{
@@ -248,20 +302,42 @@ public:
 			hasDoubleJumped = false;
 		}
 
-		if(ascend && antiGravity)addForce(Vector3(0,5*evt.timeSinceLastFrame,0));
-		else if(descend && antiGravity)addForce(Vector3(0,-5*evt.timeSinceLastFrame,0));
+		if(ascend && antiGravity)
+		{
+			addForce(Vector3(0, 5 * evt.timeSinceLastFrame, 0));
+		}
+		else if(descend && antiGravity)
+		{
+			addForce(Vector3(0, -5 * evt.timeSinceLastFrame, 0));
+		}
 	}
+
 	void updateAutoAttack(MagixExternalDefinitions *def)
 	{
-		if(!mAutoAttackTarget || (up||down||left||right||ascend||descend))return;
+		if(!mAutoAttackTarget || (up||down||left||right||ascend||descend))
+		{
+			return;
+		}
+
 		if(getPosition().squaredDistance(mAutoAttackTarget->getPosition())<(AUTOTARGET_RANGE_SQUARED*0.25+nextAttackRange*nextAttackRange))
 		{
-			if(!mNextSkill)doAttack(def);
-			else doSkill(mNextSkill);
+			if(!mNextSkill)
+			{
+				doAttack(def);
+			}
+			else
+			{
+				doSkill(mNextSkill);
+			}
+			
 			nextAttackRange = 0;
 		}
-		else if(targetAction==0 || mAutoAttackTarget->getPosition()!=targetVector)setTarget(mAutoAttackTarget->getPosition());
+		else if (targetAction == 0 || mAutoAttackTarget->getPosition() != targetVector)
+		{
+			setTarget(mAutoAttackTarget->getPosition());
+		}
 	}
+
 	bool updateAttack(const FrameEvent &evt, MagixExternalDefinitions *def)
 	{
 		if(isAttacking())
@@ -271,8 +347,12 @@ public:
 				attackTimeout = 0.25;
 				hasStoppedAttack = true;
 			}
-			else if(getControlMode()!=CONTROL_FIRSTPERSON)lookDirection = mObjectNode->getOrientation()*Quaternion(0,0,1,0);
+			else if(getControlMode()!=CONTROL_FIRSTPERSON)
+			{
+				lookDirection = mObjectNode->getOrientation() * Quaternion(0, 0, 1, 0);
+			}
 		}
+
 		if(!isAttacking() && nextAttackName!="")
 		{
 			attackName = nextAttackName;
@@ -288,66 +368,117 @@ public:
 				mNextSkill = 0;
 			}
 		}
+
 		if(attackTimeout>0)
 		{
 			attackTimeout -= evt.timeSinceLastFrame;
-			if(attackTimeout<0)attackTimeout = 0;
+			
+			if(attackTimeout<0)
+			{
+				attackTimeout = 0;
+			}
+			
 			if(attackTimeout==0)
 			{
 				attackName = "";
 				attackCounter = 0;
 			}
 		}
+
 		return isAttacking();
 	}
+
 	void doSkill(Skill *skill, bool waitTillInRange=false)
 	{
-		if(!waitTillInRange)nextAttackName = skill->name;
+		if(!waitTillInRange)
+		{
+			nextAttackName = skill->name;
+		}
+		
 		mNextSkill = skill;
 	}
+
 	void setAttackRange(const unsigned short &range)
 	{
 		nextAttackRange = range;
 	}
+
 	void updateWound(const FrameEvent &evt)
 	{
-		if(!isWounded)return;
-		if(hp<=0)return;
+		if(!isWounded)
+		{
+			return;
+		}
+		
+		if(hp<=0)
+		{
+			return;
+		}
 
 		//Recover from wound
 		if(woundRecoveryTimer>0)
 		{
 			Real rate = 1;
-			if(isSitting()||isLaying()||isSideLaying())rate = 25;
-			if(isRolledOver()||isPlopped()||isLeaning()||isCurled())rate = 50;
-			if(isInWater)rate *= 2;
-			woundRecoveryTimer -= rate*evt.timeSinceLastFrame;
+			if(isSitting()||isLaying()||isSideLaying())
+			{
+				rate = 25;
+			}
+			
+			if(isRolledOver()||isPlopped()||isLeaning()||isCurled())
+			{
+				rate = 50;
+			}
+
+			if(isInWater)
+			{
+				rate *= 2;
+			}
+
+			woundRecoveryTimer -= rate * evt.timeSinceLastFrame;
 		}
-		if(woundRecoveryTimer>0)return;
+
+		if(woundRecoveryTimer > 0)
+		{
+			return;
+		}
 		woundRecoveryTimer += 10;
+
 		//Recovered
-		if(addHPRatio(-0.001))setWounded(false);
+		if(addHPRatio(-0.001))
+		{
+			setWounded(false);
+		}
 	}
+
 	void update(const FrameEvent &evt, MagixExternalDefinitions *def, const Quaternion &camOrientation=Quaternion::ZERO)
 	{
 		if(!unitID)return;
 
+		// magix object, is magix object the physics ?
 		updatePhysics(evt);
+		// is this input or render ?
 		updateMovement(evt,camOrientation);
+		// 
 		updateAutoAttack(def);
 		updateAction(evt,def);
 		updateAutoTrack();
 		updateAnimation(evt,def);
 		updateFaceDirection(evt);
+		// ui ? yet again not where it should be then
 		updateNameTag(evt);
 		updateUserTag(evt);
+		// yes and no ? why not updating that .. FROM CHAT LOL this is already an "unit" function so what ?
 		updateChatBubble(evt);
+		// maybe in a heal/life system ? we could build player from those components 
 		updateWound(evt);
 	}
+
 	const OBJECT_TYPE getType()
 	{
 		return OBJECT_PLAYER;
 	}
+
+	// its maybe actually "camera" modes ?
 	void toggleControlMode()
 	{
 		switch(controlMode)
@@ -362,21 +493,32 @@ public:
 			break;
 		}
 	}
-	void setTarget(const Vector3 &dest, const unsigned char &action=TARGET_RUNTO, bool pickupPlus=false)
-	{
-		static_cast<MagixUnit*>(this)->setTarget(dest.x,dest.y,dest.z,action);
-		pickupRangePlus = pickupPlus;
-	}
+
 	void setControlMode(const unsigned short &mode)
 	{
 		controlMode = mode;
-		if(controlMode==CONTROL_ABSOLUTE)defaultControlModeIsAbsolute = true;
-		else if(controlMode==CONTROL_RELATIVE)defaultControlModeIsAbsolute = false;
+
+		if(controlMode==CONTROL_ABSOLUTE)
+		{
+			defaultControlModeIsAbsolute = true;
+		}
+		else if (controlMode == CONTROL_RELATIVE)
+		{
+			defaultControlModeIsAbsolute = false;
+		}
 	}
+
 	unsigned short getControlMode()
 	{
 		return controlMode;
 	}
+
+	void setTarget(const Vector3& dest, const unsigned char& action = TARGET_RUNTO, bool pickupPlus = false)
+	{
+		static_cast<MagixUnit*>(this)->setTarget(dest.x, dest.y, dest.z, action);
+		pickupRangePlus = pickupPlus;
+	}
+
 	void stopAction()
 	{
 		up = 0;
@@ -399,6 +541,7 @@ public:
 		isReadyToDoubleJump = false;
 		mAutoAttackTarget = 0;
 	}
+
 	void lockOn(MagixObject *target)
 	{
 		setAutoTrackObject(target);
@@ -414,14 +557,17 @@ public:
 				isLockedOn = false;
 				setPlayerTargetOnHit = true;
 			}
-			targetAction = 0;
-			
+
+			targetAction = 0;			
 		}
 	}
+
 	bool getIsLockedOn()
 	{
 		return isLockedOn;
 	}
+
+	// skillslot ? so slots/skills are objects ? interactable ?
 	void resetSkills()
 	{
 		skillSlot.clear();
@@ -440,6 +586,7 @@ public:
 	{
 		return skillSlot;
 	}
+
 	void addSkill(const String &name, const unsigned short &stock)
 	{
 		for(vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
@@ -448,22 +595,39 @@ public:
 			if(skill->name == name)
 			{
 				skill->stock += stock;
-				if(skill->stock>MAX_SKILLSTOCK)skill->stock = MAX_SKILLSTOCK;
+				if(skill->stock>MAX_SKILLSTOCK)
+				{
+					skill->stock = MAX_SKILLSTOCK;
+				}
+				
 				skillChangedList.push_back(Skill(name,skill->stock));
+				
 				return;
 			}
 		}
+
 		skillSlot.push_back(Skill(name,(stock>MAX_SKILLSTOCK?MAX_SKILLSTOCK:stock)));
 		skillChangedList.push_back(Skill(name,(stock>MAX_SKILLSTOCK?MAX_SKILLSTOCK:stock)));
 	}
+
 	void decrementSkill(Skill *skill)
 	{
-		if(!skill)return;
+		// why in the why ? inspect calls, if it happen we should have an exception actually !!
+		if(!skill)
+		{
+			return;
+		}
+
 		skill->stock -= 1;
 		skillChangedList.push_back(Skill(skill->name,skill->stock));
+		
 		if(skill->stock==0)
 		{
-			if(mCurrentSkill==skill)setCurrentSkill(0);
+			if(mCurrentSkill==skill)
+			{
+				setCurrentSkill(0);
+			}
+
 			for(vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 			{
 				Skill *tSkill = &*it;
@@ -475,30 +639,37 @@ public:
 			}
 		}
 	}
+
 	void clearDefaultAttackList()
 	{
 		defaultAttackList.clear();
 	}
+	
 	void pushDefaultAttackList(const String &attackName)
 	{
 		defaultAttackList.push_back(attackName);
 	}
+	
 	void setAttackListToDefault()
 	{
 		attackList.clear();
 		attackList = defaultAttackList;
 	}
+	
 	void setCurrentSkill(Skill *skill)
 	{
 		mCurrentSkill = 0;
+		
 		if(!skill)
 		{
 			setAttackListToDefault();
 			return;
 		}
+		
 		for(vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *tSkill = &*it;
+
 			if(tSkill == skill)
 			{
 				mCurrentSkill = skill;
@@ -508,10 +679,13 @@ public:
 			}
 		}
 	}
+
 	Skill* getNextSkill()
 	{
 		bool nextOneIsIt = false;
+		
 		Skill *tSkill = 0;
+
 		for(vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *skill = &*it;
@@ -520,131 +694,170 @@ public:
 				tSkill = skill;
 				break;
 			}
-			if(!mCurrentSkill)return skill;
-			else if(mCurrentSkill==skill)nextOneIsIt = true;
+			
+			if(!mCurrentSkill)
+			{
+				return skill;
+			}
+			else if(mCurrentSkill==skill)
+			{
+				nextOneIsIt = true;
+			}
 		}
-		if(!tSkill && skillSlot.size()>0)tSkill = &skillSlot[0];
+
+		if(!tSkill && skillSlot.size()>0)
+		{
+			tSkill = &skillSlot[0];
+		}
+
 		return tSkill;
 	}
+
 	Skill* getSkill(const String &name)
 	{
 		for(vector<Skill>::type::iterator it = skillSlot.begin(); it != skillSlot.end(); it++)
 		{
 			Skill *skill = &*it;
+
 			if(skill->name == name)
 			{
 				return skill;
 			}
 		}
+
 		return 0;
 	}
+
 	Skill* getCurrentSkill()
 	{
 		return mCurrentSkill;
 	}
+	
 	bool isSkillMode()
 	{
 		return (mCurrentSkill!=0);
 	}
+	
 	void toggleAutoWalk()
 	{
 		autoWalk = !autoWalk;
 		isWalking = !isWalking;
 	}
+	
 	bool getAutoWalk()
 	{
 		return autoWalk;
 	}
+	
 	void toggleAutoRun()
 	{
 		autoRun = !autoRun;
 		up = autoRun;
 	}
+	
 	bool getAutoRun()
 	{
 		return autoRun;
 	}
+	
 	bool popIsReadyToPickup()
 	{
 		const bool tFlag = isReadyToPickup;
 		isReadyToPickup = false;
 		return tFlag;
 	}
+	
 	void setIndex(const unsigned short &value)
 	{
 		index = value;
 	}
+	
 	const unsigned short getIndex()
 	{
 		return index;
 	}
+	
 	void setPet(const String &type, MagixExternalDefinitions *def=0)
 	{
 		petName = type;
+
 		if(def && type!="")
 		{
 			petFlags.hasHeal = (def->getCritterRandomSpecificAttack(type,false)!=0);
 		}
 	}
+	
 	bool hasPet()
 	{
 		return (petName!="");
 	}
+	
 	const String getPet()
 	{
 		return petName;
 	}
+	
 	void setAutoAttack(MagixLiving *target, bool attackOnce=false)
 	{
 		mAutoAttackTarget = target;
 		autoAttackOnce = attackOnce;
 	}
+	
 	MagixLiving* getAutoAttackTarget()
 	{
 		return mAutoAttackTarget;
 	}
+
+	// this might be better in public since this is FOR OUTSIDE ACCESS !!!!! (and so are other booleans)
 	bool getAutoAttackOnce()
 	{
 		return autoAttackOnce;
 	}
+	
 	const vector<Skill>::type popSkillChangedList()
 	{
 		const vector<Skill>::type tList = skillChangedList;
 		skillChangedList.clear();
 		return tList;
 	}
+
 	bool popHPChanged()
 	{
 		const bool tFlag = hpChanged;
 		hpChanged = false;
 		return tFlag;
 	}
+
 	bool popMaxHPChanged()
 	{
 		const bool tFlag = maxHPChanged;
 		maxHPChanged = false;
 		return tFlag;
 	}
+	
 	void setHP(const short &iMaxHP, const Real &ratio=1)
 	{
 		maxHP = iMaxHP;
 		hp = ratio*maxHP;
 		maxHPChanged = true;
 	}
+	
 	void setHPRatio(const Real &ratio)
 	{
 		hp = ratio*maxHP;
 		hpChanged = true;
 	}
+	
 	bool addHPRatio(const Real &ratio)
 	{
 		if(invulnerable && ratio<0)return false;
 		hpChanged = true;
-		hp += ratio*maxHP;
+		hp += (short)ratio * maxHP;
 		if(hp>maxHP)hp = maxHP;
 		if(hp<0)hp = 0;
 		return (hp==0);
 	}
+	
 	bool addHP(const short &value)
 	{
 		if(invulnerable && value<0)return false;
@@ -654,30 +867,33 @@ public:
 		if(hp<0)hp = 0;
 		return (hp==0);
 	}
+	
 	void setWounded(bool flag, bool instant=false)
 	{
 		isWounded = flag;
 		if(!instant)woundChanged = true;
 	}
+	
 	bool getIsWounded()
 	{
 		return isWounded;
 	}
+	
 	bool popWoundedChanged()
 	{
 		const bool tFlag = woundChanged;
 		woundChanged = false;
 		return tFlag;
 	}
+	
 	bool setPickupRangePlus(bool flag)
 	{
 		pickupRangePlus = flag;
 	}
+
 	PetFlags* getPetFlags()
 	{
 		return &petFlags;
 	}
 };
-
-
 #endif
