@@ -990,8 +990,9 @@ namespace RakNet
 		inline void BitStream::WriteDelta(bool currentValue, bool lastValue)
 	{
 		// require a raknet recompile probably
-		//(void) lastValue;
-		std::ignore = lastValue;
+		// scratch that std::ignore disliked
+		(void) lastValue;
+		//std::ignore = lastValue;
 
 		Write(currentValue);
 	}
@@ -1136,8 +1137,9 @@ namespace RakNet
 	template <>
 		inline void BitStream::WriteCompressedDelta(bool currentValue, bool lastValue)
 	{
-		//(void) lastValue;
-		std::ignore = lastValue;
+		(void) lastValue;
+		// scratch that std::ignore disliked
+		//std::ignore = lastValue;
 		Write(currentValue);
 	}
 

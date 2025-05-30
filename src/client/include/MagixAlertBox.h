@@ -1,14 +1,15 @@
 #ifndef __MagixAlertBox_h_
 #define __MagixAlertBox_h_
 
+// self ?
 #define TRANSITION_TIME 0.1
 #define ALERT_FONT "TempusSans"
 
 class MagixAlertBox
 {
 protected:
-	OverlayElement *mAlertBox;
-	OverlayElement *mAlertBoxText;
+	OverlayElement* mAlertBox;
+	OverlayElement* mAlertBoxText;
 	Real alertCount;
 	Real alertTimeout;
 	Real startWidth;
@@ -16,7 +17,8 @@ protected:
 	Real startLeft;
 	Real startTop;
 public:
-	MagixAlertBox()
+	// C26455 && C26495 
+	MagixAlertBox() noexcept
 	{
 		mAlertBox = 0;
 		mAlertBoxText = 0;
@@ -24,11 +26,24 @@ public:
 		alertTimeout = 0;
 		startWidth = 0;
 		startHeight = 0;
+		startLeft = 0;
+		startTop = 0;
 	}
 
-	~MagixAlertBox()
+	// When ? (under a breakpoint)
+	// got a C26432 that cant be fixed ?
+	~MagixAlertBox() noexcept
 	{
+		// do the mass null work ?
+		mAlertBox = NULL;
+		mAlertBoxText = NULL;
+		alertCount = NULL;
+		startWidth = NULL;
+		startHeight = NULL;
+		startLeft = NULL;
+		startTop = NULL;
 	}
+
 	void initialize()
 	{
 		OverlayManager::getSingleton().getByName("GUIOverlay/AlertBox")->hide();
@@ -38,92 +53,108 @@ public:
 	void update(const FrameEvent evt)
 	{
 		//Transition in
-		if(alertTimeout>0)
+		if (alertTimeout > 0)
 		{
-			if(!mAlertBox->isVisible())mAlertBox->show();
-			if(mAlertBoxText->isVisible())mAlertBoxText->hide();
+			if (!mAlertBox->isVisible())
+			{
+				mAlertBox->show();
+			}
+
+			if (mAlertBoxText->isVisible())
+			{
+				mAlertBoxText->hide();
+			}
+
 			alertTimeout -= evt.timeSinceLastFrame;
-			if(alertTimeout<=0)
+			if (alertTimeout <= 0)
 			{
 				alertTimeout = 0;
 				mAlertBoxText->show();
 			}
-			Real tRatio = (TRANSITION_TIME-alertTimeout)/TRANSITION_TIME;
-			mAlertBox->setDimensions(tRatio*startWidth,tRatio*startHeight);
-			mAlertBox->setPosition(startLeft + (1-tRatio)*startWidth/2, startTop + (1-tRatio)*startHeight/2);
+			// cast & wrap (& const ?)
+			const Real tRatio = (const Real)((TRANSITION_TIME - alertTimeout) / TRANSITION_TIME);
+			mAlertBox->setDimensions(tRatio * startWidth, tRatio * startHeight);
+			mAlertBox->setPosition(startLeft + (1 - tRatio) * startWidth / 2, startTop + (1 - tRatio) * startHeight / 2);
 
 			return;
 		}
 
 		//Show alert
-		if(alertCount>0)
+		if (alertCount > 0)
 		{
 			alertCount -= evt.timeSinceLastFrame;
-			if(alertCount<=0)hide();
+			if (alertCount <= 0)hide();
 
 			return;
 		}
 
 		//Transition out
-		if(alertTimeout<0)
+		if (alertTimeout < 0)
 		{
-			if(mAlertBoxText->isVisible())mAlertBoxText->hide();
+			if (mAlertBoxText->isVisible())
+			{
+				mAlertBoxText->hide();
+			}
+
 			alertTimeout += evt.timeSinceLastFrame;
-			if(alertTimeout>=0)
+			if (alertTimeout >= 0)
 			{
 				alertTimeout = 0;
 				mAlertBox->hide();
 				OverlayManager::getSingleton().getByName("GUIOverlay/AlertBox")->hide();
 			}
-			Real tRatio = (-1*alertTimeout)/TRANSITION_TIME;
-			mAlertBox->setDimensions(tRatio*startWidth,tRatio*startHeight);
-			mAlertBox->setPosition(startLeft + (1-tRatio)*startWidth/2, startTop + (1-tRatio)*startHeight/2);
+			// here const only on result ? seems to make it happy ?
+			Real tRatio = (const Real)((-1 * alertTimeout) / TRANSITION_TIME);
+			mAlertBox->setDimensions(tRatio * startWidth, tRatio * startHeight);
+			mAlertBox->setPosition(startLeft + (1 - tRatio) * startWidth / 2, startTop + (1 - tRatio) * startHeight / 2);
 
 			return;
 		}
 	}
-	void showAlert(const String &caption, Real left, Real top, Real count=2.5)
+	void showAlert(const String& caption, Real left, Real top, Real count = 2.5)
 	{
 		OverlayManager::getSingleton().getByName("GUIOverlay/AlertBox")->show();
 		mAlertBoxText->setCaption(caption);
-		mAlertBox->setPosition(left,top);
+		mAlertBox->setPosition(left, top);
 
 		//compute text width/height
-		const Font *pFont = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(ALERT_FONT).getPointer());
+		const Font* pFont = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(ALERT_FONT).getPointer());
 
-		vector<String>::type tText = StringUtil::split(caption,"\n");
+		vector<String>::type tText = StringUtil::split(caption, "\n");
 		Real tLongestWidth = 0;
 
-		for(int i=0; i<int(tText.size()); i++)
+		for (int i = 0; i < (int)(tText.size()); i++)
 		{
-			String tLine = tText[i];
+			// casting is magical
+			String tLine = (String)tText[i];
 			Real tTextWidth = 0;
-			for(Ogre::String::iterator i = tLine.begin(); i < tLine.end();i++)
-			{   
-				if (*i == 0x0020)
+
+			for (Ogre::String::iterator iv = tLine.begin(); iv < tLine.end(); i++)
+			{
+				if (*iv == 0x0020)
 					tTextWidth += 0.055;//pFont->getGlyphAspectRatio(0x0030);
 				else
 				{
-					tTextWidth += pFont->getGlyphAspectRatio(*i);
+					tTextWidth += pFont->getGlyphAspectRatio(*iv);
 				}
 			}
-			if(tTextWidth>tLongestWidth)tLongestWidth = tTextWidth;
+			if (tTextWidth > tLongestWidth)tLongestWidth = tTextWidth;
 		}
 
 		startHeight = StringConverter::parseReal(mAlertBoxText->getParameter("char_height"));
 		startWidth = tLongestWidth * startHeight;
-		startHeight *= int(tText.size());
+		startHeight *= (int)(tText.size());
 
-		startLeft = left-startWidth/2;
-		startTop = top-startHeight/2;
-		mAlertBox->setDimensions(0,0);
+		startLeft = left - startWidth / 2;
+		startTop = top - startHeight / 2;
+		mAlertBox->setDimensions(0, 0);
 		alertCount = count;
 		alertTimeout = TRANSITION_TIME;
 	}
-	void hide(bool immediate=false)
+	void hide(bool immediate = false)
 	{
 		alertCount = 0;
-		if(immediate)
+		if (immediate)
 		{
 			OverlayManager::getSingleton().getByName("GUIOverlay/AlertBox")->hide();
 			mAlertBox->hide();

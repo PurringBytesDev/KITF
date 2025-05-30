@@ -284,7 +284,7 @@ protected:
 						inFile.open(tFilename.c_str(), std::ifstream::in);
 						if(!inFile.good())continue;
 						inFile.seekg(0,std::ios::end);
-						tSize = inFile.tellg();
+						tSize = (long)inFile.tellg();
 						inFile.seekg(0,std::ios::beg);
 						tBuffer = new char[tSize];
 						strcpy(tBuffer,"");
