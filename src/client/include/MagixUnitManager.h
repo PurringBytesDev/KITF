@@ -813,8 +813,14 @@ public:
 					const Real tMaxZ = tBox->center.z+tBox->range.z/2;
 					const Real tNearestX = (Math::Abs(tMinX - unit->getPosition().x)<=Math::Abs(tMaxX - unit->getPosition().x)?tMinX - unit->getPosition().x:tMaxX - unit->getPosition().x);
 					const Real tNearestZ = (Math::Abs(tMinZ - unit->getPosition().z)<=Math::Abs(tMaxZ - unit->getPosition().z)?tMinZ - unit->getPosition().z:tMaxZ - unit->getPosition().z);
-					if(Math::Abs(tNearestX)<=Math::Abs(tNearestZ))unit->addPenaltyVelocity(Vector3(tNearestX,0,0));
-					else unit->addPenaltyVelocity(Vector3(0,0,tNearestZ));
+					if(Math::Abs(tNearestX)<=Math::Abs(tNearestZ))
+					{
+						unit->addPenaltyVelocity(Vector3(tNearestX, 0, 0));
+					}
+					else
+					{
+						unit->addPenaltyVelocity(Vector3(0, 0, tNearestZ));
+					}
 				}
 			}
 		}
@@ -873,7 +879,10 @@ public:
 					unit->addPenaltyVelocity(Vector3(Math::Sin(tYaw)*tSphere->range - tX,0,Math::Cos(tYaw)*tSphere->range - tZ));
 				}
 				//Head under sphere
-				if(unit->getForce().y>0)unit->addForce(Vector3(0,-unit->getForce().y,0));
+				if (unit->getForce().y > 0)
+				{
+					unit->addForce(Vector3(0, -unit->getForce().y, 0));
+				}
 			}
 		}
 	}
@@ -957,7 +966,8 @@ public:
 		else
 		{
 			const Vector3 tForce = unit->getForce();
-			mEffectsManager->setWaterRippleEmissionByOwner(tNode,(tForce.x==0&&tForce.z==0&&tForce.y>=0?1: unit->getSpeedMultiplier()*10+Math::RangeRandom(0,2) ));
+			// please make ternary operations readable for crying out loud
+			mEffectsManager->setWaterRippleEmissionByOwner(tNode,(tForce.x==0&&tForce.z==0&&tForce.y>=0 ? 1 : unit->getSpeedMultiplier() * 10 + Math::RangeRandom(0,2) ));
 			mEffectsManager->setWaterRippleHeightByOwner(tNode,tWaterBox->center.y);
 		}
 		if(!doBubbles)
@@ -1079,13 +1089,16 @@ public:
 			while(tLast)
 			{
 				if(!unit->matchAlliance(tLast->getAlliance()) && !tLast->isWounded)
-				if(unit->getPosition().squaredDistance(tLast->getPosition())<=AUTOTARGET_RANGE_SQUARED)
 				{
-					unit->setTarget(tLast->getPosition(),TARGET_LOOKAT);
-					return (unit->getFaceDirection());
+					if (unit->getPosition().squaredDistance(tLast->getPosition()) <= AUTOTARGET_RANGE_SQUARED)
+					{
+						unit->setTarget(tLast->getPosition(), TARGET_LOOKAT);
+						return (unit->getFaceDirection());
+					}
 				}
 				tLast = tLast->getPrevious();
 			}
+
 			//Critters
 			const vector<MagixCritter*>::type tCritter = mCritterManager->getCritterList();
 			for(int i=0;i<(int)tCritter.size();i++)
@@ -1103,38 +1116,58 @@ public:
 		//none
 		return unit->getObjectNode()->getOrientation();
 	}
+
 	bool doLockOn()
 	{
-		const bool tTargetAlly = mPlayer->isSkillMode()?mDef->isSkillTargetsAllies(mPlayer->getCurrentSkill()->name):false;
+		// ternary operator rescue service was there.
+		const bool tTargetAlly = mPlayer->isSkillMode()?mDef->isSkillTargetsAllies(mPlayer->getCurrentSkill()->name) : false;
+
 		//Units
 		MagixIndexedUnit *tLast = mLastUnit;
 		while(tLast)
 		{
+			// i hated debuguing the imbrication, what is wrong with some people...
 			if(!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject()!=tLast))
-			if(!(mPlayer->matchAlliance(tLast->getAlliance())^tTargetAlly) && !tLast->isWounded)
-			if(mPlayer->getPosition().squaredDistance(tLast->getPosition())<=40000)
 			{
-				mPlayer->lockOn(tLast);
-				setPlayerTarget(tLast);
-				return true;
+				if (!(mPlayer->matchAlliance(tLast->getAlliance()) ^ tTargetAlly) && !tLast->isWounded)
+				{
+					if (mPlayer->getPosition().squaredDistance(tLast->getPosition()) <= 40000)
+					{
+						mPlayer->lockOn(tLast);
+						setPlayerTarget(tLast);
+						return true;
+					}
+					
+				}
 			}
 			tLast = tLast->getPrevious();
 		}
+
 		//Critters
 		const vector<MagixCritter*>::type tCritter = mCritterManager->getCritterList();
 		for(int i=0;i<(int)tCritter.size();i++)
 		{
-			if(!tCritter[i]->getIsDead())
-			if(!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject()!=tCritter[i]))
-			if(!(mPlayer->matchAlliance(tCritter[i]->getAlliance())^tTargetAlly))
-			if(mPlayer->getPosition().squaredDistance(tCritter[i]->getPosition())<=40000)
+			if (!tCritter[i]->getIsDead())
 			{
-				mPlayer->lockOn(tCritter[i]);
-				setPlayerTarget(tCritter[i]);
-				return true;
+				if (!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject() != tCritter[i]))
+				{
+					if (!(mPlayer->matchAlliance(tCritter[i]->getAlliance()) ^ tTargetAlly))
+					{
+						if (mPlayer->getPosition().squaredDistance(tCritter[i]->getPosition()) <= 40000)
+						{
+							mPlayer->lockOn(tCritter[i]);
+							setPlayerTarget(tCritter[i]);
+							return true;
+						}
+					}
+				}
 			}
+
 		}
-		if(!mPlayer->getIsLockedOn())return true;
+		if(!mPlayer->getIsLockedOn())
+		{
+			return true;
+		}
 		else
 		{
 			mPlayer->lockOn(0);
@@ -1146,18 +1179,27 @@ public:
 	{
 		Real tHeight = 0;
 		static Ray updateRay;
+
 		updateRay.setOrigin(unit->getPosition() + Vector3(0,5000,0));
 		updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
+		
 		mRayQuery->setRay(updateRay);
+		
 		RaySceneQueryResult& qryResult = mRayQuery->execute();
 		RaySceneQueryResult::iterator i = qryResult.begin();
+		
 		if(i != qryResult.end() && i->worldFragment)
 		{
 			tHeight = i->worldFragment->singleIntersection.y;
 		}
 		unit->setGroundHeight(tHeight);
-		if(clampToGround)unit->setPosition(unit->getPosition().x,tHeight,unit->getPosition().z);
+
+		if(clampToGround)
+		{
+			unit->setPosition(unit->getPosition().x, tHeight, unit->getPosition().z);
+		}
 	}
+
 	void clampUnitToCeiling(MagixUnit *unit)
 	{
 		const Real unitHeight = unit->getPosition().y + unit->getObjectNode()->getScale().y*12;
@@ -1170,16 +1212,22 @@ public:
 	const Real getGroundHeight(const Real &x, const Real &z, bool checkWaterCollision=false, bool checkCollBoxCollision=false)
 	{
 		Real tHeight = 0;
+
 		static Ray updateRay;
+		
 		updateRay.setOrigin(Vector3(x,5000,z));
 		updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
+		
 		mRayQuery->setRay(updateRay);
+		
 		RaySceneQueryResult& qryResult = mRayQuery->execute();
 		RaySceneQueryResult::iterator i = qryResult.begin();
+		
 		if(i != qryResult.end() && i->worldFragment)
 		{
 			tHeight = i->worldFragment->singleIntersection.y;
 		}
+		
 		//Check water collision
 		if(checkWaterCollision)
 		{
@@ -1187,23 +1235,31 @@ public:
 			WaterBox *tWaterBox = mCollisionManager->getWaterBoxHit(tVect);
 			if(tWaterBox && tWaterBox->isSolid && tHeight<tWaterBox->center.y)tHeight = tWaterBox->center.y;
 		}
+
 		//Check collbox collision
 		if(checkCollBoxCollision)
 		{
 			const Vector3 tVect = Vector3(x,tHeight,z);
 			const vector<CollBox*>::type tHitList = mCollisionManager->getCollBoxHitList(tVect,12);
+
 			for(vector<CollBox*>::type::const_iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 			{
 				CollBox *tBox = *it;
 				const Real tMaxY = tBox->center.y+tBox->range.y;
 				if(tHeight<tMaxY)tHeight = tMaxY;
 			}
+
 			const Vector3 tVect2 = Vector3(x,tHeight,z);
 			const vector<CollSphere*>::type tHitList2 = mCollisionManager->getCollSphereHitList(tVect2);
+			
 			for(vector<CollSphere*>::type::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
 			{
 				CollSphere *tSphere = *it;
-				if(tSphere->range==0)continue;
+				if(tSphere->range==0)
+				{
+					continue;
+				}
+				
 				const Real tY = tSphere->center.y;
 				const Real tX = tVect.x - tSphere->center.x;
 				const Real tZ = tVect.z - tSphere->center.z;
@@ -1211,7 +1267,10 @@ public:
 				if(tDist==0)
 				{
 					const Real tHeight2 = tY + tSphere->range;
-					if(tHeight<tHeight2)tHeight = tHeight2;
+					if(tHeight<tHeight2)
+					{
+						tHeight = tHeight2;
+					}
 				}
 				else
 				{
@@ -1224,10 +1283,13 @@ public:
 
 		return tHeight;
 	}
+
+	// WHAT ?
 	MagixPlayer* getPlayer()
 	{
 		return mPlayer;
 	}
+
 	MagixIndexedUnit* createUnit(const unsigned short iIndex, const String &bodyMesh, const String &headMesh, const String &maneMesh, const String &tailMesh, const String &wingMesh, const String &matName, const String &tuftMesh)
 	{
 		if(!mLastUnit)
@@ -1242,9 +1304,11 @@ public:
 			mLastUnit = new MagixIndexedUnit(iIndex, tLast);
 			mLastUnit->createUnit(tLastID + 1,mSceneMgr,bodyMesh,headMesh,maneMesh,tailMesh,wingMesh,matName,tuftMesh);
 		}
+
 		//clampUnitToTerrain(mLastUnit);
 		return mLastUnit;
 	}
+
 	MagixIndexedUnit* getUnitByIndex(const unsigned short &iIndex)
 	{
 		MagixIndexedUnit *tLast = mLastUnit;
@@ -1262,6 +1326,7 @@ public:
 
 		return tTarget;
 	}
+	// is this a pnj manager ? or does this work for player actions only ?
 	void deleteUnit(MagixIndexedUnit *target)
 	{
 		if(!target)return;
@@ -1280,13 +1345,21 @@ public:
 					tLast->setPrevious(tPrev);
 					break;
 				}
-				else tLast = tLast->getPrevious();
+				else
+				{
+					tLast = tLast->getPrevious();
+				}
 			}
 		}
-		if(target->hasMarker)OverlayManager::getSingleton().destroyOverlayElement("UnitMarker"+StringConverter::toString(target->getUnitID()));
+		if (target->hasMarker)
+		{
+			OverlayManager::getSingleton().destroyOverlayElement("UnitMarker" + StringConverter::toString(target->getUnitID()));
+		}
+
 		destroyUnit(target);
 		delete target;
 	}
+
 	void deleteAllUnits()
 	{
 		while(mLastUnit)
@@ -1298,23 +1371,48 @@ public:
 			delete tLast;
 		}
 	}
+
 	void createNameTag(MagixUnit *target, const String &name)
 	{
-		if(target)target->createNameTag(name,mNameTagAttr);
-		if(!shouldNameTagsBeVisible)target->showNameTag(false);
+		if(target)
+		{
+			target->createNameTag(name, mNameTagAttr);
+		}
+		
+		if(!shouldNameTagsBeVisible)
+		{
+			target->showNameTag(false);
+		}
 	}
+
 	void createUserTag(MagixUnit *target, const String &name)
 	{
-		if(target)target->createUserTag(name,mUserTagAttr);
-		if(!shouldNameTagsBeVisible)target->showUserTag(false);
+		if(target)
+		{
+			target->createUserTag(name, mUserTagAttr);
+		}
+
+		if(!shouldNameTagsBeVisible)
+		{
+			target->showUserTag(false);
+		}
 	}
+
 	void createChatBubble(MagixUnit *target, const String &caption)
 	{
-		if(target)target->createChatBubble(caption,mChatBubbleAttr,0,(target==mPlayer?1:0));
+		if(target)
+		{
+			target->createChatBubble(caption, mChatBubbleAttr, 0, (target == mPlayer ? 1 : 0));
+		}
 	}
+
 	void updateNameTag(/*RectLayoutManager &m, */MovableTextOverlay *p)
 	{
-		if(!p)return;
+		if(!p)
+		{
+			return;
+		}
+
 		if(p->isOnScreen())
 		{
 			/*RectLayoutManager::Rect r(	p->getPixelsLeft(),
@@ -1333,8 +1431,11 @@ public:
 			p->enable(true);
 		}
 		else
+		{
 			p->enable(false);
+		}
 	}
+
 	void updateChatBubble(/*RectLayoutManager &m, */MovableTextOverlay *p)
 	{
 		if(!p)return;
@@ -1356,8 +1457,11 @@ public:
 			p->enable(true);
 		}
 		else
+		{
 			p->enable(false);
+		}
 	}
+
 	MagixUnit* getByObjectNode(SceneNode *objectNode)
 	{
 		if(mPlayer->getObjectNode()==objectNode)return mPlayer;
@@ -1369,11 +1473,15 @@ public:
 			{
 				return tLast;
 			}
-			else tLast = tLast->getPrevious();
+			else
+			{
+				tLast = tLast->getPrevious();
+			}
 		}
 
 		return 0;
 	}
+
 	MagixUnit* getByName(const String &name)
 	{
 		if(mPlayer->getName()==name)return mPlayer;
@@ -1385,19 +1493,27 @@ public:
 			{
 				return tLast;
 			}
-			else tLast = tLast->getPrevious();
+			else
+			{
+				tLast = tLast->getPrevious();
+			}
 		}
 
 		return 0;
 	}
+
 	MagixUnit* getByUser(String name)
 	{
 		StringUtil::toLowerCase(name);
 		String tName = mPlayer->getUser();
 		StringUtil::toLowerCase(tName);
-		if(tName==name)return mPlayer;
+		if(tName==name)
+		{
+			return mPlayer;
+		}
 
 		MagixIndexedUnit *tLast = mLastUnit;
+		
 		while(tLast)
 		{
 			tName = tLast->getUser();
@@ -1406,29 +1522,40 @@ public:
 			{
 				return tLast;
 			}
-			else tLast = tLast->getPrevious();
+			else
+			{
+				tLast = tLast->getPrevious();
+			}
 		}
 
 		return 0;
 	}
+
 	bool popPlayerTargetChanged()
 	{
 		bool tFlag = playerTargetChanged;
 		playerTargetChanged = false;
 		return tFlag;
 	}
+
+	// magix living is in magix object...
 	MagixLiving* getPlayerTarget()
 	{
 		return mPlayerTarget;
 	}
+
 	void setPlayerTarget(MagixLiving *unit)
 	{
 		playerTargetChanged = (unit!=mPlayerTarget);
 		mPlayerTarget = unit;
 	}
+
 	void showNameTags(bool flag)
 	{
-		if(!shouldNameTagsBeVisible && flag)return;
+		if(!shouldNameTagsBeVisible && flag)
+		{
+			return;
+		}
 
 		MagixIndexedUnit *tLast = mLastUnit;
 		while(tLast)
@@ -1440,15 +1567,21 @@ public:
 		mPlayer->showNameTag(flag);
 		mPlayer->showUserTag(flag);
 	}
+	
 	void setShouldNameTagsBeVisible(bool flag)
 	{
 		shouldNameTagsBeVisible = flag;
-		if(!flag)showNameTags(false);
+		if(!flag)
+		{
+			showNameTags(false);
+		}
 	}
+	
 	bool getShouldNameTagsBeVisible()
 	{
 		return shouldNameTagsBeVisible;
 	}
+
 	void destroyUnit(MagixUnit *unit)
 	{
 		if(unit->getObjectNode())
@@ -1457,33 +1590,57 @@ public:
 			while(tLast)
 			{
 				if(tLast!=unit)
-				if(tLast->getAutoTrackObject()==unit)tLast->setAutoTrackObject(0);
-				tLast = tLast->getPrevious();
+				{
+					if (tLast->getAutoTrackObject() == unit)tLast->setAutoTrackObject(0);
+					{ 
+						tLast = tLast->getPrevious(); 
+					}
+				}
 			}
 			if(mPlayer)
 			{
-				if(mPlayer->getAutoTrackObject()==unit)mPlayer->lockOn(0);
-				if(mPlayer->getAutoAttackTarget()==unit)mPlayer->setAutoAttack(0);
+				if (mPlayer->getAutoTrackObject() == unit)
+				{
+					mPlayer->lockOn(0);
+				}
+
+				if(mPlayer->getAutoAttackTarget()==unit)
+				{
+					mPlayer->setAutoAttack(0);
+				}
 			}
-			if(mPlayerTarget==unit)setPlayerTarget(0);
+
+			if(mPlayerTarget==unit)
+			{
+				setPlayerTarget(0);
+			}
 			mCritterManager->removeChaseTarget(unit);
-			if(unit->getBodyEnt())mEffectsManager->destroyRibbonTrailByEntity(unit->getBodyEnt());
+
+			if(unit->getBodyEnt())
+			{
+				mEffectsManager->destroyRibbonTrailByEntity(unit->getBodyEnt());
+			}
+			// what's nice is that it's self explanatory
 			mEffectsManager->destroyParticleByObjectNode(unit->getObjectNode());
 			mEffectsManager->destroyWaterRippleByOwner(unit->getObjectNode());
 			mEffectsManager->destroyBreatherByOwner(unit->getHeadEnt());
 			mEffectsManager->destroyItemEffectByOwnerNode(unit->getObjectNode());
 			mCollisionManager->destroyCollisionByOwnerNode(unit->getObjectNode());
 			mSoundManager->clearChannelsConnectedToSceneNode(unit->getObjectNode());
+
 			unit->allocFlags.clear();
 			unit->destroyUnit(mSceneMgr);
 		}
 	}
+	// why is this here if this call another class ? when is this called ? appart a call from campaign manager ? this need to be outted from here
+	// also, this should be named CreatePlayer, no function should start by lowercase, if it does its not my work.
 	void createPlayerUnit(const String &bodyMesh, const String &headMesh, const String &maneMesh, const String &tailMesh, const String &wingMesh, const String &matName, const String &tuftMesh)
 	{
 		mPlayer->createUnit(1,mSceneMgr,bodyMesh,headMesh,maneMesh,tailMesh,wingMesh,matName,tuftMesh);
 		mPlayer->reset();
 		mPlayer->setAlliance(ALLIANCE_FRIEND);
 	}
+
 	const vector<MagixIndexedUnit*>::type getUnitList()
 	{
 		vector<MagixIndexedUnit*>::type tUnitList;
@@ -1498,37 +1655,77 @@ public:
 
 		return tUnitList;
 	}
+
 	ParticleSystem* createParticleOnUnit(MagixUnit *unit, const String &particleName, const Real &duration, bool unresettable=false)
 	{
-		if(!unit->getObjectNode())return 0;
+		if(!unit->getObjectNode())
+		{
+			return 0;
+		}
+
 		return mEffectsManager->createParticle(unit->getObjectNode(),particleName,duration,unresettable);
 	}
 	ParticleSystem* createParticleOnUnitBone(MagixUnit *unit, const String &tBone, const String &particleName, const Real &duration, bool unresettable=false)
 	{
-		if(!unit->getObjectNode())return 0;
+		if(!unit->getObjectNode())
+		{
+			return 0;
+		}
+		
 		ParticleSystem *pSys = mEffectsManager->createParticle(unit->getObjectNode(),particleName,duration,unresettable,true);
 		if(unit->getHeadEnt() && StringUtil::startsWith(tBone,"Head"))
-			unit->getHeadEnt()->attachObjectToBone(tBone,pSys,Quaternion::IDENTITY);
+		{
+			unit->getHeadEnt()->attachObjectToBone(tBone, pSys, Quaternion::IDENTITY);
+		}
 		else if(unit->getTailEnt() && StringUtil::startsWith(tBone,"Tail"))
-			unit->getTailEnt()->attachObjectToBone(tBone,pSys,Quaternion::IDENTITY);
+		{
+			unit->getTailEnt()->attachObjectToBone(tBone, pSys, Quaternion::IDENTITY);
+		}
 		else if(unit->getBodyEnt())
-			unit->getBodyEnt()->attachObjectToBone(tBone,pSys,Quaternion::IDENTITY);
+		{
+			unit->getBodyEnt()->attachObjectToBone(tBone, pSys, Quaternion::IDENTITY);
+		}
+		
 		return pSys;
 	}
+
+	// AURA : EFFECT! SHOULD NOT BE THERE !!
 	void createAdminAura(MagixUnit *unit, const ColourValue &colour)
 	{
 		ParticleSystem *aura = createParticleOnUnit(unit,"Aureola",-1,true);
-		if(aura)aura->getEmitter(0)->setColour(ColourValue(colour.r,colour.g,colour.b,0));
+		if(aura)
+		{
+			aura->getEmitter(0)->setColour(ColourValue(colour.r, colour.g, colour.b, 0));
+		}
 	}
+
 	void destroyParticleOnUnit(MagixUnit *unit, const String &particleName)
 	{
 		mEffectsManager->destroyParticleByObjectNode(unit->getObjectNode(),particleName);
 	}
+	
 	bool equipItem(MagixUnit *unit, const String &meshName, const short &slot)
 	{
-		if(slot<0||slot>=MAX_EQUIP)return false;
-		if(unit->getEquip(slot)!="")return false;
-		if(!mDef->itemMeshExists(meshName))return false;
+		// will be tested in refactor when i am sure of how the game work and equip stuff fast
+		// could be : 
+		/*
+		if((slot<0 || slot>MAX_EQUIP) || (unit->getEquip(slot) != "") || (!mDef->itemMeshExists(meshName)))
+		{
+			return false;
+		}
+		*/
+		if(slot<0||slot>=MAX_EQUIP)
+		{
+			return false;
+		}
+		if (unit->getEquip(slot) != "")
+		{
+			return false;
+		}
+		if (!mDef->itemMeshExists(meshName))
+		{
+			return false;
+		}
 
 		//Offset
 		Vector3 offset = Vector3::ZERO;
@@ -1553,7 +1750,10 @@ public:
 			if(mDef->getItemBone(meshName)=="Head2")
 			{
 				char tHeadID = unit->getHeadEnt()->getMesh()->getName().at(4);
-				if(tHeadID!='1' && tHeadID!='5')altAnim = true;
+				if(tHeadID!='1' && tHeadID!='5')
+				{
+					altAnim = true;
+				}
 			}
 		}
 
@@ -1565,19 +1765,36 @@ public:
 			const String tBone = mDef->getItemBone(meshName);
 			Entity *tEnt = 0;
 			if(unit->getHeadEnt() && StringUtil::startsWith(tBone,"Head"))
+			{
 				tEnt = unit->getHeadEnt();
+			}
 			else if(unit->getTailEnt() && StringUtil::startsWith(tBone,"Tail"))
+			{
 				tEnt = unit->getTailEnt();
-			else tEnt = unit->getBodyEnt();
+			}
+			else
+			{
+				tEnt = unit->getBodyEnt();
+			}
+
 			if(tEnt)
 			{
 				const std::pair<Vector3,bool> tOffsetAndOnNode = mDef->getItemParticleOffset(meshName);
-				if(tOffsetAndOnNode.second)mEffectsManager->createItemEffect(tEnt,mDef->getItemParticle(meshName),"",tOffsetAndOnNode.first,unit->getObjectNode()->getScale().x);
-				else mEffectsManager->createItemEffect(tEnt,mDef->getItemParticle(meshName),tBone,tOffsetAndOnNode.first,unit->getObjectNode()->getScale().x);
+				if(tOffsetAndOnNode.second)
+				{
+					mEffectsManager->createItemEffect(tEnt, mDef->getItemParticle(meshName), "", tOffsetAndOnNode.first, unit->getObjectNode()->getScale().x);
+				}
+				else 
+				{
+					mEffectsManager->createItemEffect(tEnt, mDef->getItemParticle(meshName), tBone, tOffsetAndOnNode.first, unit->getObjectNode()->getScale().x);
+				}
 			}
 		}
+
 		return true;
 	}
+
+	// this is inventory ?
 	const short getNextEmptyItemSlot(MagixUnit *unit)
 	{
 		for(int i=0;i<MAX_EQUIP;i++)
@@ -1587,6 +1804,7 @@ public:
 			}
 		return -1;
 	}
+
 	const short getNextFilledItemSlot(MagixUnit *unit)
 	{
 		for(int i=0;i<MAX_EQUIP;i++)
@@ -1596,6 +1814,7 @@ public:
 			}
 		return -1;
 	}
+
 	const String unequipItem(MagixUnit *unit, const unsigned short &iID)
 	{
 		const String tItem = unit->unequip(mSceneMgr,mDef,iID);
@@ -1608,91 +1827,184 @@ public:
 
 		return tItem;
 	}
+
 	void createItem(const unsigned short &iID, const String &meshName, const Vector2 &position)
 	{
 		createItem(iID,meshName,position.x,position.y);
 	}
+
 	void createItem(const unsigned short &iID, const String &meshName, const Real &tX, const Real &tZ)
 	{
-		if(!mDef->itemMeshExists(meshName))return;
+		if(!mDef->itemMeshExists(meshName))
+		{
+			return;
+		}
+		
 		const Real tY = getGroundHeight(tX,tZ,true,true);
 		mItemManager->createItem(iID,meshName,Vector3(tX,tY,tZ));
 	}
+
 	void deleteItem(const unsigned short &iID)
 	{
 		MagixItem *item = mItemManager->getByID(iID);
-		if(!item)return;
+		if(!item)
+		{
+			return;
+		}
+		
 		deleteItem(item);
 	}
+
 	void deleteItem(MagixItem *item)
 	{
 		if(mPlayer)
-			if(mPlayer->getAutoTrackObject()==item)mPlayer->lockOn(0);
+		{
+			if (mPlayer->getAutoTrackObject() == item)
+			{
+				mPlayer->lockOn(0);
+			}
+		}
+
 		mItemManager->deleteItem(item->getID());
 	}
+
+	// BRUH this should be a function of critter !!!
 	MagixCritter* createCritter(const unsigned short &iID, const unsigned char &worldID, const Vector3 &position, const short &owner=-1)
 	{
-		const WorldCritter tWC = mWorld->getCritterSpawnList(worldID);
-		if(tWC.type=="")return 0;
-		const Critter tC = mDef->getCritter(tWC.type);
-		if(tC.type=="")return 0;
-		MagixCritter *tCritter = mCritterManager->createCritter(iID,tC,position,worldID,owner);
-		tCritter->setRoamArea(tWC.hasRoamArea);
-		if(tWC.hasRoamArea)tCritter->setRoamAreaID(tWC.roamAreaID);
+		// renamed some variables to improve readability
+		const WorldCritter worldCritter = mWorld->getCritterSpawnList(worldID);
+
+		if(worldCritter.type=="")
+		{
+			return 0;
+		}
+		
+		const Critter currCritter = mDef->getCritter(worldCritter.type);
+		
+		if(currCritter.type=="")
+		{
+			return 0;
+		}
+		
+		MagixCritter *tCritter = mCritterManager->createCritter(iID,currCritter,position,worldID,owner);
+		tCritter->setRoamArea(worldCritter.hasRoamArea);
+
+		if(worldCritter.hasRoamArea)
+		{
+			tCritter->setRoamAreaID(worldCritter.roamAreaID);
+		}
+
 		return tCritter;
 	}
+
 	MagixCritter* createCritter(const unsigned short &iID, const String &type, const Vector3 &position, const short &owner=-1)
 	{
-		const Critter tC = mDef->getCritter(type);
-		if(tC.type=="")return 0;
-		MagixCritter *tCritter = mCritterManager->createCritter(iID,tC,position,owner);
+		const Critter critter = mDef->getCritter(type);
+		
+		if(critter.type=="")
+		{
+			return 0;
+		}
+		
+		MagixCritter *tCritter = mCritterManager->createCritter(iID,critter,position,owner);
+		
 		return tCritter;
 	}
+
 	void deleteCritter(const unsigned short &iID)
 	{
 		MagixCritter *critter = mCritterManager->getByID(iID);
 		if(!critter)return;
 		if(mPlayer)
 		{
-			if(mPlayer->getAutoTrackObject()==critter)mPlayer->lockOn(0);
-			if(mPlayer->getAutoAttackTarget()==critter)mPlayer->setAutoAttack(0);
-			if(mPlayer->getPetFlags()->attackTarget==critter)mPlayer->getPetFlags()->attackTarget = 0;
+			if(mPlayer->getAutoTrackObject()==critter)
+			{
+				mPlayer->lockOn(0);
+			}
+			
+			if(mPlayer->getAutoAttackTarget()==critter)
+			{
+				mPlayer->setAutoAttack(0);
+			}
+			
+			if(mPlayer->getPetFlags()->attackTarget==critter)
+			{
+				mPlayer->getPetFlags()->attackTarget = 0;
+			}
 		}
-		if(mPlayerTarget==critter)setPlayerTarget(0);
+
+		if(mPlayerTarget==critter)
+		{
+			setPlayerTarget(0);
+		}
+
 		mCritterManager->deleteCritter(iID);
 	}
+
 	const vector<std::pair<String,Vector2>>::type popItemDropQueue()
 	{
 		const vector<std::pair<String,Vector2>>::type tList = itemDropQueue;
 		itemDropQueue.clear();
 		return tList;
 	}
+
 	const String popPickupText()
 	{
 		const String tText = pickupText;
 		pickupText = "";
 		return tText;
 	}
+
 	void killAndRewardCritter(MagixCritter *critter, bool imTheKiller=true)
 	{
-		if(!critter)return;
-		if(critter->getIsDead())return;
-		if(imTheKiller)rewardCritter(critter);
+		if(!critter)
+		{
+			return;
+		}
+		
+		if(critter->getIsDead())
+		{
+			return;
+		}
+		
+		if(imTheKiller)
+		{
+			rewardCritter(critter);
+		}
 		critter->kill();
-		if(mPlayer && mPlayer->getAutoAttackTarget()==critter)mPlayer->setAutoAttack(0);
+		
+		if(mPlayer && mPlayer->getAutoAttackTarget()==critter)
+		{
+			mPlayer->setAutoAttack(0);
+		}
 	}
+
 	void rewardCritter(MagixCritter *critter)
 	{
-		if(!critter)return;
+		// why would this ever happen actually ?
+		if(!critter)
+		{
+			return;
+		}
+
 		//Item drops
 		const vector<std::pair<String,Real>>::type tDropList = mDef->getCritterDropList(critter->getCritterType());
+
 		for(int j=0;j<(int)tDropList.size();j++)
 			if(Math::UnitRandom()<tDropList[j].second)
 			{
 				const Vector3 tPos = critter->getPosition()+Vector3(Math::RangeRandom(-10,10),0,Math::RangeRandom(-10,10));
-				if(mGameStateManager->isCampaign())createItem(mItemManager->getNextEmptyID(0),tDropList[j].first,Vector2(tPos.x,tPos.z));
-				else itemDropQueue.push_back(std::pair<String,Vector2>(tDropList[j].first,Vector2(tPos.x,tPos.z)));
+				
+				if(mGameStateManager->isCampaign())
+				{
+					createItem(mItemManager->getNextEmptyID(0), tDropList[j].first, Vector2(tPos.x, tPos.z));
+				}
+				else
+				{
+					itemDropQueue.push_back(std::pair<String, Vector2>(tDropList[j].first, Vector2(tPos.x, tPos.z)));
+				}
 			}
+
 		//Skill drops
 		const std::pair<String,unsigned char> tSkill = critter->getIsDrawPoint()?
 													mDef->getRandomSkillDrop():
@@ -1710,17 +2022,21 @@ public:
 			mSoundManager->playSound(SOUND_DRAW,mPlayer->getObjectNode());
 		}
 	}
+
 	bool popPlayerHasNewAttack()
 	{
 		const bool tFlag = playerHasNewAttack;
 		playerHasNewAttack = false;
 		return tFlag;
 	}
+
+	// why added there ? 
 	void addPartyMember(const OwnerToken &token, const String &name)
 	{
 		partyMembers.push_back(std::pair<OwnerToken,String>(token,name));
 		partyChanged = true;
 	}
+
 	bool removePartyMember(const String &name)
 	{
 		for(vector<std::pair<OwnerToken,String>>::type::iterator it=partyMembers.begin();it!=partyMembers.end();it++)
@@ -1735,19 +2051,23 @@ public:
 		}
 		return false;
 	}
+
 	void clearPartyMembers()
 	{
 		partyMembers.clear();
 		partyChanged = true;
 	}
+
 	bool isPartyFull()
 	{
 		return (partyMembers.size()>=MAX_PARTYMEMBERS);
 	}
+
 	const vector<std::pair<OwnerToken,String>>::type getPartyMembers()
 	{
 		return partyMembers;
 	}
+
 	bool isPartyMember(MagixUnit *unit)
 	{
 		if(!unit)return false;
@@ -1757,40 +2077,48 @@ public:
 			if(partyMembers[i].first==tToken)return true;
 		return false;
 	}
+
 	bool popPartyChanged()
 	{
 		const bool tFlag = partyChanged;
 		partyChanged = false;
 		return tFlag;
 	}
+
 	bool hasParty()
 	{
 		return (partyMembers.size()>0);
 	}
+
 	void setPartyInviter(const OwnerToken &token)
 	{
 		partyInviter = token;
 	}
+
 	const OwnerToken getPartyInviter()
 	{
 		return partyInviter;
 	}
+
 	const std::pair<OwnerToken,String> getPartyMember(const OwnerToken &token)
 	{
 		for(int i=0;i<(int)partyMembers.size();i++)
 			if(partyMembers[i].first==token)return partyMembers[i];
 		return std::pair<OwnerToken,String>(0,"");
 	}
+
 	const vector<HitInfo>::type popHitQueue()
 	{
 		const vector<HitInfo>::type tList = hitQueue;
 		hitQueue.clear();
 		return tList;
 	}
+
 	void pushHitQueue(const HitInfo &info)
 	{
 		hitQueue.push_back(info);
 	}
+
 	const TameData popTameFlag()
 	{
 		const TameData tFlag = tameFlag;
