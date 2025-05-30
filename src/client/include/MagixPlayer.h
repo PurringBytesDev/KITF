@@ -12,6 +12,7 @@
 
 using namespace Ogre;
 
+// STRUCTS SHOULD BE IN A MAGIX STRUCTS CLASS !!!!
 struct Skill
 {
 	String name;
