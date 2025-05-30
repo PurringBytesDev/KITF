@@ -1135,8 +1135,8 @@ namespace RakNet
 	template <>
 		inline void BitStream::WriteCompressedDelta(bool currentValue, bool lastValue)
 	{
-		(void) lastValue;
-
+		//(void) lastValue;
+		std::ignore = lastValue;
 		Write(currentValue);
 	}
 

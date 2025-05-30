@@ -56,7 +56,7 @@ namespace OIS
 		//! Creates exception object
 		Exception( OIS_ERROR err, const char* str, int line, const char *file )
 			: eType(err), eLine(line), eFile(file), eText(str) {}
-
+		// C26349
 		~Exception() throw() {}
 
 		virtual const char* what() const throw();

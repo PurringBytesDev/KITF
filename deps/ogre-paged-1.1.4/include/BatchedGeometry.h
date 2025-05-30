@@ -32,6 +32,7 @@ namespace Forests
          // SubMesh is not specified since that can be determined by which MeshQueue this belongs to.
          struct QueuedMesh
          {
+            // C26440 could call function Forests::BatchedGeometry::SubBatch::QueuedMesh::QueuedMesh with noexcept
             QueuedMesh(Ogre::SubMesh* sm, const Ogre::Vector3 &pos, const Ogre::Quaternion &ori,
                const Ogre::Vector3 &scl, const Ogre::ColourValue &clr, void *userData_ = 0) :
             subMesh     (sm),
@@ -84,6 +85,7 @@ namespace Forests
          const Ogre::LightList& getLights(void) const;
 
          ///
+         // mat argument can be marked const
          void setMaterial(Ogre::MaterialPtr &mat)                 { m_ptrMaterial = mat; }
          void setMaterialName(const Ogre::String &mat, const Ogre::String &rg =
             Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME)

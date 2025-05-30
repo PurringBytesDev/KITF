@@ -1604,7 +1604,7 @@ template <class PageType> inline void GeometryPageManager::initPages(const TBoun
 
 
 	//Allocate grid array
-	geomGrid = new GeometryPage *[geomGridX * geomGridZ];
+	geomGrid = new GeometryPage * [geomGridX * geomGridZ];
 
 	int xioffset = Ogre::Math::Floor(gridBounds.left / mainGeom->getPageSize());
 	int zioffset = Ogre::Math::Floor(gridBounds.top / mainGeom->getPageSize());
