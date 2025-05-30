@@ -55,6 +55,7 @@ from external defs in loadUnitMeshes
 		}*/
 ---
 from external defs in isRestricted
+
 		/*long tSize = 0;
 		char *tBuffer;
 		String tData="";
@@ -89,6 +90,7 @@ from external defs in isRestricted
 		return false;*/
 ---
 in external defs old loadWorld
+
 	/*bool loadWorld(const String &name, String &terrain, Real &x, Real &z, Vector3 &spawnSquare, String &grassMat, String &grassMap, String &grassColourMap, String &tree1, String &tree2, String &tree3, unsigned short &treeCount, String &bush1, String &bush2, String &bush3)
 	{
 		long tSize = 0;
@@ -180,6 +182,7 @@ in external defs old loadWorld
 	}*/
 ---
 in external defs a function named processObjects
+
 	/*void processObjects(const String &filename)
 	{
 		long tSize = 0;
