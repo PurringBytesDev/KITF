@@ -130,7 +130,7 @@ public:
 		if(camMode==CAMERA_LOCKED || camMode==CAMERA_FREECURSOR || camMode==CAMERA_FREECURSORNEW)
 		{
 			//Camera follows unit
-			mCamPivotNode->setPosition(mPlayer->getPosition(isFirstPerson)+(isFirstPerson?mPlayer->getObjectNode()->getOrientation()*Vector3(0,0,3.5*mPlayer->getObjectNode()->getScale().x):Vector3::ZERO));
+			mCamPivotNode->setPosition(mPlayer->getPosition(isFirstPerson) + (isFirstPerson ? mPlayer->getObjectNode()->getOrientation() * Vector3(0, 0, (Real)3.5 * mPlayer->getObjectNode()->getScale().x) : Vector3::ZERO));
 			
 			//Make unit look at camera's perspective
 			if(mPlayer->getAutoTrackObject()==0)mPlayer->setLookDirection(getCameraOrientation());
@@ -181,19 +181,34 @@ public:
 			if(translateVector!=Vector3::ZERO)translate(translateVector);
 		}
 
-		if(turnUp)pitch(Degree(45*camSpeed*0.02*evt.timeSinceLastFrame));
-		else if(turnDown)pitch(Degree(-45*camSpeed*0.02*evt.timeSinceLastFrame));
-		if(turnLeft)yaw(Degree(45*camSpeed*0.02*evt.timeSinceLastFrame));
-		else if(turnRight)yaw(Degree(-45*camSpeed*0.02*evt.timeSinceLastFrame));
+		if(turnUp)
+		{
+			pitch(Degree(45 * camSpeed * (Real)0.02 * evt.timeSinceLastFrame));
+		}
+		else if(turnDown)
+		{
+			pitch(Degree(-45 * camSpeed * (Real)0.02 * evt.timeSinceLastFrame));
+		}
+		
+		if(turnLeft)
+		{
+			yaw(Degree(45 * camSpeed * (Real)0.02 * evt.timeSinceLastFrame));
+		}
+		else if(turnRight)
+		{
+			yaw(Degree(-45 * camSpeed * (Real)0.02 * evt.timeSinceLastFrame));
+		}
 
 		clampCameraToTerrain();
 		updateWaterCollision();
 		updateCameraEffects(evt.timeSinceLastFrame);
 	}
+
 	const unsigned char getCameraMode()
 	{
 		return camMode;
 	}
+
 	void setCameraMode(const unsigned char &mode, bool firstPerson=false, bool forceUpdate=false)
 	{
 		if(!mPlayer->getObjectNode())return;
@@ -285,9 +300,12 @@ public:
 			mCamPivotPitchNode->pitch(angle*0.75);
 			mCamera->pitch(angle*0.25);
 		}
+		
 		camPitch += angle;
-		const Real tMaxUpPitch = (isFirstPerson?75:(camMode==CAMERA_FREE?90:89));
-		const Real tMaxDownPitch = (isFirstPerson?-75:(camMode==CAMERA_FREE?-90:-89));
+		
+		const Real tMaxUpPitch = (isFirstPerson ? (Real)75 : (camMode == CAMERA_FREE ? 90 : 89));
+		const Real tMaxDownPitch = (isFirstPerson ? -(Real)75 : (camMode == CAMERA_FREE ? -90 : -89));
+
 		if(camPitch>Degree(tMaxUpPitch))
 		{
 			if(camMode==CAMERA_FREE || camMode==CAMERA_FREECURSOR)mCamera->pitch(Degree(tMaxUpPitch)-camPitch);
@@ -490,19 +508,37 @@ public:
 	{
 		return isUnderwater;
 	}
+
+	// This should be getCameraYaw
 	const Degree getYaw()
 	{
-		if(mCamera->isAttached())return mCamPivotNode->getOrientation().getYaw();
+		// why have a call ? check attached before lol
+		if (mCamera->isAttached())
+		{
+			return mCamPivotNode->getOrientation().getYaw();
+		}
+
 		return mCamera->getOrientation().getYaw();
 	}
+
 	void doQuake(bool flag, bool fade=false)
 	{
 		isQuake = flag;
-		quakeCountdown = fade?1:0;
-		if(!flag)mCamera->move(-quakeOffset);
-		if(!flag && fade)isQuakeFadeOut = true;
+		quakeCountdown = fade ? (Real)1 : 0;
+
+		if(!flag)
+		{
+			mCamera->move(-quakeOffset);
+		}
+
+		if(!flag && fade)
+		{
+			isQuakeFadeOut = true;
+		}
+		
 		quakeOffset = Vector3::ZERO;
 	}
+
 	void updateCameraEffects(const Real &timeElapsed)
 	{
 		if(isQuake || isQuakeFadeOut)

@@ -310,7 +310,7 @@ public:
 			shadow->setAlliance(ALLIANCE_ENEMY);
 			mUnitManager->createNameTag(shadow,"Shadow");
 			mUnitManager->clampUnitToTerrain(shadow,true);
-			shadow->setHP(Math::RangeRandom(100,150));
+			shadow->setHP((short)Math::RangeRandom(100, 150));
 			shadow->pushAttackList("Dash");
 			shadow->pushAttackList("Roundhouse");
 			mSpawn.push_back(shadow);
@@ -641,7 +641,11 @@ public:
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
-					if(unit)unit->setHP(StringConverter::parseReal(tPart[1]));
+					
+					if(unit)
+					{
+						unit->setHP((short)StringConverter::parseReal(tPart[1]));
+					}
 				}
 			}
 			else if(compare(cEvent[i].first,"Unit_SetHPRatio"))
@@ -650,7 +654,11 @@ public:
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
-					if(unit)unit->setHPRatio(StringConverter::parseReal(tPart[1]));
+					
+					if(unit)
+					{
+						unit->setHPRatio(StringConverter::parseReal(tPart[1]));
+					}
 				}
 			}
 			else if(compare(cEvent[i].first,"Unit_AddHP"))
@@ -659,7 +667,7 @@ public:
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
-					if(unit)unit->addHP(StringConverter::parseReal(tPart[1]));
+					if(unit)unit->addHP((short)StringConverter::parseReal(tPart[1]));
 				}
 			}
 			else if(compare(cEvent[i].first,"Unit_ClearAttackList"))
@@ -803,7 +811,8 @@ public:
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
-					if(unit)unit->setAlliance(parseAlliance(tPart[1]));
+					// not so sure about this warning fix parseAlliance had no cast.
+					if(unit)unit->setAlliance((char)parseAlliance(tPart[1]));
 				}
 			}
 			else if(compare(cEvent[i].first,"Unit_SetCustomAnimation"))
