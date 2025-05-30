@@ -364,10 +364,22 @@ public:
 					{
 						const AttackFX tFX = tAttack.FX[i];
 						Entity *tEnt = unit->getBodyEnt();
-						if(StringUtil::startsWith(tFX.bone,"wing"))tEnt = unit->getWingEnt();
-						else if(StringUtil::startsWith(tFX.bone,"tail"))tEnt = unit->getTailEnt();
-						else if(StringUtil::startsWith(tFX.bone,"head"))tEnt = unit->getHeadEnt();
-						if(tEnt)mEffectsManager->createRibbonTrail(tEnt,tFX.bone,tFX.trailMat,tFX.trailWidth,tFX.colour,tFX.colourChange,tFX.trailHeadMat);
+						if(StringUtil::startsWith(tFX.bone,"wing"))
+						{
+							tEnt = unit->getWingEnt();
+						}
+						else if (StringUtil::startsWith(tFX.bone, "tail"))
+						{
+							tEnt = unit->getTailEnt();
+						}
+						else if (StringUtil::startsWith(tFX.bone, "head"))
+						{
+							tEnt = unit->getHeadEnt();
+						}
+						if(tEnt)
+						{
+							mEffectsManager->createRibbonTrail(tEnt, tFX.bone, tFX.trailMat, tFX.trailWidth, tFX.colour, tFX.colourChange, tFX.trailHeadMat);
+						}
 					}
 				}
 				if(tAttack.singleTarget)
@@ -407,7 +419,10 @@ public:
 							if(target->getType()==OBJECT_CRITTER||target->getType()==OBJECT_UNIT)
 							{
 								bool tIsAlly = static_cast<MagixLiving*>(target)->matchAlliance(unit->getAlliance());
-								if(tAttack.hitAlly && !tIsAlly)target = unit;
+								if(tAttack.hitAlly && !tIsAlly)
+								{
+									target = unit;
+								}
 							}
 						}
 						//Set target to be self if there's no target
@@ -428,7 +443,7 @@ public:
 								{
 									mCritterManager->pushHitQueue(HitInfo(tC->getID(), tHP, tForce, tC->imTheOwner()));
 								}
-								if (tHP < 0)
+								if(tHP < 0)
 								{
 									tC->setLastHitIndex(0);
 								}
@@ -439,8 +454,17 @@ public:
 								hitUnit(tUnit,tHP,tForce,tIsInRange);
 								if(isPlayer&&!mGameStateManager->isCampaign())
 								{
-									if(target==mPlayer)pushHitQueue(HitInfo(mPlayer->getIndex(),tHP,tForce));
-									else if(tUnit->isIndexedUnit())pushHitQueue(HitInfo(static_cast<MagixIndexedUnit*>(tUnit)->getIndex(),tHP,tForce));
+									if(target==mPlayer)
+									{
+										pushHitQueue(HitInfo(mPlayer->getIndex(), tHP, tForce));
+									}
+									else 
+									{
+										if(tUnit->isIndexedUnit())
+										{
+											pushHitQueue(HitInfo(static_cast<MagixIndexedUnit*>(tUnit)->getIndex(), tHP, tForce));
+										}
+									}
 								}
 							}
 
@@ -464,35 +488,65 @@ public:
 											mSoundManager->playSound(SOUND_HEALHIT,tC->getObjectNode());
 											mEffectsManager->createParticle(tC->getObjectNode(),"TameSuccess",1);
 										}
-										else tameFlag = TameData(true,false,"Tame failed!");
+										else
+										{
+											tameFlag = TameData(true, false, "Tame failed!");
+										}
 										mEffectsManager->createParticle(tC->getObjectNode(),"TameHit",0.25);
 									}
-									else tameFlag = TameData(true,false,"Target cannot be tamed.");
+									else
+									{
+										tameFlag = TameData(true, false, "Target cannot be tamed.");
+									}
 								}
-								if(tAttack.soundRoar)mPlayer->allocFlags.needsSoundRoar = true;
+								if(tAttack.soundRoar)
+								{
+									mPlayer->allocFlags.needsSoundRoar = true;
+								}
 							}
 						}
 					}
 				}
 				else
 				{
-					if(isPlayer||mGameStateManager->isCampaign())mCollisionManager->createCollision(unit->getObjectNode(),tAttack.range,tAttack.hitForce,tAttack.offset,Math::RangeRandom(tAttack.hpMin,tAttack.hpMax),unit->getAlliance(),tAttack.hitAlly);
+					if(isPlayer||mGameStateManager->isCampaign())
+					{
+						mCollisionManager->createCollision(unit->getObjectNode(), tAttack.range, tAttack.hitForce, tAttack.offset, Math::RangeRandom(tAttack.hpMin, tAttack.hpMax), unit->getAlliance(), tAttack.hitAlly);
+					}
 				}
-				if(tAttack.moveForce!=Vector3::ZERO)unit->addForce((tAttack.autoTarget?doAutoTarget(unit,isPlayer):unit->getObjectNode()->getOrientation())*tAttack.moveForce);
-				else if(tAttack.autoTarget && (isPlayer||mGameStateManager->isCampaign()))doAutoTarget(unit,isPlayer);
+
+				if (tAttack.moveForce != Vector3::ZERO)
+				{
+					unit->addForce((tAttack.autoTarget ? doAutoTarget(unit, isPlayer) : unit->getObjectNode()->getOrientation())* tAttack.moveForce);
+				}
+				else if(tAttack.autoTarget && (isPlayer||mGameStateManager->isCampaign()))
+				{
+					doAutoTarget(unit, isPlayer);
+				}
 				unit->setSpeedMultiplier(tAttack.speedMultiplier);
-				if(isPlayer&&!mGameStateManager->isCampaign())playerHasNewAttack = true;
+				if(isPlayer&&!mGameStateManager->isCampaign())
+				{
+					playerHasNewAttack = true;
+				}
 			}
+
 			//Resume/stop attack after casting skill once
 			if(isPlayer && mPlayer->getAutoAttackOnce())
 			{
-				if(!mPlayer->getAutoAttackTarget()->matchAlliance(mPlayer->getAlliance()))mPlayer->setAutoAttack(mPlayer->getAutoAttackTarget());
-				else mPlayer->setAutoAttack(0);
+				if(!mPlayer->getAutoAttackTarget()->matchAlliance(mPlayer->getAlliance()))
+				{
+					mPlayer->setAutoAttack(mPlayer->getAutoAttackTarget());
+				}
+				else
+				{
+					mPlayer->setAutoAttack(0);
+				}
 			}
 		}
 
 		//Check hit collisions
 		vector<Collision*>::type tHitList = mCollisionManager->getCollisionHitList(unit->getUnitID(),unit->getAlliance(),unit->getBodyEnt()->getWorldBoundingBox());
+
 		for(vector<Collision*>::type::iterator it=tHitList.begin(); it!=tHitList.end(); it++)
 		{
 			Collision *coll = *it;
@@ -504,13 +558,22 @@ public:
 				if(!mGameStateManager->isCampaign())
 				{
 					//I'm hit
-					if(isPlayer)pushHitQueue(HitInfo(mPlayer->getIndex(),coll->hp,tForce));
+					if(isPlayer)
+					{
+						pushHitQueue(HitInfo(mPlayer->getIndex(), coll->hp, tForce));
+					}
 					//I hit someone
-					else if(unit->isIndexedUnit())pushHitQueue(HitInfo(static_cast<MagixIndexedUnit*>(unit)->getIndex(),coll->hp,tForce));
+					else if(unit->isIndexedUnit())
+					{
+						pushHitQueue(HitInfo(static_cast<MagixIndexedUnit*>(unit)->getIndex(), coll->hp, tForce));
+					}
 				}
 				if(coll->hp<0)
 				{
-					if((mPlayer->setPlayerTargetOnHit||!mPlayerTarget) && coll->mNode==mPlayer->getObjectNode())setPlayerTarget(unit);
+					if((mPlayer->setPlayerTargetOnHit||!mPlayerTarget) && coll->mNode==mPlayer->getObjectNode())
+					{
+						setPlayerTarget(unit);
+					}
 				}
 			}
 		}
@@ -520,20 +583,42 @@ public:
 		if(!unit)return false;
 		if(mCamera)
 		{
-			if(mCamera->getCamera()->isAttached())return(unit->getPosition().squaredDistance(mCamera->getCamera()->getDerivedPosition()) < EARSHOT_SQUARED);
-			else return(unit->getPosition().squaredDistance(mCamera->getCamera()->getPosition()) < EARSHOT_SQUARED);
+			if(mCamera->getCamera()->isAttached())
+			{
+				return(unit->getPosition().squaredDistance(mCamera->getCamera()->getDerivedPosition()) < EARSHOT_SQUARED);
+			}
+			else
+			{
+				return(unit->getPosition().squaredDistance(mCamera->getCamera()->getPosition()) < EARSHOT_SQUARED);
+			}
 		}
 		return false;
 	}
 	void hitUnit(MagixUnit *unit, const Real &damage, const Vector3 &force, bool inRange=false)
 	{
-		if(!unit)return;
+		// this could be an unique if ..
+		if(!unit)
+		{
+			return;
+		}
+		
 		//Check for wounded
-		if(unit==mPlayer && mPlayer->getIsWounded())return;
-		if(unit->isIndexedUnit() && static_cast<MagixIndexedUnit*>(unit)->isWounded)return;
+		if(unit==mPlayer && mPlayer->getIsWounded())
+		{
+			return;
+		}
+
+		if (unit->isIndexedUnit() && static_cast<MagixIndexedUnit*>(unit)->isWounded)
+		{
+			return;
+		}
+
 		if(unit->addHP(damage))
 		{
-			if(unit==mPlayer && !mPlayer->getIsWounded() && !mGameStateManager->isCampaign())mPlayer->setWounded(true);
+			if(unit==mPlayer && !mPlayer->getIsWounded() && !mGameStateManager->isCampaign())
+			{
+				mPlayer->setWounded(true);
+			}
 		}
 		if(damage<0)
 		{
@@ -545,7 +630,10 @@ public:
 					mSoundManager->playSound(SOUND_HIT,unit->getObjectNode());
 				}
 				unit->addForce(force);
-				if(unit==mPlayer && !mPlayer->getIsWounded() || mGameStateManager->isCampaign())unit->cancelAction(true,0.5,mDef);
+				if(unit==mPlayer && !mPlayer->getIsWounded() || mGameStateManager->isCampaign())
+				{
+					unit->cancelAction(true, 0.5, mDef);
+				}
 			}
 		}
 		else if(damage>0)
@@ -557,13 +645,22 @@ public:
 			}
 		}
 	}
+
 	void hitUnit(const OwnerToken &iID, const Real &damage, const Vector3 &force)
 	{
 		MagixUnit *unit = 0;
-		if(iID==mPlayer->getIndex())unit = mPlayer;
-		else unit = getUnitByIndex(iID);
+		if(iID==mPlayer->getIndex())
+		{
+			unit = mPlayer;
+		}
+		else
+		{
+			unit = getUnitByIndex(iID);
+		}
+
 		hitUnit(unit,damage,force);
 	}
+
 	void updateWallCollisions(MagixUnit *unit)
 	{
 		const vector<Wall*>::type tHitList = mCollisionManager->getWallHitList(unit->getPosition());
@@ -577,10 +674,23 @@ public:
 				if(Math::Abs(tX)>0.1 && Math::Abs(tZ)>0.1)
 				{
 					Radian tYaw = Degree(0);
-					if(tZ!=0)tYaw = Math::ATan(tX/tZ);
-					else tYaw = Degree(tX>=0?90:270);
-					if(tX<0 && tZ>=0)tYaw += Degree(360);
-					if(tZ<0)tYaw += Degree(180);
+					if(tZ!=0)
+					{
+						tYaw = Math::ATan(tX / tZ);
+					}
+					else
+					{
+						tYaw = Degree(tX >= 0 ? 90 : 270);
+					}
+
+					if(tX<0 && tZ>=0)
+					{
+						tYaw += Degree(360);
+					}
+					if(tZ<0)
+					{
+						tYaw += Degree(180);
+					}
 
 					unit->addPenaltyVelocity(Vector3(Math::Sin(tYaw)*tWall->range.x - tX,0,Math::Cos(tYaw)*tWall->range.x - tZ));
 				}
@@ -595,15 +705,34 @@ public:
 				{
 					const Real tNearestX = (Math::Abs(tMinX - unit->getPosition().x)<=Math::Abs(tMaxX - unit->getPosition().x)?tMinX - unit->getPosition().x:tMaxX - unit->getPosition().x);
 					const Real tNearestZ = (Math::Abs(tMinZ - unit->getPosition().z)<=Math::Abs(tMaxZ - unit->getPosition().z)?tMinZ - unit->getPosition().z:tMaxZ - unit->getPosition().z);
-					if(Math::Abs(tNearestX)<=Math::Abs(tNearestZ))unit->addPenaltyVelocity(Vector3(tNearestX,0,0));
-					else unit->addPenaltyVelocity(Vector3(0,0,tNearestZ));
+					
+					if(Math::Abs(tNearestX)<=Math::Abs(tNearestZ))
+					{
+						unit->addPenaltyVelocity(Vector3(tNearestX, 0, 0));
+					}
+					else
+					{
+						unit->addPenaltyVelocity(Vector3(0, 0, tNearestZ));
+					}
 				}
 				else
 				{
-					if(unit->getPosition().x < tMinX)unit->addPenaltyVelocity(Vector3(tMinX - unit->getPosition().x,0,0));
-					if(unit->getPosition().x > tMaxX)unit->addPenaltyVelocity(Vector3(tMaxX - unit->getPosition().x,0,0));
-					if(unit->getPosition().z < tMinZ)unit->addPenaltyVelocity(Vector3(0,0,tMinZ - unit->getPosition().z));
-					if(unit->getPosition().z > tMaxZ)unit->addPenaltyVelocity(Vector3(0,0,tMaxZ - unit->getPosition().z));
+					if(unit->getPosition().x < tMinX)
+					{
+						unit->addPenaltyVelocity(Vector3(tMinX - unit->getPosition().x, 0, 0));
+					}
+					if(unit->getPosition().x > tMaxX)
+					{
+						unit->addPenaltyVelocity(Vector3(tMaxX - unit->getPosition().x, 0, 0));
+					}
+					if(unit->getPosition().z < tMinZ)
+					{
+						unit->addPenaltyVelocity(Vector3(0, 0, tMinZ - unit->getPosition().z));
+					}
+					if(unit->getPosition().z > tMaxZ)
+					{
+						unit->addPenaltyVelocity(Vector3(0, 0, tMaxZ - unit->getPosition().z));
+					}
 				}
 			}
 		}
@@ -646,6 +775,7 @@ public:
 			tGate->disable();
 		}
 	}
+
 	void updateCollBoxCollisions(MagixUnit *unit, const FrameEvent &evt)
 	{
 		const Real headHeight = unit->getObjectNode()->getScale().y*12;
@@ -669,7 +799,10 @@ public:
 				if(unitHeight-GROUND_THRESHOLD <= tBox->center.y)
 				{
 					unit->addPenaltyVelocity(Vector3(0,tBox->center.y-unitHeight,0));
-					if(unit->getForce().y>0)unit->addForce(Vector3(0,-unit->getForce().y,0));
+					if(unit->getForce().y>0)
+					{
+						unit->addForce(Vector3(0, -unit->getForce().y, 0));
+					}
 				}
 				//Blocked by box
 				else
@@ -685,13 +818,19 @@ public:
 				}
 			}
 		}
+
 		const vector<CollSphere*>::type tHitList2 = mCollisionManager->getCollSphereHitList(unit->getPosition());
 		for(vector<CollSphere*>::type::const_iterator it=tHitList2.begin(); it!=tHitList2.end(); it++)
 		{
 			CollSphere *tSphere = *it;
 
-			if(tSphere->range==0)continue;
+			if(tSphere->range==0)
+			{
+				continue;
+			}
+
 			const Real tY = tSphere->center.y;
+			
 			//Stand on sphere
 			if(unit->getPosition().y >= tY)
 			{
@@ -1085,28 +1224,6 @@ public:
 
 		return tHeight;
 	}
-	/*void updateGroundHeight(MagixAnimated *unit, const FrameEvent &evt)
-	{
-		Real tHeight = 0;
-		static Ray updateRay;
-		updateRay.setOrigin(unit->getPosition() + Vector3(0,5000,0));
-		updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
-		mRayQuery->setRay(updateRay);
-		RaySceneQueryResult& qryResult = mRayQuery->execute();
-		RaySceneQueryResult::iterator i = qryResult.begin();
-		if(i != qryResult.end() && i->worldFragment)
-		{
-			tHeight = i->worldFragment->singleIntersection.y;
-		}
-		Real tLength = Vector2(unit->getLastPosition().x-unit->getPosition().x,unit->getLastPosition().z-unit->getPosition().z).length();
-		if(tLength!=0)
-		if((tHeight - unit->getGroundHeight())/tLength>=1)
-		{
-			unit->setPosition(unit->getLastPosition());
-			unit->setForce(Vector3(0,unit->getForce().y,0));
-		}
-		unit->setGroundHeight(tHeight);
-	}*/
 	MagixPlayer* getPlayer()
 	{
 		return mPlayer;
@@ -1198,7 +1315,7 @@ public:
 	void updateNameTag(/*RectLayoutManager &m, */MovableTextOverlay *p)
 	{
 		if(!p)return;
-		if (p->isOnScreen())
+		if(p->isOnScreen())
 		{
 			/*RectLayoutManager::Rect r(	p->getPixelsLeft(),
 										p->getPixelsTop(),
@@ -1221,7 +1338,7 @@ public:
 	void updateChatBubble(/*RectLayoutManager &m, */MovableTextOverlay *p)
 	{
 		if(!p)return;
-		if (p->isOnScreen())
+		if(p->isOnScreen())
 		{
 			/*RectLayoutManager::Rect r(	p->getPixelsLeft(),
 										p->getPixelsTop(),

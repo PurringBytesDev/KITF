@@ -273,3 +273,28 @@ in external defs a function named processObjects
 		outFile.close();
 	}*/
 ---
+from unit manager updateGroundHeight
+---
+	/*void updateGroundHeight(MagixAnimated *unit, const FrameEvent &evt)
+	{
+		Real tHeight = 0;
+		static Ray updateRay;
+		updateRay.setOrigin(unit->getPosition() + Vector3(0,5000,0));
+		updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
+		mRayQuery->setRay(updateRay);
+		RaySceneQueryResult& qryResult = mRayQuery->execute();
+		RaySceneQueryResult::iterator i = qryResult.begin();
+		if(i != qryResult.end() && i->worldFragment)
+		{
+			tHeight = i->worldFragment->singleIntersection.y;
+		}
+		Real tLength = Vector2(unit->getLastPosition().x-unit->getPosition().x,unit->getLastPosition().z-unit->getPosition().z).length();
+		if(tLength!=0)
+		if((tHeight - unit->getGroundHeight())/tLength>=1)
+		{
+			unit->setPosition(unit->getLastPosition());
+			unit->setForce(Vector3(0,unit->getForce().y,0));
+		}
+		unit->setGroundHeight(tHeight);
+	}*/
+---
