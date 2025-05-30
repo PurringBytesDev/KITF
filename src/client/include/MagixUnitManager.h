@@ -157,11 +157,16 @@ public:
 		destroyUnit(mPlayer);
 		delete mPlayer;
 		if(mRayQuery)delete mRayQuery;
+		// appart ray query this is overlay, why is this there ?? ui should be in ui !
+		// if we manage units maybe they dont have a nametag if they are critters ? to separate !
 		if(mNameTagAttr)delete mNameTagAttr;
+		// user tags should be in pets ?
 		if(mUserTagAttr)delete mUserTagAttr;
 		if(mChatBubbleAttr)delete mChatBubbleAttr;
 	}
-	// this should not be here ?
+
+	// this should not be here ? in the context this should not be that ? if we dont need all of that for the unit manager ? 
+	// note 2 : its not the role of this class to understand world and what not ? or in what condition ? this is to be inspected for efficiency & leaks
 	void initialize(SceneManager *sceneMgr, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixWorld *world, MagixEffectsManager *effectsMgr, MagixCollisionManager *collisionMgr, MagixSoundManager *soundMgr, MagixItemManager *itemMgr, MagixCritterManager *critterMgr, MagixCamera *camera)
 	{
 		mSceneMgr = sceneMgr;
@@ -179,6 +184,7 @@ public:
 		mChatBubbleAttr = new MovableTextOverlayAttributes("Attrs2",sceneMgr->getCamera("PlayerCam"),"Tahoma",16,ColourValue(1,0.6,0),"GUIMat/StatsBlockCenter");
 		mUserTagAttr = new MovableTextOverlayAttributes("Attrs3",sceneMgr->getCamera("PlayerCam"),"Tahoma",14,ColourValue(1,0.6,0),"GUIMat/ButtonUp");
 	}
+
 	void reset(bool destroyPlayer=false, bool resetPosition=true)
 	{
 		mapChange = MapChangeData();
@@ -200,15 +206,25 @@ public:
 		}
 		hitQueue.clear();
 	}
+
 	void resetPlayerPosition()
 	{
-		if(!mPlayer->getObjectNode())return;
+		if(!mPlayer->getObjectNode())
+		{
+			return;
+		}
+
+		// oh yeah ? we have to inspect this
 		Vector3 tVect = mWorld->getSpawnSquare();
+
 		mPlayer->setPosition(tVect.x+Math::RangeRandom(0,tVect.z),700,tVect.y+Math::RangeRandom(0,tVect.z));
 		mPlayer->getObjectNode()->setOrientation(Quaternion(Degree(0),Vector3::UNIT_Y));
 		mPlayer->resetTarget();
+
+		// this is to be inspected 
 		clampUnitToTerrain(mPlayer,true);
 	}
+
 	void reclampAllUnitsToTerrain(bool clampToTerrain=false)
 	{
 		MagixIndexedUnit *tLast = mLastUnit;
@@ -218,8 +234,10 @@ public:
 			tLast = tLast->getPrevious();
 		}
 	}
+
 	void update(const FrameEvent &evt)
 	{
+		// why is this off exactly ? tell me !!!!!
 		/*RectLayoutManager nameTagRect(0,0,mSceneMgr->getCamera("PlayerCam")->getViewport()->getActualWidth(),mSceneMgr->getCamera("PlayerCam")->getViewport()->getActualHeight());
 		nameTagRect.setDepth(0);
 		RectLayoutManager chatBubbleRect(0,0,mSceneMgr->getCamera("PlayerCam")->getViewport()->getActualWidth(),mSceneMgr->getCamera("PlayerCam")->getViewport()->getActualHeight());
@@ -248,14 +266,32 @@ public:
 		if(isPlayer)
 		{
 			static_cast<MagixPlayer*>(unit)->update(evt,mDef,camOrientation);
-			if(unit->isPositionChanged(!unit->isAntiGravity()))unit->allocFlags.hasOwnGroundHeight = false;
+			if(unit->isPositionChanged(!unit->isAntiGravity()))
+			{
+				unit->allocFlags.hasOwnGroundHeight = false;
+			}
 		}
-		else unit->update(evt,mDef);
-		if((isPlayer||!unit->allocFlags.hasOwnGroundHeight) && unit->isPositionChanged(!unit->isAntiGravity()))clampUnitToTerrain(unit);
-		if(mWorld->getIsInterior() && unit->isPositionChanged())clampUnitToCeiling(unit);
+		else
+		{
+			unit->update(evt, mDef);
+		}
+
+		if((isPlayer||!unit->allocFlags.hasOwnGroundHeight) && unit->isPositionChanged(!unit->isAntiGravity()))
+		{
+			clampUnitToTerrain(unit);
+		}
+
+		if(mWorld->getIsInterior() && unit->isPositionChanged())
+		{
+			clampUnitToCeiling(unit);
+		}
 
 		//Range check
-		if(tIsInRange)tIsInRange = isInRange(unit);
+		if(tIsInRange)
+		{
+			tIsInRange = isInRange(unit);
+		}
+
 		if(!tIsInRange)
 		{
 			if(unit->getBodyEnt()->isVisible())unit->getObjectNode()->setVisible(false);
@@ -265,13 +301,18 @@ public:
 		}
 		else
 		{
-			if(!unit->getBodyEnt()->isVisible())unit->getObjectNode()->setVisible(true);
+			if(!unit->getBodyEnt()->isVisible())
+			{
+				unit->getObjectNode()->setVisible(true);
+			}
 			unit->showChatBubble(true);
+
 			if(shouldNameTagsBeVisible && !unit->isNameTagVisible())
 			{
 				unit->showNameTag(true);
 				unit->updateNameTag(evt);
 			}
+			
 			if(shouldNameTagsBeVisible && !unit->isUserTagVisible())
 			{
 				unit->showUserTag(true);
@@ -287,9 +328,18 @@ public:
 			updateSounds(unit);
 		}
 
-		if(unit->isNameTagVisible())updateNameTag(/*nameTagRect,*/unit->getNameTag());
-		if(unit->isUserTagVisible())updateNameTag(/*nameTagRect,*/unit->getUserTag());
-		if(unit->isChatBubbleVisible())updateChatBubble(/*chatBubbleRect,*/unit->getChatBubble());
+		if(unit->isNameTagVisible())
+		{
+			updateNameTag(/*nameTagRect,*/unit->getNameTag());
+		}
+		if(unit->isUserTagVisible())
+		{
+			updateNameTag(/*nameTagRect,*/unit->getUserTag());
+		}
+		if(unit->isChatBubbleVisible())
+		{
+			updateChatBubble(/*chatBubbleRect,*/unit->getChatBubble());
+		}
 		if(unit->popHasStoppedAttack())
 		{
 			mEffectsManager->destroyRibbonTrailByEntity(unit->getBodyEnt());
@@ -297,7 +347,10 @@ public:
 			mCollisionManager->destroyCollisionByOwnerNode(unit->getObjectNode());
 			unit->setSpeedMultiplier(1);
 		}
-		if(unit->isDying())return;
+		if(unit->isDying())
+		{
+			return;
+		}
 
 		if(unit->popHasNewAttack())
 		{
@@ -323,6 +376,7 @@ public:
 					{
 						const Real tHP = Math::RangeRandom(tAttack.hpMin,tAttack.hpMax);
 						MagixObject *target = 0;
+
 						//Attacker is player
 						if(isPlayer)
 						{
@@ -330,13 +384,22 @@ public:
 							if(mCamera->getCameraMode()==CAMERA_LOCKED)
 							{
 								target = mPlayerTarget;
-								if(!target && mPlayer->getIsLockedOn())target = unit->getAutoTrackObject();
+								if(!target && mPlayer->getIsLockedOn())
+								{
+									target = unit->getAutoTrackObject();
+								}
 							}
 							//Set target to be autoattack target otherwise
-							else target = static_cast<MagixPlayer*>(unit)->getAutoAttackTarget();
+							else
+							{
+								target = static_cast<MagixPlayer*>(unit)->getAutoAttackTarget();
+							}
 						}
 						//Not player, target to be tracked object
-						else target = unit->getAutoTrackObject();
+						else
+						{
+							target = unit->getAutoTrackObject();
+						}
 
 						//Set target to be self if alliance doesn't match
 						if(target)
@@ -348,7 +411,11 @@ public:
 							}
 						}
 						//Set target to be self if there's no target
-						else if(tAttack.hitAlly)target = unit;
+						else if(tAttack.hitAlly)
+						{
+							target = unit;
+						}
+
 						//Process attack
 						if(target)
 						{
@@ -357,8 +424,14 @@ public:
 							{
 								MagixCritter *tC = static_cast<MagixCritter*>(target);
 								mCritterManager->hitCritter(tC,tHP,tForce,0,tIsInRange);
-								if(isPlayer&&!mGameStateManager->isCampaign())mCritterManager->pushHitQueue(HitInfo(tC->getID(),tHP,tForce,tC->imTheOwner()));
-								if(tHP<0)tC->setLastHitIndex(0);
+								if(isPlayer&&!mGameStateManager->isCampaign())
+								{
+									mCritterManager->pushHitQueue(HitInfo(tC->getID(), tHP, tForce, tC->imTheOwner()));
+								}
+								if (tHP < 0)
+								{
+									tC->setLastHitIndex(0);
+								}
 							}
 							else if(target->getType()==OBJECT_UNIT || target==mPlayer)
 							{

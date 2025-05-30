@@ -412,6 +412,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     <ClInclude Include="src\client\include\MagixWorld.h" />
     <ClInclude Include="src\client\include\ObfuscatedZip.h" />
     <ClInclude Include="src\client\include\ogremagix.h" />
+    <ClInclude Include="src\client\include\RectLayoutManager.h" />
     <ClInclude Include="src\client\res\Resource.h" />
     <ClInclude Include="src\client\include\SoundManager.h" />
     <ClInclude Include="src\client\include\MagixNetworkDefines.h" />
