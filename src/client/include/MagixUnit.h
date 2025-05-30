@@ -780,7 +780,8 @@ public:
 			if(mBodyEnt->getAnimationState(tOppTurn)->getEnabled())
 			{
 				//mBodyEnt->getAnimationState(tOppTurn)->setEnabled(false);
-				headTurnCount = mBodyEnt->getAnimationState(tOppTurn)->getTimePosition()/(mBodyEnt->getAnimationState(tOppTurn)->getLength()*0.99);
+				// another cast & wrap of the operand
+				headTurnCount = (Real)mBodyEnt->getAnimationState(tOppTurn)->getTimePosition() / (mBodyEnt->getAnimationState(tOppTurn)->getLength() * 0.99);
 			}
 			if(headTurnCount>0)
 			{

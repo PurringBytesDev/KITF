@@ -988,7 +988,9 @@ namespace RakNet
 	template <>
 		inline void BitStream::WriteDelta(bool currentValue, bool lastValue)
 	{
-		(void) lastValue;
+		// require a raknet recompile probably
+		//(void) lastValue;
+		std::ignore = lastValue;
 
 		Write(currentValue);
 	}

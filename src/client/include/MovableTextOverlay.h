@@ -358,8 +358,9 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 	//container "chases" towards update position
 	if(chaseUpdate)
 	{
-		tX = (tX - mpOvContainer->getLeft())*0.08;
-		tY = (tY - mpOvContainer->getTop())*0.08;
+		tX = (tX - mpOvContainer->getLeft()) * (Real)0.08;
+		tY = (tY - mpOvContainer->getTop()) * (Real)0.08;
+
 		mpOvContainer->setPosition(mpOvContainer->getLeft()+tX, mpOvContainer->getTop()+tY);
 	}
 	else
