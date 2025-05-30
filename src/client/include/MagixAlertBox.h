@@ -25,6 +25,7 @@ public:
 		startWidth = 0;
 		startHeight = 0;
 	}
+
 	~MagixAlertBox()
 	{
 	}
@@ -53,6 +54,7 @@ public:
 
 			return;
 		}
+
 		//Show alert
 		if(alertCount>0)
 		{
@@ -61,6 +63,7 @@ public:
 
 			return;
 		}
+
 		//Transition out
 		if(alertTimeout<0)
 		{

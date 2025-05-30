@@ -485,6 +485,6 @@ void MovableTextOverlayAttributes::setColor(const Ogre::ColourValue & color)
 
 void MovableTextOverlayAttributes::setCharacterHeight(const unsigned int &height)
 {
-        mCharHeight = height;
+        mCharHeight = (Real)height;
 }
 #endif
