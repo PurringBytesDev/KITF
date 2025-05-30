@@ -1,3 +1,4 @@
+// after research, this is probably from https://forums.ogre3d.org/viewtopic.php?t=34197 or a similar resources
 #ifndef __MovableTextOverlay_H__
 #define __MovableTextOverlay_H__
 
@@ -251,50 +252,52 @@ void MovableTextOverlay::_getMinMaxEdgesOfAABBIn2D(Ogre::Real& MinX, Ogre::Real&
 
 	for (int i = 0; i < 4; i++)
 	{
-	  X[i] = 0;
-	  Y[i] = 0;
-	  
-	  _getScreenCoordinates(CornersOfTopAABB[i],X[i],Y[i]);// transfor into 2d dots
+		X[i] = 0;
+		Y[i] = 0;
+		
+		_getScreenCoordinates(CornersOfTopAABB[i],X[i],Y[i]);// transfor into 2d dots
 
-	  
-	  if (CameraPlain.getSide(CornersOfTopAABB[i]) == Plane::NEGATIVE_SIDE)
-	  {
-	     
-		 if (i == 0)// accept the first set of values, no matter how bad it might be.
-		 {
-			MinX = X[i];
-			MinY = Y[i];
-			MaxX = X[i];
-			MaxY = Y[i];
-		 }
-		 else// now compare if you get "better" values
-		 {
-			if (MinX > X[i])// get the x minimum
+		if (CameraPlain.getSide(CornersOfTopAABB[i]) == Plane::NEGATIVE_SIDE)
+		{
+
+			if (i == 0)// accept the first set of values, no matter how bad it might be.
 			{
-			   MinX = X[i];
+				MinX = X[i];
+				MinY = Y[i];
+				MaxX = X[i];
+				MaxY = Y[i];
 			}
-			if (MinY > Y[i])// get the y minimum
+			else// now compare if you get "better" values
 			{
-			   MinY = Y[i];
+				if (MinX > X[i])// get the x minimum
+				{
+					MinX = X[i];
+				}
+				
+				if (MinY > Y[i])// get the y minimum
+				{
+					MinY = Y[i];
+				}
+				
+				if (MaxX < X[i])// get the x maximum
+				{
+					MaxX = X[i];
+				}
+
+				if (MaxY < Y[i])// get the y maximum
+				{
+					MaxY = Y[i];
+				}
 			}
-			if (MaxX < X[i])// get the x maximum
-			{
-			   MaxX = X[i];
-			}
-			if (MaxY < Y[i])// get the y maximum
-			{
-			   MaxY = Y[i];
-			}
-		 }
-	  }
-	  else
-	  {
-		MinX = 0;
-		MinY = 0;
-		MaxX = 0;
-		MaxY = 0;
-		break;
-	  }
+		}
+		else
+		{
+			MinX = 0;
+			MinY = 0;
+			MaxX = 0;
+			MaxY = 0;
+			break;
+		}
 	}
 } 
 
@@ -310,13 +313,19 @@ void MovableTextOverlay::_getScreenCoordinates(const Ogre::Vector3& position, Og
 void MovableTextOverlay::enable(bool enable)
 {
 	if (mEnabled == enable)
+	{
 		return;
+	}
 
 	mEnabled = enable;
 	if (mEnabled)
+	{
 		mpOv->show();
+	}
 	else
+	{
 		mpOv->hide();
+	}
 }
 
 void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop, const Real &borderSizeOffset, bool chaseUpdate)
@@ -325,7 +334,10 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 
 	timeTillUpdate -= timeSincelastFrame;
 	if (timeTillUpdate > 0)
+	{
 		return;
+	}
+	
 	timeTillUpdate = mUpdateFrequency;
 
 	Ogre::Real min_x, max_x, min_y, max_y;
@@ -342,6 +354,7 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 
 	Real tX = 1-(min_x + max_x + relTextWidth)/2;
 	Real tY = 1-max_y-(placeAtTop?relTextHeight+borderSizeOffset:0) + mYOffset;
+	
 	//container "chases" towards update position
 	if(chaseUpdate)
 	{
@@ -349,7 +362,10 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 		tY = (tY - mpOvContainer->getTop())*0.08;
 		mpOvContainer->setPosition(mpOvContainer->getLeft()+tX, mpOvContainer->getTop()+tY);
 	}
-	else mpOvContainer->setPosition(tX, tY);
+	else
+	{
+		mpOvContainer->setPosition(tX, tY);
+	}
 
 	mpOvContainer->setDimensions(relTextWidth+borderSizeOffset, relTextHeight+borderSizeOffset);
 	if(borderSizeOffset!=0)
@@ -359,9 +375,13 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 
 	if ((min_x+relTextWidth>0.0) && (max_x-relTextWidth<1.0) && (min_y+relTextHeight>0.0) && (max_y-relTextHeight<1.0)
 		&& !(min_x==0&&max_x==0&&min_y==0&&max_y==0) )
-	   mOnScreen = true;
+	{
+		mOnScreen = true;
+	}
 	else
-	   mOnScreen = false;
+	{
+		mOnScreen = false;
+	}
 }
 
 void MovableTextOverlay::_updateOverlayAttrs()
@@ -371,15 +391,17 @@ void MovableTextOverlay::_updateOverlayAttrs()
 	if (oldMatName != newMatName)
 	{
 		if (oldMatName.length())
+		{
 			mpOvContainer->getMaterial()->unload();
+		}
 
 		if (newMatName.length())
+		{
 			mpOvContainer->setMaterialName(newMatName);
+		}
 
 	}
-
 	mpOvText->setColour(mAttrs->getColor());
-
 	mpOvText->setParameter("font_name", mAttrs->getFontName());
 	mpOvText->setParameter("char_height", Ogre::StringConverter::toString(mAttrs->getCharacterHeight()));
 	mpOvText->setParameter("alignment", "center");
@@ -387,20 +409,20 @@ void MovableTextOverlay::_updateOverlayAttrs()
 	mpOvText->setParameter("vert_align", "top");
 }
 
-
 MovableTextOverlayAttributes::MovableTextOverlayAttributes(const Ogre::String & name, const Ogre::Camera *cam,
 						 const Ogre::String & fontName, const int &charHeight, const Ogre::ColourValue & color, const Ogre::String & materialName)
-: mpCam(cam)
-, mpFont(NULL)
-, mName(name)
-, mFontName("")
-, mMaterialName("")
-, mCharHeight(charHeight)
-, mColor(ColourValue::ZERO)
+	: mpCam(cam)
+	, mpFont(NULL)
+	, mName(name)
+	, mFontName("")
+	, mMaterialName("")
+	, mCharHeight(charHeight)
+	, mColor(ColourValue::ZERO)
 {
 	if (fontName.length() == 0)
-        Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Invalid font name", "MovableTextOverlayAttributes::MovableTextOverlayAttributes");
-
+	{
+		Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Invalid font name", "MovableTextOverlayAttributes::MovableTextOverlayAttributes");
+	}
 	setFontName(fontName);
 	setMaterialName(materialName);
 	setColor(color);
@@ -438,14 +460,19 @@ void MovableTextOverlayAttributes::setMaterialName(const Ogre::String & material
 	if (mMaterialName != materialName)
 	{
 		if (mMaterialName.length())
+		{
 			Ogre::MaterialManager::getSingletonPtr()->getByName(mMaterialName).getPointer()->unload();
+		}
 
 		mMaterialName = materialName;
+		
 		if (mMaterialName.length())
 		{
 			Ogre::Material *mpMaterial = dynamic_cast<Ogre::Material*>(Ogre::MaterialManager::getSingletonPtr()->getByName(mMaterialName).getPointer());
 			if (!mpMaterial)
+			{
 				Ogre::Exception(Ogre::Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + materialName, "MovableTextOverlay::setMaterialName");
+			}
 			mpMaterial->load();
 		}
 	}
@@ -460,6 +487,4 @@ void MovableTextOverlayAttributes::setCharacterHeight(const unsigned int &height
 {
         mCharHeight = height;
 }
-
-
 #endif
