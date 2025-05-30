@@ -389,6 +389,7 @@ namespace RakNet
 		inline BitSize_t GetWriteOffset( void ) const {return numberOfBitsUsed;}
 		
 		///Returns the length in bytes of the stream
+		// C26440 noexcept can be added ? 
 		inline BitSize_t GetNumberOfBytesUsed( void ) const {return BITS_TO_BYTES( numberOfBitsUsed );}
 		
 		///Returns the number of bits into the stream that we have read
