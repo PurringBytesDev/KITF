@@ -13,6 +13,9 @@
     <ClCompile Include="src\client\src\ObfuscatedZip.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\client\src\MagixExternalDefinitions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client\include\ogremagix.h">
