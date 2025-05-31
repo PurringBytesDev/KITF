@@ -15,8 +15,11 @@ protected:
 	Real animSpeed;
 	Real decisionTimer;
 	Vector3 targetPosition;
+	// this will be needRespawning
 	bool isDead;
+	// maybe "has won" ?
 	bool hasSentDeath;
+	// we need a PG13 name : isDecaying it will be on reimplement.
 	bool isDecomposing;
 	bool hasRoamArea;
 	unsigned char roamAreaID;
@@ -227,10 +230,10 @@ public:
 
 			tDistance = Vector2(tX,tZ).squaredLength();
 		
-			if (tDistance > (maxSpeed / 25))
+			if(tDistance > (maxSpeed / 25))
 			{
 				Radian tYaw = Degree(0);
-				if (tZ != 0)
+				if(tZ != 0)
 				{
 					tYaw = Math::ATan(tX / tZ);
 				}
@@ -261,12 +264,12 @@ public:
 
 				Vector2 tVect = Vector2(0,0);
 				
-				if (tYaw == Degree(0) || tYaw == Degree(180))
+				if(tYaw == Degree(0) || tYaw == Degree(180))
 				{
 					// did hit after 3-5 hot recompile... I TOLD YOU SO !
 					tVect.y = 10 * (Real)(tYaw == Degree(180) ? -1 : 1);
 				}
-				else if (tYaw == Degree(90) || tYaw == Degree(270))
+				else if(tYaw == Degree(90) || tYaw == Degree(270))
 				{
 					// this case required a cast but not its main ?
 					tVect.x = 10 * (Real)(tYaw == Degree(270) ? -1 : 1);
@@ -316,18 +319,24 @@ public:
 			}
 			return;
 		}
-		if (decisionTimer > 0)decisionTimer -= evt.timeSinceLastFrame;
-		if (decisionTimer < 0)decisionTimer = 0;
-		if (decisionTimer == 0)
+		if(decisionTimer > 0)decisionTimer -= evt.timeSinceLastFrame;
+		if(decisionTimer < 0)decisionTimer = 0;
+		if(decisionTimer == 0)
 		{
-			if (isDecomposing)decomposedFlag = true;
+			if(isDecomposing)
+			{
+				decomposedFlag = true;
+			}
 			else
 			{
 				isDecomposing = true;
 				decisionTimer = 1;
 			}
 		}
-		if (isDecomposing)setFullColour(ColourValue(1, 0.95, 0.75, decisionTimer * (double)0.5));
+		if(isDecomposing)
+		{
+			setFullColour(ColourValue(1, 0.95, 0.75, decisionTimer * (float)0.5));
+		}
 	}
 
 	void setFullColour(const ColourValue &fullColour)
@@ -356,8 +365,10 @@ public:
 	void kill()
 	{
 		hp = 0;
+		// BLEARG this is morbid, set this to "needRespawning"
 		isDead = true;
-		decisionTimer = isDrawPoint?1:10;
+		// i would not need to cast if there was values !
+		decisionTimer = isDrawPoint ? (Real)1 : 10;
 		if(antiGravity)antiGravity = false;
 		if(hasAttack)attackHasEnded = true;
 	}
@@ -377,10 +388,22 @@ public:
 			const Real tX = targetPosition.x - mObjectNode->getPosition().x;
 			const Real tZ = targetPosition.z - mObjectNode->getPosition().z;
 			Radian tYaw = Degree(0);
-			if(tZ!=0)tYaw = Math::ATan(tX/tZ);
-			else tYaw = Degree(tX>=0?90:270);
-			if(tX<0)tYaw += Degree(360);
-			if(tZ<0)tYaw += Degree(180);
+			if(tZ != 0)
+			{
+				tYaw = Math::ATan(tX / tZ);
+			}
+			else
+			{
+				tYaw = Degree(tX >= 0 ? 90 : 270);
+			}
+			if(tX < 0)
+			{
+				tYaw += Degree(360);
+			}
+			if(tZ < 0)
+			{
+				tYaw += Degree(180);
+			}
 			setYaw(Degree(tYaw));
 		}
 	}
@@ -451,8 +474,11 @@ public:
 	
 	const Vector3 getPosition(bool headPosition=false)
 	{
-		if(!mObjectNode)return Vector3::ZERO;
-		return (mObjectNode->getPosition() + (headPosition?Vector3(0,height*0.5,0):Vector3::ZERO));
+		if(!mObjectNode)
+		{
+			return Vector3::ZERO;
+		}
+		return (mObjectNode->getPosition() + (headPosition ? Vector3(0, height * 0.5, 0) : Vector3::ZERO));
 	}
 	
 	const Real getHeight()

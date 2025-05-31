@@ -368,11 +368,11 @@ public:
 						{
 							tEnt = unit->getWingEnt();
 						}
-						else if (StringUtil::startsWith(tFX.bone, "tail"))
+						else if(StringUtil::startsWith(tFX.bone, "tail"))
 						{
 							tEnt = unit->getTailEnt();
 						}
-						else if (StringUtil::startsWith(tFX.bone, "head"))
+						else if(StringUtil::startsWith(tFX.bone, "head"))
 						{
 							tEnt = unit->getHeadEnt();
 						}
@@ -515,7 +515,7 @@ public:
 					}
 				}
 
-				if (tAttack.moveForce != Vector3::ZERO)
+				if(tAttack.moveForce != Vector3::ZERO)
 				{
 					unit->addForce((tAttack.autoTarget ? doAutoTarget(unit, isPlayer) : unit->getObjectNode()->getOrientation())* tAttack.moveForce);
 				}
@@ -608,7 +608,7 @@ public:
 			return;
 		}
 
-		if (unit->isIndexedUnit() && static_cast<MagixIndexedUnit*>(unit)->isWounded)
+		if(unit->isIndexedUnit() && static_cast<MagixIndexedUnit*>(unit)->isWounded)
 		{
 			return;
 		}
@@ -879,7 +879,7 @@ public:
 					unit->addPenaltyVelocity(Vector3(Math::Sin(tYaw)*tSphere->range - tX,0,Math::Cos(tYaw)*tSphere->range - tZ));
 				}
 				//Head under sphere
-				if (unit->getForce().y > 0)
+				if(unit->getForce().y > 0)
 				{
 					unit->addForce(Vector3(0, -unit->getForce().y, 0));
 				}
@@ -1090,7 +1090,7 @@ public:
 			{
 				if(!unit->matchAlliance(tLast->getAlliance()) && !tLast->isWounded)
 				{
-					if (unit->getPosition().squaredDistance(tLast->getPosition()) <= AUTOTARGET_RANGE_SQUARED)
+					if(unit->getPosition().squaredDistance(tLast->getPosition()) <= AUTOTARGET_RANGE_SQUARED)
 					{
 						unit->setTarget(tLast->getPosition(), TARGET_LOOKAT);
 						return (unit->getFaceDirection());
@@ -1129,9 +1129,9 @@ public:
 			// i hated debuguing the imbrication, what is wrong with some people...
 			if(!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject()!=tLast))
 			{
-				if (!(mPlayer->matchAlliance(tLast->getAlliance()) ^ tTargetAlly) && !tLast->isWounded)
+				if(!(mPlayer->matchAlliance(tLast->getAlliance()) ^ tTargetAlly) && !tLast->isWounded)
 				{
-					if (mPlayer->getPosition().squaredDistance(tLast->getPosition()) <= 40000)
+					if(mPlayer->getPosition().squaredDistance(tLast->getPosition()) <= 40000)
 					{
 						mPlayer->lockOn(tLast);
 						setPlayerTarget(tLast);
@@ -1147,13 +1147,13 @@ public:
 		const vector<MagixCritter*>::type tCritter = mCritterManager->getCritterList();
 		for(int i=0;i<(int)tCritter.size();i++)
 		{
-			if (!tCritter[i]->getIsDead())
+			if(!tCritter[i]->getIsDead())
 			{
-				if (!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject() != tCritter[i]))
+				if(!mPlayer->getIsLockedOn() || (mPlayer->getIsLockedOn() && mPlayer->getAutoTrackObject() != tCritter[i]))
 				{
-					if (!(mPlayer->matchAlliance(tCritter[i]->getAlliance()) ^ tTargetAlly))
+					if(!(mPlayer->matchAlliance(tCritter[i]->getAlliance()) ^ tTargetAlly))
 					{
-						if (mPlayer->getPosition().squaredDistance(tCritter[i]->getPosition()) <= 40000)
+						if(mPlayer->getPosition().squaredDistance(tCritter[i]->getPosition()) <= 40000)
 						{
 							mPlayer->lockOn(tCritter[i]);
 							setPlayerTarget(tCritter[i]);
@@ -1351,7 +1351,7 @@ public:
 				}
 			}
 		}
-		if (target->hasMarker)
+		if(target->hasMarker)
 		{
 			OverlayManager::getSingleton().destroyOverlayElement("UnitMarker" + StringConverter::toString(target->getUnitID()));
 		}
@@ -1421,7 +1421,7 @@ public:
 										p->getPixelsBottom());
 
 			RectLayoutManager::RectList::iterator it = m.addData(r);
-			if (it != m.getListEnd())
+			if(it != m.getListEnd())
 			{
 				p->setPixelsTop((*it).getTop());
 				p->enable(true);
@@ -1447,7 +1447,7 @@ public:
 										p->getPixelsBottom());
 
 			RectLayoutManager::RectList::iterator it = m.addData(r);
-			if (it != m.getListEnd())
+			if(it != m.getListEnd())
 			{
 				p->setPixelsTop((*it).getTop());
 				p->enable(true);
@@ -1591,7 +1591,7 @@ public:
 			{
 				if(tLast!=unit)
 				{
-					if (tLast->getAutoTrackObject() == unit)tLast->setAutoTrackObject(0);
+					if(tLast->getAutoTrackObject() == unit)tLast->setAutoTrackObject(0);
 					{ 
 						tLast = tLast->getPrevious(); 
 					}
@@ -1599,7 +1599,7 @@ public:
 			}
 			if(mPlayer)
 			{
-				if (mPlayer->getAutoTrackObject() == unit)
+				if(mPlayer->getAutoTrackObject() == unit)
 				{
 					mPlayer->lockOn(0);
 				}
@@ -1718,11 +1718,11 @@ public:
 		{
 			return false;
 		}
-		if (unit->getEquip(slot) != "")
+		if(unit->getEquip(slot) != "")
 		{
 			return false;
 		}
-		if (!mDef->itemMeshExists(meshName))
+		if(!mDef->itemMeshExists(meshName))
 		{
 			return false;
 		}
@@ -1859,7 +1859,7 @@ public:
 	{
 		if(mPlayer)
 		{
-			if (mPlayer->getAutoTrackObject() == item)
+			if(mPlayer->getAutoTrackObject() == item)
 			{
 				mPlayer->lockOn(0);
 			}

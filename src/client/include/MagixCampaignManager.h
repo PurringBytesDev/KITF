@@ -1279,7 +1279,7 @@ public:
 			{
 				tVect += mCamera->getCamNode()->_getDerivedPosition();
 			}
-			else if (compare(tPart[i], "PLAYER_POSITION"))
+			else if(compare(tPart[i], "PLAYER_POSITION"))
 			{
 				tVect += mUnitManager->getPlayer()->getPosition();
 			}

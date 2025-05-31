@@ -319,7 +319,7 @@ public:
 				*pVertex++ = (float) seg / (float) nSegments;
 				*pVertex++ = (float) ring / (float) nRings;
 
-				if (ring != nRings) {
+				if(ring != nRings) {
 								   // each vertex (except the last) has six indices pointing to it
 					*pIndices++ = wVerticeIndex + nSegments + 1;
 					*pIndices++ = wVerticeIndex;               

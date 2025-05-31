@@ -126,13 +126,13 @@ MovableTextOverlay::MovableTextOverlay(const Ogre::String & name, const Ogre::St
 , mEnabled(FALSE)
 , mYOffset(yOffset/OverlayManager::getSingleton().getViewportHeight())
 {
-	if (name == "")
+	if(name == "")
         Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Trying to create MovableTextOverlay without name", "MovableTextOverlay::MovableTextOverlay");
 
-    if (caption == "")
+    if(caption == "")
         Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Trying to create MovableTextOverlay without caption", "MovableTextOverlay::MovableTextOverlay");
 
-	if (mAttrs == NULL)
+	if(mAttrs == NULL)
 		Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Trying to create MovableTextOverlay without Attributes", "MovableTextOverlay::MovableTextOverlay");
 /*
     if(Ogre::OverlayManager::getSingleton().getByName(name + "_Ov")) 
@@ -187,7 +187,7 @@ MovableTextOverlay::~MovableTextOverlay()
 
 void MovableTextOverlay::setCaption(const Ogre::String & caption)
 {
-    if (caption != mCaption)
+    if(caption != mCaption)
     {
         mCaption = caption;
 		mpOvText->setCaption(mCaption);
@@ -209,7 +209,7 @@ void MovableTextOverlay::_computeTextSize()
 		Real tTextWidth = 0;
 		for(Ogre::String::iterator i = tLine.begin(); i < tLine.end();i++)
 		{   
-			if (*i == 0x0020)
+			if(*i == 0x0020)
 				tTextWidth += pFont->getGlyphAspectRatio(0x0030);
 			else
 			{
@@ -236,7 +236,7 @@ void MovableTextOverlay::_getMinMaxEdgesOfAABBIn2D(Ogre::Real& MinX, Ogre::Real&
 	Ogre::Real X[4];// the 2D dots of the AABB in screencoordinates
 	Ogre::Real Y[4];
 
-	if (!mpMov->isInScene())
+	if(!mpMov->isInScene())
 	   return;
 
 	const Ogre::AxisAlignedBox &AABB = mpMov->getWorldBoundingBox(true);// the AABB of the target
@@ -257,10 +257,10 @@ void MovableTextOverlay::_getMinMaxEdgesOfAABBIn2D(Ogre::Real& MinX, Ogre::Real&
 		
 		_getScreenCoordinates(CornersOfTopAABB[i],X[i],Y[i]);// transfor into 2d dots
 
-		if (CameraPlain.getSide(CornersOfTopAABB[i]) == Plane::NEGATIVE_SIDE)
+		if(CameraPlain.getSide(CornersOfTopAABB[i]) == Plane::NEGATIVE_SIDE)
 		{
 
-			if (i == 0)// accept the first set of values, no matter how bad it might be.
+			if(i == 0)// accept the first set of values, no matter how bad it might be.
 			{
 				MinX = X[i];
 				MinY = Y[i];
@@ -269,22 +269,22 @@ void MovableTextOverlay::_getMinMaxEdgesOfAABBIn2D(Ogre::Real& MinX, Ogre::Real&
 			}
 			else// now compare if you get "better" values
 			{
-				if (MinX > X[i])// get the x minimum
+				if(MinX > X[i])// get the x minimum
 				{
 					MinX = X[i];
 				}
 				
-				if (MinY > Y[i])// get the y minimum
+				if(MinY > Y[i])// get the y minimum
 				{
 					MinY = Y[i];
 				}
 				
-				if (MaxX < X[i])// get the x maximum
+				if(MaxX < X[i])// get the x maximum
 				{
 					MaxX = X[i];
 				}
 
-				if (MaxY < Y[i])// get the y maximum
+				if(MaxY < Y[i])// get the y maximum
 				{
 					MaxY = Y[i];
 				}
@@ -312,13 +312,13 @@ void MovableTextOverlay::_getScreenCoordinates(const Ogre::Vector3& position, Og
 
 void MovableTextOverlay::enable(bool enable)
 {
-	if (mEnabled == enable)
+	if(mEnabled == enable)
 	{
 		return;
 	}
 
 	mEnabled = enable;
-	if (mEnabled)
+	if(mEnabled)
 	{
 		mpOv->show();
 	}
@@ -333,7 +333,7 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 	static Real timeTillUpdate = 0;
 
 	timeTillUpdate -= timeSincelastFrame;
-	if (timeTillUpdate > 0)
+	if(timeTillUpdate > 0)
 	{
 		return;
 	}
@@ -343,7 +343,7 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 	Ogre::Real min_x, max_x, min_y, max_y;
 	_getMinMaxEdgesOfAABBIn2D(min_x, min_y, max_x, max_y, placeAtTop);
 
-	if (mNeedUpdate)
+	if(mNeedUpdate)
 	{
 		_computeTextSize();
 		mNeedUpdate = false;
@@ -374,7 +374,7 @@ void MovableTextOverlay::update(const Real &timeSincelastFrame, bool placeAtTop,
 		mpOvText->setPosition(0,borderSizeOffset*600);
 	}
 
-	if ((min_x+relTextWidth>0.0) && (max_x-relTextWidth<1.0) && (min_y+relTextHeight>0.0) && (max_y-relTextHeight<1.0)
+	if((min_x+relTextWidth>0.0) && (max_x-relTextWidth<1.0) && (min_y+relTextHeight>0.0) && (max_y-relTextHeight<1.0)
 		&& !(min_x==0&&max_x==0&&min_y==0&&max_y==0) )
 	{
 		mOnScreen = true;
@@ -389,14 +389,14 @@ void MovableTextOverlay::_updateOverlayAttrs()
 {
 	const String &newMatName = mAttrs->getMaterialName();
 	const String &oldMatName = mpOvContainer->getMaterialName();
-	if (oldMatName != newMatName)
+	if(oldMatName != newMatName)
 	{
-		if (oldMatName.length())
+		if(oldMatName.length())
 		{
 			mpOvContainer->getMaterial()->unload();
 		}
 
-		if (newMatName.length())
+		if(newMatName.length())
 		{
 			mpOvContainer->setMaterialName(newMatName);
 		}
@@ -420,7 +420,7 @@ MovableTextOverlayAttributes::MovableTextOverlayAttributes(const Ogre::String & 
 	, mCharHeight(charHeight)
 	, mColor(ColourValue::ZERO)
 {
-	if (fontName.length() == 0)
+	if(fontName.length() == 0)
 	{
 		Ogre::Exception(Ogre::Exception::ERR_INVALIDPARAMS, "Invalid font name", "MovableTextOverlayAttributes::MovableTextOverlayAttributes");
 	}
@@ -437,19 +437,19 @@ MovableTextOverlayAttributes::~MovableTextOverlayAttributes()
 
 void MovableTextOverlayAttributes::setFontName(const Ogre::String & fontName)
 {
-    if (mFontName != fontName || !mpFont)
+    if(mFontName != fontName || !mpFont)
     {
-		if (mpFont)
+		if(mpFont)
 		{
 			mpFont->unload();
 			mpFont = NULL;
 		}
 
 		mFontName = fontName;
-		if (mFontName.length())
+		if(mFontName.length())
 		{
 			mpFont = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFontName).getPointer());
-			if (!mpFont)
+			if(!mpFont)
 				Ogre::Exception(Ogre::Exception::ERR_ITEM_NOT_FOUND, "Could not find font " + fontName, "MovableTextOverlay::setFontName");
 			mpFont->load();
 		}
@@ -458,19 +458,19 @@ void MovableTextOverlayAttributes::setFontName(const Ogre::String & fontName)
 
 void MovableTextOverlayAttributes::setMaterialName(const Ogre::String & materialName)
 {
-	if (mMaterialName != materialName)
+	if(mMaterialName != materialName)
 	{
-		if (mMaterialName.length())
+		if(mMaterialName.length())
 		{
 			Ogre::MaterialManager::getSingletonPtr()->getByName(mMaterialName).getPointer()->unload();
 		}
 
 		mMaterialName = materialName;
 		
-		if (mMaterialName.length())
+		if(mMaterialName.length())
 		{
 			Ogre::Material *mpMaterial = dynamic_cast<Ogre::Material*>(Ogre::MaterialManager::getSingletonPtr()->getByName(mMaterialName).getPointer());
-			if (!mpMaterial)
+			if(!mpMaterial)
 			{
 				Ogre::Exception(Ogre::Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + materialName, "MovableTextOverlay::setMaterialName");
 			}

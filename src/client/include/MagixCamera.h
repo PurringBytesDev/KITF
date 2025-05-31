@@ -372,7 +372,7 @@ public:
 		mRayQuery->setRay(updateRay);
 		RaySceneQueryResult& qryResult = mRayQuery->execute();
 		RaySceneQueryResult::iterator i = qryResult.begin();
-		if (i != qryResult.end() && i->worldFragment)
+		if(i != qryResult.end() && i->worldFragment)
 		{
 			tHeight = i->worldFragment->singleIntersection.y;
 		}
@@ -513,7 +513,7 @@ public:
 	const Degree getYaw()
 	{
 		// why have a call ? check attached before lol
-		if (mCamera->isAttached())
+		if(mCamera->isAttached())
 		{
 			return mCamPivotNode->getOrientation().getYaw();
 		}

@@ -51,7 +51,7 @@ public:
 
 	void update(const FrameEvent &evt)
 	{
-		if (!mGameStateManager->isCampaign())
+		if(!mGameStateManager->isCampaign())
 		{
 			updateCritterOwnership(evt);
 		}
@@ -136,7 +136,7 @@ public:
 						const std::pair<Vector3,Vector3> tRoamArea = mWorld->getCritterRoamArea(tCritter.roamAreaID);
 						
 						tX = Math::RangeRandom(tRoamArea.first.x,tRoamArea.first.x + tRoamArea.second.x);
-						if (tC.flying)
+						if(tC.flying)
 						{
 							tY = Math::RangeRandom(tRoamArea.first.y, tRoamArea.first.y + tRoamArea.second.y);
 						}
@@ -144,7 +144,7 @@ public:
 						tZ = Math::RangeRandom(tRoamArea.first.z,tRoamArea.first.z + tRoamArea.second.z);
 						
 						const Real tGroundHeight = mUnitManager->getGroundHeight(tX,tZ,true,true);
-						if (!tC.flying || tGroundHeight > tY)
+						if(!tC.flying || tGroundHeight > tY)
 						{
 							tY = tGroundHeight;
 						}
@@ -159,7 +159,7 @@ public:
 						tY = tC.flying ? Math::RangeRandom(400,800) : mUnitManager->getGroundHeight(tX,tZ,true,true);
 					}
 
-					if (mGameStateManager->isCampaign())
+					if(mGameStateManager->isCampaign())
 					{
 						mUnitManager->createCritter(mCritterManager->getNextEmptyID(0), tID, Vector3(tX, tY, tZ));
 					}
@@ -177,7 +177,7 @@ public:
 		for(int i=0;i<(int)tDList.size();i++)mUnitManager->deleteCritter(tDList[i]->getID());
 
 		// i guess this is for IDLE AI ?
-		if (stationaryCritterTimer > 0)
+		if(stationaryCritterTimer > 0)
 		{
 			stationaryCritterTimer -= evt.timeSinceLastFrame;
 		}
@@ -192,7 +192,7 @@ public:
 			{
 				MagixCritter *tC = tCritterStationaryList[i];
 				
-				if (tC->getHP() <= 0)
+				if(tC->getHP() <= 0)
 				{
 					continue;
 				}
@@ -254,15 +254,15 @@ public:
 							tC->setTarget(tPetFlags->attackTarget,tAttackID);
 							if(!mGameStateManager->isCampaign())
 							{
-								if (tPetFlags->attackTarget->getType() == OBJECT_CRITTER)
+								if(tPetFlags->attackTarget->getType() == OBJECT_CRITTER)
 								{
 									mNetworkManager->sendCritterAttackDecision(tC->getID(), static_cast<MagixCritter*>(tPetFlags->attackTarget)->getID(), tAttackID, true);
 								}
-								else if (tPetFlags->attackTarget->getType() == OBJECT_UNIT && static_cast<MagixUnit*>(tPetFlags->attackTarget)->isIndexedUnit())
+								else if(tPetFlags->attackTarget->getType() == OBJECT_UNIT && static_cast<MagixUnit*>(tPetFlags->attackTarget)->isIndexedUnit())
 								{
 									mNetworkManager->sendCritterAttackDecision(tC->getID(), static_cast<MagixIndexedUnit*>(tPetFlags->attackTarget)->getIndex(), tAttackID);
 								}
-								else if (tPetFlags->attackTarget == mUnitManager->getPlayer())
+								else if(tPetFlags->attackTarget == mUnitManager->getPlayer())
 								{
 									mNetworkManager->sendCritterAttackDecision(tC->getID(), mUnitManager->getPlayer()->getIndex(), tAttackID);
 								}
@@ -275,7 +275,7 @@ public:
 
 						Real tDist = tC->getLength()*0.8;
 						
-						if (tDist < 30)
+						if(tDist < 30)
 						{
 							tDist = 30;
 						}
@@ -287,7 +287,7 @@ public:
 							// YEW
 							tC->setTarget(tPlayerPos + Vector3(Math::RangeRandom(-tDist,tDist), tC->isAntiGravity() ? tHeight : 0, Math::RangeRandom(-tDist,tDist)));
 
-							if (!mGameStateManager->isCampaign())
+							if(!mGameStateManager->isCampaign())
 							{
 								mNetworkManager->sendCritterDecision(tC->getID(), tC->getTarget());
 							}
@@ -355,7 +355,7 @@ public:
 					{
 						tC->setTarget(tC->getPosition() + Vector3(Math::RangeRandom(-300,300),tC->isAntiGravity()?Math::RangeRandom(-50,50):0,Math::RangeRandom(-300,300)));
 					}
-					if (!mGameStateManager->isCampaign())
+					if(!mGameStateManager->isCampaign())
 					{
 						mNetworkManager->sendCritterDecision(tC->getID(), tC->getTarget());
 					}
@@ -378,13 +378,13 @@ public:
 		if(tCritter)
 		{
 			//Set critter hit by player to be target, if any
-			if (mUnitManager->getPlayer()->setPlayerTargetOnHit || !mUnitManager->getPlayerTarget())
+			if(mUnitManager->getPlayer()->setPlayerTargetOnHit || !mUnitManager->getPlayerTarget())
 			{
 				mUnitManager->setPlayerTarget(tCritter);
 			}
 
 			//Set critter hit to be pet target
-			if (!tCritter->matchAlliance(mUnitManager->getPlayer()->getAlliance()) && mUnitManager->getPlayer()->getPet() != "" && !tPetFlags->attackTarget)
+			if(!tCritter->matchAlliance(mUnitManager->getPlayer()->getAlliance()) && mUnitManager->getPlayer()->getPet() != "" && !tPetFlags->attackTarget)
 			{
 				tPetFlags->attackTarget = tCritter;
 			}
@@ -399,7 +399,7 @@ public:
 		
 		if(tPetFlags->attackTarget && tPetFlags->attackTarget->getType()==OBJECT_CRITTER)
 		{
-			if (static_cast<MagixCritter*>(tPetFlags->attackTarget)->getIsDead())
+			if(static_cast<MagixCritter*>(tPetFlags->attackTarget)->getIsDead())
 			{
 				tPetFlags->attackTarget = 0;
 			}
@@ -409,7 +409,7 @@ public:
 		//Unlock-on dead critters
 		if(mUnitManager->getPlayer()->getIsLockedOn() && mUnitManager->getPlayer()->getAutoTrackObject() && mUnitManager->getPlayer()->getAutoTrackObject()->getType()==OBJECT_CRITTER)
 		{
-			if (static_cast<MagixCritter*>(mUnitManager->getPlayer()->getAutoTrackObject())->getIsDead())mUnitManager->getPlayer()->lockOn(0);
+			if(static_cast<MagixCritter*>(mUnitManager->getPlayer()->getAutoTrackObject())->getIsDead())mUnitManager->getPlayer()->lockOn(0);
 		}
 
 		if(!mGameStateManager->isCampaign())
@@ -443,7 +443,7 @@ public:
 			}
 			else
 			{
-				if (mGameStateManager->isCampaign())
+				if(mGameStateManager->isCampaign())
 				{
 					mUnitManager->killAndRewardCritter(tKList[i]);
 				}

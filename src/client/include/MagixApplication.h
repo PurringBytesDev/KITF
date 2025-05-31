@@ -83,13 +83,13 @@ public:
     /// Game destructor, to be renamed.
     virtual ~MagixApplication()
     {
-		if (mFrameListener)
+		if(mFrameListener)
             delete mFrameListener;
-		if (mRoot)
+		if(mRoot)
 			delete mRoot;
 
         // no new school one liners, add bracing whenever.
-        if (mObfuscatedZipFactory)
+        if(mObfuscatedZipFactory)
         {
             delete mObfuscatedZipFactory;
         }
@@ -98,7 +98,7 @@ public:
     /// Start the game
     virtual void go(void)
     {
-        if (!setup())
+        if(!setup())
             return;
 
         mRoot->startRendering();
@@ -143,7 +143,7 @@ protected:
         setupResources();
 
         bool carryOn = configure();
-        if (!carryOn) return false;
+        if(!carryOn) return false;
 
         
 

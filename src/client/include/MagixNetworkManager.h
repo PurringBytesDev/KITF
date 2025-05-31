@@ -139,7 +139,7 @@ public:
 	{
 		if(mPeer)
 		{
-			if (mPeer->IsActive())
+			if(mPeer->IsActive())
 			{
 				disconnect();
 			}
@@ -463,10 +463,10 @@ public:
 	}
 	const MessageID getPacketIdentifier(Packet *p)
 	{
-		if (p==0)
+		if(p==0)
 			return 255;
 
-		if ((unsigned char)p->data[0] == ID_TIMESTAMP)
+		if((unsigned char)p->data[0] == ID_TIMESTAMP)
 		{
 			assert(p->length > sizeof(unsigned char) + sizeof(unsigned long));
 			return (unsigned char) p->data[sizeof(unsigned char) + sizeof(unsigned long)];

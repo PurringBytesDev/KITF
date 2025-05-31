@@ -279,7 +279,7 @@ public:
 		{
 			displayCameraDetails = !displayCameraDetails;
 			mTimeUntilNextToggle = 0.5;
-			if (!displayCameraDetails)
+			if(!displayCameraDetails)
 				mDebugText = "";
 		}
 
@@ -418,9 +418,9 @@ public:
 
 	void showDebugOverlay(bool show)
 	{
-		if (mDebugOverlay)
+		if(mDebugOverlay)
 		{
-			if (show)
+			if(show)
 			{
 				mDebugOverlay->show();
 				isStatsOn = true;
@@ -451,11 +451,11 @@ public:
 		/*if(!mMouse->buffered() || !mKeyboard->buffered())
 		{
 			// one of the input modes is immediate, so setup what is needed for immediate movement
-			if (mTimeUntilNextToggle >= 0)
+			if(mTimeUntilNextToggle >= 0)
 				mTimeUntilNextToggle -= evt.timeSinceLastFrame;
 
 			// If this is the first frame, pick a speed
-			if (evt.timeSinceLastFrame == 0)
+			if(evt.timeSinceLastFrame == 0)
 			{
 				mMoveScale = 1;
 				mRotScale = 0.1;

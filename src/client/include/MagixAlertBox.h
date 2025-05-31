@@ -53,20 +53,20 @@ public:
 	void update(const FrameEvent evt)
 	{
 		//Transition in
-		if (alertTimeout > 0)
+		if(alertTimeout > 0)
 		{
-			if (!mAlertBox->isVisible())
+			if(!mAlertBox->isVisible())
 			{
 				mAlertBox->show();
 			}
 
-			if (mAlertBoxText->isVisible())
+			if(mAlertBoxText->isVisible())
 			{
 				mAlertBoxText->hide();
 			}
 
 			alertTimeout -= evt.timeSinceLastFrame;
-			if (alertTimeout <= 0)
+			if(alertTimeout <= 0)
 			{
 				alertTimeout = 0;
 				mAlertBoxText->show();
@@ -80,24 +80,24 @@ public:
 		}
 
 		//Show alert
-		if (alertCount > 0)
+		if(alertCount > 0)
 		{
 			alertCount -= evt.timeSinceLastFrame;
-			if (alertCount <= 0)hide();
+			if(alertCount <= 0)hide();
 
 			return;
 		}
 
 		//Transition out
-		if (alertTimeout < 0)
+		if(alertTimeout < 0)
 		{
-			if (mAlertBoxText->isVisible())
+			if(mAlertBoxText->isVisible())
 			{
 				mAlertBoxText->hide();
 			}
 
 			alertTimeout += evt.timeSinceLastFrame;
-			if (alertTimeout >= 0)
+			if(alertTimeout >= 0)
 			{
 				alertTimeout = 0;
 				mAlertBox->hide();
@@ -131,14 +131,14 @@ public:
 
 			for (Ogre::String::iterator iv = tLine.begin(); iv < tLine.end(); i++)
 			{
-				if (*iv == 0x0020)
+				if(*iv == 0x0020)
 					tTextWidth += 0.055;//pFont->getGlyphAspectRatio(0x0030);
 				else
 				{
 					tTextWidth += pFont->getGlyphAspectRatio(*iv);
 				}
 			}
-			if (tTextWidth > tLongestWidth)tLongestWidth = tTextWidth;
+			if(tTextWidth > tLongestWidth)tLongestWidth = tTextWidth;
 		}
 
 		startHeight = StringConverter::parseReal(mAlertBoxText->getParameter("char_height"));
@@ -154,7 +154,7 @@ public:
 	void hide(bool immediate = false)
 	{
 		alertCount = 0;
-		if (immediate)
+		if(immediate)
 		{
 			OverlayManager::getSingleton().getByName("GUIOverlay/AlertBox")->hide();
 			mAlertBox->hide();

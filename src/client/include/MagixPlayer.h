@@ -290,7 +290,7 @@ public:
 			}
 		}
 
-		if (jump && distanceFromGround() < (MAX_JUMPHEIGHT * hasDoubleJumped ? 2 : 1) && mForce.y >= 0)
+		if(jump && distanceFromGround() < (MAX_JUMPHEIGHT * hasDoubleJumped ? 2 : 1) && mForce.y >= 0)
 		{
 			addForce(Vector3(0, GRAVITY * evt.timeSinceLastFrame + (distanceFromGround() <= GROUND_THRESHOLD ? 2 : 0), 0));
 		}
@@ -332,7 +332,7 @@ public:
 			
 			nextAttackRange = 0;
 		}
-		else if (targetAction == 0 || mAutoAttackTarget->getPosition() != targetVector)
+		else if(targetAction == 0 || mAutoAttackTarget->getPosition() != targetVector)
 		{
 			setTarget(mAutoAttackTarget->getPosition());
 		}
@@ -502,7 +502,7 @@ public:
 		{
 			defaultControlModeIsAbsolute = true;
 		}
-		else if (controlMode == CONTROL_RELATIVE)
+		else if(controlMode == CONTROL_RELATIVE)
 		{
 			defaultControlModeIsAbsolute = false;
 		}

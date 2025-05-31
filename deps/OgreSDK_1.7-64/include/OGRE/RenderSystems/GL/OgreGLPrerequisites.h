@@ -88,7 +88,7 @@ namespace Ogre {
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
 
-#if (OGRE_PLATFORM == OGRE_PLATFORM_WIN32) && !defined(__MINGW32__) && !defined(OGRE_STATIC_LIB)
+#if(OGRE_PLATFORM == OGRE_PLATFORM_WIN32) && !defined(__MINGW32__) && !defined(OGRE_STATIC_LIB)
 #	ifdef OGRE_GLPLUGIN_EXPORTS
 #		define _OgreGLExport __declspec(dllexport)
 #	else

@@ -78,7 +78,7 @@ namespace ObfuscatedZip
     //-----------------------------------------------------------------------
     void ObfuscatedZip::load()
     {
-        if (!mZzipDir)
+        if(!mZzipDir)
         {
             zzip_error_t zzipError;
             mZzipDir = zzip_dir_open_ext_io(mName.c_str(), &zzipError, xor_fileext, &xor_handlers);
@@ -97,7 +97,7 @@ namespace ObfuscatedZip
                 info.compressedSize = static_cast<size_t>(zzipEntry.d_csize);
                 info.uncompressedSize = static_cast<size_t>(zzipEntry.st_size);
                 // folder entries
-                if (info.basename.empty())
+                if(info.basename.empty())
                 {
                     info.filename = info.filename.substr (0, info.filename.length () - 1);
                     Ogre::StringUtil::splitFilename(info.filename, info.basename, info.path);
@@ -118,7 +118,7 @@ namespace ObfuscatedZip
     //-----------------------------------------------------------------------
     void ObfuscatedZip::unload()
     {
-        if (mZzipDir)
+        if(mZzipDir)
         {
             zzip_dir_close(mZzipDir);
             mZzipDir = 0;
@@ -134,7 +134,7 @@ namespace ObfuscatedZip
         // Format not used here (always binary)
         ZZIP_FILE* zzipFile =
             zzip_file_open(mZzipDir, lookUpFileName.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
-        if (!zzipFile)
+        if(!zzipFile)
         {
             int zerr = zzip_error(mZzipDir);
             Ogre::String zzDesc = getZzipErrorDescription((zzip_error_t)zerr);
@@ -171,7 +171,7 @@ namespace ObfuscatedZip
         Ogre::FileInfoList::iterator i, iend;
         iend = mFileList.end();
         for (i = mFileList.begin(); i != iend; ++i)
-            if ((dirs == (i->compressedSize == size_t (-1))) &&
+            if((dirs == (i->compressedSize == size_t (-1))) &&
                 (recursive || i->path.empty()))
                 ret->push_back(i->filename);
 
@@ -184,7 +184,7 @@ namespace ObfuscatedZip
         Ogre::FileInfoList::const_iterator i, iend;
         iend = mFileList.end();
         for (i = mFileList.begin(); i != iend; ++i)
-            if ((dirs == (i->compressedSize == size_t (-1))) &&
+            if((dirs == (i->compressedSize == size_t (-1))) &&
                 (recursive || i->path.empty()))
                 fil->push_back(*i);
 
@@ -203,10 +203,10 @@ namespace ObfuscatedZip
         Ogre::FileInfoList::iterator i, iend;
         iend = mFileList.end();
         for (i = mFileList.begin(); i != iend; ++i)
-            if ((dirs == (i->compressedSize == size_t(-1))) &&
+            if((dirs == (i->compressedSize == size_t(-1))) &&
                 (recursive || full_match || matchPattern))
                 // Check basename matches pattern (zip is case insensitive)
-                if (Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
+                if(Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
                     ret->push_back(i->filename);
 
         return ret;
@@ -225,10 +225,10 @@ namespace ObfuscatedZip
         Ogre::FileInfoList::const_iterator i, iend;
         iend = mFileList.end();
         for (i = mFileList.begin(); i != iend; ++i)
-            if ((dirs == (i->compressedSize == size_t (-1))) &&
+            if((dirs == (i->compressedSize == size_t (-1))) &&
                 (recursive || full_match || matchPattern /*i->path.empty()*/))
                 // Check name matches pattern (zip is case insensitive)
-                if (Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
+                if(Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
                     ret->push_back(*i);
 
         return ret;
@@ -248,7 +248,7 @@ namespace ObfuscatedZip
     bool ObfuscatedZip::exists(const Ogre::String& filename)
     {
         Ogre::String cleanName = filename;
-        if (filename.rfind("/") != Ogre::String::npos)
+        if(filename.rfind("/") != Ogre::String::npos)
         {
             Ogre::StringVector tokens = Ogre::StringUtil::split(filename, "/");
             cleanName = tokens[tokens.size() - 1];
@@ -265,7 +265,7 @@ namespace ObfuscatedZip
         struct stat tagStat;
         bool ret = (stat(mName.c_str(), &tagStat) == 0);
 
-        if (ret)
+        if(ret)
         {
             return tagStat.st_mtime;
         }
@@ -278,7 +278,7 @@ namespace ObfuscatedZip
     //-----------------------------------------------------------------------
     void ObfuscatedZip::checkZzipError(int zzipError, const Ogre::String& operation) const
     {
-        if (zzipError != ZZIP_NO_ERROR)
+        if(zzipError != ZZIP_NO_ERROR)
         {
             Ogre::String errorMsg = getZzipErrorDescription(static_cast<zzip_error_t>(zzipError));
 
@@ -310,7 +310,7 @@ namespace ObfuscatedZip
     size_t ObfuscatedZipDataStream::read(void* buf, size_t count)
     {
         zzip_ssize_t r = zzip_file_read(mZzipFile, (char*)buf, count);
-        if (r<0) {
+        if(r<0) {
             ZZIP_DIR *dir = zzip_dirhandle(mZzipFile);
             Ogre::String msg = zzip_strerror_of(dir);
             OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR,
@@ -352,7 +352,7 @@ namespace ObfuscatedZip
     //-----------------------------------------------------------------------
     void ObfuscatedZipDataStream::close(void)
     {
-        if (mZzipFile != 0)
+        if(mZzipFile != 0)
         {
             zzip_file_close(mZzipFile);
             mZzipFile = 0;

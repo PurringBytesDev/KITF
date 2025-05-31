@@ -77,17 +77,20 @@ public:
 		mUnit = 0;
 		mSceneMgr = 0;
 		mName = 0;
+
 		for(int i=0;i<MAX_CHARSCREENTEXT;i++)
 		{
 			mText[i] = 0;
 			mLButton[i] = 0;
 			mRButton[i] = 0;
 		}
+
 		for(int i=0;i<3;i++)
 		{
 			mSlider[i] = 0;
 			mSliderMarker[i] = 0;
 		}
+
 		mColourBox = 0;
 		mAlertBox = 0;
 		mBackdrop = 0;
@@ -180,6 +183,7 @@ public:
 	const unsigned short buttonClicked(OverlayElement *button)
 	{
 		bool updateGUI = false;
+
 		if(button==mDeleteButton)
 		{
 			if(page==PAGE_SELECT)
@@ -189,6 +193,7 @@ public:
 				positionUnitForEdit();
 				return 0;
 			}
+
 			if(page==PAGE_EDIT)
 			{
 				// kids, this is a lesson from uncle purring bytes.
@@ -203,6 +208,7 @@ public:
 					mAlertBox->showAlert("Enter character name to confirm delete", mName->getLeft() + (Real)0.25, mName->getTop() + mName->getHeight() + (Real)0.05);
 					return 0;
 				}
+
 				if(deleteConfirmation!=getName())
 				{
 					mAlertBox->showAlert("Character name mismatch", mName->getLeft() + (Real)0.25, mName->getTop() + mName->getHeight() + (Real)0.05);
@@ -226,7 +232,7 @@ public:
 		unsigned short buttonNo = 0;
 		bool buttonIsRight = false;
 
-		for(int i=0;i<MAX_CHARSCREENTEXT;i++)
+		for (int i = 0; i < MAX_CHARSCREENTEXT; i++)
 		{
 			if(button==mLButton[i])
 			{
@@ -274,14 +280,35 @@ public:
 		}
 		else if(page==PAGE_CUSTOM3)
 		{
-			// isnt its normally while do ? weird 
+			// ok integrated logic : do while condition met, run once at least
 			do
 			{
-				if(buttonIsRight)colourPartID += 1;
-				else colourPartID -= 1;
-				if(colourPartID<0)colourPartID = MAX_COLOURS-1;
-				if(colourPartID>=MAX_COLOURS)colourPartID = 0;
-			}while (colourPartID == 9 && wingID == 0 || colourPartID == 2 && maneID == 0 && tuftID == 0 || colourPartID == 10 && bodyMarkID == 0 && headMarkID == 0 && tailMarkID == 0);
+				if(buttonIsRight)
+				{
+					colourPartID += 1;
+				}
+				else
+				{
+					colourPartID -= 1;
+				}
+				
+				if(colourPartID < 0)
+				{
+					colourPartID = MAX_COLOURS - 1;
+				}
+				
+				if(colourPartID >= MAX_COLOURS)
+				{
+					colourPartID = 0;
+				}
+			}
+			// colourpart is either 9 or 2 or 10, if 9 and 0 its valid, same for 2 and 0 but also required tuftid to be 0 and the last case is a more refined research
+			while
+				(
+				colourPartID == 9 && wingID == 0 || 
+				colourPartID == 2 && maneID == 0 && tuftID == 0 || 
+				colourPartID == 10 && bodyMarkID == 0 && headMarkID == 0 && tailMarkID == 0
+				);
 			
 			// massive bit of code
 			refreshPage();
@@ -294,31 +321,31 @@ public:
 	void changeTrait(const unsigned short &iID, bool increment)
 	{
 		//head
-		if(iID==0)
+		if(iID == 0)
 		{
-			headID += (increment?1:-1);
-			if(headID<0)headID = mDef->maxHeads-1;
-			if(headID>=mDef->maxHeads)headID = 0;
-			applyRestrictions("Head",increment);
-			mUnit->replaceHeadMesh(mSceneMgr,meshName("Head",headID),(page==PAGE_PRESET1||page==PAGE_PRESET2));
+			headID += (increment ? 1 : -1);
+			if(headID < 0)headID = mDef->maxHeads - 1;
+			if(headID >= mDef->maxHeads)headID = 0;
+			applyRestrictions("Head", increment);
+			mUnit->replaceHeadMesh(mSceneMgr, meshName("Head", headID), (page == PAGE_PRESET1 || page == PAGE_PRESET2));
 			doReequip = true;
 		}
 		//mane
-		else if(iID==1)
+		else if(iID == 1)
 		{
-			maneID += (increment?1:-1);
-			if(maneID<0)maneID = mDef->maxManes-1;
-			if(maneID>=mDef->maxManes)maneID = 0;
-			applyRestrictions("Mane",increment);
-			mUnit->replaceManeMesh(mSceneMgr,meshName("Mane",maneID),(page==PAGE_PRESET1||page==PAGE_PRESET2));
+			maneID += (increment ? 1 : -1);
+			if(maneID < 0)maneID = mDef->maxManes - 1;
+			if(maneID >= mDef->maxManes)maneID = 0;
+			applyRestrictions("Mane", increment);
+			mUnit->replaceManeMesh(mSceneMgr, meshName("Mane", maneID), (page == PAGE_PRESET1 || page == PAGE_PRESET2));
 		}
 		//tail
-		else if(iID==2)
+		else if(iID == 2)
 		{
-			tailID += (increment?1:-1);
-			if(tailID<0)tailID = mDef->maxTails-1;
-			if(tailID>=mDef->maxTails)tailID = 0;
-			mUnit->replaceTailMesh(mSceneMgr,meshName("Tail",tailID),(page==PAGE_PRESET1||page==PAGE_PRESET2));
+			tailID += (increment ? 1 : -1);
+			if(tailID < 0)tailID = mDef->maxTails - 1;
+			if(tailID >= mDef->maxTails)tailID = 0;
+			mUnit->replaceTailMesh(mSceneMgr, meshName("Tail", tailID), (page == PAGE_PRESET1 || page == PAGE_PRESET2));
 		}
 		//wings
 		else if(iID==3)
@@ -1104,7 +1131,7 @@ public:
 		{
 			String tAlert = "Must not include : ; | * ? < > / \\";
 			
-			if (getName().length() == 0)
+			if(getName().length() == 0)
 			{
 				tAlert = "Enter a name";
 			}
@@ -1226,7 +1253,7 @@ public:
 		const String tName = getName();
 		for (int i = 0; i<int(tName.length()); i++)
 		{
-			if (tName[i] == '/' || tName[i] == '\\' || tName[i] == ':' || tName[i] == ';' ||
+			if(tName[i] == '/' || tName[i] == '\\' || tName[i] == ':' || tName[i] == ';' ||
 				tName[i] == '*' || tName[i] == '?' || tName[i] == '\"' ||
 				tName[i] == '<' || tName[i] == '>' || tName[i] == '|' ||
 				tName[i] == '\t' || tName[i] == '\n')
@@ -1301,7 +1328,7 @@ public:
 			camZoom += y - rotateStartY;
 			rotateStartX = x;
 			rotateStartY = y;
-			if (Math::Abs(dYaw) > Degree(15))
+			if(Math::Abs(dYaw) > Degree(15))
 			{
 				dYaw = Degree((Real)(15 * dYaw < Degree(0) ? -1 : 1));
 			}

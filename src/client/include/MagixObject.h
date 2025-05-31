@@ -206,7 +206,7 @@ public:
 			mForce.z = maxSpeed * speedMultiplier * (mForce.z<0?-1:1) * Math::Sin(tAngle) *evt.timeSinceLastFrame;
 		}
 		//Terminal Velocity
-		if (Math::Abs(mForce.y) > TERMINAL_VEL * evt.timeSinceLastFrame * (antiGravity ? 0.5 : 1))
+		if(Math::Abs(mForce.y) > TERMINAL_VEL * evt.timeSinceLastFrame * (antiGravity ? 0.5 : 1))
 		{
 			// sample fix for double to Ogre::real issue : cast, if using (double), you will see the warning
 			mForce.y = (Real)(TERMINAL_VEL * (mForce.y < 0 ? -1 : 1) * evt.timeSinceLastFrame * (antiGravity ? 0.5 : 1));

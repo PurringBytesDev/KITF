@@ -248,7 +248,7 @@ public:
 		critterList.clear();
 		loadCritters("cd1.dat", false);
 		loadCritters("CustomCritters.cfg", true);
-		if (!XOR7FileGen("cd2.dat", "cd2.cfg", true, true))
+		if(!XOR7FileGen("cd2.dat", "cd2.cfg", true, true))
 			throw(Exception(9, "Corrupted Data File", "cd2.dat, please run the autopatcher."));
 		else _unlink("cd2.cfg");
 	}
@@ -311,7 +311,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			Ogre::LogManager::getSingleton().logMessage("IT INITIALIZE ERROR: Unable to open file " + filename);
 			return;
@@ -331,7 +331,7 @@ public:
 		for (int i = 0; i < maxEmotes; i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 3);
-			if (tLine.size() == 3)
+			if(tLine.size() == 3)
 			{
 				String tName = tLine[0];
 				tName.erase(tName.find_first_of("]"), 1);
@@ -344,13 +344,13 @@ public:
 
 	bool isRestricted(const short& headID, const short& maneID)
 	{
-		if (headID == 0 || headID == 4)
+		if(headID == 0 || headID == 4)
 		{
-			if (maneID == 2 || maneID == 4 || maneID == 7 || maneID == 8 || maneID == 9 || maneID == 10 || maneID == 14 || maneID == 15 || maneID == 16 || maneID == 17 || maneID == 18 || maneID == 19 || maneID == 20 || maneID == 21 || maneID == 22 || maneID == 23 || maneID == 24)return true;
+			if(maneID == 2 || maneID == 4 || maneID == 7 || maneID == 8 || maneID == 9 || maneID == 10 || maneID == 14 || maneID == 15 || maneID == 16 || maneID == 17 || maneID == 18 || maneID == 19 || maneID == 20 || maneID == 21 || maneID == 22 || maneID == 23 || maneID == 24)return true;
 		}
-		else if (headID == 1 || headID == 2 || headID == 3 || headID == 5)
+		else if(headID == 1 || headID == 2 || headID == 3 || headID == 5)
 		{
-			if (maneID == 1 || maneID == 3 || maneID == 5 || maneID == 6 || maneID == 11 || maneID == 12 || maneID == 13 || maneID == 21 || maneID == 23)return true;
+			if(maneID == 1 || maneID == 3 || maneID == 5 || maneID == 6 || maneID == 11 || maneID == 12 || maneID == 13 || maneID == 21 || maneID == 23)return true;
 		}
 		return false;
 
@@ -359,7 +359,7 @@ public:
 
 	bool isRestrictedTuft(const short& tuftID)
 	{
-		if (tuftID == 8)return true;
+		if(tuftID == 8)return true;
 		return false;
 	}
 
@@ -371,7 +371,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open("Settings.cfg", std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
 			tSize = inFile.tellg();
@@ -385,7 +385,7 @@ public:
 		}
 
 		const vector<String>::type tLine = StringUtil::split(tData, "\n#", 16);
-		if (tLine.size() >= 7)
+		if(tLine.size() >= 7)
 		{
 			isTablet = StringConverter::parseBool(tLine[0]);
 			mouseSensitivity = StringConverter::parseReal(tLine[1]);
@@ -394,25 +394,25 @@ public:
 			soundVol = StringConverter::parseReal(tLine[4]);
 			isShadowsOn = StringConverter::parseBool(tLine[5]);
 			isBloom = StringConverter::parseBool(tLine[6]);
-			if (tLine.size() >= 8)username = tLine[7];
-			if (tLine.size() >= 9)generalCharname = StringConverter::parseBool(tLine[8]);
-			if (tLine.size() >= 10)localUsername = StringConverter::parseBool(tLine[9]);
-			if (tLine.size() >= 11)channelBlink = StringConverter::parseBool(tLine[10]);
-			if (tLine.size() >= 12)runMode = StringConverter::parseBool(tLine[11]);
-			if (tLine.size() >= 13)pagedGeometryOn = StringConverter::parseBool(tLine[12]);
-			if (tLine.size() >= 14)viewDistance = StringConverter::parseReal(tLine[13]);
-			if (tLine.size() >= 15)doubleJumpOn = StringConverter::parseBool(tLine[14]);
-			if (tLine.size() >= 16)autoLipSync = StringConverter::parseBool(tLine[15]);
+			if(tLine.size() >= 8)username = tLine[7];
+			if(tLine.size() >= 9)generalCharname = StringConverter::parseBool(tLine[8]);
+			if(tLine.size() >= 10)localUsername = StringConverter::parseBool(tLine[9]);
+			if(tLine.size() >= 11)channelBlink = StringConverter::parseBool(tLine[10]);
+			if(tLine.size() >= 12)runMode = StringConverter::parseBool(tLine[11]);
+			if(tLine.size() >= 13)pagedGeometryOn = StringConverter::parseBool(tLine[12]);
+			if(tLine.size() >= 14)viewDistance = StringConverter::parseReal(tLine[13]);
+			if(tLine.size() >= 15)doubleJumpOn = StringConverter::parseBool(tLine[14]);
+			if(tLine.size() >= 16)autoLipSync = StringConverter::parseBool(tLine[15]);
 		}
 
 		std::ifstream inFile2;
 		inFile2.open("useWindowsCursor.dat", std::ifstream::in);
-		if (inFile2.good())useWindowsCursor = true;
+		if(inFile2.good())useWindowsCursor = true;
 		inFile2.close();
 	}
 	void saveSettings(bool isTablet, const Real& mouseSensitivity, const Real& musicVol, const Real& guiVol, const Real& soundVol, const bool& isShadowsOn, bool isBloom, const String& username = "", bool generalCharname = false, bool localUsername = false, bool channelBlink = true, bool runMode = true, bool doubleJumpOn = true, bool autoLipSync = false, bool useWindowsCursor = false)
 	{
-		if (pagedGeometryForced)
+		if(pagedGeometryForced)
 		{
 			pagedGeometryForced = false;
 			pagedGeometryOn = false;
@@ -455,7 +455,7 @@ public:
 
 		outFile.close();
 
-		if (useWindowsCursor)
+		if(useWindowsCursor)
 		{
 			std::ofstream outFile2;
 			outFile2.open("useWindowsCursor.dat", std::ofstream::out);
@@ -467,7 +467,7 @@ public:
 	}
 	void savePassword(bool flag, const String& password = "")
 	{
-		if (flag)
+		if(flag)
 		{
 			std::ofstream outFile;
 			outFile.open("Settings2.dat", std::ios_base::binary);
@@ -482,7 +482,7 @@ public:
 		String tPassword = "";
 		std::ifstream inFile;
 		inFile.open("Settings2.dat", std::ios_base::binary);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			char tBuffer[16] = "";
 			inFile.getline(tBuffer, 16);
@@ -493,10 +493,10 @@ public:
 	}
 	void saveBanFile(bool flag, const unsigned short& numDays = 0)
 	{
-		if (flag)
+		if(flag)
 		{
 			String tDate = "Infinity";
-			if (numDays != 0)
+			if(numDays != 0)
 			{
 				time_t rawtime;
 				tm timeinfo;
@@ -529,7 +529,7 @@ public:
 		String tDate = "";
 		std::ifstream inFile;
 		inFile.open("Settings3.dat", std::ios_base::binary);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			char tBuffer[16] = "";
 			inFile.getline(tBuffer, 16);
@@ -541,14 +541,14 @@ public:
 			tDate = XOR7(tDate);
 		}
 		inFile.close();
-		if (tPassword != "Bannage")return false;
-		if (tDate == "Infinity")numDays = 0;
+		if(tPassword != "Bannage")return false;
+		if(tDate == "Infinity")numDays = 0;
 		else
 		{
 			int tYear = 0, tDay = 0;
 			const vector<String>::type tPart = StringUtil::split(tDate, ";", 1);
-			if (tPart.size() > 0)tYear = StringConverter::parseInt(tPart[0]);
-			if (tPart.size() > 1)tDay = StringConverter::parseInt(tPart[1]);
+			if(tPart.size() > 0)tYear = StringConverter::parseInt(tPart[0]);
+			if(tPart.size() > 1)tDay = StringConverter::parseInt(tPart[1]);
 
 			time_t rawtime;
 			tm timeinfo;
@@ -556,7 +556,7 @@ public:
 			localtime_s(&timeinfo, &rawtime);
 			tYear -= timeinfo.tm_year;
 			tDay -= timeinfo.tm_yday;
-			if (tYear < 0 || tYear == 0 && tDay <= 0)
+			if(tYear < 0 || tYear == 0 && tDay <= 0)
 			{
 				_unlink("Settings3.dat");
 				return false;
@@ -579,7 +579,7 @@ public:
 		int keysize = key.size();
 		
 		// this should happen like never.		
-		//if (keyLen == 0) return input; // no key means no change
+		//if(keyLen == 0) return input; // no key means no change
 		for (size_t i = 0; i < input.size(); ++i) {
 			char tC = input[i];
 
@@ -588,20 +588,20 @@ public:
 
 			// Compute shift amount as 0-based letter index if letter, else zero
 			int shift = 0;
-			if ((keyChar >= 'a' && keyChar <= 'z')) shift = keyChar - 'a';
-			else if ((keyChar >= 'A' && keyChar <= 'Z')) shift = keyChar - 'A';
+			if((keyChar >= 'a' && keyChar <= 'z')) shift = keyChar - 'a';
+			else if((keyChar >= 'A' && keyChar <= 'Z')) shift = keyChar - 'A';
 
 			// Apply shift only to letters
-			if (tC >= 'a' && tC <= 'z') {
+			if(tC >= 'a' && tC <= 'z') {
 				tC = 'a' + (tC - 'a' + shift) % 26;
 			}
-			else if (tC >= 'A' && tC <= 'Z') {
+			else if(tC >= 'A' && tC <= 'Z') {
 				tC = 'A' + (tC - 'A' + shift) % 26;
 			}
 			// else keep tC unchanged for non-letters
 
 			// Keep printable range only (32..126), else revert to original input char
-			if (tC < 32 || tC > 126) {
+			if(tC < 32 || tC > 126) {
 				tC = input[i];
 			}
 
@@ -616,7 +616,7 @@ public:
 		std::ifstream inFile(inputIO.c_str());
 
 		// input file not found or can't be opened, this need logging
-		if (!inFile.is_open()) {
+		if(!inFile.is_open()) {
 			return false; 
 		}
 
@@ -631,7 +631,7 @@ public:
 
 		// Write ciphered lines to output file
 		std::ofstream outFile(outputIO);
-		if (!outFile.is_open()) {
+		if(!outFile.is_open()) {
 			return false; // output file can't be opened for writing
 		}
 
@@ -649,7 +649,7 @@ public:
 
 		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
 
-		if (stream.isNull())
+		if(stream.isNull())
 		{
 			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND,
 				"Cannot locate file " + inFile + " for ROT13 decipher.",
@@ -659,7 +659,7 @@ public:
 		while (!stream->eof())
 		{
 			String line = stream->getLine(false); // false = do not trim
-			if (line.empty() && stream->eof()) // to avoid processing last empty line after EOF
+			if(line.empty() && stream->eof()) // to avoid processing last empty line after EOF
 				break;
 
 			// Apply ROT13 to decipher line
@@ -683,24 +683,24 @@ public:
 		unsigned long tChecksum = 0;
 		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
 
-		if (!stream.isNull())
+		if(!stream.isNull())
 		{
 			int i = 0;
 			while (!stream->eof())
 			{
 				prevline = line;
 				line = stream->getLine(false);
-				if (stream->eof())
+				if(stream->eof())
 					break;
 				prevline = XOR7(prevline, &tChecksum, preChecksum);
 
-				if (i > 1)
+				if(i > 1)
 					tBuffer.push_back(prevline);
 				i++;
 			}
 			tBuffer.pop_back();
 			const bool tChecksumRight = (tChecksum == StringConverter::parseLong(XOR7(prevline)));
-			if (!tChecksumRight)
+			if(!tChecksumRight)
 				throw(Exception(9, "Corrupted Data File", inFile + ", Please reencode or ."));
 			tBuffer.pop_back();
 
@@ -715,12 +715,12 @@ public:
 		for (int i = 0; i < (int)input.length(); i++)
 		{
 			char tC = input[i];
-			if (checksum && preChecksum)*checksum += (unsigned long)tC;
+			if(checksum && preChecksum)*checksum += (unsigned long)tC;
 			tC ^= XORKEY;//3*(i%7)+24; // 7*(i%7+1)
 			//Replace illegal characters with original character
-			if (tC > char(126) || tC<char(32))tC = input[i];
+			if(tC > char(126) || tC<char(32))tC = input[i];
 			output += tC;
-			if (checksum && !preChecksum)*checksum += (unsigned long)tC;
+			if(checksum && !preChecksum)*checksum += (unsigned long)tC;
 		}
 		return output;
 	}
@@ -730,7 +730,7 @@ public:
 		unsigned long tChecksum = 0;
 		std::ifstream inFile;
 		inFile.open(infile.c_str(), (decrypt ? std::ios_base::binary : std::ifstream::in));
-		if (!inFile.good())return false;
+		if(!inFile.good())return false;
 		while (inFile.good() && !inFile.eof())
 		{
 			char tLine[512] = "";
@@ -746,17 +746,17 @@ public:
 			const String tLine = XOR7(tBuffer[i].c_str(), (checksum ? &tChecksum : 0), !decrypt) + "\n";
 			outFile.write(tLine.c_str(), (int)tLine.length());
 		}
-		if (!decrypt && checksum && tBuffer.size() > 0)
+		if(!decrypt && checksum && tBuffer.size() > 0)
 		{
 			const String tLine = XOR7(StringConverter::toString(tChecksum)) + "\n";
 			outFile.write(tLine.c_str(), (int)tLine.length());
 		}
 		outFile.close();
 
-		if (decrypt && checksum)
+		if(decrypt && checksum)
 		{
 			const bool tChecksumRight = tBuffer.size() > 0 ? (tChecksum == StringConverter::parseLong(XOR7(tBuffer[tBuffer.size() - 1]).c_str())) : false;
-			if (!tChecksumRight)_unlink(outfile.c_str());
+			if(!tChecksumRight)_unlink(outfile.c_str());
 			return tChecksumRight;
 		}
 		return true;
@@ -770,7 +770,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
 			tSize = inFile.tellg();
@@ -787,15 +787,15 @@ public:
 		for (int i = 0; i<int(tPart.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 6);
-			if (tLine.size() > 0)
+			if(tLine.size() > 0)
 			{
-				if (StringUtil::startsWith(tLine[0], "Initialize", false) && tLine.size() >= 5)
+				if(StringUtil::startsWith(tLine[0], "Initialize", false) && tLine.size() >= 5)
 				{
 					terrain = tLine[1];
 					x = StringConverter::parseReal(tLine[2]);
 					z = StringConverter::parseReal(tLine[3]);
 					spawnSquare = StringConverter::parseVector3(tLine[4]);
-					if (tLine.size() > 5)worldBounds = StringConverter::parseVector2(tLine[5]);
+					if(tLine.size() > 5)worldBounds = StringConverter::parseVector2(tLine[5]);
 					return true;
 				}
 			}
@@ -811,7 +811,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
 			tSize = inFile.tellg();
@@ -834,9 +834,9 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(customCampaigns ? "CustomCampaigns.cfg" : "Campaigns.cfg", std::ifstream::in);
-		if (!inFile.good())
+		if(!inFile.good())
 		{
-			if (!customCampaigns)loadCampaignList(list, true);
+			if(!customCampaigns)loadCampaignList(list, true);
 			return;
 		}
 		inFile.seekg(0, std::ios::end);
@@ -853,14 +853,14 @@ public:
 		for (int i = 0; i<int(tCampaign.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\n", 2);
-			if (tLine.size() > 0)
+			if(tLine.size() > 0)
 			{
 				String tName = tLine[0];
 				tName.erase(tName.find_first_of("]"), 1);
 				list.push_back(tName);
 			}
 		}
-		if (!customCampaigns)loadCampaignList(list, true);
+		if(!customCampaigns)loadCampaignList(list, true);
 	}
 	bool loadCampaign(const String& name, CampaignEventList& data, String& fileName, bool customCampaigns = false)
 	{
@@ -870,7 +870,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(customCampaigns ? "CustomCampaigns.cfg" : "Campaigns.cfg", std::ifstream::in);
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			return (customCampaigns ? false : loadCampaign(name, data, fileName, true));
 		}
@@ -888,11 +888,11 @@ public:
 		for (int i = 0; i<int(tCampaign.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\n", 2);
-			if (tLine.size() > 0)
+			if(tLine.size() > 0)
 			{
 				String tName = tLine[0];
 				tName.erase(tName.find_first_of("]"), 1);
-				if (tName == name)
+				if(tName == name)
 				{
 					fileName = tLine[1];
 					const vector<String>::type tEvent;
@@ -923,7 +923,7 @@ public:
 
 		const vector<String>::type tSection = StringUtil::split(tData, "[");
 
-		if (nextEvent.size() > 0)
+		if(nextEvent.size() > 0)
 			for (int i = 0; i < (int)nextEvent.size(); i++)
 			{
 				const String tCurrentEvent = nextEvent[i];
@@ -931,15 +931,15 @@ public:
 				for (int j = 0; j < (int)tSection.size(); j++)
 				{
 					const vector<String>::type tLine = StringUtil::split(tSection[j], "\n");
-					if (tLine.size() <= 0)continue;
+					if(tLine.size() <= 0)continue;
 					String tNextEvent = tLine[0];
 					tNextEvent.erase(tNextEvent.find_first_of("]"), 1);
-					if (tNextEvent == tCurrentEvent)
+					if(tNextEvent == tCurrentEvent)
 					{
 						for (int k = 1; k < (int)tLine.size(); k++)
 						{
 							const vector<String>::type tPart = StringUtil::split(tLine[k], "=", 1);
-							if (tPart.size() > 0)
+							if(tPart.size() > 0)
 							{
 								const std::pair<String, String> tEventLine(tPart[0], tPart.size() > 1 ? tPart[1] : "");
 								tEvent.push_back(tEventLine);
@@ -950,19 +950,19 @@ public:
 				}
 				data.push_back(tEvent);
 			}
-		else if (eventCount > 0 || loadFirstSection)
+		else if(eventCount > 0 || loadFirstSection)
 		{
 			unsigned short tCounter = 0;
 			CampaignEvent tEvent;
 			for (int j = 0; j < (int)tSection.size(); j++)
 			{
-				if (tCounter == eventCount || loadFirstSection)
+				if(tCounter == eventCount || loadFirstSection)
 				{
 					const vector<String>::type tLine = StringUtil::split(tSection[j], "\n");
 					for (int k = 1; k < (int)tLine.size(); k++)
 					{
 						const vector<String>::type tPart = StringUtil::split(tLine[k], "=", 1);
-						if (tPart.size() > 0)
+						if(tPart.size() > 0)
 						{
 							const std::pair<String, String> tEventLine(tPart[0], tPart.size() > 1 ? tPart[1] : "");
 							tEvent.push_back(tEventLine);
@@ -983,7 +983,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (!inFile.good())return false;
+		if(!inFile.good())return false;
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -999,9 +999,9 @@ public:
 		const vector<String>::type tLine = StringUtil::split(tData, ";#");
 		for (int i = 0; i<int(tLine.size()); i++)
 		{
-			if (tLine[i].length() > 0)
+			if(tLine[i].length() > 0)
 			{
-				if (tLine[i][0] == '\n')
+				if(tLine[i][0] == '\n')
 				{
 					String tBuffer = tLine[i];
 					tBuffer.erase(0, 1);
@@ -1040,7 +1040,7 @@ public:
 		std::ifstream inFile;
 		inFile.open((isSavePoint ? "savepoint.sav" : "homepoint.sav"), std::ifstream::in);
 
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			inFile.close();
 			return false;
@@ -1054,7 +1054,7 @@ public:
 		decrypt(tData);
 		mapName = tData;
 
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			inFile.close();
 			return false;
@@ -1067,7 +1067,7 @@ public:
 		decrypt(tData);
 		point.x = StringConverter::parseReal(tData);
 
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			inFile.close();
 			return false;
@@ -1080,7 +1080,7 @@ public:
 		decrypt(tData);
 		point.y = StringConverter::parseReal(tData);
 
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			inFile.close();
 			dimension = 0;
@@ -1140,7 +1140,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open((isBlockList ? "block.list" : "friend.list"), std::ifstream::in);
-		if (!inFile.good())
+		if(!inFile.good())
 		{
 			vector<String>::type tBlank;
 			tBlank.clear();
@@ -1156,7 +1156,7 @@ public:
 		tData = tBuffer;
 		delete[] tBuffer;
 
-		if (tData == "")
+		if(tData == "")
 		{
 			vector<String>::type tBlank;
 			tBlank.clear();
@@ -1174,9 +1174,9 @@ public:
 		vector<String>::type tFriendList = loadFriendList(isBlockList);
 
 		//File doesn't exist
-		if (tFriendList.size() == 0)
+		if(tFriendList.size() == 0)
 		{
-			if (add)
+			if(add)
 			{
 				std::ofstream outFile;
 				outFile.open((isBlockList ? "block.list" : "friend.list"), std::ofstream::out);
@@ -1190,10 +1190,10 @@ public:
 		//Find existing name
 		for (vector<String>::type::iterator it = tFriendList.begin(); it != tFriendList.end(); it++)
 		{
-			if (*it == name)
+			if(*it == name)
 			{
 				//Name already exists
-				if (add)return;
+				if(add)return;
 				//Delete name
 				tFriendList.erase(it);
 				break;
@@ -1209,7 +1209,7 @@ public:
 			const String tBuffer = *it + "\n";
 			outFile.write(tBuffer.c_str(), (int)tBuffer.length());
 		}
-		if (add)
+		if(add)
 		{
 			const String tBuffer = name + "\n";
 			outFile.write(tBuffer.c_str(), (int)tBuffer.length());
@@ -1231,7 +1231,7 @@ public:
 		{
 			String tName = tFriendList[i];
 			StringUtil::toLowerCase(tName);
-			if (tName == name)return true;
+			if(tName == name)return true;
 		}
 		return false;
 	}
@@ -1252,8 +1252,8 @@ public:
 	}
 	const String loadBio(const String& name = "")
 	{
-		if (name != "")lastBioName = name;
-		if (lastBioName == "")return "";
+		if(name != "")lastBioName = name;
+		if(lastBioName == "")return "";
 
 		long tSize = 0;
 		char* tBuffer;
@@ -1262,7 +1262,7 @@ public:
 		std::ifstream inFile;
 		const String tFilename = lastBioName + ".bio";
 		inFile.open(tFilename.c_str(), std::ifstream::in);
-		if (!inFile.good())return "";
+		if(!inFile.good())return "";
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -1274,8 +1274,8 @@ public:
 		//Replace illegal characters
 		for (int i = 0; i < tSize; i++)
 		{
-			if (tBuffer[i] == '\0')break;
-			if ((tBuffer[i] > char(126) || tBuffer[i]<char(32))
+			if(tBuffer[i] == '\0')break;
+			if((tBuffer[i] > char(126) || tBuffer[i]<char(32))
 				&& tBuffer[i] != '\t' && tBuffer[i] != '\n')tBuffer[i] = '~';
 		}
 
@@ -1296,7 +1296,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open("update.txt", std::ifstream::in);
-		if (!inFile.good())return "";
+		if(!inFile.good())return "";
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -1322,7 +1322,7 @@ public:
 		itemParticleOffset.clear();
 		itemParticleOnNode.clear();
 
-		if (decrypt)
+		if(decrypt)
 		{
 			vector<String>::type stream = XORInternal(filename);
 			String line;
@@ -1334,20 +1334,20 @@ public:
 				StringUtil::trim(line);
 				const vector<String>::type tPart = StringUtil::split(line, ";", 9);
 
-				if (tPart.size() < 3)continue;
-				if (tPart.size() > 0)itemMesh.push_back(tPart[0]);
-				if (tPart.size() > 1)itemName.push_back(tPart[1]);
-				if (tPart.size() > 2)itemBone.push_back(tPart[2]);
-				if (tPart.size() > 3)itemIsPrivate.push_back(tPart[3] == "1" ? true : false);
-				if (tPart.size() > 4)itemHasOffset.push_back(tPart[4] == "1" ? true : false);
+				if(tPart.size() < 3)continue;
+				if(tPart.size() > 0)itemMesh.push_back(tPart[0]);
+				if(tPart.size() > 1)itemName.push_back(tPart[1]);
+				if(tPart.size() > 2)itemBone.push_back(tPart[2]);
+				if(tPart.size() > 3)itemIsPrivate.push_back(tPart[3] == "1" ? true : false);
+				if(tPart.size() > 4)itemHasOffset.push_back(tPart[4] == "1" ? true : false);
 				else itemHasOffset.push_back(false);
-				if (tPart.size() > 5)itemHasAltAnim.push_back(tPart[5] == "1" ? true : false);
+				if(tPart.size() > 5)itemHasAltAnim.push_back(tPart[5] == "1" ? true : false);
 				else itemHasAltAnim.push_back(false);
-				if (tPart.size() > 6)itemParticle.push_back(tPart[6]);
+				if(tPart.size() > 6)itemParticle.push_back(tPart[6]);
 				else itemParticle.push_back("");
-				if (tPart.size() > 7)itemParticleOffset.push_back(tPart[7]);
+				if(tPart.size() > 7)itemParticleOffset.push_back(tPart[7]);
 				else itemParticleOffset.push_back("");
-				if (tPart.size() > 8)itemParticleOnNode.push_back(tPart[8] == "1" ? true : false);
+				if(tPart.size() > 8)itemParticleOnNode.push_back(tPart[8] == "1" ? true : false);
 				else itemParticleOnNode.push_back(false);
 			}
 			maxItems = int(itemMesh.size());
@@ -1360,7 +1360,7 @@ public:
 
 			std::ifstream inFile;
 			inFile.open(filename.c_str(), std::ifstream::in);
-			if (!inFile.good())
+			if(!inFile.good())
 			{
 				Ogre::LogManager::getSingleton().logMessage("IT INITIALIZE ERROR: Unable to open file " + filename);
 				return;
@@ -1382,19 +1382,19 @@ public:
 			{
 				const vector<String>::type tPart = StringUtil::split(tLine[i], ";", 9);
 
-				if (tPart.size() > 0)itemMesh.push_back(tPart[0]);
-				if (tPart.size() > 1)itemName.push_back(tPart[1]);
-				if (tPart.size() > 2)itemBone.push_back(tPart[2]);
-				if (tPart.size() > 3)itemIsPrivate.push_back(tPart[3] == "1" ? true : false);
-				if (tPart.size() > 4)itemHasOffset.push_back(tPart[4] == "1" ? true : false);
+				if(tPart.size() > 0)itemMesh.push_back(tPart[0]);
+				if(tPart.size() > 1)itemName.push_back(tPart[1]);
+				if(tPart.size() > 2)itemBone.push_back(tPart[2]);
+				if(tPart.size() > 3)itemIsPrivate.push_back(tPart[3] == "1" ? true : false);
+				if(tPart.size() > 4)itemHasOffset.push_back(tPart[4] == "1" ? true : false);
 				else itemHasOffset.push_back(false);
-				if (tPart.size() > 5)itemHasAltAnim.push_back(tPart[5] == "1" ? true : false);
+				if(tPart.size() > 5)itemHasAltAnim.push_back(tPart[5] == "1" ? true : false);
 				else itemHasAltAnim.push_back(false);
-				if (tPart.size() > 6)itemParticle.push_back(tPart[6]);
+				if(tPart.size() > 6)itemParticle.push_back(tPart[6]);
 				else itemParticle.push_back("");
-				if (tPart.size() > 7)itemParticleOffset.push_back(tPart[7]);
+				if(tPart.size() > 7)itemParticleOffset.push_back(tPart[7]);
 				else itemParticleOffset.push_back("");
-				if (tPart.size() > 8)itemParticleOnNode.push_back(tPart[8] == "1" ? true : false);
+				if(tPart.size() > 8)itemParticleOnNode.push_back(tPart[8] == "1" ? true : false);
 				else itemParticleOnNode.push_back(false);
 			}
 		}
@@ -1402,45 +1402,45 @@ public:
 	const String getItemName(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemName.size() > i)return itemName[i];
+			if(itemMesh[i] == meshName && (int)itemName.size() > i)return itemName[i];
 		return "";
 	}
 	const String getItemBone(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemBone.size() > i)return itemBone[i];
+			if(itemMesh[i] == meshName && (int)itemBone.size() > i)return itemBone[i];
 		return "";
 	}
 	const bool getItemIsPrivate(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemIsPrivate.size() > i)return itemIsPrivate[i];
+			if(itemMesh[i] == meshName && (int)itemIsPrivate.size() > i)return itemIsPrivate[i];
 		return false;
 	}
 	const bool getItemHasOffset(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemHasOffset.size() > i)return itemHasOffset[i];
+			if(itemMesh[i] == meshName && (int)itemHasOffset.size() > i)return itemHasOffset[i];
 		return false;
 	}
 	const bool getItemHasAltAnim(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemHasAltAnim.size() > i)return itemHasAltAnim[i];
+			if(itemMesh[i] == meshName && (int)itemHasAltAnim.size() > i)return itemHasAltAnim[i];
 		return false;
 	}
 	const String getItemParticle(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemParticle.size() > i)return itemParticle[i];
+			if(itemMesh[i] == meshName && (int)itemParticle.size() > i)return itemParticle[i];
 		return "";
 	}
 	const std::pair<Vector3, bool> getItemParticleOffset(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName && (int)itemParticleOffset.size() > i)
+			if(itemMesh[i] == meshName && (int)itemParticleOffset.size() > i)
 			{
-				if ((int)itemParticleOnNode.size() > i)return std::pair<Vector3, bool>(StringConverter::parseVector3(itemParticleOffset[i]), itemParticleOnNode[i]);
+				if((int)itemParticleOnNode.size() > i)return std::pair<Vector3, bool>(StringConverter::parseVector3(itemParticleOffset[i]), itemParticleOnNode[i]);
 				else return std::pair<Vector3, bool>(StringConverter::parseVector3(itemParticleOffset[i]), false);
 			}
 		return std::pair<Vector3, bool>(Vector3::ZERO, false);
@@ -1448,7 +1448,7 @@ public:
 	const bool itemMeshExists(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if (itemMesh[i] == meshName)return true;
+			if(itemMesh[i] == meshName)return true;
 		return false;
 	}
 	void loadHotkeys(const String& filename)
@@ -1459,7 +1459,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
 			tSize = inFile.tellg();
@@ -1473,7 +1473,7 @@ public:
 		inFile.close();
 
 		const vector<String>::type tLine = StringUtil::split(tData, "\n#");
-		if ((int)tLine.size() == MAX_HOTKEYF)
+		if((int)tLine.size() == MAX_HOTKEYF)
 			for (int i = 0; i < MAX_HOTKEYF; i++)hotkeyF[i] = tLine[i];
 		else
 		{
@@ -1505,35 +1505,35 @@ public:
 	}
 	void setHotkeyF(const int& key, const String& value)
 	{
-		if (key >= 0 && key < MAX_HOTKEYF)hotkeyF[key] = value;
+		if(key >= 0 && key < MAX_HOTKEYF)hotkeyF[key] = value;
 	}
 	const String getHotkeyF(const int& key)
 	{
-		if (key >= 0 && key < MAX_HOTKEYF)return hotkeyF[key];
+		if(key >= 0 && key < MAX_HOTKEYF)return hotkeyF[key];
 		return "";
 	}
 	bool hasManeMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)maneMesh.size(); i++)
-			if (maneMesh[i] == mesh)return true;
+			if(maneMesh[i] == mesh)return true;
 		return false;
 	}
 	bool hasTailMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)tailMesh.size(); i++)
-			if (tailMesh[i] == mesh)return true;
+			if(tailMesh[i] == mesh)return true;
 		return false;
 	}
 	bool hasWingMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)wingMesh.size(); i++)
-			if (wingMesh[i] == mesh)return true;
+			if(wingMesh[i] == mesh)return true;
 		return false;
 	}
 	bool hasTuftMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)tuftMesh.size(); i++)
-			if (tuftMesh[i] == mesh)return true;
+			if(tuftMesh[i] == mesh)return true;
 		return false;
 	}
 	const bool hasBodyMark(const unsigned char& id)
@@ -1561,7 +1561,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(isCustom ? "media/weather/CustomWeatherCycles.cfg" : "media/weather/WeatherCycles.cfg", std::ifstream::in);
-		if (!inFile.good())return;
+		if(!inFile.good())return;
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -1576,11 +1576,11 @@ public:
 		for (int i = 0; i<int(tPart.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 2);
-			if (tLine.size() > 1)
+			if(tLine.size() > 1)
 			{
 				String tType = tLine[0];
 				tType.erase(tType.find_first_of("]"), 1);
-				if (tType == type)
+				if(tType == type)
 				{
 					tFilename = tLine[1];
 					break;
@@ -1588,7 +1588,7 @@ public:
 			}
 		}
 
-		if (tFilename == "" && !isCustom)
+		if(tFilename == "" && !isCustom)
 		{
 			loadWeatherCycle(type, list, true);
 			return;
@@ -1609,18 +1609,18 @@ public:
 			
 			for (i = settings->begin(); i != settings->end(); ++i)
 			{
-				if (StringUtil::startsWith(i->first, "start"))tEvent.start = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "end"))tEvent.end = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "skyshader"))tEvent.skyShader = StringConverter::parseColourValue(i->second);
-				else if (StringUtil::startsWith(i->first, "skyadder"))tEvent.skyAdder = StringConverter::parseColourValue(i->second);
-				else if (StringUtil::startsWith(i->first, "weather"))tEvent.type = i->second;
-				else if (StringUtil::startsWith(i->first, "rate"))tEvent.rate = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "constant"))tEvent.isConstant = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "effectfrequency"))tEvent.effectFrequency = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "effect"))tEvent.effect.push_back(i->second);
+				if(StringUtil::startsWith(i->first, "start"))tEvent.start = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "end"))tEvent.end = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "skyshader"))tEvent.skyShader = StringConverter::parseColourValue(i->second);
+				else if(StringUtil::startsWith(i->first, "skyadder"))tEvent.skyAdder = StringConverter::parseColourValue(i->second);
+				else if(StringUtil::startsWith(i->first, "weather"))tEvent.type = i->second;
+				else if(StringUtil::startsWith(i->first, "rate"))tEvent.rate = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "constant"))tEvent.isConstant = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "effectfrequency"))tEvent.effectFrequency = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "effect"))tEvent.effect.push_back(i->second);
 			}
 
-			if (tSectionName != "")
+			if(tSectionName != "")
 			{
 				list.push_back(tEvent);
 			}
@@ -1637,7 +1637,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(isCustom ? "media/weather/CustomWeathers.cfg" : "media/weather/Weathers.cfg", std::ifstream::in);
-		if (!inFile.good())return;
+		if(!inFile.good())return;
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -1652,16 +1652,16 @@ public:
 		for (int i = 0; i<int(tPart.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 4);
-			if (tLine.size() >= 2)
+			if(tLine.size() >= 2)
 			{
-				if (StringUtil::startsWith(tLine[0], type, false))
+				if(StringUtil::startsWith(tLine[0], type, false))
 				{
 					particle = tLine[1];
-					if (tLine.size() >= 3)
+					if(tLine.size() >= 3)
 					{
 						offset = StringConverter::parseVector3(tLine[2]);
 					}
-					if (tLine.size() >= 4)
+					if(tLine.size() >= 4)
 					{
 						sound = tLine[3];
 					}
@@ -1670,24 +1670,24 @@ public:
 				}
 			}
 		}
-		if (!isCustom)loadWeather(type, particle, offset, sound, true);
+		if(!isCustom)loadWeather(type, particle, offset, sound, true);
 	}
 
 	// again, gameplay stuff
 	void loadAttacks(const String& filename, bool isCustom)
 	{
 		String tFilename = filename;
-		if (isCustom)
+		if(isCustom)
 		{
 			std::ifstream inFile(filename.c_str());
-			if (!inFile.good())return;
+			if(!inFile.good())return;
 			else inFile.close();
 		}
 		//Genereate temp file
 		else
 		{
 			tFilename = filename + ".cfg";
-			if (!XOR7FileGen(filename, tFilename, true, true))
+			if(!XOR7FileGen(filename, tFilename, true, true))
 				throw(Exception(9, "Corrupted Data File", filename + ", please run the autopatcher."));
 		}
 		ConfigFile cf;
@@ -1702,43 +1702,43 @@ public:
 			Attack tAtk;
 			for (i = settings->begin(); i != settings->end(); ++i)
 			{
-				if (StringUtil::startsWith(i->first, "trailfx"))
+				if(StringUtil::startsWith(i->first, "trailfx"))
 				{
 					const vector<String>::type tPart = StringUtil::split(i->second, ",", 1);
-					if (tPart.size() == 2)
+					if(tPart.size() == 2)
 					{
 						const unsigned short tFxID = StringConverter::parseInt(tPart[0]) - 1;
 						while ((int)tAtk.FX.size() < (tFxID + 1))tAtk.FX.push_back(AttackFX());
-						if (StringUtil::endsWith(i->first, "bone"))tAtk.FX[tFxID].bone = tPart[1];
-						else if (StringUtil::endsWith(i->first, "trailmat"))tAtk.FX[tFxID].trailMat = tPart[1];
-						else if (StringUtil::endsWith(i->first, "width"))tAtk.FX[tFxID].trailWidth = StringConverter::parseReal(tPart[1]);
-						else if (StringUtil::endsWith(i->first, "colour"))tAtk.FX[tFxID].colour = StringConverter::parseColourValue(tPart[1]);
-						else if (StringUtil::endsWith(i->first, "colourchange"))tAtk.FX[tFxID].colourChange = StringConverter::parseColourValue(tPart[1]);
-						else if (StringUtil::endsWith(i->first, "trailheadmat"))tAtk.FX[tFxID].trailHeadMat = tPart[1];
+						if(StringUtil::endsWith(i->first, "bone"))tAtk.FX[tFxID].bone = tPart[1];
+						else if(StringUtil::endsWith(i->first, "trailmat"))tAtk.FX[tFxID].trailMat = tPart[1];
+						else if(StringUtil::endsWith(i->first, "width"))tAtk.FX[tFxID].trailWidth = StringConverter::parseReal(tPart[1]);
+						else if(StringUtil::endsWith(i->first, "colour"))tAtk.FX[tFxID].colour = StringConverter::parseColourValue(tPart[1]);
+						else if(StringUtil::endsWith(i->first, "colourchange"))tAtk.FX[tFxID].colourChange = StringConverter::parseColourValue(tPart[1]);
+						else if(StringUtil::endsWith(i->first, "trailheadmat"))tAtk.FX[tFxID].trailHeadMat = tPart[1];
 					}
 				}
-				else if (StringUtil::startsWith(i->first, "anim"))tAtk.anim = i->second;
-				else if (StringUtil::startsWith(i->first, "range"))tAtk.range = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "hitforce"))tAtk.hitForce = StringConverter::parseVector3(i->second);
-				else if (StringUtil::startsWith(i->first, "offset"))tAtk.offset = StringConverter::parseVector3(i->second);
-				else if (StringUtil::startsWith(i->first, "hpmin"))tAtk.hpMin = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "hpmax"))tAtk.hpMax = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "hitally"))tAtk.hitAlly = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "autotarget"))tAtk.autoTarget = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "singletarget"))tAtk.singleTarget = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "moveforce"))tAtk.moveForce = StringConverter::parseVector3(i->second);
-				else if (StringUtil::startsWith(i->first, "speedmultiplier"))tAtk.speedMultiplier = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "soundroar"))tAtk.soundRoar = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "attackrange"))tAtk.attackRange = StringConverter::parseInt(i->second);
+				else if(StringUtil::startsWith(i->first, "anim"))tAtk.anim = i->second;
+				else if(StringUtil::startsWith(i->first, "range"))tAtk.range = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "hitforce"))tAtk.hitForce = StringConverter::parseVector3(i->second);
+				else if(StringUtil::startsWith(i->first, "offset"))tAtk.offset = StringConverter::parseVector3(i->second);
+				else if(StringUtil::startsWith(i->first, "hpmin"))tAtk.hpMin = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "hpmax"))tAtk.hpMax = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "hitally"))tAtk.hitAlly = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "autotarget"))tAtk.autoTarget = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "singletarget"))tAtk.singleTarget = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "moveforce"))tAtk.moveForce = StringConverter::parseVector3(i->second);
+				else if(StringUtil::startsWith(i->first, "speedmultiplier"))tAtk.speedMultiplier = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "soundroar"))tAtk.soundRoar = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "attackrange"))tAtk.attackRange = StringConverter::parseInt(i->second);
 			}
-			if (tSectionName != "")
+			if(tSectionName != "")
 			{
 				tAtk.name = tSectionName;
 				attackList.push_back(tAtk);
 			}
 		}
 		//Delete temp file
-		if (!isCustom)
+		if(!isCustom)
 		{
 			_unlink(tFilename.c_str());
 		}
@@ -1747,7 +1747,7 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)
+			if(attackList[i].name == name)
 			{
 				return attackList[i];
 			}
@@ -1758,7 +1758,7 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)
+			if(attackList[i].name == name)
 			{
 				return attackList[i].anim;
 			}
@@ -1770,7 +1770,7 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)
+			if(attackList[i].name == name)
 			{
 				return attackList[i].hitAlly;
 			}
@@ -1782,7 +1782,7 @@ public:
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
 		{
-			if (attackList[i].name == name)
+			if(attackList[i].name == name)
 			{
 				return attackList[i].hitAlly;
 			}
@@ -1796,17 +1796,17 @@ public:
 	void loadCritters(const String &filename, bool isCustom)
 	{
 		String tFilename = filename;
-		if (isCustom)
+		if(isCustom)
 		{
 			std::ifstream inFile(filename.c_str());
-			if (!inFile.good())return;
+			if(!inFile.good())return;
 			else inFile.close();
 		}
 		// temp file.. ok but what ? do this uncipher .dat ?
 		else
 		{
 			tFilename = filename + ".cfg";
-			if (!XOR7FileGen(filename, tFilename, true, true))
+			if(!XOR7FileGen(filename, tFilename, true, true))
 				throw(Exception(9, "XOR7FileGen unable to run. Corrupted Data File ?", filename + ", re-run the IT XOR tool if you are sure of your file."));
 		}
 		ConfigFile cf;
@@ -1821,46 +1821,46 @@ public:
 			Critter tC;
 			for (i = settings->begin(); i != settings->end(); ++i)
 			{
-				if (StringUtil::startsWith(i->first, "mesh"))tC.mesh = i->second;
-				else if (StringUtil::startsWith(i->first, "isuncustomizable"))
+				if(StringUtil::startsWith(i->first, "mesh"))tC.mesh = i->second;
+				else if(StringUtil::startsWith(i->first, "isuncustomizable"))
 				{
-					if (!isCustom)tC.isUncustomizable = StringConverter::parseBool(i->second);
+					if(!isCustom)tC.isUncustomizable = StringConverter::parseBool(i->second);
 				}
-				else if (StringUtil::startsWith(i->first, "isdrawpoint"))
+				else if(StringUtil::startsWith(i->first, "isdrawpoint"))
 				{
-					if (!isCustom)tC.isDrawPoint = StringConverter::parseBool(i->second);
+					if(!isCustom)tC.isDrawPoint = StringConverter::parseBool(i->second);
 				}
-				else if (StringUtil::startsWith(i->first, "material"))tC.material = i->second;
-				else if (StringUtil::startsWith(i->first, "sound"))tC.sound = i->second;
-				else if (StringUtil::startsWith(i->first, "friendly"))tC.friendly = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "invulnerable"))tC.invulnerable = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "scale"))tC.scale = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "hp"))tC.hp = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "flying"))tC.flying = StringConverter::parseBool(i->second);
-				else if (StringUtil::startsWith(i->first, "decisionmin"))tC.decisionMin = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "decisiondeviation"))tC.decisionDeviation = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "maxspeed"))tC.maxSpeed = StringConverter::parseReal(i->second);
-				else if (StringUtil::startsWith(i->first, "droplist"))
-				{
-					const vector<String>::type tPart = StringUtil::split(i->second, ",", 1);
-					if (tPart.size() >= 2)tC.dropList.push_back(std::pair<String, Real>(tPart[0], StringConverter::parseReal(tPart[1])));
-				}
-				else if (StringUtil::startsWith(i->first, "skilldrop"))
+				else if(StringUtil::startsWith(i->first, "material"))tC.material = i->second;
+				else if(StringUtil::startsWith(i->first, "sound"))tC.sound = i->second;
+				else if(StringUtil::startsWith(i->first, "friendly"))tC.friendly = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "invulnerable"))tC.invulnerable = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "scale"))tC.scale = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "hp"))tC.hp = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "flying"))tC.flying = StringConverter::parseBool(i->second);
+				else if(StringUtil::startsWith(i->first, "decisionmin"))tC.decisionMin = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "decisiondeviation"))tC.decisionDeviation = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "maxspeed"))tC.maxSpeed = StringConverter::parseReal(i->second);
+				else if(StringUtil::startsWith(i->first, "droplist"))
 				{
 					const vector<String>::type tPart = StringUtil::split(i->second, ",", 1);
-					if (tPart.size() >= 2)tC.skillDrop = std::pair<String, unsigned char>(tPart[0], StringConverter::parseInt(tPart[1]));
+					if(tPart.size() >= 2)tC.dropList.push_back(std::pair<String, Real>(tPart[0], StringConverter::parseReal(tPart[1])));
 				}
-				else if (StringUtil::startsWith(i->first, "attacklist"))
+				else if(StringUtil::startsWith(i->first, "skilldrop"))
+				{
+					const vector<String>::type tPart = StringUtil::split(i->second, ",", 1);
+					if(tPart.size() >= 2)tC.skillDrop = std::pair<String, unsigned char>(tPart[0], StringConverter::parseInt(tPart[1]));
+				}
+				else if(StringUtil::startsWith(i->first, "attacklist"))
 				{
 					const vector<String>::type tPart = StringUtil::split(i->second, ",", 5);
-					if (tPart.size() >= 2)tC.attackList.push_back(CritterAttack(StringConverter::parseReal(tPart[0]),
+					if(tPart.size() >= 2)tC.attackList.push_back(CritterAttack(StringConverter::parseReal(tPart[0]),
 						StringConverter::parseReal(tPart[1]),
 						(tPart.size() >= 5 ? Vector3(StringConverter::parseReal(tPart[2]), StringConverter::parseReal(tPart[3]), StringConverter::parseReal(tPart[4])) : Vector3(0, 0, 1)),
 						(tPart.size() >= 6 ? StringConverter::parseBool(tPart[5]) : false)
 					));
 				}
 			}
-			if (tSectionName != "")
+			if(tSectionName != "")
 			{
 				tC.type = tSectionName;
 				critterList.push_back(tC);
@@ -1868,7 +1868,7 @@ public:
 		}
 
 		//Delete temp file
-		if (!isCustom)
+		if(!isCustom)
 		{
 			_unlink(tFilename.c_str());
 		}
@@ -1877,7 +1877,7 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)return critterList[i];
+			if(critterList[i].type == type)return critterList[i];
 		}
 		return Critter();
 	}
@@ -1885,7 +1885,7 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)return critterList[i].dropList;
+			if(critterList[i].type == type)return critterList[i].dropList;
 		}
 		const vector<std::pair<String, Real>>::type tList;
 		return tList;
@@ -1894,7 +1894,7 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)return critterList[i].skillDrop;
+			if(critterList[i].type == type)return critterList[i].skillDrop;
 		}
 		return std::pair<String, unsigned char>("", 0);
 	}
@@ -1904,7 +1904,7 @@ public:
 		const unsigned short MAX_RANDOMSKILL = 8;
 		unsigned short tID = (unsigned short)Math::RangeRandom(0, MAX_RANDOMSKILL);
 		
-		if (tID >= MAX_RANDOMSKILL)
+		if(tID >= MAX_RANDOMSKILL)
 		{
 			tID = MAX_RANDOMSKILL - 1;
 		}
@@ -1934,27 +1934,27 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)
+			if(critterList[i].type == type)
 			{
-				if (critterList[i].attackList.size() == 0)
+				if(critterList[i].attackList.size() == 0)
 				{
 					return 0;
 				}
 				
 				//Attacks 2 and above are rarer
-				if (critterList[i].attackList.size() == 1 || Math::UnitRandom() < 0.5)
+				if(critterList[i].attackList.size() == 1 || Math::UnitRandom() < 0.5)
 				{
-					if (hitAlly)*hitAlly = critterList[i].attackList[0].hitAlly;
+					if(hitAlly)*hitAlly = critterList[i].attackList[0].hitAlly;
 					return 1;
 				}
 				
 				unsigned char tID = Math::RangeRandom(1, (int)critterList[i].attackList.size());
 				
-				if (tID >= (int)critterList[i].attackList.size())
+				if(tID >= (int)critterList[i].attackList.size())
 				{
 					tID -= 1;
 				}
-				if (hitAlly)
+				if(hitAlly)
 				{
 					*hitAlly = critterList[i].attackList[tID].hitAlly;
 				}
@@ -1968,28 +1968,28 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)
+			if(critterList[i].type == type)
 			{
 				vector<unsigned char>::type tList;
 
 				for (int j = 0; j < (int)critterList[i].attackList.size(); j++)
 				{
-					if (getNonHeal ^ critterList[i].attackList[j].hitAlly)tList.push_back(j + 1);
+					if(getNonHeal ^ critterList[i].attackList[j].hitAlly)tList.push_back(j + 1);
 				}
 					
-				if (tList.size() == 0)
+				if(tList.size() == 0)
 				{
 					return 0;
 				}
 
 				//Attacks 2 and above are rarer
-				if (tList.size() == 1 || Math::UnitRandom() < 0.5)
+				if(tList.size() == 1 || Math::UnitRandom() < 0.5)
 				{
 					return tList[0];
 				}
 
 				unsigned char tID = Math::RangeRandom(1, (int)tList.size());
-				if (tID >= (int)tList.size())
+				if(tID >= (int)tList.size())
 				{
 					tID -= 1;
 				}
@@ -2004,9 +2004,9 @@ public:
 	{
 		for (int i = 0; i < (int)critterList.size(); i++)
 		{
-			if (critterList[i].type == type)
+			if(critterList[i].type == type)
 			{
-				if (iID >= 0 && iID < (int)critterList[i].attackList.size())
+				if(iID >= 0 && iID < (int)critterList[i].attackList.size())
 				{
 					return std::pair<CritterAttack, String>(critterList[i].attackList[iID], critterList[i].sound);
 				}
@@ -2026,22 +2026,22 @@ public:
 		const String& customFilename = "")
 	{
 		//Hardcoded goodness
-		if (worldName != "Default")
+		if(worldName != "Default")
 		{
 			limit = 3;
 			//Draw Points for crittered maps
 			list.push_back(WorldCritter("Draw Point", 0.05));
 		}
 		else return true;
-		if (loadCritterSpawnListFile("cd2.dat", worldName, limit, list, roamArea))return true;
+		if(loadCritterSpawnListFile("cd2.dat", worldName, limit, list, roamArea))return true;
 
-		if (loadCustomCritterSpawnList("media/terrains/" + worldName + "/" + customFilename, limit, list, roamArea))return true;
+		if(loadCustomCritterSpawnList("media/terrains/" + worldName + "/" + customFilename, limit, list, roamArea))return true;
 		return false;
 	}
 	bool loadCritterSpawnListFile(const String& filename, const String& worldName, unsigned short& limit, vector<WorldCritter>::type& list, vector<std::pair<Vector3, Vector3>>::type& roamArea)
 	{
 		const String tFilename = filename + ".cfg";
-		if (!XOR7FileGen(filename, tFilename, true, true))return false;
+		if(!XOR7FileGen(filename, tFilename, true, true))return false;
 		ConfigFile cf;
 		cf.load(tFilename);
 		ConfigFile::SectionIterator seci = cf.getSectionIterator();
@@ -2052,25 +2052,25 @@ public:
 			ConfigFile::SettingsMultiMap* settings = seci.getNext();
 			ConfigFile::SettingsMultiMap::iterator i;
 
-			if (tSectionName == worldName)
+			if(tSectionName == worldName)
 			{
 				for (i = settings->begin(); i != settings->end(); ++i)
 				{
-					if (StringUtil::startsWith(i->first, "limit"))limit = StringConverter::parseInt(i->second);
-					else if (StringUtil::startsWith(i->first, "clearlist") && StringConverter::parseBool(i->second))list.clear();
-					else if (StringUtil::startsWith(i->first, "critterlist"))
+					if(StringUtil::startsWith(i->first, "limit"))limit = StringConverter::parseInt(i->second);
+					else if(StringUtil::startsWith(i->first, "clearlist") && StringConverter::parseBool(i->second))list.clear();
+					else if(StringUtil::startsWith(i->first, "critterlist"))
 					{
 						const vector<String>::type tPart = StringUtil::split(i->second, ",", 3);
-						if (tPart.size() >= 2)list.push_back(WorldCritter(tPart[0],
+						if(tPart.size() >= 2)list.push_back(WorldCritter(tPart[0],
 							StringConverter::parseReal(tPart[1]),
 							(tPart.size() >= 4 ? StringConverter::parseBool(tPart[2]) : false),
 							(tPart.size() >= 4 ? StringConverter::parseInt(tPart[3]) : 0)
 						));
 					}
-					else if (StringUtil::startsWith(i->first, "roamarea"))
+					else if(StringUtil::startsWith(i->first, "roamarea"))
 					{
 						const vector<String>::type tPart = StringUtil::split(i->second, ",", 5);
-						if (tPart.size() >= 6)roamArea.push_back(std::pair<Vector3, Vector3>(Vector3(StringConverter::parseReal(tPart[0]), StringConverter::parseReal(tPart[1]), StringConverter::parseReal(tPart[2])),
+						if(tPart.size() >= 6)roamArea.push_back(std::pair<Vector3, Vector3>(Vector3(StringConverter::parseReal(tPart[0]), StringConverter::parseReal(tPart[1]), StringConverter::parseReal(tPart[2])),
 							Vector3(StringConverter::parseReal(tPart[3]), StringConverter::parseReal(tPart[4]), StringConverter::parseReal(tPart[5]))
 						));
 					}
@@ -2093,7 +2093,7 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
 			tSize = inFile.tellg();
@@ -2119,45 +2119,45 @@ public:
 		for (int i = 0; i<int(tSection.size()); i++)
 		{
 			const vector<String>::type tLine = StringUtil::split(tSection[i], "\n");
-			if (tLine.size() > 0)
+			if(tLine.size() > 0)
 			{
-				if (StringUtil::startsWith(tLine[0], "Limit", false) && tLine.size() >= 2)
+				if(StringUtil::startsWith(tLine[0], "Limit", false) && tLine.size() >= 2)
 				{
 					limit = StringConverter::parseInt(tLine[1]);
-					if (limit > 200)limit = 200;
+					if(limit > 200)limit = 200;
 				}
-				else if (StringUtil::startsWith(tLine[0], "Critter", false) && tLine.size() >= 3)
+				else if(StringUtil::startsWith(tLine[0], "Critter", false) && tLine.size() >= 3)
 				{
 					WorldCritter tC;
 					for (int j = 1; j < (int)tLine.size(); j++)
 					{
 						const vector<String>::type tPart = StringUtil::split(tLine[j], "=");
-						if (tPart.size() < 2)continue;
-						if (StringUtil::startsWith(tPart[0], "type"))tC.type = tPart[1];
-						else if (StringUtil::startsWith(tPart[0], "rate"))tC.spawnRate = StringConverter::parseReal(tPart[1]);
-						else if (StringUtil::startsWith(tPart[0], "roamareaindex"))
+						if(tPart.size() < 2)continue;
+						if(StringUtil::startsWith(tPart[0], "type"))tC.type = tPart[1];
+						else if(StringUtil::startsWith(tPart[0], "rate"))tC.spawnRate = StringConverter::parseReal(tPart[1]);
+						else if(StringUtil::startsWith(tPart[0], "roamareaindex"))
 						{
 							tC.hasRoamArea = true;
 							tC.roamAreaID = StringConverter::parseInt(tPart[1]);
 						}
 					}
-					if (tC.type != "")
+					if(tC.type != "")
 					{
 						const Critter tCritter = getCritter(tC.type);
-						if (tCritter.type != "" && !tCritter.isUncustomizable)list.push_back(tC);
+						if(tCritter.type != "" && !tCritter.isUncustomizable)list.push_back(tC);
 					}
 				}
-				else if (StringUtil::startsWith(tLine[0], "roamarea") && tLine.size() >= 3)
+				else if(StringUtil::startsWith(tLine[0], "roamarea") && tLine.size() >= 3)
 				{
 					std::pair<Vector3, Vector3> tArea(Vector3::ZERO, Vector3::ZERO);
 					for (int j = 1; j < (int)tLine.size(); j++)
 					{
 						const vector<String>::type tPart = StringUtil::split(tLine[j], "=");
-						if (tPart.size() < 2)continue;
-						if (StringUtil::startsWith(tPart[0], "start"))tArea.first = StringConverter::parseVector3(tPart[1]);
-						else if (StringUtil::startsWith(tPart[0], "range"))tArea.second = StringConverter::parseVector3(tPart[1]);
+						if(tPart.size() < 2)continue;
+						if(StringUtil::startsWith(tPart[0], "start"))tArea.first = StringConverter::parseVector3(tPart[1]);
+						else if(StringUtil::startsWith(tPart[0], "range"))tArea.second = StringConverter::parseVector3(tPart[1]);
 					}
-					if (tArea.first != Vector3::ZERO || tArea.second != Vector3::ZERO)roamArea.push_back(tArea);
+					if(tArea.first != Vector3::ZERO || tArea.second != Vector3::ZERO)roamArea.push_back(tArea);
 				}
 			}
 		}
@@ -2168,7 +2168,7 @@ public:
 		String tIP = "";
 		std::ifstream inFile;
 		inFile.open(filename.c_str(), std::ifstream::in);
-		if (inFile.good())
+		if(inFile.good())
 		{
 			char tBuffer[32];
 			inFile.read(tBuffer, 32);

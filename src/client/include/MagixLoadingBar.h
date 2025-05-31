@@ -56,7 +56,7 @@ public:
 
 		OverlayManager& omgr = OverlayManager::getSingleton();
 		mLoadOverlay = (Overlay*)omgr.getByName("Core/LoadOverlay");
-		if (!mLoadOverlay)
+		if(!mLoadOverlay)
 		{
 			OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
 				"Cannot find loading overlay", "MagixLoadingBar::start");

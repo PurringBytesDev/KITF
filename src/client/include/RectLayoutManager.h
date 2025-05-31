@@ -27,10 +27,10 @@ public:
 			, mBottom(bottom)
 			, dy(0)
 		{
-			if (mBottom <= mTop)
+			if(mBottom <= mTop)
 				throw std::exception("Condition Failure (top < bottom) in RectLayoutManager::Rect::Rect");
 
-			if (mRight <= mLeft)
+			if(mRight <= mLeft)
 				throw std::exception("Condition Failure (left < right) in RectLayoutManager::Rect::Rect");
 		}
 
@@ -68,10 +68,10 @@ public:
 	, mMaxRectHeight(0)
 	, mDepth(0)
 	{
-		if (mBoundBottom <= mBoundTop)
+		if(mBoundBottom <= mBoundTop)
 			throw std::exception("Condition Failure (mBoundTop < mBoundBottom) in RectLayoutManager::RectLayoutManager");
 
-		if (mBoundRight <= mBoundLeft)
+		if(mBoundRight <= mBoundLeft)
 			throw std::exception("Condition Failure (mBoundLeft < mBoundRight) in RectLayoutManager::RectLayoutManager");
 	}
 	
@@ -96,7 +96,7 @@ public:
 
 	bool isOutOfBounds(RectLayoutManager::Rect &r)
 	{
-		if (r.getTop() < mBoundTop ||
+		if(r.getTop() < mBoundTop ||
 			r.getBottom() > mBoundBottom ||
 			r.getLeft() < mBoundLeft ||
 			r.getRight() > mBoundRight)
@@ -112,7 +112,7 @@ public:
 
 	RectList::iterator addData(Rect &Data)
 	{
-		if (isOutOfBounds(Data))
+		if(isOutOfBounds(Data))
 			return mList.end(); // out of bounds, error
 
 		switch (mMethod)
@@ -177,7 +177,7 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 	RectLayoutManager::Rect &r = Data;
 	short height = r.getBottom() - r.getTop();
 
-	if (height > mMaxRectHeight)
+	if(height > mMaxRectHeight)
 		mMaxRectHeight = height;
 
 	// find the first RECT  that has .bottom > r.top
@@ -187,7 +187,7 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 	r.dy += height;
 
 	// it's safe to add it at the back of the list
-	if (itStart == mList.end())
+	if(itStart == mList.end())
 	{
 		mList.push_back(r);
 		return --(mList.end());
@@ -199,23 +199,23 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 	for (itCurrent = itStart, itLastChecked = itInsert;itCurrent != mList.end();itCurrent++)
 	{
 		// Can't intersect r so i skip it
-		if ((*itCurrent).getRight() < r.getLeft())
+		if((*itCurrent).getRight() < r.getLeft())
 			continue;
 
 		// Can't intersect r so i skip it
-		if (r.getRight() < (*itCurrent).getLeft())
+		if(r.getRight() < (*itCurrent).getLeft())
 			continue;
 
 		// Can't intersect r so i skip it
-		if (r.getTop() > (*itCurrent).getBottom())
+		if(r.getTop() > (*itCurrent).getBottom())
 			continue;
 
 		short diff = (*itCurrent).getTop() - (*itLastChecked).getBottom();
 		short diff2 = mMaxRectHeight - ((*itCurrent).getBottom() - (*itCurrent).getTop());
-		if (diff > 0) // above the last checked
+		if(diff > 0) // above the last checked
 		{
 			// If no rect overlapped r, then there is no need to move it
-			if (!MoveIt && (diff > diff2))
+			if(!MoveIt && (diff > diff2))
 			{	
 				FoundIt = true;
 				itLastChecked = itStart;
@@ -224,11 +224,11 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 			else
 				MoveIt = true;
 
-			if (mDepth && (depth >= mDepth))
+			if(mDepth && (depth >= mDepth))
 				break;
 
 			// This is above r, so i check if its enought space to move r
-			if (diff > height + diff2 + 2*mMinDistance)
+			if(diff > height + diff2 + 2*mMinDistance)
 			{
 				r.dy = ((*itLastChecked).getBottom() + mMinDistance + 1) - r.getTop();
 				FoundIt = true;
@@ -243,9 +243,9 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 		itLastChecked = itCurrent;
 	}
 
-	if (itCurrent == mList.end())
+	if(itCurrent == mList.end())
 	{
-		if (MoveIt)
+		if(MoveIt)
 			r.dy = ((*itLastChecked).getBottom() + mMinDistance + 1) - r.getTop();
 		else
 			itLastChecked = itStart;
@@ -255,9 +255,9 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataBelow(RectLayout
 
 	mList.erase(itInsert);
 
-	if (FoundIt)
+	if(FoundIt)
 	{
-		if (r.getBottom() > mBoundBottom)
+		if(r.getBottom() > mBoundBottom)
 			return mList.end(); // out of bounds
 
 		itInsert = lower_bound(itLastChecked, itCurrent, r);			
@@ -284,7 +284,7 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 	RectLayoutManager::Rect &r = Data;
 	short height = r.getBottom() - r.getTop();
 
-	if (height > mMaxRectHeight)
+	if(height > mMaxRectHeight)
 		mMaxRectHeight = height;
 
 	// find the first RECT  that has .bottom > r.top
@@ -294,7 +294,7 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 	r.dy -= height;
 
 	// it's safe to add it at the back of the list
-	if (itStart == mList.end())
+	if(itStart == mList.end())
 	{
 		mList.push_back(r);
 		return --(mList.end());
@@ -306,23 +306,23 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 	for (itCurrent = itStart, itLastChecked = itInsert;itCurrent != mList.end();itCurrent++)
 	{
 		// Can't intersect r so i skip it
-		if ((*itCurrent).getRight() < r.getLeft())
+		if((*itCurrent).getRight() < r.getLeft())
 			continue;
 
 		// Can't intersect r so i skip it
-		if (r.getRight() < (*itCurrent).getLeft())
+		if(r.getRight() < (*itCurrent).getLeft())
 			continue;
 
 		// Can't intersect r so i skip it
-		if (r.getBottom() < (*itCurrent).getTop())
+		if(r.getBottom() < (*itCurrent).getTop())
 			continue;
 
 		short diff = (*itLastChecked).getTop() - (*itCurrent).getBottom();
 		short diff2 = mMaxRectHeight - ((*itCurrent).getBottom() - (*itCurrent).getTop());
-		if (diff > 0) // above the last checked
+		if(diff > 0) // above the last checked
 		{
 			// If no rect overlapped r, then there is no need to move it
-			if (!MoveIt && (diff > diff2))
+			if(!MoveIt && (diff > diff2))
 			{	
 				FoundIt = true;
 				itLastChecked = itStart;
@@ -331,11 +331,11 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 			else
 				MoveIt = true;
 
-			if (mDepth && (depth >= mDepth))
+			if(mDepth && (depth >= mDepth))
 				break;
 
 			// This is above r, so i check if its enought space to move r
-			if (diff > height + diff2 + 2*mMinDistance)
+			if(diff > height + diff2 + 2*mMinDistance)
 			{
 				r.dy = -(r.getBottom() - ((*itLastChecked).getTop() - mMinDistance - 1));
 				FoundIt = true;
@@ -350,9 +350,9 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 		itLastChecked = itCurrent;
 	}
 
-	if (itCurrent == mList.end())
+	if(itCurrent == mList.end())
 	{
-		if (MoveIt)
+		if(MoveIt)
 			r.dy = -(r.getBottom() - ((*itLastChecked).getTop() - mMinDistance - 1));
 		else
 			itLastChecked = itStart;
@@ -363,9 +363,9 @@ RectLayoutManager::RectList::iterator RectLayoutManager::addDataAbove(RectLayout
 
 	mList.erase(itInsert);
 
-	if (FoundIt)
+	if(FoundIt)
 	{
-		if (r.getTop() < mBoundTop)
+		if(r.getTop() < mBoundTop)
 			return mList.end(); // out of bounds
 
 		itInsert = lower_bound(itLastChecked, itCurrent, r, _fGreaterTop);			

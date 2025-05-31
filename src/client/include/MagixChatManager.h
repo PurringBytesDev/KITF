@@ -494,7 +494,7 @@ public:
 			Real tWidthFromSpace = 0;
 			for(int i=0; i<int(tCaption.length());i++)
 			{   
-				if (tCaption[i] == 0x0020)
+				if(tCaption[i] == 0x0020)
 				{
 					tTextWidth += pFont->getGlyphAspectRatio(0x0030);
 					tWidthFromSpace += pFont->getGlyphAspectRatio(0x0030);
