@@ -181,17 +181,38 @@ public:
 
 	void updateChase()
 	{
-		if(!mChaseTarget)return;
+		if(!mChaseTarget)
+		{
+			return;
+		}
+
 		if(stopChaseLimit>0 && mChaseTarget->getPosition().y >= stopChaseLimit)
 		{
 			setTarget(0);
-			if(imTheOwner())decisionTimer = 0;
+		
+			if(imTheOwner())
+			{
+				decisionTimer = 0;
+			}
+
 			return;
 		}
-		if(targetPosition != mChaseTarget->getPosition())setTarget(mChaseTarget->getPosition()+(antiGravity?Vector3(0,12,0):Vector3::ZERO),false);
-		if(!hasAttack)return;
+
+		if(targetPosition != mChaseTarget->getPosition())
+		{
+			setTarget(mChaseTarget->getPosition() + (antiGravity ? Vector3(0, 12, 0) : Vector3::ZERO), false);
+		}
+
+		if(!hasAttack)
+		{
+			return;
+		}
+		
 		const Real tAttackRange = (Real)(length <= 55.55 ? 2500 : (length * length * 0.81));
-		if(!isAttacking() && mObjectNode->getPosition().squaredDistance(mChaseTarget->getPosition())<tAttackRange)isReadyToAttack = true;
+		if(!isAttacking() && mObjectNode->getPosition().squaredDistance(mChaseTarget->getPosition())<tAttackRange)
+		{
+			isReadyToAttack = true;
+		}
 	}
 
 	void updateMovement(const FrameEvent &evt)
@@ -242,7 +263,8 @@ public:
 				
 				if (tYaw == Degree(0) || tYaw == Degree(180))
 				{
-					tVect.y = 10 * (tYaw == Degree(180) ? -1 : 1);
+					// did hit after 3-5 hot recompile... I TOLD YOU SO !
+					tVect.y = 10 * (Real)(tYaw == Degree(180) ? -1 : 1);
 				}
 				else if (tYaw == Degree(90) || tYaw == Degree(270))
 				{
@@ -294,18 +316,18 @@ public:
 			}
 			return;
 		}
-		if(decisionTimer>0)decisionTimer -= evt.timeSinceLastFrame;
-		if(decisionTimer<0)decisionTimer = 0;
-		if(decisionTimer==0)
+		if (decisionTimer > 0)decisionTimer -= evt.timeSinceLastFrame;
+		if (decisionTimer < 0)decisionTimer = 0;
+		if (decisionTimer == 0)
 		{
-			if(isDecomposing)decomposedFlag = true;
+			if (isDecomposing)decomposedFlag = true;
 			else
 			{
 				isDecomposing = true;
 				decisionTimer = 1;
 			}
 		}
-		if(isDecomposing)setFullColour(ColourValue(1,0.95,0.75,decisionTimer*0.5));
+		if (isDecomposing)setFullColour(ColourValue(1, 0.95, 0.75, decisionTimer * (double)0.5));
 	}
 
 	void setFullColour(const ColourValue &fullColour)
