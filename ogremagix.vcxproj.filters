@@ -123,6 +123,9 @@
     <ClInclude Include="src\client\res\Resource.h">
       <Filter>Res</Filter>
     </ClInclude>
+    <ClInclude Include="src\client\include\MagixStructs.h">
+      <Filter>Headers\Magix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\client\res\ogremagix.ico">
