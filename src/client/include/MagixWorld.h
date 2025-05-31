@@ -271,6 +271,7 @@ public:
 						const Vector3 tPosition = StringConverter::parseVector3(tLine[1]);
 						const Real tRange = StringConverter::parseReal(tLine[2]);
 						const String tDestName = tLine[3];
+
 						mCollisionManager->createPortal(tPosition,tRange,tDestName);
 					}
 					else if(StringUtil::startsWith(tLine[0],"Gate",false) && tLine.size()>=5)
@@ -279,15 +280,20 @@ public:
 						const Vector3 tPosition = StringConverter::parseVector3(tLine[2]);
 						const String tDestName = tLine[3];
 						const vector<String>::type tCoords = StringUtil::split(tLine[4]," ",3);
+
 						Vector3 tDestVect;
 						bool tHasVectY = true;
+
 						if(tCoords.size()==2)
 						{
 							tDestVect.x = StringConverter::parseReal(tCoords[0]);
 							tDestVect.z = StringConverter::parseReal(tCoords[1]);
 							tHasVectY = false;
 						}
-						else tDestVect = StringConverter::parseVector3(tLine[4]);
+						else
+						{
+							tDestVect = StringConverter::parseVector3(tLine[4]);
+						}
 						mCollisionManager->createGate(tPosition,tDestName,tDestVect,tMatName,tHasVectY);
 					}
 					else if(StringUtil::startsWith(tLine[0],"WaterPlane",false) && tLine.size()>=4)

@@ -50,6 +50,7 @@ public:
 		mNumGroupsInit = numGroupsInit;
 		mNumGroupsLoad = numGroupsLoad;
 		mInitProportion = initProportion;
+
 		// We need to pre-initialise the 'Bootstrap' group so we can use
 		// the basic contents in the loading screen
 		ResourceGroupManager::getSingleton().initialiseResourceGroup("Bootstrap");
