@@ -394,7 +394,7 @@ public:
 			}
 			else
 			{
-				tYaw = Degree(tX >= 0 ? 90 : 270);
+				tYaw = Degree((Real)(tX >= 0 ? 90 : 270));
 			}
 			if(tX < 0)
 			{
@@ -478,7 +478,7 @@ public:
 		{
 			return Vector3::ZERO;
 		}
-		return (mObjectNode->getPosition() + (headPosition ? Vector3(0, height * 0.5, 0) : Vector3::ZERO));
+		return (mObjectNode->getPosition() + (headPosition ? Vector3(0, height * (Real)0.5, 0) : Vector3::ZERO));
 	}
 	
 	const Real getHeight()
@@ -690,15 +690,24 @@ public:
 					if(tIsInRange)
 					{
 						bool tHasAnim = false;
-						for(unsigned char tAttackID = tCritter->getAttackID();(!tHasAnim && tAttackID>0);tAttackID--)
-							tHasAnim = tCritter->setAnimation("Attack"+StringConverter::toString(tAttackID));
+						for (unsigned char tAttackID = tCritter->getAttackID(); (!tHasAnim && tAttackID > 0); tAttackID--)
+						{
+							tHasAnim = tCritter->setAnimation("Attack" + StringConverter::toString(tAttackID));
+						}
+						
 						const std::pair<CritterAttack,String> tAttackAndSound = mDef->getCritterAttackAndSound(tCritter->getCritterType(),tCritter->getAttackID()-1);
+						
 						const CritterAttack tAttack = tAttackAndSound.first;
-						const Vector3 tOffset = Vector3(0,tCritter->getHeight()*0.25,tCritter->getLength()*0.5);
-						const Real tHP = tAttack.hp + Math::RangeRandom(-0.05,0.05)*tAttack.hp;
+						
+						const Vector3 tOffset = Vector3(0, tCritter->getHeight() * (Real)0.25, tCritter->getLength() * (Real)0.5);
+						
+						const Real tHP = tAttack.hp + (Real)(Math::RangeRandom(-0.05, 0.05) * tAttack.hp);
+						
 						//Only create collisions for wild critters or my pet (or offline)
 						if(!tCritter->getIsPet() || tCritter->imTheOwner() || mGameStateManager->isCampaign())
-						mCollisionManager->createCollision(tCritter->getObjectNode(),tAttack.range,tAttack.hitForce,tOffset,tHP,tCritter->getAlliance(),tAttack.hitAlly);
+						{
+							mCollisionManager->createCollision(tCritter->getObjectNode(), tAttack.range, tAttack.hitForce, tOffset, (short)tHP, tCritter->getAlliance(), tAttack.hitAlly);
+						}
 
 						const String tSound = tAttackAndSound.second;
 						if(tSound!="" && tCritter->getSoundTimer()==0)
@@ -799,29 +808,47 @@ public:
 	}
 	void hitCritter(MagixCritter *critter, const Real &damage, const Vector3 &force, const OwnerToken &token=0, bool inRange=false)
 	{
-		if(!critter)return;
-		if(critter->getIsDead())return;
-		critter->addHP(damage);
+		if(!critter)
+		{
+			return;
+		}
+		
+		// again, grim check this could be isNeedRespawn (it's the same logic, you are unalived, you need a respawn)
+		if(critter->getIsDead())
+		{
+			return;
+		}
+		
+		critter->addHP((short)damage);
+
 		if(damage<0)
 		{
 			if(!critter->isInvulnerable())
 			{
-				if(inRange||isInRange(critter))
+				if (inRange || isInRange(critter))
 				{
-					mEffectsManager->createParticle(critter->getObjectNode(),"Hit1",0.25);
-					mSoundManager->playSound(SOUND_HIT,critter->getObjectNode());
+					mEffectsManager->createParticle(critter->getObjectNode(), "Hit1", 0.25);
+					mSoundManager->playSound(SOUND_HIT, critter->getObjectNode());
 				}
+
 				critter->addForce(force);
-				if(token!=0 && critter->imTheOwner())critter->setLastHitIndex(token);
-				if(critter->imTheOwner() && Math::UnitRandom()<0.5)critter->setDecisionTimer(critter->getDecisionTimer()*0.5);
+				if (token != 0 && critter->imTheOwner())
+				{
+					critter->setLastHitIndex(token);
+				}
+				
+				if (critter->imTheOwner() && Math::UnitRandom() < 0.5)
+				{
+					critter->setDecisionTimer(critter->getDecisionTimer() * (Real)0.5);
+				}
 			}
 		}
-		else if(damage>0)
+		else if (damage > 0)
 		{
-			if(inRange||isInRange(critter))
+			if (inRange || isInRange(critter))
 			{
-				mEffectsManager->createParticle(critter->getObjectNode(),"HealHit1",0.25);
-				mSoundManager->playSound(SOUND_HEALHIT,critter->getObjectNode());
+				mEffectsManager->createParticle(critter->getObjectNode(), "HealHit1", 0.25);
+				mSoundManager->playSound(SOUND_HEALHIT, critter->getObjectNode());
 			}
 		}
 	}
@@ -897,7 +924,9 @@ public:
 		ent->setQueryFlags(CRITTER_MASK);
 		MagixCritter *tC = new MagixCritter(node,iID,critter.type,ent);
 		tC->setAlliance(critter.friendly?ALLIANCE_FRIEND:ALLIANCE_ENEMY);
-		tC->setHP(critter.hp);
+		// C4244
+		// this should be "addhealth", in fact the whole health system needs out of there
+		tC->setHP((short)critter.hp);
 		tC->setAntiGravity(critter.flying);
 		tC->setOwnerIndex(owner);
 		tC->setTarget(position);
