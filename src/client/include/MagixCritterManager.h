@@ -1,6 +1,8 @@
+// two class in ones... WHY 
 #ifndef __MagixCritterManager_h_
 #define __MagixCritterManager_h_
 
+// this is about 424 lines and need to be out this file ASAP
 class MagixCritter : public MagixLiving
 {
 protected:
@@ -188,7 +190,7 @@ public:
 		}
 		if(targetPosition != mChaseTarget->getPosition())setTarget(mChaseTarget->getPosition()+(antiGravity?Vector3(0,12,0):Vector3::ZERO),false);
 		if(!hasAttack)return;
-		const Real tAttackRange = length<=55.55 ? 2500 : (length*length*0.81);
+		const Real tAttackRange = (Real)(length <= 55.55 ? 2500 : (length * length * 0.81));
 		if(!isAttacking() && mObjectNode->getPosition().squaredDistance(mChaseTarget->getPosition())<tAttackRange)isReadyToAttack = true;
 	}
 
@@ -204,31 +206,55 @@ public:
 
 			tDistance = Vector2(tX,tZ).squaredLength();
 		
-			if(tDistance>(maxSpeed/25))
+			if (tDistance > (maxSpeed / 25))
 			{
 				Radian tYaw = Degree(0);
-				if(tZ!=0)tYaw = Math::ATan(tX/tZ);
-				else tYaw = Degree(tX>=0?90:270);
-				if(tX<0)tYaw += Degree(360);
-				if(tZ<0)tYaw += Degree(180);
+				if (tZ != 0)
+				{
+					tYaw = Math::ATan(tX / tZ);
+				}
+				else
+				{
+					tYaw = Degree((Real)(tX >= 0 ? 90 : 270));
+				}
 
-				if(tYaw<Degree(0))tYaw += Degree(360);
-				if(tYaw>=Degree(360))tYaw -= Degree(360);
+				if(tX<0)
+				{
+					tYaw += Degree(360);
+				}
+				
+				if(tZ<0)
+				{
+					tYaw += Degree(180);
+				}
+
+				if(tYaw<Degree(0))
+				{
+					tYaw += Degree(360);
+				}
+				
+				if(tYaw>=Degree(360))
+				{
+					tYaw -= Degree(360);
+				}
 
 				Vector2 tVect = Vector2(0,0);
-				if(tYaw==Degree(0)||tYaw==Degree(180))
+				
+				if (tYaw == Degree(0) || tYaw == Degree(180))
 				{
-					tVect.y = 10 * (tYaw==Degree(180)?-1:1);
+					tVect.y = 10 * (tYaw == Degree(180) ? -1 : 1);
 				}
-				else if(tYaw==Degree(90)||tYaw==Degree(270))
+				else if (tYaw == Degree(90) || tYaw == Degree(270))
 				{
-					tVect.x = 10 * (tYaw==Degree(270)?-1:1);
+					// this case required a cast but not its main ?
+					tVect.x = 10 * (Real)(tYaw == Degree(270) ? -1 : 1);
 				}
 				else
 				{
 					tVect.y = 10 * Math::Cos(tYaw);
 					tVect.x = 10 * Math::Sin(tYaw);
 				}
+
 				addForce(Vector3(tVect.x*evt.timeSinceLastFrame,0,tVect.y*evt.timeSinceLastFrame));
 			}
 			else if(tDistance>0)
@@ -256,6 +282,7 @@ public:
 			}
 		}
 	}
+
 	void updateDeath(const FrameEvent &evt, bool &killedFlag, bool &decomposedFlag)
 	{
 		if(!isDead)
@@ -280,6 +307,7 @@ public:
 		}
 		if(isDecomposing)setFullColour(ColourValue(1,0.95,0.75,decisionTimer*0.5));
 	}
+
 	void setFullColour(const ColourValue &fullColour)
 	{
 		mEnt->setMaterialName("FullModColour");
@@ -302,6 +330,7 @@ public:
 		}
 		#pragma warning(pop)
 	}
+
 	void kill()
 	{
 		hp = 0;
@@ -310,6 +339,7 @@ public:
 		if(antiGravity)antiGravity = false;
 		if(hasAttack)attackHasEnded = true;
 	}
+	
 	void setTarget(const Vector3 &position, bool clearChaseTarget=true)
 	{
 		if(clearChaseTarget)
@@ -332,6 +362,7 @@ public:
 			setYaw(Degree(tYaw));
 		}
 	}
+	
 	void setTarget(MagixObject *target, const unsigned char &attID=0)
 	{
 		mChaseTarget = target;
@@ -339,122 +370,159 @@ public:
 		attackID = attID;
 		updateChase();
 	}
+	
 	const Vector3 getTarget()
 	{
 		return targetPosition;
 	}
+	
 	void setDecisionTimer(const Real &value)
 	{
 		decisionTimer = value;
 	}
+	
 	const Real getDecisionTimer()
 	{
 		return decisionTimer;
 	}
+	
 	bool getIsDead()
 	{
 		return isDead;
 	}
+	
 	void setRoamArea(bool flag)
 	{
 		hasRoamArea = flag;
 	}
+	
 	bool getRoamArea()
 	{
 		return hasRoamArea;
 	}
+	
 	void setRoamAreaID(const unsigned char &iID)
 	{
 		roamAreaID = iID;
 	}
+	
 	const unsigned char getRoamAreaID()
 	{
 		return roamAreaID;
 	}
+	
 	void setWorldCritterID(const unsigned char &iID)
 	{
 		worldCritterID = iID;
 		isWorldCritter = true;
 	}
+	
 	bool getIsWorldCritter()
 	{
 		return isWorldCritter;
 	}
+	
 	const unsigned char getWorldCritterID()
 	{
 		return worldCritterID;
 	}
+	
 	const Vector3 getPosition(bool headPosition=false)
 	{
 		if(!mObjectNode)return Vector3::ZERO;
 		return (mObjectNode->getPosition() + (headPosition?Vector3(0,height*0.5,0):Vector3::ZERO));
 	}
+	
 	const Real getHeight()
 	{
 		return height;
 	}
+	
 	const Real getLength()
 	{
 		return length;
 	}
+
+	// sus to have this & owner ship separated ?
 	void resetSize()
 	{
 		height = 0;
 		length = 0;
 	}
+	
 	void setIsPet(bool flag)
 	{
 		isPet = flag;
-		if(flag)alliance = ALLIANCE_FRIEND;
+		if(flag)
+		{
+			alliance = ALLIANCE_FRIEND;
+		}
 	}
+	
 	bool getIsPet()
 	{
 		return isPet;
 	}
+	
 	void setHasAttack(bool flag)
 	{
 		hasAttack = flag;
 	}
+
 	bool getHasAttack()
 	{
 		return hasAttack;
 	}
+
 	bool popAttackHasEnded()
 	{
 		const bool tFlag = attackHasEnded;
 		attackHasEnded = false;
+
 		return tFlag;
 	}
+
 	bool popIsReadyToAttack()
 	{
 		const bool tFlag = isReadyToAttack;
 		isReadyToAttack = false;
+
 		return tFlag;
 	}
+
 	const unsigned char getAttackID()
 	{
 		return attackID;
 	}
+
 	void setStopChaseLimit(const Real &y)
 	{
 		stopChaseLimit = y;
 	}
+
+	// if it's a magix object why not make it in MagixObject then and pull that ? OH WAIT :D
+	// joking aside, function name need to be GetObjectChaseTarget maybe also a potential 
+	// check of caller ?
 	MagixObject* getChaseTarget()
 	{
 		return mChaseTarget;
 	}
+
 	void setSoundTimer(const Real &timer)
 	{
 		soundTimer = timer;
 	}
+
 	const Real getSoundTimer()
 	{
 		return soundTimer;
 	}
+
 	void setIsDrawPoint(bool flag)
 	{
 		isDrawPoint = flag;
 	}
+	
 	bool getIsDrawPoint()
 	{
 		return isDrawPoint;
