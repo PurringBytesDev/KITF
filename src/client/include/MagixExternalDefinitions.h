@@ -93,46 +93,8 @@ public:
 	void initialize();
 	void initializeCapabilities(const RenderSystemCapabilities* capabilities);
 
-	void loadUnitMeshes(const String& filename)
-	{
-		maxHeads = GMAXHEADS;
-		for (int i = 1; i <= maxHeads; i++)
-		{
-			headMesh.push_back("Head" + StringConverter::toString(i));
-		}
-
-		maxManes = GMAXMANES;
-		maneMesh.push_back("Maneless");
-		for (int i = 2; i <= maxManes; i++)
-		{
-			maneMesh.push_back("Mane" + StringConverter::toString(i));
-		}
-
-		maxTails = GMAXTAILS;
-		for (int i = 1; i <= maxTails; i++)
-		{
-			tailMesh.push_back("Tail" + StringConverter::toString(i));
-		}
-
-		maxWings = GMAXWINGS;
-		wingMesh.push_back("Wingless");
-		wingMesh.push_back("Wings");
-		for (int i = 2; i < maxWings; i++)
-		{
-			wingMesh.push_back("Wings" + StringConverter::toString(i));
-		}
-
-		maxTufts = GMAXTUFTS;
-		tuftMesh.push_back("Tuftless");
-		for (int i = 1; i < maxTufts; i++)
-		{
-			tuftMesh.push_back("Tuft" + StringConverter::toString(i));
-		}
-		
-		maxBodyMarks = GMAXBODYMARKS;
-		maxHeadMarks = GMAXHEADMARKS;
-		maxTailMarks = GMAXTAILMARKS;
-	}
+	// a decision has to be taken, this is either a setting / configs loader OR a mesh / assets loader
+	void loadUnitMeshes(const String& filename);
 
 	void loadUnitEmotes(const String& filename)
 	{
@@ -177,20 +139,25 @@ public:
 			}
 		}
 	}
-
+	// this is char manager only
 	bool isRestricted(const short& headID, const short& maneID)
 	{
 		if(headID == 0 || headID == 4)
 		{
-			if(maneID == 2 || maneID == 4 || maneID == 7 || maneID == 8 || maneID == 9 || maneID == 10 || maneID == 14 || maneID == 15 || maneID == 16 || maneID == 17 || maneID == 18 || maneID == 19 || maneID == 20 || maneID == 21 || maneID == 22 || maneID == 23 || maneID == 24)return true;
+			if(maneID == 2 || maneID == 4 || maneID == 7 || maneID == 8 || maneID == 9 || maneID == 10 || maneID == 14 || maneID == 15 || maneID == 16 || maneID == 17 || maneID == 18 || maneID == 19 || maneID == 20 || maneID == 21 || maneID == 22 || maneID == 23 || maneID == 24)
+			{
+				return true;
+			}
 		}
 		else if(headID == 1 || headID == 2 || headID == 3 || headID == 5)
 		{
-			if(maneID == 1 || maneID == 3 || maneID == 5 || maneID == 6 || maneID == 11 || maneID == 12 || maneID == 13 || maneID == 21 || maneID == 23)return true;
+			if(maneID == 1 || maneID == 3 || maneID == 5 || maneID == 6 || maneID == 11 || maneID == 12 || maneID == 13 || maneID == 21 || maneID == 23)
+			{
+				return true;
+			}
 		}
+
 		return false;
-
-
 	}
 
 	bool isRestrictedTuft(const short& tuftID)
@@ -968,6 +935,7 @@ public:
 
 		outFile.close();
 	}
+
 	const vector<String>::type loadFriendList(bool isBlockList = false)
 	{
 		long tSize = 0;
@@ -1005,6 +973,7 @@ public:
 	{
 		return loadFriendList(true);
 	}
+
 	void editFriendList(const String& name, bool add, bool isBlockList = false)
 	{
 		vector<String>::type tFriendList = loadFriendList(isBlockList);
@@ -1259,18 +1228,34 @@ public:
 			if(itemMesh[i] == meshName && (int)itemHasOffset.size() > i)return itemHasOffset[i];
 		return false;
 	}
+
 	const bool getItemHasAltAnim(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if(itemMesh[i] == meshName && (int)itemHasAltAnim.size() > i)return itemHasAltAnim[i];
+		{
+			if (itemMesh[i] == meshName && (int)itemHasAltAnim.size() > i)
+			{
+				return itemHasAltAnim[i];
+			}
+		}
+
 		return false;
 	}
+
+	// items functions should be magix object 
 	const String getItemParticle(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
-			if(itemMesh[i] == meshName && (int)itemParticle.size() > i)return itemParticle[i];
+		{
+			if (itemMesh[i] == meshName && (int)itemParticle.size() > i)
+			{
+				return itemParticle[i];
+			}
+		}
+
 		return "";
 	}
+
 	const std::pair<Vector3, bool> getItemParticleOffset(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
@@ -1324,6 +1309,8 @@ public:
 			hotkeyF[7] = "Tongue";
 		}
 	}
+
+	// so this is more and more like a MasterSettings than External Definitions
 	const void saveHotkeys(const String& filename)
 	{
 		std::ofstream outFile;
@@ -1384,6 +1371,10 @@ public:
 	{
 		return (id < maxTailMarks);
 	}
+
+	///
+	/// The function unders are going to move they should not be there
+	/// 
 
 	// this is a .. maybe, and by maybe i mean a "customizable central folder" not separated everywhere
 	void loadWeatherCycle(const String& type, vector<WeatherEvent>::type& list, bool isCustom = false)
@@ -1579,6 +1570,7 @@ public:
 			_unlink(tFilename.c_str());
 		}
 	}
+
 	const Attack getAttack(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
@@ -1921,6 +1913,7 @@ public:
 		_unlink(tFilename.c_str());
 		return false;
 	}
+
 	bool loadCustomCritterSpawnList(const String& filename, unsigned short& limit, vector<WorldCritter>::type& list, vector<std::pair<Vector3, Vector3>>::type& roamArea)
 	{
 		long tSize = 0;
