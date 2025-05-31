@@ -487,7 +487,10 @@ public:
 		bool tProgressChanged = false;
 		for(int i=0;i<(int)cEvent.size();i++)
 		{
-			if(compare(cEvent[i].first,"World_Load"))mWorld->loadWorld(cEvent[i].second);
+			if(compare(cEvent[i].first,"World_Load"))
+			{
+				mWorld->loadWorld(cEvent[i].second);
+			}
 			else if(compare(cEvent[i].first,"World_DestroyAllPortals"))
 			{
 				mCollisionManager->destroyAllPortals();

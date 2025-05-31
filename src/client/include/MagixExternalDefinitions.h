@@ -7,6 +7,7 @@
 #include <OgreException.h>
 #include "Ogre.h"
 #include "MagixStructs.h"
+#include "MagixUtils.h"
 
 // if aint used then can be removed ?
 //using namespace std;
@@ -25,6 +26,8 @@ protected:
 	String lastBioName;
 	String hotkeyF[MAX_HOTKEYF];
 public:
+	// new
+	KITF_Utils::MagixUtils mMagixUtils;
 	bool isAdmin;
 	bool isMod;
 	bool isModOn;
@@ -63,7 +66,7 @@ public:
 	vector<bool>::type itemParticleOnNode;
 	vector<Attack>::type attackList;
 	vector<Critter>::type critterList;
-
+	
 	MagixExternalDefinitions()
 	{
 		lastBioName = "";
@@ -115,7 +118,7 @@ public:
 			return;
 		}
 		inFile.seekg(0, std::ios::end);
-		tSize = inFile.tellg();
+		tSize = (long)inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
 		tBuffer = new char[tSize];
 		strcpy(tBuffer, "");
@@ -139,6 +142,11 @@ public:
 			}
 		}
 	}
+
+	///
+	/// Utilities to move out
+	/// 
+	
 	// this is char manager only
 	bool isRestricted(const short& headID, const short& maneID)
 	{
@@ -162,10 +170,40 @@ public:
 
 	bool isRestrictedTuft(const short& tuftID)
 	{
-		if(tuftID == 8)return true;
+		if(tuftID == 8)
+		{
+			return true;
+		}
+
 		return false;
 	}
 
+	// this is ingame logic it should be separate
+	void decrypt(String& input)
+	{
+		for (int i = 0; i < (int)input.length(); i++)
+		{
+			input[i] = input[i] - 10;
+		}
+	}
+
+	void encrypt(String& input)
+	{
+		for (int i = 0; i < (int)input.length(); i++)
+		{
+			input[i] = input[i] + 10;
+		}
+	}
+
+	const String getMapName(const String& name)
+	{
+		const vector<String>::type tMapName = StringUtil::split(name, ";", 1);
+		return (tMapName.size() > 0 ? tMapName[0] : name);
+	}
+	/// <summary>
+	/// end of Utilities
+	/// </summary>
+	
 	void loadSettings(bool& isTablet, Real& mouseSensitivity, Real& musicVol, Real& guiVol, Real& soundVol, bool& isShadowsOn, bool& isBloom, String& username, bool& generalCharname, bool& localUsername, bool& channelBlink, bool& runMode, bool& doubleJumpOn, bool& autoLipSync, bool& useWindowsCursor)
 	{
 		long tSize = 0;
@@ -177,7 +215,7 @@ public:
 		if(inFile.good())
 		{
 			inFile.seekg(0, std::ios::end);
-			tSize = inFile.tellg();
+			tSize = (long)inFile.tellg();
 			inFile.seekg(0, std::ios::beg);
 			tBuffer = new char[tSize];
 			strcpy(tBuffer, "");
@@ -274,7 +312,7 @@ public:
 		{
 			std::ofstream outFile;
 			outFile.open("Settings2.dat", std::ios_base::binary);
-			const String tBuffer = XOR7(password) + "\n";
+			const String tBuffer = mMagixUtils.XOR7(password) + "\n";
 			outFile.write(tBuffer.c_str(), (int)tBuffer.length());
 			outFile.close();
 		}
@@ -292,7 +330,7 @@ public:
 			tPassword = tBuffer;
 		}
 		inFile.close();
-		return XOR7(tPassword);
+		return mMagixUtils.XOR7(tPassword);
 	}
 	void saveBanFile(bool flag, const unsigned short& numDays = 0)
 	{
@@ -318,9 +356,9 @@ public:
 
 			std::ofstream outFile;
 			outFile.open("Settings3.dat", std::ios_base::binary);
-			String tBuffer = XOR7("Bannage") + "\n";
+			String tBuffer = mMagixUtils.XOR7("Bannage") + "\n";
 			outFile.write(tBuffer.c_str(), (int)tBuffer.length());
-			tBuffer = XOR7(tDate) + "\n";
+			tBuffer = mMagixUtils.XOR7(tDate) + "\n";
 			outFile.write(tBuffer.c_str(), (int)tBuffer.length());
 			outFile.close();
 		}
@@ -337,11 +375,11 @@ public:
 			char tBuffer[16] = "";
 			inFile.getline(tBuffer, 16);
 			tPassword = tBuffer;
-			tPassword = XOR7(tPassword);
+			tPassword = mMagixUtils.XOR7(tPassword);
 			strcpy_s(tBuffer, 16, "");
 			inFile.getline(tBuffer, 16);
 			tDate = tBuffer;
-			tDate = XOR7(tDate);
+			tDate = mMagixUtils.XOR7(tDate);
 		}
 		inFile.close();
 		if(tPassword != "Bannage")return false;
@@ -369,242 +407,7 @@ public:
 		return true;
 	}
 	
-	///
-	/// ROT 13 replacement
-	/// 
 	
-	// this take input and throws out a rot13 key, only chars in A-Z and a-z are parsed the rest stays normal
-	const String ROT13(const std::string& input)
-	{
-		String output = "";
-
-		String key = ROTKEY;
-		int keysize = key.size();
-		
-		// this should happen like never.		
-		//if(keyLen == 0) return input; // no key means no change
-		for (size_t i = 0; i < input.size(); ++i) {
-			char tC = input[i];
-
-			// Get key char at position modulo key length
-			char keyChar = ROTKEY[i % keysize];
-
-			// Compute shift amount as 0-based letter index if letter, else zero
-			int shift = 0;
-			if((keyChar >= 'a' && keyChar <= 'z')) shift = keyChar - 'a';
-			else if((keyChar >= 'A' && keyChar <= 'Z')) shift = keyChar - 'A';
-
-			// Apply shift only to letters
-			if(tC >= 'a' && tC <= 'z') {
-				tC = 'a' + (tC - 'a' + shift) % 26;
-			}
-			else if(tC >= 'A' && tC <= 'Z') {
-				tC = 'A' + (tC - 'A' + shift) % 26;
-			}
-			// else keep tC unchanged for non-letters
-
-			// Keep printable range only (32..126), else revert to original input char
-			if(tC < 32 || tC > 126) {
-				tC = input[i];
-			}
-
-			output += tC;
-		}
-
-		return output;
-	}
-	// this generate but do not decipher, for deciphering, have a tool external to game
-	// warning : you are responsible for your cfg backups, do not distribute them.
-	bool ROT13CipherGen(const String& inputIO, const std::string& outputIO) {
-		std::ifstream inFile(inputIO.c_str());
-
-		// input file not found or can't be opened, this need logging
-		if(!inFile.is_open()) {
-			return false; 
-		}
-
-		std::vector<String> buffer;
-		std::string line;
-
-		// Read input file line by line
-		while (std::getline(inFile, line)) {
-			buffer.push_back(ROT13(line));
-		}
-		inFile.close();
-
-		// Write ciphered lines to output file
-		std::ofstream outFile(outputIO);
-		if(!outFile.is_open()) {
-			return false; // output file can't be opened for writing
-		}
-
-		for (const auto& cipheredLine : buffer) {
-			outFile << cipheredLine << "\n";
-		}
-		outFile.close();
-
-		return true; // success
-	}
-	// this is similar to how XORInternal works
-	vector<String>::type ROT13Decipher(const String& inFile)
-	{
-		vector<String>::type buffer;
-
-		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
-
-		if(stream.isNull())
-		{
-			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND,
-				"Cannot locate file " + inFile + " for ROT13 decipher.",
-				"ROT13Decipher");
-		}
-
-		while (!stream->eof())
-		{
-			String line = stream->getLine(false); // false = do not trim
-			if(line.empty() && stream->eof()) // to avoid processing last empty line after EOF
-				break;
-
-			// Apply ROT13 to decipher line
-			String decipheredLine = ROT13(line);
-
-			buffer.push_back(decipheredLine);
-		}
-
-		return buffer;
-	}
-	///
-	/// END of ROT 13 functions
-	/// 
-	// let temporary but gona be replaced with a rot13 soon.
-	// this probably derivate from some askme or stackoverflow and must therefore be
-	// rewritten.
-	vector<String>::type XORInternal(const String inFile, bool preChecksum = false)
-	{
-		String line = "", prevline;
-		vector<String>::type tBuffer;
-		unsigned long tChecksum = 0;
-		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
-
-		if(!stream.isNull())
-		{
-			int i = 0;
-			while (!stream->eof())
-			{
-				prevline = line;
-				line = stream->getLine(false);
-				if(stream->eof())
-					break;
-				prevline = XOR7(prevline, &tChecksum, preChecksum);
-
-				if(i > 1)
-					tBuffer.push_back(prevline);
-				i++;
-			}
-			tBuffer.pop_back();
-			const bool tChecksumRight = (tChecksum == StringConverter::parseLong(XOR7(prevline)));
-			if(!tChecksumRight)
-				throw(Exception(9, "Corrupted Data File", inFile + ", Please reencode or ."));
-			tBuffer.pop_back();
-
-			return tBuffer;
-		}
-		OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Cannot locate file " +
-			inFile + " required for game.", "MagixExternalDefinitions.h");
-	}
-	const String XOR7(const String& input, unsigned long* checksum = 0, bool preChecksum = false)
-	{
-		String output = "";
-		for (int i = 0; i < (int)input.length(); i++)
-		{
-			char tC = input[i];
-			if(checksum && preChecksum)*checksum += (unsigned long)tC;
-			tC ^= XORKEY;//3*(i%7)+24; // 7*(i%7+1)
-			//Replace illegal characters with original character
-			if(tC > char(126) || tC<char(32))tC = input[i];
-			output += tC;
-			if(checksum && !preChecksum)*checksum += (unsigned long)tC;
-		}
-		return output;
-	}
-	bool XOR7FileGen(const String& infile, const String& outfile, bool decrypt, bool checksum = false)
-	{
-		vector<String>::type tBuffer;
-		unsigned long tChecksum = 0;
-		std::ifstream inFile;
-		inFile.open(infile.c_str(), (decrypt ? std::ios_base::binary : std::ifstream::in));
-		if(!inFile.good())return false;
-		while (inFile.good() && !inFile.eof())
-		{
-			char tLine[512] = "";
-			inFile.getline(tLine, 512);
-			tBuffer.push_back(tLine);
-		}
-		tBuffer.pop_back();
-		inFile.close();
-
-		std::ofstream outFile(outfile.c_str(), (decrypt ? std::ofstream::out : std::ios_base::binary));
-		for (int i = 0; i < (int)tBuffer.size() - (decrypt && checksum ? 1 : 0); i++)
-		{
-			const String tLine = XOR7(tBuffer[i].c_str(), (checksum ? &tChecksum : 0), !decrypt) + "\n";
-			outFile.write(tLine.c_str(), (int)tLine.length());
-		}
-		if(!decrypt && checksum && tBuffer.size() > 0)
-		{
-			const String tLine = XOR7(StringConverter::toString(tChecksum)) + "\n";
-			outFile.write(tLine.c_str(), (int)tLine.length());
-		}
-		outFile.close();
-
-		if(decrypt && checksum)
-		{
-			const bool tChecksumRight = tBuffer.size() > 0 ? (tChecksum == StringConverter::parseLong(XOR7(tBuffer[tBuffer.size() - 1]).c_str())) : false;
-			if(!tChecksumRight)_unlink(outfile.c_str());
-			return tChecksumRight;
-		}
-		return true;
-	}
-
-	bool loadWorld(const String& filename, String& terrain, Real& x, Real& z, Vector3& spawnSquare, Vector2& worldBounds)
-	{
-		long tSize = 0;
-		char* tBuffer;
-		String tData = "";
-
-		std::ifstream inFile;
-		inFile.open(filename.c_str(), std::ifstream::in);
-		if(inFile.good())
-		{
-			inFile.seekg(0, std::ios::end);
-			tSize = inFile.tellg();
-			inFile.seekg(0, std::ios::beg);
-			tBuffer = new char[tSize];
-			strcpy(tBuffer, "");
-			inFile.getline(tBuffer, tSize, '#');
-			inFile.close();
-			tData = tBuffer;
-			delete[] tBuffer;
-		}
-
-		const vector<String>::type tPart = StringUtil::split(tData, "[#");
-		for (int i = 0; i<int(tPart.size()); i++)
-		{
-			const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 6);
-			if(tLine.size() > 0)
-			{
-				if(StringUtil::startsWith(tLine[0], "Initialize", false) && tLine.size() >= 5)
-				{
-					terrain = tLine[1];
-					x = StringConverter::parseReal(tLine[2]);
-					z = StringConverter::parseReal(tLine[3]);
-					spawnSquare = StringConverter::parseVector3(tLine[4]);
-					if(tLine.size() > 5)worldBounds = StringConverter::parseVector2(tLine[5]);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	const String loadWorldObjects(const String& filename)
 	{
@@ -629,6 +432,8 @@ public:
 
 		return tData;
 	}
+
+	// to be moved to campaign then ? is really called in MagixGUI this loads an array ?
 	void loadCampaignList(vector<String>::type& list, bool customCampaigns = false)
 	{
 		long tSize = 0;
@@ -665,6 +470,9 @@ public:
 		}
 		if(!customCampaigns)loadCampaignList(list, true);
 	}
+
+	// this could be an util but ... do we want it here anyway ? if the top one can be magixgui called
+	// anyway this need to be more accurate : LoadCampaignConfig
 	bool loadCampaign(const String& name, CampaignEventList& data, String& fileName, bool customCampaigns = false)
 	{
 		long tSize = 0;
@@ -673,10 +481,12 @@ public:
 
 		std::ifstream inFile;
 		inFile.open(customCampaigns ? "CustomCampaigns.cfg" : "Campaigns.cfg", std::ifstream::in);
+
 		if(!inFile.good())
 		{
 			return (customCampaigns ? false : loadCampaign(name, data, fileName, true));
 		}
+
 		inFile.seekg(0, std::ios::end);
 		tSize = inFile.tellg();
 		inFile.seekg(0, std::ios::beg);
@@ -706,6 +516,8 @@ public:
 		}
 		return (customCampaigns ? false : loadCampaign(name, data, fileName, true));
 	}
+
+	// clearly this one isnt a cfg reader
 	void loadCampaignScript(const String& filename, const vector<String>::type& nextEvent, CampaignEventList& data, const unsigned short& eventCount = 0, bool loadFirstSection = false)
 	{
 		long tSize = 0;
@@ -778,6 +590,8 @@ public:
 			data.push_back(tEvent);
 		}
 	}
+
+	// to campaign
 	bool loadCredits(const String& filename, vector<String>::type& credits)
 	{
 		long tSize = 0;
@@ -818,22 +632,7 @@ public:
 		return true;
 	}
 
-	// this is ingame logic it should be separate
-	void decrypt(String& input)
-	{
-		for (int i = 0; i < (int)input.length(); i++)
-		{
-			input[i] = input[i] - 10;
-		}
-	}
-	void encrypt(String& input)
-	{
-		for (int i = 0; i < (int)input.length(); i++)
-		{
-			input[i] = input[i] + 10;
-		}
-	}
-
+	// for once code that is for the utilities/logic (game logic here)
 	bool loadSavePoint(String& mapName, Vector2& point, unsigned char& dimension)
 	{
 		return loadHomePoint(mapName, point, dimension, true);
@@ -936,6 +735,7 @@ public:
 		outFile.close();
 	}
 
+	// TO GAME LOGIC !
 	const vector<String>::type loadFriendList(bool isBlockList = false)
 	{
 		long tSize = 0;
@@ -1093,6 +893,7 @@ public:
 	/// end of logic stuf to be separated
 	/// </summary>
 	/// <returns></returns>
+	
 	const String loadUpdateCaption()
 	{
 		long tSize = 0;
@@ -1114,6 +915,8 @@ public:
 
 		return tData;
 	}
+
+	// items functions should be magix object 
 	void loadItems(const String& filename, const bool decrypt)
 	{
 		maxItems = 0;
@@ -1129,7 +932,7 @@ public:
 
 		if(decrypt)
 		{
-			vector<String>::type stream = XORInternal(filename);
+			vector<String>::type stream = mMagixUtils.XORInternal(filename);
 			String line;
 
 			for (int i = 0; i < (int)stream.size(); i++)
@@ -1242,7 +1045,6 @@ public:
 		return false;
 	}
 
-	// items functions should be magix object 
 	const String getItemParticle(const String& meshName)
 	{
 		for (int i = 0; i < maxItems; i++)
@@ -1272,6 +1074,8 @@ public:
 			if(itemMesh[i] == meshName)return true;
 		return false;
 	}
+	
+	
 	void loadHotkeys(const String& filename)
 	{
 		long tSize = 0;
@@ -1335,16 +1139,30 @@ public:
 		if(key >= 0 && key < MAX_HOTKEYF)return hotkeyF[key];
 		return "";
 	}
+
+	// to game logic BUT an "utils" function ? IF used outside of chargen ? :D
 	bool hasManeMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)maneMesh.size(); i++)
-			if(maneMesh[i] == mesh)return true;
+		{
+			if (maneMesh[i] == mesh)
+			{
+				return true;
+			}
+		}
 		return false;
 	}
+
 	bool hasTailMesh(const String& mesh)
 	{
 		for (int i = 0; i < (int)tailMesh.size(); i++)
-			if(tailMesh[i] == mesh)return true;
+		{
+			if (tailMesh[i] == mesh)
+			{
+				return true;
+			}
+		}
+
 		return false;
 	}
 	bool hasWingMesh(const String& mesh)
@@ -1500,7 +1318,7 @@ public:
 		if(!isCustom)loadWeather(type, particle, offset, sound, true);
 	}
 
-	// again, gameplay stuff
+	// again, gameplay stuff but this one is settings
 	void loadAttacks(const String& filename, bool isCustom)
 	{
 		String tFilename = filename;
@@ -1514,11 +1332,12 @@ public:
 		else
 		{
 			tFilename = filename + ".cfg";
-			if(!XOR7FileGen(filename, tFilename, true, true))
+			if(!mMagixUtils.XOR7FileGen(filename, tFilename, true, true))
 				throw(Exception(9, "Corrupted Data File", filename + ", please run the autopatcher."));
 		}
 		ConfigFile cf;
 		cf.load(tFilename);
+
 		ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
 		while (seci.hasMoreElements())
@@ -1526,37 +1345,108 @@ public:
 			const String tSectionName = seci.peekNextKey();
 			ConfigFile::SettingsMultiMap* settings = seci.getNext();
 			ConfigFile::SettingsMultiMap::iterator i;
+
+			// our anim & fx config
 			Attack tAtk;
+
 			for (i = settings->begin(); i != settings->end(); ++i)
 			{
+				// get the trailFX_ 
 				if(StringUtil::startsWith(i->first, "trailfx"))
 				{
+					// split value character is comma the ","
 					const vector<String>::type tPart = StringUtil::split(i->second, ",", 1);
+
 					if(tPart.size() == 2)
 					{
+						// whats the tPart actually ? need to walk on that, breakpoint.
+						// educated guess : everything that is within trailfx ?
 						const unsigned short tFxID = StringConverter::parseInt(tPart[0]) - 1;
-						while ((int)tAtk.FX.size() < (tFxID + 1))tAtk.FX.push_back(AttackFX());
-						if(StringUtil::endsWith(i->first, "bone"))tAtk.FX[tFxID].bone = tPart[1];
-						else if(StringUtil::endsWith(i->first, "trailmat"))tAtk.FX[tFxID].trailMat = tPart[1];
-						else if(StringUtil::endsWith(i->first, "width"))tAtk.FX[tFxID].trailWidth = StringConverter::parseReal(tPart[1]);
-						else if(StringUtil::endsWith(i->first, "colour"))tAtk.FX[tFxID].colour = StringConverter::parseColourValue(tPart[1]);
-						else if(StringUtil::endsWith(i->first, "colourchange"))tAtk.FX[tFxID].colourChange = StringConverter::parseColourValue(tPart[1]);
-						else if(StringUtil::endsWith(i->first, "trailheadmat"))tAtk.FX[tFxID].trailHeadMat = tPart[1];
+
+						while ((int)tAtk.FX.size() < (tFxID + 1))
+						{
+							tAtk.FX.push_back(AttackFX());
+						}
+						
+						if(StringUtil::endsWith(i->first, "bone"))
+						{
+							tAtk.FX[tFxID].bone = tPart[1];
+						}
+						else if(StringUtil::endsWith(i->first, "trailmat"))
+						{
+							tAtk.FX[tFxID].trailMat = tPart[1];
+						}
+						else if(StringUtil::endsWith(i->first, "width"))
+						{
+							tAtk.FX[tFxID].trailWidth = StringConverter::parseReal(tPart[1]);
+						}
+						else if(StringUtil::endsWith(i->first, "colour"))
+						{
+							tAtk.FX[tFxID].colour = StringConverter::parseColourValue(tPart[1]);
+						}
+						else if(StringUtil::endsWith(i->first, "colourchange"))
+						{
+							tAtk.FX[tFxID].colourChange = StringConverter::parseColourValue(tPart[1]);
+						}
+						else if(StringUtil::endsWith(i->first, "trailheadmat"))
+						{
+							tAtk.FX[tFxID].trailHeadMat = tPart[1];
+						}
 					}
 				}
-				else if(StringUtil::startsWith(i->first, "anim"))tAtk.anim = i->second;
-				else if(StringUtil::startsWith(i->first, "range"))tAtk.range = StringConverter::parseReal(i->second);
-				else if(StringUtil::startsWith(i->first, "hitforce"))tAtk.hitForce = StringConverter::parseVector3(i->second);
-				else if(StringUtil::startsWith(i->first, "offset"))tAtk.offset = StringConverter::parseVector3(i->second);
-				else if(StringUtil::startsWith(i->first, "hpmin"))tAtk.hpMin = StringConverter::parseReal(i->second);
-				else if(StringUtil::startsWith(i->first, "hpmax"))tAtk.hpMax = StringConverter::parseReal(i->second);
-				else if(StringUtil::startsWith(i->first, "hitally"))tAtk.hitAlly = StringConverter::parseBool(i->second);
-				else if(StringUtil::startsWith(i->first, "autotarget"))tAtk.autoTarget = StringConverter::parseBool(i->second);
-				else if(StringUtil::startsWith(i->first, "singletarget"))tAtk.singleTarget = StringConverter::parseBool(i->second);
-				else if(StringUtil::startsWith(i->first, "moveforce"))tAtk.moveForce = StringConverter::parseVector3(i->second);
-				else if(StringUtil::startsWith(i->first, "speedmultiplier"))tAtk.speedMultiplier = StringConverter::parseReal(i->second);
-				else if(StringUtil::startsWith(i->first, "soundroar"))tAtk.soundRoar = StringConverter::parseBool(i->second);
-				else if(StringUtil::startsWith(i->first, "attackrange"))tAtk.attackRange = StringConverter::parseInt(i->second);
+				// weird its parsed here while its first parameter after name
+				else if(StringUtil::startsWith(i->first, "anim"))
+				{
+					tAtk.anim = i->second;
+				}
+				else if(StringUtil::startsWith(i->first, "range"))
+				{
+					tAtk.range = StringConverter::parseReal(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "hitforce"))
+				{
+					tAtk.hitForce = StringConverter::parseVector3(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "offset"))
+				{
+					tAtk.offset = StringConverter::parseVector3(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "hpmin"))
+				{
+					tAtk.hpMin = StringConverter::parseReal(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "hpmax"))
+				{
+					tAtk.hpMax = StringConverter::parseReal(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "hitally"))
+				{
+					tAtk.hitAlly = StringConverter::parseBool(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "autotarget"))
+				{
+					tAtk.autoTarget = StringConverter::parseBool(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "singletarget"))
+				{
+					tAtk.singleTarget = StringConverter::parseBool(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "moveforce"))
+				{
+					tAtk.moveForce = StringConverter::parseVector3(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "speedmultiplier"))
+				{
+					tAtk.speedMultiplier = StringConverter::parseReal(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "soundroar"))
+				{
+					tAtk.soundRoar = StringConverter::parseBool(i->second);
+				}
+				else if(StringUtil::startsWith(i->first, "attackrange"))
+				{
+					tAtk.attackRange = StringConverter::parseInt(i->second);
+				}
 			}
 			if(tSectionName != "")
 			{
@@ -1571,6 +1461,10 @@ public:
 		}
 	}
 
+	// unit manager & mgui use this (unit manager is player manager ??)
+	// use an array of attack that was built in loadattacks
+
+	// unit manager & mgui use this (unit manager is player manager ??)
 	const Attack getAttack(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
@@ -1582,6 +1476,8 @@ public:
 		}
 		return Attack();
 	}
+
+	// unit & player
 	const String getAttackAnim(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
@@ -1594,6 +1490,8 @@ public:
 
 		return "Attack1";
 	}
+
+	// is really for unity manager ?
 	bool isSkillTargetsAllies(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
@@ -1606,6 +1504,7 @@ public:
 
 		return false;
 	}
+
 	bool isSkillTargetsSelf(const String& name)
 	{
 		for (int i = 0; i < (int)attackList.size(); i++)
@@ -1619,8 +1518,7 @@ public:
 		return false;
 	}
 
-	// wip notes : this is gameplay, should also be out
-	// unsure of the fix but meh, ref is not on typecast
+	// wip notes : this is gameplay, BUT cd1.dat so this can stay but maybe reworked name etc
 	void loadCritters(const String &filename, bool isCustom)
 	{
 		String tFilename = filename;
@@ -1634,7 +1532,7 @@ public:
 		else
 		{
 			tFilename = filename + ".cfg";
-			if(!XOR7FileGen(filename, tFilename, true, true))
+			if(!mMagixUtils.XOR7FileGen(filename, tFilename, true, true))
 				throw(Exception(9, "XOR7FileGen unable to run. Corrupted Data File ?", filename + ", re-run the IT XOR tool if you are sure of your file."));
 		}
 		ConfigFile cf;
@@ -1847,6 +1745,7 @@ public:
 		return std::pair<CritterAttack, String>(CritterAttack(0, 0, Vector3::ZERO), "");
 	}
 
+	// settings
 	bool loadCritterSpawnList(const String& worldName,
 		unsigned short& limit,
 		vector<WorldCritter>::type& list,
@@ -1866,10 +1765,11 @@ public:
 		if(loadCustomCritterSpawnList("media/terrains/" + worldName + "/" + customFilename, limit, list, roamArea))return true;
 		return false;
 	}
+
 	bool loadCritterSpawnListFile(const String& filename, const String& worldName, unsigned short& limit, vector<WorldCritter>::type& list, vector<std::pair<Vector3, Vector3>>::type& roamArea)
 	{
 		const String tFilename = filename + ".cfg";
-		if(!XOR7FileGen(filename, tFilename, true, true))return false;
+		if(!mMagixUtils.XOR7FileGen(filename, tFilename, true, true))return false;
 		ConfigFile cf;
 		cf.load(tFilename);
 		ConfigFile::SectionIterator seci = cf.getSectionIterator();
@@ -2007,11 +1907,7 @@ public:
 
 		return tIP;
 	}
-	const String getMapName(const String& name)
-	{
-		const vector<String>::type tMapName = StringUtil::split(name, ";", 1);
-		return (tMapName.size() > 0 ? tMapName[0] : name);
-	}
+
 };
 
 #endif

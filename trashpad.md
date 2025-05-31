@@ -396,3 +396,85 @@ void deleteChar(short iID)
 	refreshPage();
 }*/
 ---
+from machix char screen function loadNumChars
+---
+/*short loadNumChars()
+{
+	using namespace std;
+
+	short tNumChars = 0;
+	ifstream inFile;
+	inFile.open(FILENAME_CHARACTERS, ifstream::in);
+	while(inFile.good() && !inFile.eof())
+	{
+		char tBuffer[1024];
+		inFile.getline(tBuffer,1024);
+		tNumChars += 1;
+	}
+	inFile.close();
+
+	return tNumChars;
+}*/
+/*void loadChar(short iID)
+{
+	using namespace std;
+
+	char tBuffer[1024]="";
+	short tNumChars = -1;
+	ifstream inFile;
+	inFile.open(FILENAME_CHARACTERS, ifstream::in);
+
+	if(!inFile.good())mAlertBox->showAlert("Click here to create\na new character",0.70,0.85,5);
+
+	while(inFile.good() && !inFile.eof() && tNumChars<iID)
+	{
+		strcpy(tBuffer,"");
+		inFile.getline(tBuffer,1024);
+		tNumChars += 1;
+	}
+	inFile.close();
+
+	String tData = tBuffer;
+	decrypt(tData);
+
+	vector<String>::type tString = StringUtil::split(tData,"|\n",2);
+	//Loaded successfully
+	if(tString.size()>0)
+	{
+		vector<String>::type tParam = StringUtil::split(tString[0],";");
+		if(tParam.size()==7 || tParam.size()==8)
+		{
+			setName(tParam[0]);
+			mUnit->createUnit(1,mSceneMgr,tParam[1],tParam[2],tParam[3],tParam[4],tParam[5],tParam[6]);
+			if(tParam.size()==8)
+			{
+				const float tScale = StringConverter::parseReal(tParam[7]);
+				if(tScale>0 && tScale<10)mUnit->getObjectNode()->setScale(tScale,tScale,tScale);
+			}
+			if(tParam[6]=="CustomMat" && tString.size()==2)mUnit->setColours(tString[1]);
+			const Real tDist = (mUnit->getObjectNode()->getScale().x-1)*-11;
+			mUnit->setPosition(3215 - (tDist<0?tDist:0)*0.6, 113 + (tDist<0?tDist:0), 2750 + (tDist<0?tDist:0)*0.6);
+			mUnit->resetTarget();
+			mUnit->setGroundHeight(113 + (tDist<0?tDist:0));
+			mUnit->yaw(Degree(-80));
+			mUnit->getObjectNode()->yaw(Degree(-80));
+			mUnit->setFreeLook(false,false);
+			mUnit->update(FrameEvent(),mDef);
+
+			return;
+		}
+		//bad data, delete it
+		if(iID<(loadNumChars()-1))deleteChar(iID);
+	}
+	//no data
+	setName("");
+	mUnit->destroyUnit(mSceneMgr);
+}*/
+---
+from magix world in loadworld
+---
+//if(!mDef->loadWorld(name,tTerrain,worldSize.x,worldSize.y,spawnSquare,tGrassMat,tGrassMap,tGrassColourMap,tTree1,tTree2,tTree3,tTreeCount,tBush1,tBush2,tBush3))return;
+---
+from magix world in the middle of loadWorld
+---
+//mDef->processObjects("media/terrains/"+worldName+"/"+worldName+".world");

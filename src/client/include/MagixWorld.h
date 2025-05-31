@@ -12,6 +12,8 @@ using namespace Ogre;
 #include "TreeLoader3D.h"
 #include "HeightFunction.h"
 
+
+
 using namespace Forests;
 
 #define MAX_LIGHTS 3
@@ -21,6 +23,7 @@ class MagixWorld
 protected:
 	// no include but its almost the same, criminal use of classes like that
 	MagixExternalDefinitions *mDef;
+	KITF_Utils::MagixUtils *mUtils;
 	MagixGameStateManager *mGameStateManager;
 	MagixSoundManager *mSoundManager;
 	MagixCollisionManager *mCollisionManager;
@@ -56,6 +59,7 @@ public:
 	MagixWorld()
 	{
 		mDef = 0;
+		mUtils = 0;
 		mGameStateManager = 0;
 		mSoundManager = 0;
 		mCollisionManager = 0;
@@ -194,19 +198,31 @@ public:
 	}
 	void loadWorld(const String &name)
 	{
-		String tTerrain="",tGrassMat="",tGrassMap="",tGrassColourMap="",tTree1="",tTree2="",tTree3="",tBush1="",tBush2="",tBush3="";
+		String tTerrain = "", tGrassMat = "", tGrassMap = "", tGrassColourMap = "", tTree1 = "", tTree2 = "", tTree3 = "", tBush1 = "", tBush2 = "", tBush3 = "";
+
 		unsigned short tTreeCount;
+		
 		vector<std::pair<String, bool>>::type tTreesFilename,tBushesFilename,tFloatingBushesFilename;
+		
 		String tCritterSpawnFilename = "";
+		
 		tTreesFilename.clear();
 		tBushesFilename.clear();
 		tFloatingBushesFilename.clear();
-		//if(!mDef->loadWorld(name,tTerrain,worldSize.x,worldSize.y,spawnSquare,tGrassMat,tGrassMap,tGrassColourMap,tTree1,tTree2,tTree3,tTreeCount,tBush1,tBush2,tBush3))return;
 		
 		worldBounds = Vector2(50,50);
-		if(!mDef->loadWorld("media/terrains/"+name+"/"+name+".world",tTerrain,worldSize.x,worldSize.y,spawnSquare,worldBounds))return;
+		
+		// is now in an util file
+		if (!mUtils->loadWorldFile("media/terrains/" + name + "/" + name + ".world", tTerrain, worldSize.x, worldSize.y, spawnSquare, worldBounds))
+		{
+			return;
+		}
 
-		if(worldName!="")unloadWorld();
+		if(worldName!="")
+		{
+			unloadWorld();
+		}
+
 		worldName = name;
 
 		Camera *camera = mSceneMgr->getCamera("PlayerCam");
@@ -215,10 +231,15 @@ public:
 			mDef->pagedGeometryForced = false;
 			mDef->pagedGeometryOn = false;
 		}
+		// terrain to be soon replaced
 		mSceneMgr->setWorldGeometry(tTerrain);
+
+		// sky
 		mSkyManager->setWeatherCycle("Rain");
 		mSkyManager->setInteriorSky(false);
 		mSkyManager->freezeDayTime(false);
+
+		// critters
 		critterSpawnList.clear();
 		critterRoamAreaList.clear();
 		critterSpawnLimit = 0;
@@ -229,9 +250,11 @@ public:
 			mSoundManager->setRandomPlaylist(true);
 		}
 
-		//mDef->processObjects("media/terrains/"+worldName+"/"+worldName+".world");
+		
 
 		//load misc objects
+		// this can be given to a function that DoMapObjects(String worldName)
+		// this mean a MagixWorld::Utils is needed (and therefore remove the function from magix utils)
 		MovableObject::setDefaultQueryFlags(WORLDOBJECT_MASK);
 		const String tBuffer = mDef->loadWorldObjects("media/terrains/"+worldName+"/"+worldName+".world") +
 								mDef->loadWorldObjects("media/terrains/"+worldName+"/CustomPortals.txt");
@@ -439,10 +462,10 @@ public:
 			if(tSize<=5000)critterSpawnLimit = 1;
 			else if(tSize<=8000)critterSpawnLimit = 2;
 		}
-
-		//if(!mDef->hasVertexProgram)return;
+		// vegetation 1
 
 		HeightFunction::initialize(mSceneMgr);
+
 		if(tGrassMat!="")
 		{
 			//-------------------------------------- LOAD GRASS --------------------------------------
@@ -490,7 +513,7 @@ public:
 			//to the same boundaries as the terrain.
 			l->setMapBounds(TBounds(0, 0, worldSize.x, worldSize.y));
 		}
-
+		// vegetation 2 
 		if(!mDef->pagedGeometryOn)initializeStaticGeometry();
 
 		if(tTreesFilename.size()>0||tTree1!=""||tTree2!=""||tTree3!="")
@@ -904,7 +927,11 @@ public:
 				}
 			}
 		}
-		if(!mDef->pagedGeometryOn)buildStaticGeometry();
+		
+		if(!mDef->pagedGeometryOn)
+		{
+			buildStaticGeometry();
+		}
 	}
 	void unloadWorld()
 	{

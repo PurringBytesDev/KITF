@@ -12,7 +12,7 @@ void MagixExternalDefinitions::initialize()
 	critterList.clear();
 	loadCritters("cd1.dat", false);
 	loadCritters("CustomCritters.cfg", true);
-	if (!XOR7FileGen("cd2.dat", "cd2.cfg", true, true))
+	if (!mMagixUtils.XOR7FileGen("cd2.dat", "cd2.cfg", true, true))
 		throw(Exception(9, "Corrupted Data File", "cd2.dat, please run the autopatcher."));
 	else _unlink("cd2.cfg");
 }
