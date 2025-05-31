@@ -298,3 +298,101 @@ from unit manager updateGroundHeight
 		unit->setGroundHeight(tHeight);
 	}*/
 ---
+from char screen manager, old encrypt/decrypt ?
+---
+	/*void encrypt(String &input)
+	{
+		for(int i=0;i<(int)input.length();i++)
+		{
+			input[i] = input[i]+10;
+		}
+	}
+	void decrypt(String &input)
+	{
+		for(int i=0;i<(int)input.length();i++)
+		{
+			input[i] = input[i]-10;
+		}
+	}*/
+---
+from char screen manager, create and delete char functions
+---
+/*void createChar(short iID)
+{
+	using namespace std;
+
+	ofstream outFile;
+	outFile.open(FILENAME_CHARACTERS, ios::app);
+
+	//char name
+	String tBuffer = getName();
+	StringUtil::trim(tBuffer);
+	tBuffer += ";";
+	//char meshstring
+	tBuffer += mUnit->getMeshString() + ";";
+	//char matgroupname
+	tBuffer += mUnit->getMatGroupName();
+	//char scale
+	if(mUnit->getObjectNode()->getScale().x != 1)
+	{
+		tBuffer += ";" + StringConverter::toString(mUnit->getObjectNode()->getScale().x);
+	}
+	//char colours
+	if(mUnit->getMatGroupName() == "CustomMat")
+	{
+		tBuffer += "|" + mUnit->getColourString();
+	}
+	encrypt(tBuffer);
+	outFile.write(tBuffer.c_str(),int(tBuffer.length()));
+	//endline
+	tBuffer = "\n";
+	outFile.write(tBuffer.c_str(),int(tBuffer.length()));
+
+	outFile.close();
+}
+void deleteChar(short iID)
+{
+	using namespace std;
+
+	short tCharID = 0;
+	long tSize = 0;
+	char *tBuffer;
+
+	//read, read, read
+	ifstream inFile;
+	inFile.open(FILENAME_CHARACTERS, ifstream::in);
+
+	inFile.seekg(0,ifstream::end);
+	tSize = inFile.tellg();
+	inFile.seekg(0);
+
+	tBuffer = new char[tSize];
+	strcpy(tBuffer,"");
+
+	while(inFile.good() && !inFile.eof())
+	{
+		char tMiniBuffer[1024]="";
+		inFile.getline(tMiniBuffer,1024);
+		if(tCharID != iID)
+		{
+			strcat(tBuffer,tMiniBuffer);
+			strcat(tBuffer,"\n");
+		}
+		tCharID += 1;
+	}
+	inFile.close();
+
+	//write, write, write
+	ofstream outFile;
+	outFile.open(FILENAME_CHARACTERS, ofstream::out);
+	outFile.write(tBuffer,int(strlen(tBuffer)-1));
+	outFile.close();
+
+	delete[] tBuffer;
+
+	setName("");
+	mUnit->destroyUnit(mSceneMgr);
+	charID = loadNumChars()-1;
+	refreshPage();
+}*/
+---

@@ -89,12 +89,14 @@ public:
 			}
 		}
 	}
+
 	void push(const String &caption, const String &sayer="", const unsigned char &type=CHAT_GENERAL)
 	{
 		const unsigned short tChannel = (type==CHAT_PRIVATE ? channel : ((type==CHAT_LOCAL||type==CHAT_LOCALACTION||type==CHAT_LOCALEVENT) ? 0 : ((type==CHAT_PARTY||type==CHAT_PARTYACTION||type==CHAT_PARTYEVENT)?2:1)) );
 		chatString[tChannel].push_back(caption);
 		chatSayer[tChannel].push_back(sayer);
 		chatType[tChannel].push_back(type);
+
 		if(int(chatString[tChannel].size())>MAX_LINES)
 		{
 			chatString[tChannel].erase(chatString[tChannel].begin(),++chatString[tChannel].begin());
@@ -104,14 +106,24 @@ public:
 
 		hasNewLine[tChannel] = true;
 	}
+
 	const String getChatBlock(const unsigned short &lines, const Real &boxWidth, const Real &charHeight, const Real &lastOffset)
 	{
 		vector<String>::type tChatBlock;
 		tChatBlock.clear();
+		
 		String tFinalChat = "";
+		
 		unsigned short tFinalLines = 0;
-		int start = int(chatString[channel].size()) - lines - lastOffset*(int(chatString[channel].size())-lines);
-		if(start<0)start = 0;
+		
+		// again, bad ypes..
+		int start = (int)((int)(chatString[channel].size()) - lines - lastOffset * (int(chatString[channel].size()) - lines));
+
+		if(start<0)
+		{
+			start = 0;
+		}
+		
 		//Process entire chatblock within estimated range
 		for(int i=start;i<int(chatString[channel].size());i++)
 		{
@@ -123,9 +135,15 @@ public:
 				tChatBlock.push_back(tCaption[j]);
 			}
 		}
+
 		//Process actual block to return
-		start = int(tChatBlock.size()) - lines - lastOffset*(int(tChatBlock.size())-lines);
-		if(start<0)start = 0;
+		start = (int)(int(tChatBlock.size()) - lines - lastOffset * (int(tChatBlock.size()) - lines));
+
+		if(start<0)
+		{
+			start = 0;
+		}
+
 		for(int i=start;i<int(tChatBlock.size());i++)
 		{
 			tFinalChat += (i==start?"":"\n");
@@ -133,8 +151,10 @@ public:
 			tFinalLines += 1;
 			if(tFinalLines>=lines)return tFinalChat;
 		}
+
 		return tFinalChat;
 	}
+
 	void processInput(String &caption, unsigned char &type, String &param)
 	{
 		if(channel==0)type = CHAT_LOCAL;

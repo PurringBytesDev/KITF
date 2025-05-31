@@ -176,6 +176,7 @@ public:
 		if(decisionTimer<0)decisionTimer = 0;
 		if(decisionTimer>0)return;
 	}
+
 	void updateChase()
 	{
 		if(!mChaseTarget)return;
@@ -190,6 +191,7 @@ public:
 		const Real tAttackRange = length<=55.55 ? 2500 : (length*length*0.81);
 		if(!isAttacking() && mObjectNode->getPosition().squaredDistance(mChaseTarget->getPosition())<tAttackRange)isReadyToAttack = true;
 	}
+
 	void updateMovement(const FrameEvent &evt)
 	{
 		const Vector3 tPosition = mObjectNode->getPosition();

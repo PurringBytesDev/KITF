@@ -597,7 +597,7 @@ protected:
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			HWND hwnd;
 			mWindow->getCustomAttribute("WINDOW", (void*)&hwnd);
-			LONG iconID   = (LONG)LoadIcon( GetModuleHandle(0), MAKEINTRESOURCE(IDI_APPICON) );
+			LONG iconID = (LONG)LoadIcon( GetModuleHandle(0), MAKEINTRESOURCE(IDI_APPICON) );
 			
 			// for 32 bit its GCL_HICON
 #endif
@@ -611,7 +611,7 @@ protected:
         }
     }
 
-
+	// if its an override, whats special then in the setup ? bloom ? blur ?
 	// Just override the mandatory create scene method
 	virtual void createScene(void)
 	{
@@ -648,5 +648,4 @@ protected:
 		mRoot->addFrameListener(mFrameListener);
 	}
 };
-
 #endif

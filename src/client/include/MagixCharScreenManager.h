@@ -1,3 +1,5 @@
+// this is going to be a challenge, at least populate some functions for pages as the setup is quite massive as it is..
+
 #ifndef __MagixCharScreenManager_h_
 #define __MagixCharScreenManager_h_
 
@@ -97,6 +99,7 @@ public:
 	~MagixCharScreenManager()
 	{
 	}
+
 	void initialize(MagixExternalDefinitions *def, MagixEffectsManager *effectsMgr, MagixAlertBox *alertBox, MagixUnit *unit, SceneManager *sceneMgr, OverlayElement *name, OverlayElement *backdrop)
 	{
 		mDef = def;
@@ -108,10 +111,12 @@ public:
 		mBackdrop = backdrop;
 		mColourBox = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenColourBox");
 	}
+
 	void initializeText(const unsigned short &i, OverlayElement *text)
 	{
 		mText[i] = text;
 	}
+
 	void initializeBackNextButtons(OverlayElement *back, OverlayElement *next, OverlayElement *del, OverlayElement *backText, OverlayElement *nextText, OverlayElement *delText)
 	{
 		mBackButton = back;
@@ -121,16 +126,19 @@ public:
 		mNextButtonText = nextText;
 		mDeleteButtonText = delText;
 	}
+
 	void initializeLRButtons(const unsigned short &i, OverlayElement *lButton, OverlayElement *rButton)
 	{
 		mLButton[i] = lButton;
 		mRButton[i] = rButton;
 	}
+
 	void initializeSliders(const unsigned short &i, OverlayElement *slider, OverlayElement *sliderMarker)
 	{
 		mSlider[i] = slider;
 		mSliderMarker[i] = sliderMarker;
 	}
+
 	void reset(bool load=false)
 	{
 		startGameCount = 0;
@@ -168,6 +176,7 @@ public:
 		deleteConfirmation = "";
 		refreshPage();
 	}
+
 	const unsigned short buttonClicked(OverlayElement *button)
 	{
 		bool updateGUI = false;
@@ -241,7 +250,6 @@ public:
 				else charID -= 1;
 				if(charID<0)charID = numChars;
 				if(charID>numChars)charID = 0;
-				//loadChar(charID);
 				//refreshPage();
 				isCharIDChanged = true;
 				if(charID!=numChars)
@@ -266,19 +274,23 @@ public:
 		}
 		else if(page==PAGE_CUSTOM3)
 		{
+			// isnt its normally while do ? weird 
 			do
 			{
 				if(buttonIsRight)colourPartID += 1;
 				else colourPartID -= 1;
 				if(colourPartID<0)colourPartID = MAX_COLOURS-1;
 				if(colourPartID>=MAX_COLOURS)colourPartID = 0;
-			}while(colourPartID==9 && wingID==0  || colourPartID==2 && maneID==0&&tuftID==0 || colourPartID==10 && bodyMarkID==0&&headMarkID==0&&tailMarkID==0);
+			}while (colourPartID == 9 && wingID == 0 || colourPartID == 2 && maneID == 0 && tuftID == 0 || colourPartID == 10 && bodyMarkID == 0 && headMarkID == 0 && tailMarkID == 0);
+			
+			// massive bit of code
 			refreshPage();
 			updateGUI = true;
 		}
 
 		return (updateGUI?CHARSCREEN_UPDATEGUI:0);;
 	}
+
 	void changeTrait(const unsigned short &iID, bool increment)
 	{
 		//head
@@ -376,6 +388,8 @@ public:
 		}
 		refreshPage();
 	}
+
+	// this needs a switch ? but on the other end, maybe not as its strings
 	const String meshName(const String &type, const unsigned short &iID)
 	{
 		if(type=="Mane")return mDef->maneMesh[iID];
@@ -389,11 +403,13 @@ public:
 
 		return "";
 	}
+
 	const String partName(const unsigned short &iID)
 	{
 		const String tPart[MAX_COLOURS] = {"Pelt","Underfur","Mane","Nose","Above Eyes","Below Eyes","Ears","Tailtip","Eyes","Wings","Markings"};
 		return tPart[iID];
 	}
+
 	void applyRestrictions(const String &partChanged, bool increment)
 	{
 		if(partChanged=="Head")
@@ -424,36 +440,70 @@ public:
 			return;
 		}
 	}
+
 	void refreshPage()
 	{
 		//Char select page
 		if(page==PAGE_SELECT)
 		{
 			if(mName->isVisible())mName->hide();
+			
 			if(!mText[0]->isVisible())mText[0]->show();
+			
 			mText[0]->setCaption(getName());
 			mText[0]->setPosition(0.45,0.02);
 
 			for(int i=1;i<MAX_CHARSCREENTEXT;i++)
 			{
-				if(mLButton[i]->isVisible())mLButton[i]->hide();
-				if(mRButton[i]->isVisible())mRButton[i]->hide();
-				if(mText[i]->isVisible())mText[i]->hide();
+				if(mLButton[i]->isVisible())
+				{
+					mLButton[i]->hide();
+				}
+				
+				if(mRButton[i]->isVisible())
+				{
+					mRButton[i]->hide();
+				}
+
+				if(mText[i]->isVisible())
+				{
+					mText[i]->hide();
+				}
 			}
-			if(!mLButton[0]->isVisible())mLButton[0]->show();
-			if(!mRButton[0]->isVisible())mRButton[0]->show();
+			
+			if(!mLButton[0]->isVisible())
+			{
+				mLButton[0]->show();
+			}
+			
+			if(!mRButton[0]->isVisible())
+			{
+				mRButton[0]->show();
+			}
+
 			mLButton[0]->setPosition(0.01,0.05);
 			mRButton[0]->setPosition(0.85,0.05);
+			
 			for(int i=0;i<3;i++)
 			{
 				if(mSlider[i]->isVisible())mSlider[i]->hide();
 				if(mSliderMarker[i]->isVisible())mSliderMarker[i]->hide();
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
-			if(!mBackdrop->isVisible())mBackdrop->show();
+			
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
+			if(!mBackdrop->isVisible())
+			{
+				mBackdrop->show();
+			}
+
 			mBackdrop->setMaterialName("GUIMat/Backdrop2");
 			mName->getParent()->setMaterialName("GUIMat/None");
 			mBackButton->setPosition(0.01,0.85);
+
 			if(getName()!="")
 			{
 				if(!mNextButton->isVisible())
@@ -476,13 +526,25 @@ public:
 			{
 				if(charID==numChars)
 				{
-					if(!mNextButton->isVisible())mNextButton->show();
+					if(!mNextButton->isVisible())
+					{
+						mNextButton->show();
+					}
+
 					mNextButtonText->setCaption("New");
-					mNextButton->setPosition(0.85-mNextButton->getWidth()+mRButton[0]->getWidth(),0.85);
+					mNextButton->setPosition((Real)0.85 - mNextButton->getWidth() + mRButton[0]->getWidth(), 0.85);
 				}
-				else if(mNextButton->isVisible())mNextButton->hide();
-				if(mDeleteButton->isVisible())mDeleteButton->hide();
+				else if(mNextButton->isVisible())
+				{
+					mNextButton->hide();
+				}
+
+				if(mDeleteButton->isVisible())
+				{
+					mDeleteButton->hide();
+				}
 			}
+
 			return;
 		}
 		//Create new/method selection page
@@ -514,41 +576,77 @@ public:
 			mDeleteButtonText->setCaption("Preset");
 			return;
 		}*/
+
 		//Mesh page 1
 		if(page==PAGE_CUSTOM1)
 		{
-			if(!mName->isVisible())mName->show();
+			if(!mName->isVisible())
+			{
+				mName->show();
+			}
+
 			mName->setPosition(0.05,0.1);
+
 			mText[0]->setPosition(0.25,0.2);
 			mText[0]->setCaption(meshName("Head",headID));
 			mText[1]->setCaption(meshName("Mane",maneID));
 			mText[2]->setCaption(meshName("Tail",tailID));
 			mText[3]->setCaption(meshName("Wing",wingID));
 
-			for(int i=0;i<MAX_CHARSCREENTEXT;i++)
+			for (int i = 0; i < MAX_CHARSCREENTEXT; i++)
 			{
-				if(!mLButton[i]->isVisible())mLButton[i]->show();
-				if(!mRButton[i]->isVisible())mRButton[i]->show();
-				if(!mText[i]->isVisible())mText[i]->show();
+				if(!mLButton[i]->isVisible())
+				{
+					mLButton[i]->show();
+				}
+				
+				if(!mRButton[i]->isVisible())
+				{
+					mRButton[i]->show();
+				}
+				
+				if(!mText[i]->isVisible())
+				{
+					mText[i]->show();
+				}
+			
 				mText[i]->setLeft(0.25);
 			}
+
 			mLButton[0]->setPosition(0.05,0.2);
 			mRButton[0]->setPosition(0.4,0.2);
+			
 			for(int i=0;i<3;i++)
 			{
 				if(mSlider[i]->isVisible())mSlider[i]->hide();
 				if(mSliderMarker[i]->isVisible())mSliderMarker[i]->hide();
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
+			
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
 			mUnit->setColours(colourVal[0],colourVal[1],colourVal[2],colourVal[3],colourVal[4],colourVal[5],colourVal[6],colourVal[7],colourVal[8],colourVal[9],colourVal[10]);
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Next");
-			if(mDeleteButton->isVisible())mDeleteButton->hide();
+			
+			if(mDeleteButton->isVisible())
+			{
+				mDeleteButton->hide();
+			}
+
 			return;
 		}
+
 		//Mesh page 2
 		if(page==PAGE_CUSTOM2)
 		{
@@ -566,23 +664,41 @@ public:
 				if(!mText[i]->isVisible())mText[i]->show();
 				mText[i]->setLeft(0.25);
 			}
+
 			mLButton[0]->setPosition(0.05,0.2);
 			mRButton[0]->setPosition(0.4,0.2);
+			
 			for(int i=0;i<3;i++)
 			{
 				if(mSlider[i]->isVisible())mSlider[i]->hide();
 				if(mSliderMarker[i]->isVisible())mSliderMarker[i]->hide();
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
-			mUnit->setColours(colourVal[0],colourVal[1],colourVal[2],colourVal[3],colourVal[4],colourVal[5],colourVal[6],colourVal[7],colourVal[8],colourVal[9],colourVal[10]);
-			if(mBackdrop->isVisible())mBackdrop->hide();
+
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
+			mUnit->setColours(colourVal[0], colourVal[1], colourVal[2], colourVal[3], colourVal[4], colourVal[5], colourVal[6], colourVal[7], colourVal[8], colourVal[9], colourVal[10]);
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Next");
-			if(mDeleteButton->isVisible())mDeleteButton->hide();
+			
+			if(mDeleteButton->isVisible())
+			{
+				mDeleteButton->hide();
+			}
+			
 			return;
 		}
+
 		//Colour page
 		if(page==PAGE_CUSTOM3)
 		{
@@ -601,33 +717,59 @@ public:
 				if(!mText[i]->isVisible())mText[i]->show();
 				mText[i]->setLeft(0.4);
 			}
-			if(!mLButton[0]->isVisible())mLButton[0]->show();
-			if(!mRButton[0]->isVisible())mRButton[0]->show();
+			
+			if(!mLButton[0]->isVisible())
+			{
+				mLButton[0]->show();
+			}
+			
+			if(!mRButton[0]->isVisible())
+			{
+				mRButton[0]->show();
+			}
+			
 			mLButton[0]->setPosition(0.05,0.1);
 			mRButton[0]->setPosition(0.4,0.1);
+			
 			for(int i=0;i<3;i++)
 			{
 				if(!mSlider[i]->isVisible())mSlider[i]->show();
 				if(!mSliderMarker[i]->isVisible())mSliderMarker[i]->show();
 			}
-			if(!mColourBox->isVisible())mColourBox->show();
+			
+			if(!mColourBox->isVisible())
+			{
+				mColourBox->show();
+			}
+			
 			mColourBox->setCustomParameter(1,Vector4(colourVal[colourPartID].r,colourVal[colourPartID].g,colourVal[colourPartID].b,1));
+			
 			#pragma warning(push)
 			#pragma warning(disable : 4482)
 			if(mColourBox->getTechnique()->getName()=="2")
+			{
 				mColourBox->getTechnique()->getPass(0)->getTextureUnitState(0)->setColourOperationEx(LayerBlendOperationEx::LBX_SOURCE1,
-																										LayerBlendSource::LBS_MANUAL,
-																										LayerBlendSource::LBS_CURRENT,
-																										ColourValue(colourVal[colourPartID].r,colourVal[colourPartID].g,colourVal[colourPartID].b));
+					LayerBlendSource::LBS_MANUAL,
+					LayerBlendSource::LBS_CURRENT,
+					ColourValue(colourVal[colourPartID].r, colourVal[colourPartID].g, colourVal[colourPartID].b));
+			}
+
 			#pragma warning(pop)
 			mUnit->setColours(colourVal[0],colourVal[1],colourVal[2],colourVal[3],colourVal[4],colourVal[5],colourVal[6],colourVal[7],colourVal[8],colourVal[9],colourVal[10]);
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Next");
+			
 			return;
 		}
+
 		//Traits page
 		if(page==PAGE_CUSTOM4)
 		{
@@ -642,19 +784,27 @@ public:
 				mRButton[i]->hide();
 				if(i>1)mText[i]->hide();
 			}
+			
 			for(int i=1;i<3;i++)
 			{
 				mSlider[i]->hide();
 				mSliderMarker[i]->hide();
 			}
 			mColourBox->hide();
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Finish");
+
 			return;
 		}
+
 		//Preset page
 		/*if(page==PAGE_PRESET1)
 		{
@@ -689,32 +839,77 @@ public:
 		//Edit Page
 		if(page==PAGE_EDIT)
 		{
-			if(mName->isVisible())mName->hide();
-			if(!mText[0]->isVisible())mText[0]->show();
+			if(mName->isVisible())
+			{
+				mName->hide();
+			}
+			
+			if(!mText[0]->isVisible())
+			{
+				mText[0]->show();
+			}
+			
 			mText[0]->setPosition(0.25,0.05);
 			mText[0]->setCaption("Edit Character");
+
 			for(int i=0;i<MAX_CHARSCREENTEXT;i++)
 			{
-				if(mLButton[i]->isVisible())mLButton[i]->hide();
-				if(mRButton[i]->isVisible())mRButton[i]->hide();
-				if(i!=0 && mText[i]->isVisible())mText[i]->hide();
+				if(mLButton[i]->isVisible())
+				{
+					mLButton[i]->hide();
+				}
+				
+				if(mRButton[i]->isVisible())
+				{
+					mRButton[i]->hide();
+				}
+				
+				if(i!=0 && mText[i]->isVisible())
+				{
+					mText[i]->hide();
+				}
 			}
-			for(int i=0;i<3;i++)
+
+			for (int i = 0; i < 3; i++)
 			{
-				if(mSlider[i]->isVisible())mSlider[i]->hide();
-				if(mSliderMarker[i]->isVisible())mSliderMarker[i]->hide();
+				if(mSlider[i]->isVisible())
+				{
+					mSlider[i]->hide();
+				}
+
+				if(mSliderMarker[i]->isVisible())
+				{
+					mSliderMarker[i]->hide();
+				}
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			// repeated code ? may want to do a single function and call it.. (especially since this use class vars)
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.18,0.30);
 			mNextButtonText->setCaption("Edit");
-			if(!mDeleteButton->isVisible())mDeleteButton->show();
+			
+			if(!mDeleteButton->isVisible())
+			{
+				mDeleteButton->show();
+			}
+
 			mDeleteButton->setPosition(0.18,0.45);
 			mDeleteButtonText->setCaption("Delete");
+
 			return;
 		}
+
 		//Preset page (edit)
 		if(page==PAGE_PRESET1)
 		{
@@ -748,27 +943,56 @@ public:
 
 			for(int i=0;i<MAX_CHARSCREENTEXT;i++)
 			{
-				if(!mLButton[i]->isVisible())mLButton[i]->show();
-				if(!mRButton[i]->isVisible())mRButton[i]->show();
-				if(!mText[i]->isVisible())mText[i]->show();
+				if(!mLButton[i]->isVisible())
+				{
+					mLButton[i]->show();
+				}
+
+				if(!mRButton[i]->isVisible())
+				{
+					mRButton[i]->show();
+				}
+
+				if(!mText[i]->isVisible())
+				{
+					mText[i]->show();
+				}
+
 				mText[i]->setLeft(0.25);
 			}
+
 			mLButton[0]->setPosition(0.05,0.2);
 			mRButton[0]->setPosition(0.4,0.2);
+
 			for(int i=0;i<3;i++)
 			{
 				if(mSlider[i]->isVisible())mSlider[i]->hide();
 				if(mSliderMarker[i]->isVisible())mSliderMarker[i]->hide();
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Next");
-			if(mDeleteButton->isVisible())mDeleteButton->hide();
+			
+			if(mDeleteButton->isVisible())
+			{
+				mDeleteButton->hide();
+			}
+		
 			return;
 		}
+
 		//Preset page2 (edit)
 		if(page==PAGE_PRESET2)
 		{
@@ -786,27 +1010,48 @@ public:
 				mRButton[i]->hide();
 				if(i>2)mText[i]->hide();
 			}
+			
 			mSlider[1]->show();
 			mSliderMarker[1]->show();
+			
 			for(int i=0;i!=1&&i<3;i++)
 			{
 				mSlider[i]->hide();
 				mSliderMarker[i]->hide();
 			}
-			if(mColourBox->isVisible())mColourBox->hide();
-			if(mBackdrop->isVisible())mBackdrop->hide();
+			
+			if(mColourBox->isVisible())
+			{
+				mColourBox->hide();
+			}
+			
+			if(mBackdrop->isVisible())
+			{
+				mBackdrop->hide();
+			}
+			
 			mName->getParent()->setMaterialName("GUIMat/StartScreen");
 			mBackButton->setPosition(0.05,0.6);
 			mNextButton->setPosition(0.3,0.6);
 			mNextButtonText->setCaption("Finish");
-			if(mDeleteButton->isVisible())mDeleteButton->hide();
+			
+			if(mDeleteButton->isVisible())
+			{
+				mDeleteButton->hide();
+			}
+
 			return;
 		}
 	}
+
 	bool previousPage()
 	{
 		//back to startscreen
-		if(page==PAGE_SELECT)return true;
+		if(page==PAGE_SELECT)
+		{
+			return true;
+		}
+
 		//back to char select page
 		if(page==PAGE_CUSTOM1 || page==PAGE_PRESET1 || page==PAGE_EDIT)
 		{
@@ -833,10 +1078,13 @@ public:
 			refreshPage();
 			return false;
 		}
+
 		page -= 1;
 		refreshPage();
+
 		return false;
 	}
+
 	const unsigned short nextPage()
 	{
 		//start game
@@ -855,11 +1103,23 @@ public:
 		if((page==PAGE_CUSTOM1 || page==PAGE_PRESET1) && (!validateName() || getName().length()==0 || getName()[0]==' '))
 		{
 			String tAlert = "Must not include : ; | * ? < > / \\";
-			if(getName().length()==0)tAlert = "Enter a name";
-			else if(getName()[0]==' ')tAlert = "Must not start with a space";
-			mAlertBox->showAlert(tAlert,mName->getLeft()+0.25,mName->getTop()+mName->getHeight()+0.05);
+			
+			if (getName().length() == 0)
+			{
+				tAlert = "Enter a name";
+			}
+			// a switch case with a regexp would catch more cases
+			else if(getName()[0]==' ')
+			{
+				tAlert = "Must not start with a space";
+			}
+			
+			// your problem ? magic numbers, declare the vars and use them everywhere ? no ? OH WELL NICE MEMORY LEAKS WHEN IT ASSUME A FLOAT OR OTHER TYPES !
+			mAlertBox->showAlert(tAlert, mName->getLeft() + (Real)0.25, mName->getTop() + mName->getHeight() + (Real)0.05);
+
 			return 0;
 		}
+
 		//create char and return to char select page
 		if(page==PAGE_CUSTOM4/* || page==PAGE_PRESET1*/)
 		{
@@ -875,11 +1135,16 @@ public:
 			refreshPage();*/
 			return (isEditMode?CHARSCREEN_EDITCHAR:CHARSCREEN_CREATECHAR);
 		}
+
 		//edit char
 		if(page==PAGE_EDIT)
 		{
 			isEditMode = true;
-			if(deleteConfirmation!="")setName(deleteConfirmation);
+			if(deleteConfirmation!="")
+			{
+				setName(deleteConfirmation);
+			}
+			
 			if(mUnit->getMatGroupName()=="CustomMat")
 			{
 				page = PAGE_CUSTOM1;
@@ -890,18 +1155,24 @@ public:
 				page = PAGE_PRESET1;
 				updateCharData(true);
 			}
+			
 			refreshPage();
+			
 			return 0;
 		}
+
 		//finish edit char (preset)
 		if(page==PAGE_PRESET2)
 		{
 			return CHARSCREEN_EDITCHAR;
 		}
+
 		page += 1;
 		refreshPage();
+		
 		return 0;
 	}
+
 	void updateSliders(const Real &one, const Real &two, const Real &three)
 	{
 		if(page==PAGE_CUSTOM3)
@@ -912,11 +1183,14 @@ public:
 		}
 		else if(page==PAGE_CUSTOM4 || page==PAGE_PRESET2)
 		{
-			const Real tScale = 0.25 + (page==PAGE_PRESET2?two:one)*1.25;
+			// another nasty case of "magic numbers"
+			const Real tScale = (Real)0.25 + (page == PAGE_PRESET2 ? two : one) * (Real)1.25;
 			mUnit->getObjectNode()->setScale(tScale,tScale,tScale);
 		}
+
 		refreshPage();
 	}
+
 	void getSliderValue(Real &one, Real &two, Real &three)
 	{
 		if(page==PAGE_CUSTOM3)
@@ -927,59 +1201,69 @@ public:
 		}
 		else if(page==PAGE_CUSTOM4)
 		{
-			one = (mUnit->getObjectNode()->getScale().x-0.25)/1.25;
+			one = (Real)((mUnit->getObjectNode()->getScale().x - 0.25) / 1.25);
 		}
 		else if(page==PAGE_PRESET2)
 		{
-			two = (mUnit->getObjectNode()->getScale().x-0.25)/1.25;
+			two = (Real)((mUnit->getObjectNode()->getScale().x - 0.25) / 1.25);
 		}
 	}
+
 	const String getName()
 	{
 		String tName = mName->getCaption();
 		if(tName.length()>=6)tName.erase(0,6);
 		return tName;
 	}
+
 	void setName(const String &name)
 	{
 		mName->setCaption("Name: " + name);
 	}
+
 	bool validateName()
 	{
 		const String tName = getName();
-		for(int i=0;i<int(tName.length());i++)
+		for (int i = 0; i<int(tName.length()); i++)
 		{
-			if(tName[i]=='/'||tName[i]=='\\'||tName[i]==':'||tName[i]==';'||
-				tName[i]=='*'||tName[i]=='?'||tName[i]=='\"'||
-				tName[i]=='<'||tName[i]=='>'||tName[i]=='|'||
-				tName[i]=='\t'||tName[i]=='\n')
+			if (tName[i] == '/' || tName[i] == '\\' || tName[i] == ':' || tName[i] == ';' ||
+				tName[i] == '*' || tName[i] == '?' || tName[i] == '\"' ||
+				tName[i] == '<' || tName[i] == '>' || tName[i] == '|' ||
+				tName[i] == '\t' || tName[i] == '\n')
 				return false;
 		}
+
 		return true;
 	}
+
 	void doRotateUnit(Real x, Real y)
 	{
 		rotateStartX = x;
 		rotateStartY = y;
 		isRotateUnit = true;
 	}
+
 	void endRotateUnit()
 	{
 		isRotateUnit = false;
 	}
+
 	void stopRotateUnit()
 	{
 		endRotateUnit();
 		dYaw = Degree(0);
 	}
+
 	bool isRotatingUnit()
 	{
 		return isRotateUnit;
 	}
+
 	void startGame()
 	{
 		startGameCount = 3;
 	}
+
 	bool update(const FrameEvent &evt, const Real &x, const Real &y)
 	{
 		//First page, stop any rotation and check if game started
@@ -989,10 +1273,14 @@ public:
 			if(startGameCount>0)
 			{
 				startGameCount -= evt.timeSinceLastFrame;
-				mBackdrop->setDimensions(1+(3-startGameCount)/3*0.4,1+(3-startGameCount)/3*0.6);
-				mBackdrop->setPosition(-(mBackdrop->getWidth()-1)/2,-(mBackdrop->getHeight()-1)/2);
-				const Vector3 tVect = mUnit->getPosition(true)+mUnit->getObjectNode()->getOrientation()*Vector3(0,1,4)-Vector3(3200,120,2770);
-				mSceneMgr->getCamera("PlayerCam")->setPosition(Vector3(3200,120,2770)+tVect*(3-startGameCount)/3*0.25);
+				
+				mBackdrop->setDimensions((Real)(1 + (3 - startGameCount) / 3 * 0.4), (Real)(1 + (3 - startGameCount) / 3 * 0.6));
+				mBackdrop->setPosition(-(mBackdrop->getWidth() - 1) / 2, -(mBackdrop->getHeight() - 1) / 2);
+
+				// char selector cam ?
+				const Vector3 tVect = mUnit->getPosition(true) + mUnit->getObjectNode()->getOrientation() * Vector3(0, 1, 4) - Vector3(3200, 120, 2770);
+				mSceneMgr->getCamera("PlayerCam")->setPosition(Vector3(3200, 120, 2770) + tVect * (3 - startGameCount) / 3 * 0.25);
+
 				if(startGameCount<=0)
 				{
 					startGameCount = 0;
@@ -1002,8 +1290,10 @@ public:
 					return true;
 				}
 			}
+
 			return false;
 		}
+
 		//Do rotation/zoom otherwise
 		if(isRotateUnit)
 		{
@@ -1011,9 +1301,20 @@ public:
 			camZoom += y - rotateStartY;
 			rotateStartX = x;
 			rotateStartY = y;
-			if(Math::Abs(dYaw)>Degree(15))dYaw = Degree(15*dYaw<Degree(0)?-1:1);
-			if(camZoom<0)camZoom = 0;
-			if(camZoom>0.75)camZoom = 0.75;
+			if (Math::Abs(dYaw) > Degree(15))
+			{
+				dYaw = Degree((Real)(15 * dYaw < Degree(0) ? -1 : 1));
+			}
+			
+			if(camZoom<0)
+			{
+				camZoom = 0;
+			}
+			
+			if(camZoom>0.75)
+			{
+				camZoom = 0.75;
+			}
 		}
 		
 		if(mUnit->getObjectNode())
@@ -1027,78 +1328,7 @@ public:
 		}
 		return false;
 	}
-	/*short loadNumChars()
-	{
-		using namespace std;
-
-		short tNumChars = 0;
-		ifstream inFile;
-		inFile.open(FILENAME_CHARACTERS, ifstream::in);
-		while(inFile.good() && !inFile.eof())
-		{
-			char tBuffer[1024];
-			inFile.getline(tBuffer,1024);
-			tNumChars += 1;
-		}
-		inFile.close();
-
-		return tNumChars;
-	}*/
-	/*void loadChar(short iID)
-	{
-		using namespace std;
-
-		char tBuffer[1024]="";
-		short tNumChars = -1;
-		ifstream inFile;
-		inFile.open(FILENAME_CHARACTERS, ifstream::in);
-
-		if(!inFile.good())mAlertBox->showAlert("Click here to create\na new character",0.70,0.85,5);
-
-		while(inFile.good() && !inFile.eof() && tNumChars<iID)
-		{
-			strcpy(tBuffer,"");
-			inFile.getline(tBuffer,1024);
-			tNumChars += 1;
-		}
-		inFile.close();
-
-		String tData = tBuffer;
-		decrypt(tData);
-
-		vector<String>::type tString = StringUtil::split(tData,"|\n",2);
-		//Loaded successfully
-		if(tString.size()>0)
-		{
-			vector<String>::type tParam = StringUtil::split(tString[0],";");
-			if(tParam.size()==7 || tParam.size()==8)
-			{
-				setName(tParam[0]);
-				mUnit->createUnit(1,mSceneMgr,tParam[1],tParam[2],tParam[3],tParam[4],tParam[5],tParam[6]);
-				if(tParam.size()==8)
-				{
-					const float tScale = StringConverter::parseReal(tParam[7]);
-					if(tScale>0 && tScale<10)mUnit->getObjectNode()->setScale(tScale,tScale,tScale);
-				}
-				if(tParam[6]=="CustomMat" && tString.size()==2)mUnit->setColours(tString[1]);
-				const Real tDist = (mUnit->getObjectNode()->getScale().x-1)*-11;
-				mUnit->setPosition(3215 - (tDist<0?tDist:0)*0.6, 113 + (tDist<0?tDist:0), 2750 + (tDist<0?tDist:0)*0.6);
-				mUnit->resetTarget();
-				mUnit->setGroundHeight(113 + (tDist<0?tDist:0));
-				mUnit->yaw(Degree(-80));
-				mUnit->getObjectNode()->yaw(Degree(-80));
-				mUnit->setFreeLook(false,false);
-				mUnit->update(FrameEvent(),mDef);
-
-				return;
-			}
-			//bad data, delete it
-			if(iID<(loadNumChars()-1))deleteChar(iID);
-		}
-		//no data
-		setName("");
-		mUnit->destroyUnit(mSceneMgr);
-	}*/
+	
 	void deleteChar()
 	{
 		updateChar("");
@@ -1107,18 +1337,23 @@ public:
 		positionUnitForSelect();
 		refreshPage();
 	}
+
 	const String getCharData()
 	{
 		//char name
 		String tBuffer = getName();
 		StringUtil::trim(tBuffer);
 		tBuffer += ";";
+		
 		//char meshstring
 		tBuffer += mUnit->getMeshString() + ";";
+		
 		//char matgroupname
 		tBuffer += mUnit->getMatGroupName() + ";";
+		
 		//char meshstring2
 		tBuffer += mUnit->getMeshString2() + ";";
+
 		//markings
 		if(mUnit->getMatGroupName() == "CustomMat")
 		{
@@ -1128,11 +1363,13 @@ public:
 			tBuffer += StringConverter::toString(tHeadMark) + ";";
 			tBuffer += StringConverter::toString(tTailMark);
 		}
+
 		//char scale
 		if(mUnit->getObjectNode()->getScale().x != 1)
 		{
 			tBuffer += ";" + StringConverter::toString(mUnit->getObjectNode()->getScale().x,3);
 		}
+
 		//char colours
 		if(mUnit->getMatGroupName() == "CustomMat")
 		{
@@ -1141,6 +1378,7 @@ public:
 		
 		return tBuffer;
 	}
+
 	void updateCharData(bool isPreset=false)
 	{
 		const vector<String>::type tMesh = StringUtil::split(mUnit->getMeshString(),";",5);
@@ -1171,7 +1409,9 @@ public:
 					break;
 				}
 		}
-		const vector<String>::type tMesh2 = StringUtil::split(mUnit->getMeshString2(),";",1);
+
+		const vector<String>::type tMesh2 = StringUtil::split(mUnit->getMeshString2(), ";", 1);
+
 		if(tMesh2.size()==1)
 		{
 			for(int i=0;i<mDef->maxTufts;i++)
@@ -1189,6 +1429,7 @@ public:
 					colourVal[i] = StringConverter::parseColourValue(tColour[i]);
 		}
 	}
+
 	void updateChar(const String &data)
 	{
 		if(mUnit->getObjectNode())
@@ -1234,6 +1475,7 @@ public:
 		//no data
 		setName("");
 	}
+
 	void createCharSuccess()
 	{
 		const String tName = getName();
@@ -1241,12 +1483,13 @@ public:
 		reset();
 		charID = numChars;
 		numChars++;
-		//updateChar(tData);
+		
 		setName(tName);
 		positionUnitForSelect();
 		if(mUnit)mUnit->setHP(500);
 		refreshPage();
 	}
+
 	void editCharSuccess()
 	{
 		const String tName = getName();
@@ -1257,89 +1500,13 @@ public:
 		positionUnitForSelect();
 		refreshPage();
 	}
-	/*void createChar(short iID)
-	{
-		using namespace std;
-
-		ofstream outFile;
-		outFile.open(FILENAME_CHARACTERS, ios::app);
-
-		//char name
-		String tBuffer = getName();
-		StringUtil::trim(tBuffer);
-		tBuffer += ";";
-		//char meshstring
-		tBuffer += mUnit->getMeshString() + ";";
-		//char matgroupname
-		tBuffer += mUnit->getMatGroupName();
-		//char scale
-		if(mUnit->getObjectNode()->getScale().x != 1)
-		{
-			tBuffer += ";" + StringConverter::toString(mUnit->getObjectNode()->getScale().x);
-		}
-		//char colours
-		if(mUnit->getMatGroupName() == "CustomMat")
-		{
-			tBuffer += "|" + mUnit->getColourString();
-		}
-		encrypt(tBuffer);
-		outFile.write(tBuffer.c_str(),int(tBuffer.length()));
-		//endline
-		tBuffer = "\n";
-		outFile.write(tBuffer.c_str(),int(tBuffer.length()));
-
-		outFile.close();
-	}
-	void deleteChar(short iID)
-	{
-		using namespace std;
-
-		short tCharID = 0;
-		long tSize = 0;
-		char *tBuffer;
-
-		//read, read, read
-		ifstream inFile;
-		inFile.open(FILENAME_CHARACTERS, ifstream::in);
-
-		inFile.seekg(0,ifstream::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0);
-
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-
-		while(inFile.good() && !inFile.eof())
-		{
-			char tMiniBuffer[1024]="";
-			inFile.getline(tMiniBuffer,1024);
-			if(tCharID != iID)
-			{
-				strcat(tBuffer,tMiniBuffer);
-				strcat(tBuffer,"\n");
-			}
-			tCharID += 1;
-		}
-		inFile.close();
-
-		//write, write, write
-		ofstream outFile;
-		outFile.open(FILENAME_CHARACTERS, ofstream::out);
-		outFile.write(tBuffer,int(strlen(tBuffer)-1));
-		outFile.close();
-
-		delete[] tBuffer;
-
-		setName("");
-		mUnit->destroyUnit(mSceneMgr);
-		charID = loadNumChars()-1;
-		refreshPage();
-	}*/
+	
 	void createDefaultUnit()
 	{
 		mUnit->createUnit(1,mSceneMgr,"Body",meshName("Head",headID),meshName("Mane",maneID),meshName("Tail",tailID),meshName("Wing",wingID),"KovMat",meshName("Tuft",tuftID));
 		positionUnitForEdit();
 	}
+
 	void positionUnitForEdit()
 	{
 		mSceneMgr->getCamera("PlayerCam")->setOrientation(Quaternion(Degree(-80),Vector3::UNIT_Y));
@@ -1351,13 +1518,24 @@ public:
 		mUnit->getObjectNode()->yaw(Degree(-120));
 		mUnit->setFreeLook(false,false);
 	}
+
 	void positionUnitForSelect()
 	{
 		mSceneMgr->getCamera("PlayerCam")->setOrientation(Quaternion(Degree(-40),Vector3::UNIT_Y));
 		mSceneMgr->getCamera("PlayerCam")->setPosition(3200,120,2770);
-		if(!mUnit->getObjectNode())return;
-		const Real tDist = (mUnit->getObjectNode()->getScale().x-1)*-11;
-		mUnit->setPosition(3215 - (tDist<0?tDist:0)*0.6, 113 + (tDist<0?tDist:0), 2750 + (tDist<0?tDist:0)*0.6);
+
+		// why is this not on top ? and when can it happen actually ?
+		if(!mUnit->getObjectNode())
+		{
+			return;
+		}
+
+		const Real tDist = (mUnit->getObjectNode()->getScale().x - 1) * -11;
+		
+		// C4244, pain to fix; probably better to build a vec 3 ? magic numbers everywhere yey again
+		// multiline could improve readability
+		mUnit->setPosition((Real)(3215 - (tDist < 0 ? tDist : 0) * 0.6), 113 + (Real)((tDist < 0 ? tDist : 0)), 2750 + (Real)((tDist < 0 ? tDist : 0) * 0.6));
+		
 		mUnit->resetTarget();
 		mUnit->setGroundHeight(113 + (tDist<0?tDist:0));
 		mUnit->yaw(Degree(-80));
@@ -1365,35 +1543,30 @@ public:
 		mUnit->setFreeLook(false,false);
 		mUnit->update(FrameEvent(),mDef);
 	}
-	/*void encrypt(String &input)
-	{
-		for(int i=0;i<(int)input.length();i++)
-		{
-			input[i] = input[i]+10;
-		}
-	}
-	void decrypt(String &input)
-	{
-		for(int i=0;i<(int)input.length();i++)
-		{
-			input[i] = input[i]-10;
-		}
-	}*/
+
+	/// <summary>
+	/// Utils block
+	/// </summary>
+	/// <param name="tNum"></param>
 
 	void setNumChars(const short &tNum)
 	{
 		numChars = tNum;
 	}
+
 	const short getNumChars()
 	{
 		return numChars;
 	}
+
 	bool popIsCharIDChanged()
 	{
 		const bool charIDChanged = isCharIDChanged;
 		isCharIDChanged = false;
+
 		return charIDChanged;
 	}
+
 	bool popDoReequip()
 	{
 		const bool reequip = doReequip;
@@ -1405,5 +1578,4 @@ public:
 		return charID;
 	}
 };
-
 #endif

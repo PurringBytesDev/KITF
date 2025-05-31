@@ -4474,7 +4474,7 @@ public:
 		const Real tLines = (mBox[boxID]->getHeight()-mBoxText[boxID]->getTop())/tCharHeight - 1;
 		
 		const Real tY = cursorY - mBox[boxID]->getTop();
-		apparentLine = tY/tCharHeight;
+		apparentLine = (short)tY/tCharHeight;
 		return short(apparentLine);
 	}
 	OverlayElement* getMoverWindow(OverlayElement *mover)
