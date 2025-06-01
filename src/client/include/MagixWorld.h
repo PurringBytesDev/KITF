@@ -100,6 +100,8 @@ public:
 		critterSpawnList.clear();
 		critterRoamAreaList.clear();
 	}
+
+	// mignt need mUtils here :D
 	void initialize(SceneManager *sceneMgr, RenderWindow *window, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixSoundManager *soundMgr, MagixCollisionManager *collisionMgr, MagixSkyManager *skyMgr)
 	{
 		mSceneMgr = sceneMgr;
