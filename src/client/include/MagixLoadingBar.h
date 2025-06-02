@@ -85,10 +85,14 @@ public:
 		// hide loading screen
 		mLoadOverlay->hide();
 		
+		// Note : the new font texture & def are generated next to the game app for now
+		// eventually turn into an independant tool with only minimal media.
+
 		// after ressource load
 		// todo : replace by other fonts
 		bool defaultVal = false;
-		// example converted
+
+		// example converted font was "dead walking font" but it's basically a font you have in gui.fontdef originally
 		FontGen((String)"DeadWalking", defaultVal);
 		
 		// Unregister listener
