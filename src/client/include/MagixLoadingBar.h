@@ -3,6 +3,7 @@
 #include "OgreOverlay.h"
 #include "OgreOverlayManager.h"
 #include "OgreRenderWindow.h"
+#include "fontTextureHelper.h"
 
 using namespace Ogre;
 
@@ -83,11 +84,32 @@ public:
 	{
 		// hide loading screen
 		mLoadOverlay->hide();
-
+		
+		// after ressource load
+		// todo : replace by other fonts
+		bool defaultVal = false;
+		// example converted
+		FontGen((String)"DeadWalking", defaultVal);
+		
 		// Unregister listener
 		ResourceGroupManager::getSingleton().removeResourceGroupListener(this);
 	}
 
+	void FontGen(String &fontName, bool &askedByUser)
+	{
+		if(!askedByUser)
+		{
+			// we are in a tool or button clicked context
+			return;
+		}
+		// use only for debugging:
+		// generateAllFontTextures()
+
+		// example: i want to use the TTF font Cyberbit in my application:
+		fontCacheInit(fontName);
+
+		// from now you can use font Cyberbit_cache in your application :)
+	}
 
 	// ResourceGroupListener callbacks
 	void resourceGroupScriptingStarted(const String& groupName, size_t scriptCount)

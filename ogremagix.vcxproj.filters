@@ -127,6 +127,7 @@
       <Filter>Headers\Magix</Filter>
     </ClInclude>
     <ClInclude Include="src\client\include\MagixUtils.h" />
+    <ClInclude Include="src\client\include\fontTextureHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\client\res\ogremagix.ico">

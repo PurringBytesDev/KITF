@@ -384,6 +384,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\GameConfig.h" />
+    <ClInclude Include="src\client\include\fontTextureHelper.h" />
     <ClInclude Include="src\client\include\MagixAlertBox.h" />
     <ClInclude Include="src\client\include\MagixApplication.h" />
     <ClInclude Include="src\client\include\MagixCamera.h" />
