@@ -99,6 +99,9 @@ public:
 		ResourceGroupManager::getSingleton().removeResourceGroupListener(this);
 	}
 
+	// FontGen changes : we need to call only in tools or user context, or we switch boolean for a manual generation.
+	// Remember : a font need to be defined to be baked !Generated files will be next to game binary, you will need to add 
+	// the new font def and update your overlay / UI / Whatever
 	void FontGen(String &fontName, bool &askedByUser)
 	{
 		if(!askedByUser)
