@@ -401,3 +401,4 @@ FodyWeavers.xsd
 *.sln.iml
 /output
 /build
+/deps/RakNet-3.25/Lib/LibStatic/x64
