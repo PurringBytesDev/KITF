@@ -6,10 +6,6 @@
 #include "GameConfig.h"
 #include "OgreLogManager.h"
 
-#include <zzip/zzip.h>
-#include <zzip/plugin.h>
-
-
 namespace ObfuscatedZip
 {
     // Change this magic number to a value of your choosing.

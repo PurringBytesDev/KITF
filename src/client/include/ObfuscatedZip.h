@@ -8,11 +8,14 @@
 #include "Ogre.h"
 #include "OgreArchive.h"
 #include "OgreArchiveFactory.h"
+#include <zzip/zzip.h>
+#include <zzip/plugin.h>
 
 // Forward declaration for zziplib to avoid header file dependency.
-typedef struct zzip_dir ZZIP_DIR;
-typedef struct zzip_file ZZIP_FILE;
+//typedef struct zzip_dir ZZIP_DIR;
+//typedef struct zzip_file ZZIP_FILE;
 
+// to be renamed soon
 namespace ObfuscatedZip
 {
     /** Specialisation of the Archive class to allow reading of files from an

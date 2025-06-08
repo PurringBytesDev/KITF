@@ -128,17 +128,16 @@ protected:
     {
 
 		String pluginsPath;
-		// only use plugins.cfg if not static
-#ifndef OGRE_STATIC_LIB
+
+        // only use plugins.cfg if not debug
 #ifdef _DEBUG
 		pluginsPath = mResourcePath + "plugins_d.cfg";
 #else
 		pluginsPath = mResourcePath + "plugins.cfg";
 #endif
-#endif
+
 		
-        mRoot = new Root(pluginsPath, 
-            mResourcePath + "ogre.cfg", mResourcePath + "Ogre.log");
+        mRoot = new Root(pluginsPath, mResourcePath + "ogre.cfg", mResourcePath + "Ogre.log");
 
         setupResources();
 
