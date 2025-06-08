@@ -1928,10 +1928,11 @@ public:
 			showTargetPanelOverlay(false);
 		}
 	}
+
 	void updateLogo(const FrameEvent &evt)
 	{
 		if(mGameStateManager->getGameState()==GAMESTATE_LOGO)
-		{
+		{ 
 			if(logoCount==0)
 			{
 				mBackdrop->setMaterialName("GUIMat/Logo");
@@ -1942,7 +1943,11 @@ public:
 			}
 			else if(logoCount>9 && logoCount<12)
 			{
-				if(faderTimeout==0)fadeOut(3);
+				if(faderTimeout==0)
+				{
+					fadeOut(3);
+				}
+
 				logoCount += evt.timeSinceLastFrame;
 			}
 			else if(logoCount>=12)
@@ -1950,12 +1955,17 @@ public:
 				mGameStateManager->setGameState(GAMESTATE_STARTSCREEN);
 				logoCount = 0;
 			}
-			else logoCount += evt.timeSinceLastFrame;
+			else
+			{
+				logoCount += evt.timeSinceLastFrame;
+			}
 			
 			return;
 		}
+
 		if(mGameStateManager->getGameState()==GAMESTATE_STARTSCREEN && logoCount<=5)
 		{
+			// this "pre hide" the menu & start screen ui
 			if(logoCount==0)
 			{
 				showFaderOverlay(false);
@@ -1968,8 +1978,12 @@ public:
 				OverlayManager::getSingleton().getOverlayElement("GUI/StartScreenTitle")->setPosition(-3.5,-0.29);
 				mBackdrop->setMaterialName("GUIMat/Backdrop1");
 			}
+
 			logoCount += evt.timeSinceLastFrame;
-			if(logoCount>5)logoCount = 5;
+			if(logoCount>5)
+			{
+				logoCount = 5;
+			}
 			if(logoCount<=5)
 			{
 				const Real tRatio = 1-(logoCount>5?5:logoCount)/5;
@@ -1978,6 +1992,7 @@ public:
 			}
 			if(logoCount>=5)
 			{
+				// this presetup the menu ?
 				showCursorOverlay(true);
 				mCursor->show();
 				mButton[BUTTON_NEWGAME]->show();
@@ -2006,19 +2021,22 @@ public:
 			// to be tested !
 			if(mGameStateManager->getGameState()==GAMESTATE_STARTSCREEN && logoCount<5)
 			{
-				/*OverlayManager::getSingleton().getOverlayElement("GUI/StartScreenTitle")->setDimensions(0.8,0.12);
+				/*
+				OverlayManager::getSingleton().getOverlayElement("GUI/StartScreenTitle")->setDimensions(0.8,0.12);
 				OverlayManager::getSingleton().getOverlayElement("GUI/StartScreenTitle")->setPosition(0.5 - 0.8*0.5, 0.25 - 0.12*0.5);
 				showCursorOverlay(true);
 				mButton[BUTTON_NEWGAME]->show();
 				mButton[BUTTON_MULTIPLAYER]->show();
 				mButton[BUTTON_QUIT]->show();
-				OverlayManager::getSingleton().getOverlayElement("GUI/UpdateBox")->show();*/
+				OverlayManager::getSingleton().getOverlayElement("GUI/UpdateBox")->show();
+				*/
 				logoCount = 5;
 				return true;
 			}
 		}
 		return false;
 	}
+
 	void resetLogo()
 	{
 		showCursorOverlay(false);
