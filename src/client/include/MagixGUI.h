@@ -1989,6 +1989,8 @@ public:
 			return;
 		}
 	}
+
+	// has code to test, otherwise this can be removed
 	bool skipLogo()
 	{
 		if(mGameStateManager)
@@ -2000,6 +2002,8 @@ public:
 				logoCount = 0;
 				return true;
 			}
+
+			// to be tested !
 			if(mGameStateManager->getGameState()==GAMESTATE_STARTSCREEN && logoCount<5)
 			{
 				/*OverlayManager::getSingleton().getOverlayElement("GUI/StartScreenTitle")->setDimensions(0.8,0.12);

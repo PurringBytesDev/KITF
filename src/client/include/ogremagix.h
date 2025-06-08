@@ -20,6 +20,7 @@ class ogremagixFrameListener : public MagixFrameListener, public OIS::MouseListe
 private:
 	SceneManager* mSceneMgr;
 	MagixHandler *mMagixHandler;
+	MagixPlayer* Mplayer;
 public:
 	ogremagixFrameListener(MagixHandler *magixHandler, SceneManager *sceneMgr, RenderWindow* win, Camera* cam) 
 		: MagixFrameListener(magixHandler, win, cam, true, true),
@@ -33,23 +34,27 @@ public:
 
 	bool frameStarted(const FrameEvent& evt)
 	{
-		bool contFlag = MagixFrameListener::frameStarted(evt);
+		// we should have an else case with an alert box or log
+		bool frameStarted = MagixFrameListener::frameStarted(evt);
 
-		if(contFlag)
+		if(frameStarted)
 		{
-			contFlag = mMagixHandler->update(evt);
-			if(mWindow->getViewport(0)->getBackgroundColour()!=mSceneMgr->getFogColour())
+			frameStarted = mMagixHandler->update(evt);
+
+			// is this even related to input since this handle fog ? WTF ?
+			if (mWindow->getViewport(0)->getBackgroundColour() != mSceneMgr->getFogColour())
 			{
 				mWindow->getViewport(0)->setBackgroundColour(mSceneMgr->getFogColour());
 			}
 		}
-		// to inspect if contFlag is ever true
-		//if(!contFlag)mMagixHandler->shutdown();
 
-      return contFlag;
+		// to inspect if frameStarted is NOT true : stop the game. (but we should have a log then)
+		//if(!frameStarted)mMagixHandler->shutdown();
+
+      return frameStarted;
 	}
 
-	// these should go in input
+	// these should go in input the whole frame listening is a farce, these are not specifically related
 
 	// MouseListener
     bool mouseMoved(const OIS::MouseEvent &e)
@@ -70,7 +75,9 @@ public:
 				SetCursorPos(tL+tW*0.5,tT+tH*0.5);
 				//if(ShowCursor(false)<-1)ShowCursor(true); 
 			}
+
 			mMagixHandler->getMagixGUI()->showMouse(false);
+
 			//Right button held, Zoom camera
 			if( ms.buttonDown( MB_Right ) && !mMagixHandler->getCamera()->getIsFirstPerson())
 			{
@@ -98,7 +105,8 @@ public:
 				}
 			}
 		}
-		else//Mouse cursor mode
+		//Mouse cursor mode (actually : to be removed mode)
+		else
 		{
 			const bool tDoZoom = ( (mMagixHandler->getCameraMode()==CAMERA_FREECURSORNEW && ms.buttonDown( MB_Left ) && ms.buttonDown( MB_Right ))
 									|| (mMagixHandler->getCameraMode()==CAMERA_FREECURSOR && ms.buttonDown( MB_Middle )) );
@@ -110,10 +118,12 @@ public:
 			{
 				if(mMagixHandler->getMagixGUI()->getUseWindowsCursor())
 				{
+					// todo : give better variable names (for map editor case since this is not going to be player no more)
 					unsigned int tW,tH,tCD;
 					int tL,tT;
-					mWindow->getMetrics(tW,tH,tCD,tL,tT);
-					SetCursorPos(tL+tW*0.5,tT+tH*0.5);
+
+					mWindow->getMetrics(tW, tH, tCD, tL, tT);
+					SetCursorPos(tL + tW * 0.5, tT + tH * 0.5);
 					//if(ShowCursor(false)<-1)ShowCursor(true); 
 				}
 				mMagixHandler->getMagixGUI()->showMouse(false);
@@ -169,6 +179,7 @@ public:
 				}
 				else
 				{
+					// we don't have a tablet build this should be nuked from here
 					if(mMagixHandler->getMagixGUI()->isTablet())
 					{
 						//tablet cursor always moves, see HERE
@@ -181,6 +192,7 @@ public:
 			}
 		}
 		//HERE
+		// this should gtfo into a void, this is an useless piece of code
 		if(mMagixHandler->getMagixGUI()->isTablet() && !mMagixHandler->getMagixGUI()->getUseWindowsCursor())
 		{
 			const Real tXYRatio = Real(mWindow->getWidth())/Real(mWindow->getHeight());
@@ -214,66 +226,97 @@ public:
 		using namespace OIS;
 
 		//Skip logo
-		if(mMagixHandler->getMagixGUI()->skipLogo())return true;
+		if(mMagixHandler->getMagixGUI()->skipLogo())
+		{
+			return true;
+		}
 
 		//Ingame controls
-		if( !mMagixHandler->getGameState()->isCinematic() && mMagixHandler->getGameState()->isInGame() && mMagixHandler->getInputMode()==INPUT_CONTROL)
-		switch (e.key)
+		if(!mMagixHandler->getGameState()->isCinematic() && mMagixHandler->getGameState()->isInGame() && mMagixHandler->getInputMode()==INPUT_CONTROL)
 		{
-			//Player controls
+			switch(e.key)
+			{
+				//Player controls
+				// we should see about if azerty is pressed too ? or OIS understand Z/W indiscriminately ?
 			case KC_W:
-				if(mMagixHandler->getCameraMode()!=CAMERA_FREE)
+				if (mMagixHandler->getCameraMode() != CAMERA_FREE)
 				{
 					mMagixHandler->getPlayer()->up = true;
-					if(mMagixHandler->getPlayer()->getAutoRun())mMagixHandler->getPlayer()->toggleAutoRun();
+					if (mMagixHandler->getPlayer()->getAutoRun())
+					{
+						mMagixHandler->getPlayer()->toggleAutoRun();
+					}
 				}
-				else mMagixHandler->getCamera()->heldMove(DIR_FORWARD,true);
-			break;
+				else
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_FORWARD, true);
+				}
+				break;
 			case KC_S:
-				if(mMagixHandler->getCameraMode()!=CAMERA_FREE)
+				if (mMagixHandler->getCameraMode() != CAMERA_FREE)
 				{
 					mMagixHandler->getPlayer()->down = true;
-					if(mMagixHandler->getPlayer()->getAutoRun())mMagixHandler->getPlayer()->toggleAutoRun();
+					if (mMagixHandler->getPlayer()->getAutoRun())mMagixHandler->getPlayer()->toggleAutoRun();
 				}
-				else mMagixHandler->getCamera()->heldMove(DIR_BACK,true);
-			break;
+				else mMagixHandler->getCamera()->heldMove(DIR_BACK, true);
+				break;
 			case KC_A:
-				if(mMagixHandler->getCameraMode()!=CAMERA_FREE)mMagixHandler->getPlayer()->left = true;
-				else mMagixHandler->getCamera()->heldMove(DIR_LEFT,true);
-			break;
+				if (mMagixHandler->getCameraMode() != CAMERA_FREE)mMagixHandler->getPlayer()->left = true;
+				else mMagixHandler->getCamera()->heldMove(DIR_LEFT, true);
+				break;
 			case KC_D:
-				if(mMagixHandler->getCameraMode()!=CAMERA_FREE)mMagixHandler->getPlayer()->right = true;
-				else mMagixHandler->getCamera()->heldMove(DIR_RIGHT,true);
-			break;
-			case KC_SPACE: 
-				if(mMagixHandler->getMagixGUI()->isDoubleJumpOn() && mMagixHandler->getPlayer()->isReadyToDoubleJump)mMagixHandler->getPlayer()->doDoubleJump();
+				if (mMagixHandler->getCameraMode() != CAMERA_FREE)mMagixHandler->getPlayer()->right = true;
+				else mMagixHandler->getCamera()->heldMove(DIR_RIGHT, true);
+				break;
+			case KC_SPACE:
+				if (mMagixHandler->getMagixGUI()->isDoubleJumpOn() && mMagixHandler->getPlayer()->isReadyToDoubleJump)mMagixHandler->getPlayer()->doDoubleJump();
 				mMagixHandler->getPlayer()->setJump(true);
 				break;
-			case KC_LSHIFT: mMagixHandler->getPlayer()->setIsWalking(!mMagixHandler->getPlayer()->getAutoWalk()); break;
+			case KC_LSHIFT: mMagixHandler->getPlayer()->setIsWalking(!mMagixHandler->getPlayer()->getAutoWalk());
+				break;
 			case KC_UP:
-				mMagixHandler->getCamera()->heldTurn(DIR_UP,true);
+				mMagixHandler->getCamera()->heldTurn(DIR_UP, true);
 				break;
 			case KC_DOWN:
-				mMagixHandler->getCamera()->heldTurn(DIR_DOWN,true);
+				mMagixHandler->getCamera()->heldTurn(DIR_DOWN, true);
 				break;
 			case KC_LEFT:
-				mMagixHandler->getCamera()->heldTurn(DIR_LEFT,true);
+				mMagixHandler->getCamera()->heldTurn(DIR_LEFT, true);
 				break;
 			case KC_RIGHT:
-				mMagixHandler->getCamera()->heldTurn(DIR_RIGHT,true);
+				mMagixHandler->getCamera()->heldTurn(DIR_RIGHT, true);
 				break;
 			case KC_PGUP:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_UP,true);
-				else mMagixHandler->getPlayer()->ascend = true;
+				if (mMagixHandler->getCameraMode() == CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_UP, true);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->ascend = true;
+				}
 				break;
 			case KC_PGDOWN:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_DOWN,true);
-				else mMagixHandler->getPlayer()->descend = true;
+				if (mMagixHandler->getCameraMode() == CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_DOWN, true);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->descend = true;
+				}
 				break;
-			case KC_Z: mMagixHandler->getPlayer()->doSit(); break;
-			case KC_X: mMagixHandler->getPlayer()->doSideLay(); break;
+			case KC_Z:
+				mMagixHandler->getPlayer()->doSit();
+				break;
+			case KC_X:
+				mMagixHandler->getPlayer()->doSideLay();
+				break;
 			case KC_C:
-				if(mMagixHandler->getPlayer()->getWingEnt())mMagixHandler->getPlayer()->toggleAntiGravity();
+				if (mMagixHandler->getPlayer()->getWingEnt())
+				{
+					mMagixHandler->getPlayer()->toggleAntiGravity();
+				}
 				break;
 			case KC_NUMPAD8:
 				mMagixHandler->getPlayer()->up = true;
@@ -301,7 +344,6 @@ public:
 			case KC_ADD:
 				mMagixHandler->getCamera()->changeSpeed(2);
 				break;
-
 			//case KC_F5:
 			case KC_F6:
 			case KC_F7:
@@ -310,40 +352,52 @@ public:
 			case KC_F10:
 			case KC_F11:
 			case KC_F12:
-				if(!mMagixHandler->getGameState()->isCampaign())
+				if (!mMagixHandler->getGameState()->isCampaign())
 				{
-					MagixExternalDefinitions *def = mMagixHandler->getExternalDefinitions();
-					mMagixHandler->getPlayer()->setEmote(def->getHotkeyF(e.key-(e.key>=KC_F11?KC_F11-6:KC_F5)),def);
-					mMagixHandler->getNetworkManager()->sendEmote(def->getHotkeyF(e.key-(e.key>=KC_F11?KC_F11-6:KC_F5)));
+					MagixExternalDefinitions* def = mMagixHandler->getExternalDefinitions();
+					mMagixHandler->getPlayer()->setEmote(def->getHotkeyF(e.key - (e.key >= KC_F11 ? KC_F11 - 6 : KC_F5)), def);
+					mMagixHandler->getNetworkManager()->sendEmote(def->getHotkeyF(e.key - (e.key >= KC_F11 ? KC_F11 - 6 : KC_F5)));
 					mMagixHandler->getInputManager()->hotkeyHeld(e.key);
 				}
 				break;
-			case KC_F: mMagixHandler->getPlayer()->toggleStance(mMagixHandler->getExternalDefinitions()); break;
-			case KC_E:
-				if(mMagixHandler->getCameraMode()==CAMERA_LOCKED)mMagixHandler->getUnitManager()->doLockOn();
+			case KC_F:
+				mMagixHandler->getPlayer()->toggleStance(mMagixHandler->getExternalDefinitions());
 				break;
+			case KC_E:
+				if(mMagixHandler->getCameraMode() == CAMERA_LOCKED)
+				{
+					mMagixHandler->getUnitManager()->doLockOn();
+				}
+				break;
+			// seems to be key numbers on top of text keys ? to validate.
 			case KC_1:
 				mMagixHandler->getPlayer()->setCurrentSkill(0);
 				mMagixHandler->getMagixGUI()->updateSkillText(0);
 				break;
 			case KC_2:
-			/*case KC_3:
-			case KC_4:
-			case KC_5:
-			case KC_6:
-			case KC_7:
-			case KC_8:
-			case KC_9:
-			case KC_0:*/
+				/*
+				case KC_3:
+				case KC_4:
+				case KC_5:
+				case KC_6:
+				case KC_7:
+				case KC_8:
+				case KC_9:
+				case KC_0:
+				*/
 				mMagixHandler->getPlayer()->setCurrentSkill(mMagixHandler->getPlayer()->getNextSkill());
 				mMagixHandler->getMagixGUI()->updateSkillText(mMagixHandler->getPlayer()->getCurrentSkill());
 				break;
-			//Toggle controls
+				//Toggle controls
+				// this is going to be removed soon to keep only 2 modes
 			case KC_F1:
 				mMagixHandler->getCamera()->setCameraMode(CAMERA_LOCKED);
 				mMagixHandler->getMagixGUI()->showMouse(false);
 				mMagixHandler->getMagixGUI()->showSelectPanel(false);
-				if(mMagixHandler->getMagixGUI()->isOptionsVisible())mMagixHandler->getMagixGUI()->toggleShowOptions();
+				if(mMagixHandler->getMagixGUI()->isOptionsVisible())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowOptions();
+				}
 				//mMagixHandler->getMagixGUI()->getChatManager()->message("Locked Chase Camera: Left Click = Attack, Right Click (hold) = Zoom.");
 				break;
 			case KC_F2:
@@ -352,6 +406,7 @@ public:
 				//mMagixHandler->getMagixGUI()->getChatManager()->message("Free Chase Camera: Left Click = Select, Right Click (hold) = Rotate, Middle Click (hold) = Zoom.");
 				break;
 			case KC_F3:
+				// this is likely the camera mode we want to neutralize.
 				mMagixHandler->getCamera()->setCameraMode(CAMERA_FREE);
 				mMagixHandler->getMagixGUI()->showMouse(true);
 				mMagixHandler->getPlayer()->up = false;
@@ -363,11 +418,19 @@ public:
 				//mMagixHandler->getMagixGUI()->getChatManager()->message("Free Camera: Left Click = Select, Right Click (hold) = Rotate.");
 				break;
 			case KC_F4:
-				mMagixHandler->getCamera()->setCameraMode(CAMERA_LOCKED,true);
+				mMagixHandler->getCamera()->setCameraMode(CAMERA_LOCKED, true);
 				mMagixHandler->getMagixGUI()->showMouse(false);
 				mMagixHandler->getMagixGUI()->showSelectPanel(false);
-				if(mMagixHandler->getMagixGUI()->isOptionsVisible())mMagixHandler->getMagixGUI()->toggleShowOptions();
-				if(!mMagixHandler->getPlayer()->getIsLockedOn())mMagixHandler->getPlayer()->setAutoTrackObject(0);
+				
+				if(mMagixHandler->getMagixGUI()->isOptionsVisible())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowOptions();
+				}
+				
+				if(!mMagixHandler->getPlayer()->getIsLockedOn())
+				{
+					mMagixHandler->getPlayer()->setAutoTrackObject(0);
+				}
 				//mMagixHandler->getMagixGUI()->getChatManager()->message("First-person Camera: Left Click = Attack.");
 				break;
 			case KC_F5:
@@ -377,45 +440,96 @@ public:
 				break;
 			case KC_ESCAPE:
 				mMagixHandler->getMagixGUI()->toggleShowOptions();
-				if(mMagixHandler->getCameraMode()==CAMERA_LOCKED)
+				if (mMagixHandler->getCameraMode() == CAMERA_LOCKED)
 				{
 					mMagixHandler->getCamera()->setCameraMode(CAMERA_FREECURSOR);
 					mMagixHandler->getMagixGUI()->showMouse(true);
 				}
-			break;
-			//case KC_R: if(mKeyboard->isKeyDown(KC_LCONTROL))mMagixHandler->resetScene(); break;
-			//case KC_P: mMagixHandler->getGameState()->togglePause(); break;
-			//case KC_L: showDebugOverlay(!isStatsOn); break;
-			case KC_INSERT: mMagixHandler->getMagixGUI()->toggleIsTablet(true); break;
+				break;
+				//case KC_R: if(mKeyboard->isKeyDown(KC_LCONTROL))mMagixHandler->resetScene();
+				// break;
+				//case KC_P: mMagixHandler->getGameState()->togglePause();
+				// break;
+				//case KC_L: showDebugOverlay(!isStatsOn);
+				// break;
+			case KC_INSERT:
+				mMagixHandler->getMagixGUI()->toggleIsTablet(true); 
+				break;
 			case KC_RETURN:
 			case KC_NUMPADENTER:
-				if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleInputMode(true);
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleInputMode(true);
+				}
 				break;
-			case KC_LCONTROL: mMagixHandler->getPlayer()->doCrouch(true); break;
-			case KC_RCONTROL: mMagixHandler->getMagixGUI()->toggleRunMode(); break;
+			case KC_LCONTROL:
+				mMagixHandler->getPlayer()->doCrouch(true);
+				break;
+			case KC_RCONTROL:
+				mMagixHandler->getMagixGUI()->toggleRunMode();
+				break;
 			case KC_LMENU:
 			case KC_RMENU:
-				if(!mMagixHandler->getPlayer()->getIsLockedOn())
+				if (!mMagixHandler->getPlayer()->getIsLockedOn())
+				{
 					mMagixHandler->getPlayer()->setFreeLook(!mMagixHandler->getPlayer()->getFreeLook());
+				}					
 				break;
-			case KC_GRAVE:	mMagixHandler->getMagixGUI()->toggleChatChannel();	break;
-			case KC_TAB:	mMagixHandler->getMagixGUI()->toggleShowGUI();	break;
-			case KC_H: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowHomeBox();	break;
-			case KC_B: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowBioBox();	break;
-			case KC_N: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowFriendBox();	break;
-			case KC_M: mMagixHandler->getMagixGUI()->toggleShowMiniMap();	break;
-			case KC_J: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowEmoteBox();	break;
-			case KC_I: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowItemBox();	break;
-			case KC_P: if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowPartyBox();	break;
-			case KC_R: mMagixHandler->getPlayer()->toggleAutoRun(); break;
-			case KC_CAPITAL: mMagixHandler->getPlayer()->toggleAutoWalk(); break;
+			case KC_GRAVE:
+				mMagixHandler->getMagixGUI()->toggleChatChannel();
+				break;
+			case KC_TAB:
+				mMagixHandler->getMagixGUI()->toggleShowGUI();
+				break;
+			case KC_H: 
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowHomeBox();
+				}
+				break;
+			case KC_B:
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowBioBox();
+				}
+				break;
+			case KC_N:
+				if(!mMagixHandler->getGameState()->isCampaign())mMagixHandler->getMagixGUI()->toggleShowFriendBox();	
+				break;
+			case KC_M:
+				mMagixHandler->getMagixGUI()->toggleShowMiniMap();
+				break;
+			case KC_J:
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowEmoteBox();
+				}
+				break;
+			case KC_I:
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowItemBox();
+				}
+				break;
+			case KC_P:
+				if(!mMagixHandler->getGameState()->isCampaign())
+				{
+					mMagixHandler->getMagixGUI()->toggleShowPartyBox();
+				}
+				break;
+			case KC_R:
+				mMagixHandler->getPlayer()->toggleAutoRun();
+				break;
+			case KC_CAPITAL:
+				mMagixHandler->getPlayer()->toggleAutoWalk();
+				break;
 			case KC_SYSRQ:
-				mWindow->writeContentsToTimestampedFile("screenshot",".PNG");
-				mMagixHandler->getMagixGUI()->getAlertBox()->showAlert("Screenshot saved",0.5,0.5);
+				mWindow->writeContentsToTimestampedFile("screenshot", ".PNG");
+				mMagixHandler->getMagixGUI()->getAlertBox()->showAlert("Screenshot saved", 0.5, 0.5);
 				break;
-
 			default:
-			break;
+				break;
+			}
 		}
 		//Text input
 		else if(mMagixHandler->getInputMode()==INPUT_TEXT)
@@ -445,9 +559,14 @@ public:
 		{
 			switch (e.key)
 			{
-				case KC_ESCAPE: mMagixHandler->getMagixGUI()->toggleShowOptions(); break;
-				//case KC_L: showDebugOverlay(!isStatsOn); break;
-				case KC_INSERT: mMagixHandler->getMagixGUI()->toggleIsTablet(true); break;
+				case KC_ESCAPE:
+					mMagixHandler->getMagixGUI()->toggleShowOptions();
+					break;
+				//case KC_L: showDebugOverlay(!isStatsOn);
+				// break;
+				case KC_INSERT:
+					mMagixHandler->getMagixGUI()->toggleIsTablet(true);
+					break;
 				case KC_SYSRQ:
 					mWindow->writeContentsToTimestampedFile("screenshot",".PNG");
 					mMagixHandler->getMagixGUI()->getAlertBox()->showAlert("Screenshot saved",0.5,0.5);
@@ -458,6 +577,7 @@ public:
 			}
 		}
 
+		/// key debug ?
 		//mMagixHandler->getMagixGUI()->getAlertBox()->showAlert(StringConverter::toString(e.key),0.5,0.5);
 
 		return mContinue;
@@ -472,38 +592,89 @@ public:
 		{
 			//Player controls
 			case KC_W:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_FORWARD,false);
-				else mMagixHandler->getPlayer()->up = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_FORWARD, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->up = false;
+				}
 			break;
 			case KC_S:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_BACK,false);
-				else mMagixHandler->getPlayer()->down = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_BACK, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->down = false;
+				}
 			break;
 			case KC_A:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_LEFT,false);
-				else mMagixHandler->getPlayer()->left = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_LEFT, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->left = false;
+				}
 			break;
 			case KC_D:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_RIGHT,false);
-				else mMagixHandler->getPlayer()->right = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_RIGHT, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->right = false;
+				}
 			break;
 			case KC_SPACE:
-				if(mMagixHandler->getPlayer()->getJump())mMagixHandler->getPlayer()->isReadyToDoubleJump = true;
+				if(mMagixHandler->getPlayer()->getJump())
+				{
+					mMagixHandler->getPlayer()->isReadyToDoubleJump = true;
+				}
 				mMagixHandler->getPlayer()->setJump(false);
 				break;
-			case KC_LSHIFT: mMagixHandler->getPlayer()->setIsWalking(mMagixHandler->getPlayer()->getAutoWalk()); break;
-			case KC_LCONTROL: mMagixHandler->getPlayer()->doCrouch(false); break;
-			case KC_UP: mMagixHandler->getCamera()->heldTurn(DIR_UP,false); break;
-			case KC_DOWN: mMagixHandler->getCamera()->heldTurn(DIR_DOWN,false); break;
-			case KC_LEFT: mMagixHandler->getCamera()->heldTurn(DIR_LEFT,false); break;
-			case KC_RIGHT: mMagixHandler->getCamera()->heldTurn(DIR_RIGHT,false); break;
+			case KC_LSHIFT:
+				mMagixHandler->getPlayer()->setIsWalking(mMagixHandler->getPlayer()->getAutoWalk());
+				break;
+			case KC_LCONTROL:
+				mMagixHandler->getPlayer()->doCrouch(false);
+				break;
+			case KC_UP:
+				mMagixHandler->getCamera()->heldTurn(DIR_UP,false);
+				break;
+			case KC_DOWN:
+				mMagixHandler->getCamera()->heldTurn(DIR_DOWN,false);
+				break;
+			case KC_LEFT:
+				mMagixHandler->getCamera()->heldTurn(DIR_LEFT,false);
+				break;
+			case KC_RIGHT:
+				mMagixHandler->getCamera()->heldTurn(DIR_RIGHT,false);
+				break;
 			case KC_PGUP:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_UP,false);
-				else mMagixHandler->getPlayer()->ascend = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_UP, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->ascend = false;
+				}
 				break;
 			case KC_PGDOWN:
-				if(mMagixHandler->getCameraMode()==CAMERA_FREE)mMagixHandler->getCamera()->heldMove(DIR_DOWN,false);
-				else mMagixHandler->getPlayer()->descend = false;
+				if(mMagixHandler->getCameraMode()==CAMERA_FREE)
+				{
+					mMagixHandler->getCamera()->heldMove(DIR_DOWN, false);
+				}
+				else
+				{
+					mMagixHandler->getPlayer()->descend = false;
+				}
 				break;
 			case KC_NUMPAD8:
 				mMagixHandler->getPlayer()->up = false;

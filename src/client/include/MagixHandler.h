@@ -122,9 +122,20 @@ public:
 	}
 	void shutdown()
 	{
-		if(!initialized)return;
+		// dumb failsafe, when can this occur exactly if shutdown not called ?
+		if(!initialized)
+		{
+			return;
+		}
+		
+		// if not in campaign && the world name is not empty and we are in game, then do a save point (to be restored there)
+		// NB : change to use the saveHomePoint or convert the function to a single savepoint as it has a boolean to determine if home or save point already
 		if(!mGameStateManager->isCampaign() && mGameStateManager->getCampaignName()=="" && mWorld->getWorldName()!="" && mGameStateManager->isInGame())
-			mDef->saveSavePoint(mWorld->getWorldName(),Vector2(getPlayer()->getPosition().x,getPlayer()->getPosition().z),mGameStateManager->getDimension());
+		{
+			mDef->saveSavePoint(mWorld->getWorldName(), Vector2(getPlayer()->getPosition().x, getPlayer()->getPosition().z), mGameStateManager->getDimension());
+		}
+		
+		// both utils functions
 		mGui->saveSettings();
 		mDef->saveHotkeys("Hotkeys.cfg");
 	}
@@ -332,6 +343,8 @@ public:
 		//mDebugText = mNetworkManager->getDebugText();
 		//mDebugText = StringConverter::toString(getPlayer()->getPosition());
 	}
+
+	// definitively something that should not be there.
 	void updateCommand()
 	{
 		const String tCommand = mGui->popCommand();
@@ -361,18 +374,18 @@ public:
 			//Change map & dimension
 			else
 			{
-				mUnitManager->setMapChange(true,tMap,true,Vector3(tPoint.x,0,tPoint.y));
+				mUnitManager->setMapChange(true, tMap, true, Vector3(tPoint.x, 0, tPoint.y));
 				mGameStateManager->setDimension(tDimension);
 			}
 		}
 		else if(tCommand==COMMAND_RESETHOME)
 		{
-			mDef->saveHomePoint(MAP_DEFAULT,Vector2(MAP_SPAWN),0);
+			mDef->saveHomePoint(MAP_DEFAULT, Vector2(MAP_SPAWN), 0);
 			mGui->getChatManager()->message("Home Point has been reset.");
 		}
 		else if(tCommand==COMMAND_POSITION)
 		{
-			mGui->getChatManager()->message("Position is "+StringConverter::toString(getPlayer()->getPosition()));
+			mGui->getChatManager()->message("Position is " + StringConverter::toString(getPlayer()->getPosition()));
 		}
 		else if(tCommand==COMMAND_EARTHQUAKE)
 		{
@@ -380,9 +393,19 @@ public:
 		}
 		else if(tCommand==COMMAND_GOTO)
 		{
-			if(!mDef->isAdmin && !mDef->isMod)return;
-			const vector<String>::type tPart = StringUtil::split(tParam,":",1);
-			if(tPart.size()<=0)return;
+			// admin / mod command ?
+			if(!mDef->isAdmin && !mDef->isMod)
+			{
+				return;
+			}
+			
+			const vector<String>::type tPart = StringUtil::split(tParam, ":", 1);
+
+			// empty command ?
+			if (tPart.size() <= 0)
+			{
+				return;
+			}
 			const String tMap = tPart[0];
 
 			//Same map & channel
@@ -401,10 +424,11 @@ public:
 			//Change map & dimension
 			else
 			{
-				mUnitManager->setMapChange(true,tMap,(tPart.size()>1),(tPart.size()>1?StringConverter::parseVector3(tPart[1]):Vector3::ZERO));
+				mUnitManager->setMapChange(true, tMap, (tPart.size() > 1), (tPart.size() > 1 ? StringConverter::parseVector3(tPart[1]) : Vector3::ZERO));
 			}
 		}
 	}
+
 	void updateMapChange(const FrameEvent &evt)
 	{
 		if(mGameStateManager->popMapChangeDone())
@@ -417,11 +441,15 @@ public:
 			mUnitManager->update(evt);
 			mEffectsManager->update(evt);
 			mGui->update(evt);
-			if(!mGameStateManager->isPaused() || !mGameStateManager->isCampaign())mCamera->update(evt);
+			if(!mGameStateManager->isPaused() || !mGameStateManager->isCampaign())
+			{
+				mCamera->update(evt);
+			}
+			
 			mSkyManager->update(evt);
 			mWorld->update();
 			mSoundManager->update(evt);
-			mGui->getChatManager()->message("---"+mDef->getMapName(mWorld->getWorldName())+"---");
+			mGui->getChatManager()->message("---" + mDef->getMapName(mWorld->getWorldName()) + "---");
 		}
 		else
 		{
@@ -452,44 +480,58 @@ public:
 			mGameStateManager->pushMapChangeDone();
 		}
 	}
+
+	// ok but what call this ? for campaign ?
 	void updateCredits(const FrameEvent &evt)
 	{
 		mGui->update(evt);
 		mSoundManager->update(evt);
 		mCampaignManager->updateCredits(evt);
 	}
+
+	// same question for those under.
 	void updateGameOver(const FrameEvent &evt)
 	{
 		mGui->update(evt);
 		mSoundManager->update(evt);
 	}
+
 	void updateLogo(const FrameEvent &evt)
 	{
 		mGui->update(evt);
 	}
+
 	void updateStartScreen(const FrameEvent &evt)
 	{
 		mNetworkManager->update(evt);
 		mGui->update(evt);
 		//mSoundManager->update(evt);
 	}
+	
 	void updateCharScreen(const FrameEvent &evt)
 	{
 		mNetworkManager->update(evt);
 		mGui->update(evt);
 		//Re-equip items on mesh change
 		if(mGui->getCharScreenManager()->popDoReequip())
-			for(int i=1;i<=MAX_EQUIP;i++)
-				if(getPlayer()->getEquip(i)!="")
+		{
+			for (int i = 1; i <= MAX_EQUIP; i++)
+			{
+				if (getPlayer()->getEquip(i) != "")
 				{
-					const String tEquip = mUnitManager->unequipItem(getPlayer(),i);
-					mUnitManager->equipItem(getPlayer(),tEquip,i);
+					const String tEquip = mUnitManager->unequipItem(getPlayer(), i);
+					mUnitManager->equipItem(getPlayer(), tEquip, i);
 				}
+			}
+		}
+		
 		mWorld->update();
 		mEffectsManager->update(evt);
 		mSoundManager->update(evt);
 		getPlayer()->update(evt,mDef);
 	}
+
+	// those functions should not be there.
 	MagixPlayer* getPlayer()
 	{
 		return mUnitManager->getPlayer();
@@ -518,22 +560,28 @@ public:
 	{
 		return mDef;
 	}
+
 	MagixNetworkManager* getNetworkManager()
 	{
 		return mNetworkManager;
 	}
+
 	unsigned short getCameraMode()
 	{
 		return mCamera->getCameraMode();
 	}
+
 	unsigned short getInputMode()
 	{
 		return getInputManager()->getInputMode();
 	}
+
 	MagixGameStateManager* getGameState()
 	{
 		return mGameStateManager;
 	}
+
+
 	MagixEffectsManager* getEffectsManager()
 	{
 		return mEffectsManager;

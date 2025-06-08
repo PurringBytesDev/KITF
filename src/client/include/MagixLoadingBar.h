@@ -106,11 +106,11 @@ public:
 	{
 		if(!askedByUser)
 		{
-			// we are in a tool or button clicked context
+			// we are not in a tool or button clicked context
 			return;
 		}
-		// use only for debugging:
-		// generateAllFontTextures()
+		// use only for debugging ?
+		//generateAllFontTextures();
 
 		// example: i want to use the TTF font Cyberbit in my application:
 		fontCacheInit(fontName);
