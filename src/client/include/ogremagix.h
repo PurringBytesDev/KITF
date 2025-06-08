@@ -47,8 +47,9 @@ public:
 		//if(!contFlag)mMagixHandler->shutdown();
 
       return contFlag;
-
 	}
+
+	// these should go in input
 
 	// MouseListener
     bool mouseMoved(const OIS::MouseEvent &e)
@@ -547,10 +548,7 @@ public:
 
 		return true;
 	}
-
 };
-
-
 
 class ogremagixApp : public MagixApplication
 {
