@@ -377,6 +377,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\client\include\movabletextoverlay.cpp" />
+    <ClCompile Include="src\client\src\MagixCollisionManager.cpp" />
     <ClCompile Include="src\client\src\MagixExternalDefinitions.cpp" />
     <ClCompile Include="src\client\src\ObfuscatedZip.cpp" />
     <ClCompile Include="src\client\src\ogremagix.cpp" />

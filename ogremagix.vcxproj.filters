@@ -14,7 +14,10 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\client\src\MagixExternalDefinitions.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Magix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client\src\MagixCollisionManager.cpp">
+      <Filter>Sources\Magix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +152,9 @@
     </Filter>
     <Filter Include="Headers\Magix">
       <UniqueIdentifier>{b21aa662-7b58-43ec-9bcc-94d5c9790fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Magix">
+      <UniqueIdentifier>{a3839fa7-5d40-4e2f-8321-dcb85bd8a5ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

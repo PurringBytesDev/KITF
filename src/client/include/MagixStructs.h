@@ -160,4 +160,21 @@ struct WorldCritter
 		roamAreaID = rAID;
 	}
 };
+
+struct CollSphere
+{
+	Vector3 center;
+	Real range;
+	CollSphere()
+	{
+		center = Vector3::ZERO;
+		range = 0;
+	}
+	bool collides(const Vector3& target)
+	{
+		const Sphere tSphere(center, range);
+		if (tSphere.intersects(target))return true;
+		return false;
+	}
+};
 #endif;

@@ -1,6 +1,11 @@
 #ifndef __MagixCollisionManager_h_
 #define __MagixCollisionManager_h_
 
+#include "Ogre.h"
+#include "MagixStructs.h"
+
+using namespace Ogre;
+
 struct Collision
 {
 	SceneNode *mNode;
@@ -198,22 +203,7 @@ struct CollBox
 		return false;
 	}
 };
-struct CollSphere
-{
-	Vector3 center;
-	Real range;
-	CollSphere()
-	{
-		center = Vector3::ZERO;
-		range = 0;
-	}
-	bool collides(const Vector3 &target)
-	{
-		const Sphere tSphere(center,range);
-		if(tSphere.intersects(target))return true;
-		return false;
-	}
-};
+
 
 class MagixCollisionManager
 {
@@ -246,11 +236,12 @@ public:
 		destroyAllPortals();
 		destroyAllGates();
 	}
-	void initialize(SceneManager *sceneMgr)
-	{
-		mSceneMgr = sceneMgr;
-		createSphereMesh("CollSphere",1);
-	}
+
+	void initialize(SceneManager* sceneMgr);
+	//{
+	//	mSceneMgr = sceneMgr;
+	//	createSphereMesh("CollSphere",1);
+	//}
 	void reset()
 	{
 		coll.clear();
@@ -656,26 +647,9 @@ public:
 		}
 		return tList;
 	}
-	void createCollSphere(const Vector3 &center, const Real &range)
-	{
-		CollSphere tSphere;
-		tSphere.center = center;
-		tSphere.range = range;
-		collSphere.push_back(tSphere);
-	}
-	const vector<CollSphere*>::type getCollSphereHitList(const Vector3 &target)
-	{
-		vector<CollSphere*>::type tList;
-		list<CollSphere>::type::iterator it = collSphere.begin();
-		while(it!=collSphere.end())
-		{
-			CollSphere *tSphere = &*it;
-			if(tSphere->collides(target))tList.push_back(tSphere);
-			it++;
-		}
-		return tList;
-	}
-	
+	void createCollSphere(const Vector3& center, const Real& range);
+
+	const vector<CollSphere*>::type getCollSphereHitList(const Vector3& target);
 };
 
 #endif
