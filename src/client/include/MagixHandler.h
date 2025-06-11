@@ -1,17 +1,6 @@
 #ifndef __MagixHandler_h_
 #define __MagixHandler_h_
 
-enum QueryFlags
-{
-	OBJECT_MASK = 1<<0,
-    UNIT_MASK = 1<<1,
-    SKY_MASK = 1<<2,
-	WORLDOBJECT_MASK = 1<<3,
-	EFFECT_MASK = 1<<4,
-	ITEM_MASK = 1<<5,
-	CRITTER_MASK = 1<<6
-};
-
 #include "MagixNetworkDefines.h"
 #include "MagixExternalDefinitions.h"
 #include "MagixGameStateManager.h"
@@ -580,7 +569,6 @@ public:
 	{
 		return mGameStateManager;
 	}
-
 
 	MagixEffectsManager* getEffectsManager()
 	{

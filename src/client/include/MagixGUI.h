@@ -1463,7 +1463,7 @@ public:
 		const vector<Skill>::type tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
 		for(int i=0;i<(int)tSkillChange.size();i++)
 		{
-			if(!mGameStateManager->isCampaign())mNetworkManager->sendSkillUpdate(tSkillChange[i].name,tSkillChange[i].stock);
+			if (!mGameStateManager->isCampaign())mNetworkManager->sendSkillUpdate(tSkillChange[i].name, tSkillChange[i].stock);
 			if(getSkillText()==tSkillChange[i].name)updateSkillText(tSkillChange[i].stock>0?&tSkillChange[i]:0);
 		}
 		//Skill pickup

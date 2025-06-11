@@ -18,6 +18,7 @@ This is the heart of the base game
 class ogremagixFrameListener : public MagixFrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 private:
+	// are the pointers proper?
 	SceneManager* mSceneMgr;
 	MagixHandler *mMagixHandler;
 	MagixPlayer* Mplayer;

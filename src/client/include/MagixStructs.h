@@ -1,12 +1,14 @@
+#pragma once
 // master "structs" file, to be put in a namespace OR even a GameEngine class later
-#ifndef __MagixStructs_h_
-#define __MagixStructs_h_
 
 //#include "MagixNetworkDefines.h"
 //#include "GameConfig.h"
 //#include <OgreStreamSerialiser.h>
 //#include <OgreException.h>
 #include "Ogre.h"
+
+// game specifics
+#include "MagixObject.h"
 
 using namespace Ogre;
 
@@ -371,7 +373,7 @@ struct CollSphere
 	{
 		center = Vector3::ZERO;
 		range = 0;
-	}
+	   }
 	bool collides(const Vector3& target)
 	{
 		const Sphere tSphere(center, range);
@@ -379,4 +381,56 @@ struct CollSphere
 		return false;
 	}
 };
-#endif;
+
+///
+/// Player specific struct
+/// 
+struct Skill
+{
+	String name;
+	unsigned char stock;
+	Skill(const String& skillName, const unsigned char& skillStock)
+	{
+		name = skillName;
+		stock = skillStock;
+	}
+};
+
+// specific to pets
+struct PetFlags
+{
+	bool stay;
+	MagixLiving *attackTarget;
+	bool shrink;
+	bool evolve;
+	bool hasHeal;
+
+	PetFlags()
+	{
+		stay = false;
+		attackTarget = 0;
+		shrink = false;
+		evolve = false;
+		hasHeal = false;
+	}
+
+	void reset()
+	{
+		attackTarget = 0;
+	}
+};
+
+struct HitInfo
+{
+	unsigned short ID;
+	Real hp;
+	Vector3 force;
+	bool isMine;
+	HitInfo(const unsigned short& i, const Real& h, const Vector3& f, bool iM = false)
+	{
+		ID = i;
+		hp = h;
+		force = f;
+		isMine = iM;
+	}
+};

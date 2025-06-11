@@ -395,6 +395,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     <ClInclude Include="src\client\include\MagixCollisionManager.h" />
     <ClInclude Include="src\client\include\MagixCritterManager.h" />
     <ClInclude Include="src\client\include\MagixEffectsManager.h" />
+    <ClInclude Include="src\client\include\MagixEnums.h" />
     <ClInclude Include="src\client\include\MagixExternalDefinitions.h" />
     <ClInclude Include="src\client\include\MagixFrameListener.h" />
     <ClInclude Include="src\client\include\MagixGameStateManager.h" />
