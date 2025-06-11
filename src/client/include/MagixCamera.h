@@ -372,6 +372,7 @@ public:
 		mRayQuery->setRay(updateRay);
 		RaySceneQueryResult& qryResult = mRayQuery->execute();
 		RaySceneQueryResult::iterator i = qryResult.begin();
+
 		if(i != qryResult.end() && i->worldFragment)
 		{
 			tHeight = i->worldFragment->singleIntersection.y;

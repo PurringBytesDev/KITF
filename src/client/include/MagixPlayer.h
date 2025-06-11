@@ -12,39 +12,6 @@
 #include "MagixStructs.h"
 using namespace Ogre;
 
-// STRUCTS SHOULD BE IN A MAGIX STRUCTS CLASS !!!!
-//struct Skill
-//{
-//	String name;
-//	unsigned char stock;
-//	Skill(const String &skillName, const unsigned char &skillStock)
-//	{
-//		name = skillName;
-//		stock = skillStock;
-//	}
-//};
-//struct PetFlags
-//{
-//	bool stay;
-//	MagixLiving *attackTarget;
-//	bool shrink;
-//	bool evolve;
-//	bool hasHeal;
-//
-//	PetFlags()
-//	{
-//		stay = false;
-//		attackTarget = 0;
-//		shrink = false;
-//		evolve = false;
-//		hasHeal = false;
-//	}
-//
-//	void reset()
-//	{
-//		attackTarget = 0;
-//	}
-//};
 // so a derivative control more than a controller ?
 class MagixPlayer : public MagixUnit
 {

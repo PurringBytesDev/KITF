@@ -1,6 +1,6 @@
 #include "MagixCollisionManager.h"
 
-void MagixCollisionManager::initialize(SceneManager* sceneMgr)
+void MagixCollisionManager::initialize(SceneManager *sceneMgr)
 {
 	mSceneMgr = sceneMgr;
 	createSphereMesh("CollSphere", 1);
@@ -17,7 +17,7 @@ void MagixCollisionManager::reset()
 void MagixCollisionManager::createSphereMesh(const std::string& strName, const float r, const int nRings, const int nSegments)
 {
 	MeshPtr pSphere = MeshManager::getSingleton().createManual(strName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	SubMesh* pSphereVertex = pSphere->createSubMesh();
+	SubMesh *pSphereVertex = pSphere->createSubMesh();
 
 	pSphere->sharedVertexData = new VertexData();
 	VertexData* vertexData = pSphere->sharedVertexData;
@@ -124,7 +124,7 @@ void MagixCollisionManager::destroyCollisionByOwnerNode(SceneNode *node)
 	list<Collision>::type::iterator it = coll.begin();
 	while (it != coll.end())
 	{
-		Collision* tColl = &*it;
+		Collision *tColl = &*it;
 		if (tColl->mNode == node)it = destroyCollision(it);
 		else it++;
 	}
@@ -136,7 +136,7 @@ const vector<Collision*>::type MagixCollisionManager::getCollisionHitList(const 
 	list<Collision>::type::iterator it = coll.begin();
 	while (it != coll.end())
 	{
-		Collision* tColl = &*it;
+		Collision *tColl = &*it;
 		if (tColl->hitAlly && tColl->alliance == alliance || !tColl->hitAlly && tColl->alliance != alliance)
 			if (!tColl->hasHitID(unitID))
 				if (tColl->collides(target))
@@ -156,7 +156,7 @@ const vector<Collision*>::type MagixCollisionManager::getCollisionHitListForCrit
 	list<Collision>::type::iterator it = coll.begin();
 	while (it != coll.end())
 	{
-		Collision* tColl = &*it;
+		Collision *tColl = &*it;
 		if (tColl->hitAlly && tColl->alliance == alliance || !tColl->hitAlly && tColl->alliance != alliance)
 			if (!tColl->hasCritterHitID(iID))
 				if (tColl->collides(target))
@@ -215,7 +215,7 @@ const vector<Wall*>::type MagixCollisionManager::getWallHitList(const Vector3 &t
 	list<Wall>::type::iterator it = wall.begin();
 	while (it != wall.end())
 	{
-		Wall* tWall = &*it;
+		Wall *tWall = &*it;
 		if (tWall->collides(target))tList.push_back(tWall);
 		it++;
 	}
@@ -224,14 +224,23 @@ const vector<Wall*>::type MagixCollisionManager::getWallHitList(const Vector3 &t
 
 void MagixCollisionManager::createPortal(const Vector3 &center, const Real &range, String destName)
 {
-	if (!mSceneMgr)return;
+	if (!mSceneMgr)
+	{
+		return;
+	}
 
 	Portal tPortal;
+
+	// for later maybe use CollSphere ?
+	Sphere tSphere(center, range);
+	tPortal.mColSphere = tSphere;
+
 	tPortal.mEnt = mSceneMgr->createEntity("PortalSphere" + StringConverter::toString(portal.size() + 1), "CollSphere");
 	tPortal.mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	tPortal.mNode->attachObject(tPortal.mEnt);
 	//tPortal.mNode->setInheritScale(false);
 	tPortal.mNode->setScale(range, range, range);
+
 	//Ogre::Sphere t = tPortal.mEnt->getWorldBoundingSphere(true);
 	tPortal.mNode->setPosition(center);
 	//Ogre::Node* n = tPortal.mEnt->getParentNode();
@@ -241,13 +250,19 @@ void MagixCollisionManager::createPortal(const Vector3 &center, const Real &rang
 	Real factor = std::max(std::max(scl.x, scl.y), scl.z);
 	Real bRadius = tPortal.mEnt->getBoundingRadius();
 	Ogre::Sphere t = tPortal.mEnt->getWorldBoundingSphere();
-	Ogre::LogManager::getSingleton().logMessage("Portal to: "+destName+ " Radius: "+Ogre::StringConverter::toString(tPortal.mEnt->getWorldBoundingSphere().getRadius()));*/
+	*/
+	Ogre::LogManager::getSingleton().logMessage("Portal to: "+destName+ " Radius: "+Ogre::StringConverter::toString(tPortal.mEnt->getWorldBoundingSphere().getRadius()));
 	//Sphere mSph = tPortal.mEnt->getWorldBoundingSphere();
 	//mSph.setRadius((Real)0.00025);
 	tPortal.mNode->_updateBounds();
 	//tPortal.mNode->showBoundingBox(true);
+
 	tPortal.dest = destName;
-	for (int i = 0; i < (int)destName.length(); i++)if (destName[i] == ' ')destName[i] = '_';
+	for(int i = 0; i < (int)destName.length(); i++)
+	{
+		if (destName[i] == ' ')destName[i] = '_';
+	}
+	
 	tPortal.mEnt->setMaterialName("Portal/" + destName);
 	portal.push_back(tPortal);
 }
@@ -256,7 +271,8 @@ void MagixCollisionManager::createPortal(const Vector3 &center, const Real &rang
 const list<Portal>::type::iterator MagixCollisionManager::destroyPortal(list<Portal>::type::iterator &it)
 {
 	if (!mSceneMgr)return ++it;
-	Portal* tPortal = &*it;
+	Portal *tPortal = &*it;
+
 	if (tPortal->mEnt && mSceneMgr->hasEntity(tPortal->mEnt->getName()))
 	{
 		tPortal->mNode->detachObject(tPortal->mEnt);
@@ -264,6 +280,7 @@ const list<Portal>::type::iterator MagixCollisionManager::destroyPortal(list<Por
 		mSceneMgr->destroyEntity(tPortal->mEnt);
 		mSceneMgr->destroySceneNode(tPortal->mNode->getName());
 	}
+
 	return portal.erase(it);
 }
 
@@ -279,12 +296,19 @@ void MagixCollisionManager::destroyAllPortals()
 Portal* MagixCollisionManager::getPortalHit(const AxisAlignedBox &target)
 {
 	list<Portal>::type::iterator it = portal.begin();
+
 	while (it != portal.end())
 	{
-		Portal* tPortal = &*it;
-		if (tPortal->collides(target))return tPortal;
+		Portal *tPortal = &*it;
+		
+		if(tPortal->collides(target))
+		{
+			return tPortal;
+		}
+
 		it++;
 	}
+
 	return 0;
 }
 
@@ -295,7 +319,7 @@ void MagixCollisionManager::getPortalMap(vector<std::pair<Vector2, String>>::typ
 	list<Portal>::type::iterator it = portal.begin();
 	while (it != portal.end())
 	{
-		Portal* tPortal = &*it;
+		Portal *tPortal = &*it;
 		if (tPortal->mNode)
 		{
 			const std::pair<Vector2, String> tData = std::pair<Vector2, String>(Vector2(tPortal->mNode->getPosition().x, tPortal->mNode->getPosition().z), tPortal->dest);
@@ -337,7 +361,7 @@ WaterBox* MagixCollisionManager::getWaterBoxHit(const Vector3 &target)
 	list<WaterBox>::type::iterator it = waterBox.begin();
 	while (it != waterBox.end())
 	{
-		WaterBox* tBox = &*it;
+		WaterBox *tBox = &*it;
 		if (tBox->collides(target))return tBox;
 		it++;
 	}
@@ -350,6 +374,10 @@ void MagixCollisionManager::createGate(const Vector3 &center, String destName, c
 	if (!mSceneMgr)return;
 
 	Gate tGate;
+
+	Sphere tSphere(center, 1);
+	tGate.mColSphere = tSphere;
+
 	tGate.mEnt = mSceneMgr->createEntity("GateSphere" + StringConverter::toString(gate.size() + 1), "CollSphere");
 	tGate.mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	tGate.mNode->attachObject(tGate.mEnt);
@@ -376,7 +404,7 @@ void MagixCollisionManager::createGate(const Vector3 &center, String destName, c
 const list<Gate>::type::iterator MagixCollisionManager::destroyGate(list<Gate>::type::iterator &it)
 {
 	if (!mSceneMgr)return ++it;
-	Gate* tGate = &*it;
+	Gate *tGate = &*it;
 	if (tGate->mEnt && mSceneMgr->hasEntity(tGate->mEnt->getName()))
 	{
 		tGate->mNode->detachObject(tGate->mEnt);
@@ -384,6 +412,7 @@ const list<Gate>::type::iterator MagixCollisionManager::destroyGate(list<Gate>::
 		mSceneMgr->destroyEntity(tGate->mEnt);
 		mSceneMgr->destroySceneNode(tGate->mNode->getName());
 	}
+
 	return gate.erase(it);
 }
 
@@ -401,7 +430,7 @@ Gate* MagixCollisionManager::getGateHit(const AxisAlignedBox &target)
 	list<Gate>::type::iterator it = gate.begin();
 	while (it != gate.end())
 	{
-		Gate* tGate = &*it;
+		Gate *tGate = &*it;
 		if (tGate->collides(target))return tGate;
 		it++;
 	}
@@ -414,7 +443,8 @@ void MagixCollisionManager::getGateMap(vector<std::pair<Vector2, String>>::type 
 	list<Gate>::type::iterator it = gate.begin();
 	while (it != gate.end())
 	{
-		Gate* tGate = &*it;
+		Gate *tGate = &*it;
+
 		if (tGate->mNode)
 		{
 			const std::pair<Vector2, String> tData = std::pair<Vector2, String>(Vector2(tGate->mNode->getPosition().x, tGate->mNode->getPosition().z), tGate->dest);
@@ -438,7 +468,7 @@ const vector<CollBox*>::type MagixCollisionManager::getCollBoxHitList(const Vect
 	list<CollBox>::type::iterator it = collBox.begin();
 	while (it != collBox.end())
 	{
-		CollBox* tBox = &*it;
+		CollBox *tBox = &*it;
 		if (tBox->collides(target, headHeight))tList.push_back(tBox);
 		it++;
 	}
@@ -459,7 +489,7 @@ const vector<CollSphere*>::type MagixCollisionManager::getCollSphereHitList(cons
 	list<CollSphere>::type::iterator it = collSphere.begin();
 	while (it != collSphere.end())
 	{
-		CollSphere* tSphere = &*it;
+		CollSphere *tSphere = &*it;
 		if (tSphere->collides(target))tList.push_back(tSphere);
 		it++;
 	}

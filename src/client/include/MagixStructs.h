@@ -272,21 +272,35 @@ struct Wall
 
 struct Portal
 {
-	SceneNode* mNode;
-	Entity* mEnt;
+	SceneNode *mNode;
+	Entity *mEnt;
 	String dest;
+	Sphere mColSphere;
+
 	Portal()
 	{
 		mNode = 0;
 		mEnt = 0;
 		dest = "";
 	}
+
 	bool collides(const AxisAlignedBox& target)
 	{
-		if (!mEnt || dest == "")return false;
-		if (mEnt->getWorldBoundingSphere().intersects(target))return true; // getWorldBoundingSphere doesn't work properly
+		if(!mEnt || dest == "")
+		{
+			return false;
+		}
+
+		//if(mEnt->getWorldBoundingSphere().intersects(target))// getWorldBoundingSphere().intersects(target))
+		if(mColSphere.intersects(target))
+		{
+			// this is kinda moronic : why is this still used if this was wrong ??
+			return true; // getWorldBoundingSphere doesn't work properly 
+		}
+
 		return false;
 	}
+
 	void disable()
 	{
 		dest = "";
@@ -295,11 +309,13 @@ struct Portal
 
 struct Gate
 {
-	SceneNode* mNode;
-	Entity* mEnt;
+	SceneNode *mNode;
+	Entity *mEnt;
 	String dest;
 	Vector3 destVect;
 	bool hasVectY;
+	Sphere mColSphere;
+
 	Gate()
 	{
 		mNode = 0;
@@ -308,10 +324,20 @@ struct Gate
 		destVect = Vector3::ZERO;
 		hasVectY = false;
 	}
-	bool collides(const AxisAlignedBox& target)
+
+	bool collides(const AxisAlignedBox &target)
 	{
-		if (!mEnt || dest == "")return false;
-		if (mEnt->getWorldBoundingSphere().intersects(target))return true; // getWorldBoundingSphere doesn't work properly
+		if (!mEnt || dest == "")
+		{
+			return false;
+		}
+
+		/*if (mEnt->getWorldBoundingSphere().intersects(target))*/
+		if(mColSphere.intersects(target))
+		{
+			return true; // getWorldBoundingSphere doesn't work properly
+		}
+
 		return false;
 	}
 	void disable()
