@@ -19,12 +19,14 @@ namespace ObfuscatedZip
     {
         zzip_off_t y = tell(fd);
         const zzip_ssize_t bytes = read(fd, buf, len);
+        
         zzip_ssize_t i;
         char* pch = (char*)buf;
-        for (i = 0; i < bytes; ++i)
+        for(i = 0; i < bytes; ++i)
         {
             pch[i] ^= xor_values[(y + i) & 9];
         }
+
         return bytes;
     }
 
@@ -60,17 +62,18 @@ namespace ObfuscatedZip
     }
 
     //-----------------------------------------------------------------------
-    ObfuscatedZip::ObfuscatedZip(const Ogre::String& name, const Ogre::String& archType )
-        : Archive(name, archType), mZzipDir(0)
+    ObfuscatedZip::ObfuscatedZip(const Ogre::String& name, const Ogre::String& archType) : Archive(name, archType), mZzipDir(0)
     {
         zzip_init_io(&xor_handlers, 0);
         xor_handlers.fd.read = &xor_read;
     }
+
     //-----------------------------------------------------------------------
     ObfuscatedZip::~ObfuscatedZip()
     {
         unload();
     }
+
     //-----------------------------------------------------------------------
     void ObfuscatedZip::load()
     {
@@ -111,6 +114,7 @@ namespace ObfuscatedZip
             }
         }
     }
+
     //-----------------------------------------------------------------------
     void ObfuscatedZip::unload()
     {
@@ -121,6 +125,7 @@ namespace ObfuscatedZip
             mFileList.clear();
         }
     }
+
     //-----------------------------------------------------------------------
     Ogre::DataStreamPtr ObfuscatedZip::open(const Ogre::String& filename, bool readOnly) /*const*/
     {
@@ -148,6 +153,7 @@ namespace ObfuscatedZip
         // Construct & return stream
         return Ogre::DataStreamPtr(OGRE_NEW ObfuscatedZipDataStream(lookUpFileName, zzipFile,  static_cast<size_t>(zstat.st_size)));
     }
+
     //-----------------------------------------------------------------------
     // MISSING IN IMPLEMENTATION !
     //-----------------------------------------------------------------------
@@ -157,9 +163,12 @@ namespace ObfuscatedZip
             "Modification of zipped archived is not supported",
             "MagixEncryptionZip::create");
     }
+
+    // here for compliance but not used.
     void ObfuscatedZip::remove(const Ogre::String& filename) 
     {
     }
+
     Ogre::StringVectorPtr ObfuscatedZip::list(bool recursive, bool dirs)
     {
         Ogre::StringVectorPtr ret = Ogre::StringVectorPtr(OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
@@ -173,6 +182,7 @@ namespace ObfuscatedZip
 
         return ret;
     }
+
     //-----------------------------------------------------------------------
     Ogre::FileInfoListPtr ObfuscatedZip::listFileInfo(bool recursive, bool dirs)
     {
@@ -186,6 +196,7 @@ namespace ObfuscatedZip
 
         return Ogre::FileInfoListPtr(fil, Ogre::SPFM_DELETE_T);
     }
+
     // change for fixing protected zips ?
     //-----------------------------------------------------------------------
     Ogre::StringVectorPtr ObfuscatedZip::find(const Ogre::String& pattern, bool recursive, bool dirs)
@@ -207,6 +218,7 @@ namespace ObfuscatedZip
 
         return ret;
     }
+
     //-----------------------------------------------------------------------
     Ogre::FileInfoListPtr ObfuscatedZip::findFileInfo(const Ogre::String& pattern,
         bool recursive, bool dirs)
@@ -239,6 +251,7 @@ namespace ObfuscatedZip
             return lhs.filename == filename;
         }
     };
+
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     bool ObfuscatedZip::exists(const Ogre::String& filename)
@@ -253,6 +266,7 @@ namespace ObfuscatedZip
         return std::find_if(mFileList.begin(), mFileList.end(), std::bind2nd<FileNameCompare>(FileNameCompare(), cleanName)) != mFileList.end();
 
     }
+
     //---------------------------------------------------------------------
     time_t ObfuscatedZip::getModifiedTime(const Ogre::String& filename)
     {
@@ -271,6 +285,7 @@ namespace ObfuscatedZip
         }
 
     }
+
     //-----------------------------------------------------------------------
     void ObfuscatedZip::checkZzipError(int zzipError, const Ogre::String& operation) const
     {
@@ -283,6 +298,7 @@ namespace ObfuscatedZip
                 "ObfuscatedZip::checkZzipError");
         }
     }
+
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
@@ -291,17 +307,20 @@ namespace ObfuscatedZip
     {
         mSize = uncompressedSize;
     }
+
     //-----------------------------------------------------------------------
     ObfuscatedZipDataStream::ObfuscatedZipDataStream(const Ogre::String& name, ZZIP_FILE* zzipFile, size_t uncompressedSize)
         :DataStream(name), mZzipFile(zzipFile)
     {
         mSize = uncompressedSize;
     }
+
     //-----------------------------------------------------------------------
     ObfuscatedZipDataStream::~ObfuscatedZipDataStream()
     {
         close();
     }
+
     //-----------------------------------------------------------------------
     size_t ObfuscatedZipDataStream::read(void* buf, size_t count)
     {
@@ -315,6 +334,7 @@ namespace ObfuscatedZip
         }
         return (size_t) r;
     }
+
     // MISSING IN IMPLEMENTATION
     //-----------------------------------------------------------------------
     size_t ObfuscatedZipDataStream::write(void* buf, size_t count)
@@ -322,6 +342,7 @@ namespace ObfuscatedZip
         // not supported
         return 0;
     }
+
     //-----------------------------------------------------------------------
 
     // this is changed in cache patch, seek commit fbfcecd91f46f68d19d89003385f8115ebdf2d5b to add the whole
@@ -330,21 +351,25 @@ namespace ObfuscatedZip
     {
         zzip_seek(mZzipFile, static_cast<zzip_off_t>(count), SEEK_CUR);
     }
+
     //-----------------------------------------------------------------------
     void ObfuscatedZipDataStream::seek( size_t pos )
     {
         zzip_seek(mZzipFile, static_cast<zzip_off_t>(pos), SEEK_SET);
     }
+
     //-----------------------------------------------------------------------
     size_t ObfuscatedZipDataStream::tell(void) const
     {
         return zzip_tell(mZzipFile);
     }
+
     //-----------------------------------------------------------------------
     bool ObfuscatedZipDataStream::eof(void) const
     {
         return (zzip_tell(mZzipFile) >= static_cast<zzip_off_t>(mSize));
     }
+
     //-----------------------------------------------------------------------
     void ObfuscatedZipDataStream::close(void)
     {
@@ -354,6 +379,7 @@ namespace ObfuscatedZip
             mZzipFile = 0;
         }
     }
+
     //-----------------------------------------------------------------------
     const Ogre::String& ObfuscatedZipFactory::getType(void) const
     {

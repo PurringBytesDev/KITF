@@ -64,6 +64,6 @@
 
 // Uncomment next lines and change them
 #define MAIN_SERVER_IP "127.0.0.1" // enter your server address
-#define SERVER_PASSWORD "KITO1.7.4" // enter a key
+#define SERVER_PASSWORD "KITF-0.1.2" // enter a key
 
 #endif
