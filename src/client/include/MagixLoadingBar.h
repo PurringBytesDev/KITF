@@ -42,10 +42,7 @@ public:
 		up by initialisation (ie script parsing etc). Defaults to 0.7 since
 		script parsing can often take the majority of the time.
 	*/
-	virtual void start(RenderWindow* window, 
-		unsigned short numGroupsInit = 1, 
-		unsigned short numGroupsLoad = 1, 
-		Real initProportion = 0.70f)
+	virtual void start(RenderWindow* window, unsigned short numGroupsInit = 1, unsigned short numGroupsLoad = 1, Real initProportion = 0.70f)
 	{
 		mWindow = window;
 		mNumGroupsInit = numGroupsInit;
@@ -54,15 +51,18 @@ public:
 
 		// We need to pre-initialise the 'Bootstrap' group so we can use
 		// the basic contents in the loading screen
+		// nb : was this bootstrap in IT ?
 		ResourceGroupManager::getSingleton().initialiseResourceGroup("Bootstrap");
 
 		OverlayManager& omgr = OverlayManager::getSingleton();
 		mLoadOverlay = (Overlay*)omgr.getByName("Core/LoadOverlay");
+
 		if(!mLoadOverlay)
 		{
 			OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
 				"Cannot find loading overlay", "MagixLoadingBar::start");
 		}
+
 		mLoadOverlay->show();
 
 		// Save links to the bar and to the loading text, for updates as we go
@@ -129,20 +129,24 @@ public:
 		mLoadingDescriptionElement->setCaption("Parsing scripts...");
 		mWindow->update();
 	}
+
 	void scriptParseStarted(const String& scriptName, bool &skipThisScript)
 	{
 		mLoadingCommentElement->setCaption(scriptName);
 		mWindow->update();
 	}
+
 	void scriptParseEnded(const String& scriptName, bool skipped)
 	{
 		mLoadingBarElement->setWidth(
 			mLoadingBarElement->getWidth() + mProgressBarInc);
 		mWindow->update();
 	}
+
 	void resourceGroupScriptingEnded(const String& groupName)
 	{
 	}
+
 	void resourceGroupLoadStarted(const String& groupName, size_t resourceCount)
 	{
 		assert(mNumGroupsLoad > 0 && "You stated you were not going to load "
@@ -153,25 +157,30 @@ public:
 		mLoadingDescriptionElement->setCaption("Loading resources...");
 		mWindow->update();
 	}
+
 	void resourceLoadStarted(const ResourcePtr& resource)
 	{
 		mLoadingCommentElement->setCaption(resource->getName());
 		mWindow->update();
 	}
+
 	void resourceLoadEnded(void)
 	{
 	}
+
 	void worldGeometryStageStarted(const String& description)
 	{
 		mLoadingCommentElement->setCaption(description);
 		mWindow->update();
 	}
+
 	void worldGeometryStageEnded(void)
 	{
 		mLoadingBarElement->setWidth(
 			mLoadingBarElement->getWidth() + mProgressBarInc);
 		mWindow->update();
 	}
+
 	void resourceGroupLoadEnded(const String& groupName)
 	{
 	}
