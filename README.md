@@ -21,5 +21,3 @@ Explained logic : you are not allowed to block modifications to be pushed to the
 if they were approven.
 
 - Every contributions to the project becomes public domain.
-
-See additionnal rules in "COPYING" for gameplay restrictions that can be applied.
