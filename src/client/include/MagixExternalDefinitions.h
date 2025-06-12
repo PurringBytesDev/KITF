@@ -251,6 +251,8 @@ public:
 		if(inFile2.good())useWindowsCursor = true;
 		inFile2.close();
 	}
+
+	// this need to be refactored toward a binary file or xml/ini/json
 	void saveSettings(bool isTablet, const Real& mouseSensitivity, const Real& musicVol, const Real& guiVol, const Real& soundVol, const bool& isShadowsOn, bool isBloom, const String& username = "", bool generalCharname = false, bool localUsername = false, bool channelBlink = true, bool runMode = true, bool doubleJumpOn = true, bool autoLipSync = false, bool useWindowsCursor = false)
 	{
 		if(pagedGeometryForced)

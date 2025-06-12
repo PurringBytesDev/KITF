@@ -119,7 +119,7 @@ public:
 		// again, bad ypes..
 		int start = (int)((int)(chatString[channel].size()) - lines - lastOffset * (int(chatString[channel].size()) - lines));
 
-		if(start<0)
+		if (start < 0)
 		{
 			start = 0;
 		}
@@ -127,7 +127,7 @@ public:
 		//Process entire chatblock within estimated range
 		for(int i=start;i<int(chatString[channel].size());i++)
 		{
-			const String tLineBlock = prefixChatLine(processChatString(chatString[channel][i],chatSayer[channel][i],chatType[channel][i],boxWidth,charHeight),chatSayer[channel][i],chatType[channel][i]);
+			const String tLineBlock = prefixChatLine(processChatString(chatString[channel][i], chatSayer[channel][i], chatType[channel][i], boxWidth, charHeight), chatSayer[channel][i], chatType[channel][i]);
 			vector<String>::type tCaption = StringUtil::split(tLineBlock,"\n");
 
 			for(int j=0;j<int(tCaption.size());j++)
@@ -157,8 +157,16 @@ public:
 
 	void processInput(String &caption, unsigned char &type, String &param)
 	{
-		if(channel==0)type = CHAT_LOCAL;
-		if(channel==2)type = CHAT_PARTY;
+		if (channel == 0)
+		{
+			type = CHAT_LOCAL;
+		}
+
+		if(channel==2)
+		{
+			type = CHAT_PARTY;
+		}
+
 		param = "";
 
 		//Set home point
