@@ -61,6 +61,7 @@
 #define ID_EDITCHAR 205
 #define ID_EDITACCOUNT 206
 #define ID_SAVEITEM 207
+// godspeak ? no ?
 #define ID_GODSPEAK 208
 #define ID_FORCELOGOUT 209
 #define ID_MAINTENANCE 210

@@ -1152,7 +1152,8 @@ public:
 					}
 					break;
 
-				/*case ID_PLAYERDATA:
+				/*
+				case ID_PLAYERDATA:
 					{
 						RakNet::BitStream tReceiveBit(p->data, p->length, false);
 						MessageID tMessage;
@@ -1220,7 +1221,8 @@ public:
 					registerServer(p);
 					break;
 
-				/*case ID_SAVEITEM:
+				/*
+				case ID_SAVEITEM:
 					{
 						RakNet::BitStream tReceiveBit(p->data, p->length, false);
 						MessageID tMessage;
@@ -1295,6 +1297,7 @@ public:
 					}
 					break;*/
 
+				// weirdly in magix mainserver is used only 3 times for a adding server, spawn (of pets ?) and damage received by another user ?
 				case ID_GODSPEAK:
 					{
 						RakNet::BitStream tReceiveBit(p->data, p->length, false);
@@ -1318,6 +1321,7 @@ public:
 						const char *tUsername = playerToken[tToken-1].name.c_str();
 
 						//Retrieve and send stash data
+						// to do from sql
 						if(tIsRequest)
 						{
 							RakNet::BitStream tBitStream;
@@ -1325,21 +1329,23 @@ public:
 							tBitStream.Write(MessageID(ID_ITEMSTASH));
 							tBitStream.Write(tToken);
 
-							std::ifstream inFile(getFilename(tUsername,".stash").c_str());
+							std::ifstream inFile(getFilename(tUsername, ".stash").c_str());
 							if(inFile.good())
 							{
-								while(!inFile.eof() && inFile.good())
+								while (!inFile.eof() && inFile.good())
 								{
 									char tLine[16] = "";
-									inFile.getline(tLine,16);
-									if(strlen(tLine)>0)
+									inFile.getline(tLine, 16);
+
+									if (strlen(tLine) > 0)
 									{
 										tBitStream.Write(true);
-										stringCompressor->EncodeString(tLine,16,&tBitStream);
+										stringCompressor->EncodeString(tLine, 16, &tBitStream);
 									}
 								}
 							}
 							inFile.close();
+
 							server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 6, p->systemAddress, false);
 						}
 						//Update stash data
@@ -1400,8 +1406,13 @@ public:
 									}
 								}
 								inFile.close();
-								std::ofstream outFile(getFilename(tUsername,".stash").c_str());
-								if(tBuffer.length()>0)outFile.write(tBuffer.c_str(),tBuffer.length());
+								
+								std::ofstream outFile(getFilename(tUsername, ".stash").c_str());
+								if (tBuffer.length() > 0)
+								{
+									outFile.write(tBuffer.c_str(), tBuffer.length());
+								}
+								
 								outFile.close();
 
 								//Equip item on player

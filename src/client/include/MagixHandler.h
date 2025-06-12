@@ -94,6 +94,7 @@ public:
 		mDef->initialize();
 		mGameStateManager->initialize();
 		mEffectsManager->initialize(sceneMgr);
+		// is this usefull ? this only create a spheremesh ?
 		mCollisionManager->initialize(sceneMgr);
 		mCamera->initialize(sceneMgr,getPlayer(),mCollisionManager);
 		mSoundManager->initialize(mCamera);

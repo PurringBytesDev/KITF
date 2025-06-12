@@ -53,12 +53,14 @@ void MagixCollisionManager::createSphereMesh(const std::string& strName, const f
 	unsigned short wVerticeIndex = 0;
 
 	// Generate the group of rings for the sphere
-	for (int ring = 0; ring <= nRings; ring++) {
+	for (int ring = 0; ring <= nRings; ring++)
+	{
 		float r0 = r * sinf(ring * fDeltaRingAngle);
 		float y0 = r * cosf(ring * fDeltaRingAngle);
 
 		// Generate the group of segments for the current ring
-		for (int seg = 0; seg <= nSegments; seg++) {
+		for (int seg = 0; seg <= nSegments; seg++)
+		{
 			float x0 = r0 * sinf(seg * fDeltaSegAngle);
 			float z0 = r0 * cosf(seg * fDeltaSegAngle);
 
@@ -238,24 +240,15 @@ void MagixCollisionManager::createPortal(const Vector3 &center, const Real &rang
 	tPortal.mEnt = mSceneMgr->createEntity("PortalSphere" + StringConverter::toString(portal.size() + 1), "CollSphere");
 	tPortal.mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	tPortal.mNode->attachObject(tPortal.mEnt);
-	//tPortal.mNode->setInheritScale(false);
 	tPortal.mNode->setScale(range, range, range);
 
-	//Ogre::Sphere t = tPortal.mEnt->getWorldBoundingSphere(true);
 	tPortal.mNode->setPosition(center);
-	//Ogre::Node* n = tPortal.mEnt->getParentNode();
 
-	//n->setScale(range,range,range);
-	/*const Vector3& scl = n->_getDerivedScale();
-	Real factor = std::max(std::max(scl.x, scl.y), scl.z);
-	Real bRadius = tPortal.mEnt->getBoundingRadius();
-	Ogre::Sphere t = tPortal.mEnt->getWorldBoundingSphere();
-	*/
 	Ogre::LogManager::getSingleton().logMessage("Portal to: "+destName+ " Radius: "+Ogre::StringConverter::toString(tPortal.mEnt->getWorldBoundingSphere().getRadius()));
-	//Sphere mSph = tPortal.mEnt->getWorldBoundingSphere();
-	//mSph.setRadius((Real)0.00025);
 	tPortal.mNode->_updateBounds();
-	//tPortal.mNode->showBoundingBox(true);
+	
+	// actually usefull ?
+	tPortal.mNode->showBoundingBox(true);
 
 	tPortal.dest = destName;
 	for(int i = 0; i < (int)destName.length(); i++)
@@ -374,7 +367,9 @@ void MagixCollisionManager::createGate(const Vector3 &center, String destName, c
 	if (!mSceneMgr)return;
 
 	Gate tGate;
-
+	
+	// no range provided so give it a 1 range
+	// NB : should/could be 40 ?
 	Sphere tSphere(center, 1);
 	tGate.mColSphere = tSphere;
 

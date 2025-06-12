@@ -250,13 +250,14 @@ public:
 			tLast = tLast->getPrevious();
 		}
 
-		//Player routine update
+		// Player routine updates
 		updateUnit(mPlayer,evt,true);
 		updateWallCollisions(mPlayer);
 		boundUnitToMap(mPlayer);
 		updatePortalCollisions(mPlayer);
 		updateGateCollisions(mPlayer);
 	}
+
 	void updateUnit(MagixUnit *unit, const FrameEvent &evt, bool isPlayer)
 	{
 		const Quaternion camOrientation = (mCamera?mCamera->getCameraOrientation():Quaternion::ZERO);
@@ -737,6 +738,7 @@ public:
 			}
 		}
 	}
+
 	void boundUnitToMap(MagixUnit *unit)
 	{
 		const Vector2 tSize = mWorld->getWorldSize();
@@ -751,9 +753,11 @@ public:
 		if(unit->getPosition().z < tMinZ)unit->addPenaltyVelocity(Vector3(0,0,tMinZ - unit->getPosition().z));
 		if(unit->getPosition().z > tMaxZ)unit->addPenaltyVelocity(Vector3(0,0,tMaxZ - unit->getPosition().z));
 	}
+
 	void updatePortalCollisions(MagixUnit *unit)
 	{
 		Portal *tPortal = mCollisionManager->getPortalHit(unit->getBodyEnt()->getWorldBoundingBox());
+
 		if(tPortal)
 		{
 			mapChange.changeMap = true;
@@ -762,9 +766,11 @@ public:
 			tPortal->disable();
 		}
 	}
+
 	void updateGateCollisions(MagixUnit *unit)
 	{
 		Gate *tGate = mCollisionManager->getGateHit(unit->getBodyEnt()->getWorldBoundingBox());
+
 		if(tGate)
 		{
 			mapChange.changeMap = true;

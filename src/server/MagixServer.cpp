@@ -9,16 +9,16 @@
 #include "StringCompressor.h"
 #include <assert.h>
 #include <stdio.h>
-#ifdef __linux__
-#include <termios.h>
-#endif
+
 #include <cstdio>
 #include <cstring>
 #include <stdlib.h>
 #include <sstream>
+
 #ifdef _WIN32
 #include <conio.h>
 #endif
+
 #include <fstream>
 #include <iostream>
 #include <utility>
@@ -32,6 +32,7 @@
 #endif
 
 #ifdef __linux__
+#include <termios.h>
 #include <sys/sysinfo.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -1204,12 +1205,14 @@ public:
 				case ID_GODSPEAK:
 					{
 						RakNet::BitStream tReceiveBit(p->data, p->length, false);
-						if(p->systemAddress==mainServerAdd)
-							sendMyPlayers(server,&tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0, p->systemAddress);
+						if(p->systemAddress == mainServerAdd)
+						{
+							sendMyPlayers(server, &tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0, p->systemAddress);
+						}
 						else
 						{
 							server->Send(&tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0, mainServerAdd, false);
-							sendMyPlayers(server,&tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0, p->systemAddress);
+							sendMyPlayers(server, &tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0, p->systemAddress);
 						}
 					}
 					break;
@@ -1695,7 +1698,10 @@ public:
 							tBitStream.Write(&tReceiveBit);
 							sendAllServers(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 						}
-						else tReadSenderToken = true;
+						else
+						{
+							tReadSenderToken = true;
+						}
 
 						RakNet::BitStream tReceiveBit(p->data, p->length, false);
 						MessageID tMessage;
@@ -1703,15 +1709,17 @@ public:
 						
 						string tMapName;
 						unsigned char tDimension;
-                                                bool tIsUpdate = false;
-                                                bool tIsHit = false;
+						bool tIsUpdate = false;
+						bool tIsHit = false;
 
 						tReceiveBit.Read(tMessage);
 						
 						// redo the healing fix but NOT exactly how kito did.
 						BitSize_t healNeeded;
+
 						if(tReadSenderToken)
-						{ //printf("RTok\n");
+						{ 
+							//printf("RTok\n");
 
 							tReceiveBit.Read(tSender);
 
@@ -1723,8 +1731,8 @@ public:
 							if(tSender<=0 || tSender>MAX_CLIENTS)break;
 							tMapName = clientMap[tSender-1];
 							tDimension = clientDimension[tSender-1];
-        	                                        tReceiveBit.Read(tIsUpdate);
-	                                                tReceiveBit.Read(tIsHit);
+							tReceiveBit.Read(tIsUpdate);
+							tReceiveBit.Read(tIsHit);
 						}
 						else 
 						{
@@ -1732,8 +1740,8 @@ public:
 							healNeeded = tReceiveBit.GetReadOffset();
 							getOwnerToken(p,tMapName,tDimension);
 							tReceiveBit.Read(tSender);
-                                                        tReceiveBit.Read(tIsUpdate);
-                                                        tReceiveBit.Read(tIsHit);
+							tReceiveBit.Read(tIsUpdate);
+							tReceiveBit.Read(tIsHit);
 						}
 
 						if(tIsHit)
@@ -1743,22 +1751,28 @@ public:
 
 							tReceiveBit.Read(tUnitID);
 							tReceiveBit.Read(tDamage);
+
 							if(tDamage < 0 && tUnitID != tSender)
-							{ // user attacked another user
-								const string tCaption = "<<(SERVER WARNING)>> "+clientName[tSender-1]+" ATTACKED "+clientName[tUnitID-1]+" FOR "+intToString((int)tDamage);
+							{
+								// user attacked another user
+								const string tCaption = "<<(SERVER WARNING)>> " + clientName[tSender - 1] + " ATTACKED " + clientName[tUnitID - 1] + " FOR " + intToString((int)tDamage); // this intToString is retarded, to fix!
+								printf("debug hit %i", tCaption.c_str());
+
 								RakNet::BitStream wBitStream;
 								wBitStream.Write(MessageID(ID_GODSPEAK));
-								stringCompressor->EncodeString(tCaption.c_str(),512,&wBitStream);
-								sendMyPlayers(server,&wBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
+
+								stringCompressor->EncodeString(tCaption.c_str(), 512, &wBitStream);
+								sendMyPlayers(server, &wBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 							}
+
 							// we apply now
 							tReceiveBit.SetReadOffset(healNeeded);
 						}
-                                                //Complete packet relay
-                                                RakNet::BitStream tBitStream;
-
-                                                tBitStream.Write(tMessage);
-                                                tBitStream.Write(&tReceiveBit);
+						
+						//Complete packet relay
+						RakNet::BitStream tBitStream;
+						tBitStream.Write(tMessage);
+						tBitStream.Write(&tReceiveBit);
 
 						broadcastInMap(tMapName, tDimension, server, &tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 					}
@@ -2262,15 +2276,23 @@ public:
 				peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
 		}
 	}
+
 	void sendMyPlayers(RakPeerInterface *peer, RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
 	{
-		if(!peer)return;
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(!peer)
+		{
+			return;
+		}
+		
+		for (int i = 0; i < MAX_CLIENTS; i++)
 		{
 			if(clientIsMine[i] && clientAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && clientAdd[i]!=exceptionAddress)
+			{
 				peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
+			}
 		}
 	}
+
 	void relayPacket(Packet *p, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel)
 	{
 		if(!imTheOwner(p))return;
@@ -2574,7 +2596,11 @@ public:
 			if(serverAdd[i]==p->systemAddress)
 			{
 				serverConnected[i] = true;
-				if(!hideText)printf("Server %i connected, IP: %s\n",i+1,p->systemAddress.ToString());
+				if(!hideText)
+				{
+					printf("Server %i connected, IP: %s\n", i + 1, p->systemAddress.ToString());
+				}
+
 				break;
 			}
 		}
@@ -2585,10 +2611,18 @@ public:
 		{
 			if(serverAdd[i]==add)
 			{
-				if(serverConnected[i])sendDisconnectProcedureOfAllTokensConnectedTo(add);
+				if(serverConnected[i])
+				{
+					sendDisconnectProcedureOfAllTokensConnectedTo(add);
+				}
+				
 				serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
 				serverConnected[i] = false;
-				if(!hideText)printf("Server %i disconnected, IP: %s\n",i+1,add.ToString());
+				
+				if(!hideText)
+				{
+					printf("Server %i disconnected, IP: %s\n", i + 1, add.ToString());
+				}
 				
 				return true;
 			}
