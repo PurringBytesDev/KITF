@@ -340,6 +340,7 @@ struct Gate
 
 		return false;
 	}
+
 	void disable()
 	{
 		dest = "";

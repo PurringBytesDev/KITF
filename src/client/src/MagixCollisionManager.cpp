@@ -226,6 +226,7 @@ const vector<Wall*>::type MagixCollisionManager::getWallHitList(const Vector3 &t
 
 void MagixCollisionManager::createPortal(const Vector3 &center, const Real &range, String destName)
 {
+	// ok, do this ever fucking happen ?
 	if (!mSceneMgr)
 	{
 		return;
@@ -238,16 +239,17 @@ void MagixCollisionManager::createPortal(const Vector3 &center, const Real &rang
 	tPortal.mColSphere = tSphere;
 
 	tPortal.mEnt = mSceneMgr->createEntity("PortalSphere" + StringConverter::toString(portal.size() + 1), "CollSphere");
+
 	tPortal.mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	tPortal.mNode->attachObject(tPortal.mEnt);
 	tPortal.mNode->setScale(range, range, range);
-
 	tPortal.mNode->setPosition(center);
 
-	Ogre::LogManager::getSingleton().logMessage("Portal to: "+destName+ " Radius: "+Ogre::StringConverter::toString(tPortal.mEnt->getWorldBoundingSphere().getRadius()));
+	Ogre::LogManager::getSingleton().logMessage("Created Portal to: "+destName+ " Radius: "+Ogre::StringConverter::toString(tPortal.mEnt->getWorldBoundingSphere().getRadius()));
 	tPortal.mNode->_updateBounds();
 	
 	// actually usefull ?
+	tPortal.mNode->getShowBoundingBox();
 	tPortal.mNode->showBoundingBox(true);
 
 	tPortal.dest = destName;
@@ -364,35 +366,39 @@ WaterBox* MagixCollisionManager::getWaterBoxHit(const Vector3 &target)
 // to refactor!!!
 void MagixCollisionManager::createGate(const Vector3 &center, String destName, const Vector3 &destVect, const String &matName, bool hasVectY)
 {
-	if (!mSceneMgr)return;
+	// haven't seen this ever triggered would haev to check multiple login etc BUT since there is a "restart" possible, we can failsafe to mainmenu ALWAYS anyway.
+	if (!mSceneMgr)
+	{
+		return;
+	}
 
 	Gate tGate;
 	
 	// no range provided so give it a 1 range
 	// NB : should/could be 40 ?
-	Sphere tSphere(center, 1);
+	Sphere tSphere(center, 40);
 	tGate.mColSphere = tSphere;
-
+	
 	tGate.mEnt = mSceneMgr->createEntity("GateSphere" + StringConverter::toString(gate.size() + 1), "CollSphere");
 	tGate.mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	tGate.mNode->attachObject(tGate.mEnt);
+	
 	//tGate.mNode->setInheritScale(false);
+	
 	tGate.mNode->setScale(40, 40, 40);
 	tGate.mNode->setPosition(center);
-	/*Ogre::Node* n = tGate.mEnt->getParentNode();
-	n->setScale(40,40,40);
-	const Vector3& scl = n->_getDerivedScale();
-	Real factor = std::max(std::max(scl.x, scl.y), scl.z);
-	Real bRadius = tGate.mEnt->getBoundingRadius();
-	Ogre::Sphere t = tGate.mEnt->getWorldBoundingSphere();*/
-	//Sphere mSph = tGate.mEnt->getWorldBoundingSphere();
-	//mSph.setRadius((Real)0.00025);
+
+	tGate.mNode->getShowBoundingBox();
+	tGate.mNode->showBoundingBox(true);
+	
+	// -- //
 	tGate.mNode->_updateBounds();
 	tGate.dest = destName;
 	tGate.destVect = destVect;
 	tGate.hasVectY = hasVectY;
 	tGate.mEnt->setMaterialName(matName);
 	tGate.mEnt->setCastShadows(false);
+
 	gate.push_back(tGate);
 }
 
@@ -423,10 +429,16 @@ void MagixCollisionManager::destroyAllGates()
 Gate* MagixCollisionManager::getGateHit(const AxisAlignedBox &target)
 {
 	list<Gate>::type::iterator it = gate.begin();
+
 	while (it != gate.end())
 	{
 		Gate *tGate = &*it;
-		if (tGate->collides(target))return tGate;
+
+		if (tGate->collides(target))
+		{
+			return tGate;
+		}
+		
 		it++;
 	}
 	return 0;

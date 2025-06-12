@@ -303,6 +303,7 @@ public:
 				processWorldInfo(packet);
 				break;
 			case ID_CONNECTION_ATTEMPT_FAILED:
+				// change to "Connection timeout", also change to a better font & UI.
 				mAlertBox->showAlert("Our connection request has failed :c",0.5,0.5,10);
 				if(isMainServerConnection)
 					networkMessage = NETWORK_CONNECTIONFAILED;
