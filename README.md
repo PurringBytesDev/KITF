@@ -1,8 +1,9 @@
 This is the repository for KITF, a fork of the game "Impressive Title" by KolvuLKD.
 
-LICENSE :
-This version is made ONLY from the original Kolvu license and is directed by public domain rules.
+This version is made ONLY from the original Kolvu licensed code and THIS version is
+directed by public domain rules.
 
+LICENSE :
 THIS PROJECT USE THE "DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE" AKA WTFPL
 
 Original Version : 2, December 2004, by Sam Hocevar
