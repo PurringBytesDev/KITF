@@ -1,4 +1,4 @@
-This is the repository for the game "Impressive Title" by KolvuLKD.
+This is the repository for KITF, a fork of the game "Impressive Title" by KolvuLKD.
 
 LICENSE :
 This version is made ONLY from the original Kolvu license and is directed by public domain rules.
