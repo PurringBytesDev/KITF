@@ -1,16 +1,12 @@
-// very hard to disambiguate this as game & player calls are intertwinned with UI core
-// TODO : extract all non core elements a "MagixGameUI"
 #ifndef __MagixGUI_h_
 #define __MagixGUI_h_
 
-// core UI
 #define MAX_BOXES 23
 #define MAX_BUTTONS 84
 #define MAX_SIZERS 1
 #define MAX_MOVERS 8
 #define MAX_SCROLLERS 14
 #define MAX_CHECKBOXES 1
-// game UI from there
 #define MAX_CHARSCREENTEXT 4
 #define MAX_CREATEACCOUNTINFO 6
 #define MAX_EDITACCOUNTINFO 4
@@ -36,7 +32,6 @@
 #define SIZEDIR_LEFT 3
 #define SIZEDIR_RIGHT 4
 
-// to migrate to magix enums
 enum GUIBOX
 {
 	GUI_OPTIONS,
@@ -66,136 +61,136 @@ enum GUIBOX
 
 enum BUTTON
 {
-	BUTTON_TEXTINPUT,
-	BUTTON_TEXTINPUT2,
-	BUTTON_TEXTINPUT3,
-	BUTTON_TEXTOUTPUT,
-	BUTTON_LISTSELECT1,
-	BUTTON_LISTSELECT2,
-	BUTTON_LISTSELECT3,
-	BUTTON_SELECTBOX1,
-	BUTTON_SELECTBOX2,
-	BUTTON_SELECTBOX3,
-	BUTTON_SELECTBOX4,
-	BUTTON_NEWGAME,
-	BUTTON_MULTIPLAYER,
-	BUTTON_QUIT,
-	BUTTON_CHARSCREEN_L1,
-	BUTTON_CHARSCREEN_R1,
-	BUTTON_CHARSCREEN_L2,
-	BUTTON_CHARSCREEN_R2,
-	BUTTON_CHARSCREEN_L3,
-	BUTTON_CHARSCREEN_R3,
-	BUTTON_CHARSCREEN_L4,
-	BUTTON_CHARSCREEN_R4,
-	BUTTON_CHARSCREENBACK,
-	BUTTON_CHARSCREENNEXT,
-	BUTTON_CHARSCREENDELETE,
-	BUTTON_OPTIONRESUME,
-	BUTTON_OPTIONSETTINGS,
-	BUTTON_OPTIONINTERFACE,
-	BUTTON_OPTIONRESTART,
-	BUTTON_OPTIONQUIT,
-	BUTTON_SETTINGS1,
-	BUTTON_SETTINGS2,
-	BUTTON_SETTINGS3,
-	BUTTON_SETTINGSBACK,
-	BUTTON_INTERFACE1,
-	BUTTON_INTERFACE2,
-	BUTTON_INTERFACE3,
-	BUTTON_INTERFACE4,
-	BUTTON_INTERFACE5,
-	BUTTON_INTERFACE6,
-	BUTTON_INTERFACE7,
-	BUTTON_INTERFACE8,
-	BUTTON_INTERFACEBACK,
-	BUTTON_CAMPAIGNBACK,
-	BUTTON_CAMPAIGNNEXT,
-	BUTTON_CAMPAIGN1,
-	BUTTON_CAMPAIGN2,
-	BUTTON_CAMPAIGN3,
-	BUTTON_GAMEOVERCONTINUE,
-	BUTTON_GAMEOVERQUIT,
-	BUTTON_SERVER1,
-	BUTTON_SERVER2,
-	BUTTON_MINIMAP1,
-	BUTTON_MINIMAP2,
-	BUTTON_MULTIPLAYER1,
-	BUTTON_MULTIPLAYER2,
-	BUTTON_MULTIPLAYER3,
-	BUTTON_MULTIPLAYER4,
-	BUTTON_MULTIPLAYER5,
-	BUTTON_MULTIPLAYER6,
-	BUTTON_FRIENDBOX,
-	BUTTON_BIOBOX,
-	BUTTON_TARGETBIOBOX,
-	BUTTON_HOMEBOX,
-	BUTTON_HOMEBOX1,
-	BUTTON_HOMEBOX2,
-	BUTTON_HOMEBOX3,
-	BUTTON_HOMEBOX4,
-	BUTTON_EMOTEBOX,
-	BUTTON_ITEMBOX,
-	BUTTON_ITEMBOX1,
-	BUTTON_LOGON1,
-	BUTTON_NEWACCOUNT,
-	BUTTON_EDITACCOUNT,
-	BUTTON_LOGONBACK,
-	BUTTON_CREATEACCOUNT1,
-	BUTTON_CREATEACCOUNTBACK,
-	BUTTON_EDITACCOUNT1,
-	BUTTON_EDITACCOUNTBACK,
-	BUTTON_PARTYBOX,
-	BUTTON_PARTYBOX1,
-	BUTTON_PARTYBOX2,
-	BUTTON_PARTYBOX3,
-	BUTTON_STASHBOX
+ BUTTON_TEXTINPUT,
+ BUTTON_TEXTINPUT2,
+ BUTTON_TEXTINPUT3,
+ BUTTON_TEXTOUTPUT,
+ BUTTON_LISTSELECT1,
+ BUTTON_LISTSELECT2,
+ BUTTON_LISTSELECT3,
+ BUTTON_SELECTBOX1,
+ BUTTON_SELECTBOX2,
+ BUTTON_SELECTBOX3,
+ BUTTON_SELECTBOX4,
+ BUTTON_NEWGAME,
+ BUTTON_MULTIPLAYER,
+ BUTTON_QUIT,
+ BUTTON_CHARSCREEN_L1,
+ BUTTON_CHARSCREEN_R1,
+ BUTTON_CHARSCREEN_L2,
+ BUTTON_CHARSCREEN_R2,
+ BUTTON_CHARSCREEN_L3,
+ BUTTON_CHARSCREEN_R3,
+ BUTTON_CHARSCREEN_L4,
+ BUTTON_CHARSCREEN_R4,
+ BUTTON_CHARSCREENBACK,
+ BUTTON_CHARSCREENNEXT,
+ BUTTON_CHARSCREENDELETE,
+ BUTTON_OPTIONRESUME,
+ BUTTON_OPTIONSETTINGS,
+ BUTTON_OPTIONINTERFACE,
+ BUTTON_OPTIONRESTART,
+ BUTTON_OPTIONQUIT,
+ BUTTON_SETTINGS1,
+ BUTTON_SETTINGS2,
+ BUTTON_SETTINGS3,
+ BUTTON_SETTINGSBACK,
+ BUTTON_INTERFACE1,
+ BUTTON_INTERFACE2,
+ BUTTON_INTERFACE3,
+ BUTTON_INTERFACE4,
+ BUTTON_INTERFACE5,
+ BUTTON_INTERFACE6,
+ BUTTON_INTERFACE7,
+ BUTTON_INTERFACE8,
+ BUTTON_INTERFACEBACK,
+ BUTTON_CAMPAIGNBACK,
+ BUTTON_CAMPAIGNNEXT,
+ BUTTON_CAMPAIGN1,
+ BUTTON_CAMPAIGN2,
+ BUTTON_CAMPAIGN3,
+ BUTTON_GAMEOVERCONTINUE,
+ BUTTON_GAMEOVERQUIT,
+ BUTTON_SERVER1,
+ BUTTON_SERVER2,
+ BUTTON_MINIMAP1,
+ BUTTON_MINIMAP2,
+ BUTTON_MULTIPLAYER1,
+ BUTTON_MULTIPLAYER2,
+ BUTTON_MULTIPLAYER3,
+ BUTTON_MULTIPLAYER4,
+ BUTTON_MULTIPLAYER5,
+ BUTTON_MULTIPLAYER6,
+ BUTTON_FRIENDBOX,
+ BUTTON_BIOBOX,
+ BUTTON_TARGETBIOBOX,
+ BUTTON_HOMEBOX,
+ BUTTON_HOMEBOX1,
+ BUTTON_HOMEBOX2,
+ BUTTON_HOMEBOX3,
+ BUTTON_HOMEBOX4,
+ BUTTON_EMOTEBOX,
+ BUTTON_ITEMBOX,
+ BUTTON_ITEMBOX1,
+ BUTTON_LOGON1,
+ BUTTON_NEWACCOUNT,
+ BUTTON_EDITACCOUNT,
+ BUTTON_LOGONBACK,
+ BUTTON_CREATEACCOUNT1,
+ BUTTON_CREATEACCOUNTBACK,
+ BUTTON_EDITACCOUNT1,
+ BUTTON_EDITACCOUNTBACK,
+ BUTTON_PARTYBOX,
+ BUTTON_PARTYBOX1,
+ BUTTON_PARTYBOX2,
+ BUTTON_PARTYBOX3,
+ BUTTON_STASHBOX
 };
 
 #define SIZER_TEXTOUTPUT 0
 
 enum MOVER
 {
-	MOVER_FRIENDBOX,
-	MOVER_BIOBOX,
-	MOVER_TARGETBIOBOX,
-	MOVER_HOMEBOX,
-	MOVER_EMOTEBOX,
-	MOVER_ITEMBOX,
-	MOVER_PARTYBOX,
-	MOVER_STASHBOX
+ MOVER_FRIENDBOX,
+ MOVER_BIOBOX,
+ MOVER_TARGETBIOBOX,
+ MOVER_HOMEBOX,
+ MOVER_EMOTEBOX,
+ MOVER_ITEMBOX,
+ MOVER_PARTYBOX,
+ MOVER_STASHBOX
 };
 
 enum SCROLLER
 {
-	SCROLLER_TEXTOUTPUT,
-	SCROLLER_CHARSCREEN1,
-	SCROLLER_CHARSCREEN2,
-	SCROLLER_CHARSCREEN3,
-	SCROLLER_SETTINGS1,
-	SCROLLER_SETTINGS2,
-	SCROLLER_SETTINGS3,
-	SCROLLER_SETTINGS4,
-	SCROLLER_INTERFACE1,
-	SCROLLER_FRIENDBOX,
-	SCROLLER_BIOBOX,
-	SCROLLER_TARGETBIOBOX,
-	SCROLLER_EMOTEBOX,
-	SCROLLER_STASHBOX
+ SCROLLER_TEXTOUTPUT,
+ SCROLLER_CHARSCREEN1,
+ SCROLLER_CHARSCREEN2,
+ SCROLLER_CHARSCREEN3,
+ SCROLLER_SETTINGS1,
+ SCROLLER_SETTINGS2,
+ SCROLLER_SETTINGS3,
+ SCROLLER_SETTINGS4,
+ SCROLLER_INTERFACE1,
+ SCROLLER_FRIENDBOX,
+ SCROLLER_BIOBOX,
+ SCROLLER_TARGETBIOBOX,
+ SCROLLER_EMOTEBOX,
+ SCROLLER_STASHBOX
 };
 
 enum CHECKBOX
 {
-	CHECKBOX_LOGON
+ CHECKBOX_LOGON
 };
 
 enum LISTBUTTON
 {
-	LISTBUTTON_NONE,
-	LISTBUTTON_ONLINEFRIEND,
-	LISTBUTTON_OFFLINEFRIEND,
-	LISTBUTTON_BLOCKED,
-	LISTBUTTON_EMOTE
+ LISTBUTTON_NONE,
+ LISTBUTTON_ONLINEFRIEND,
+ LISTBUTTON_OFFLINEFRIEND,
+ LISTBUTTON_BLOCKED,
+ LISTBUTTON_EMOTE
 };
 
 enum GUITYPE
@@ -356,46 +351,26 @@ public:
 		mTargetHP = 0;
 		mPseudoShader = 0;
 		mSelectPanel = 0;
-
 		for(int i=0;i<MAX_BOXES;i++)
 		{
 			mBox[i] = 0;
 			mBoxText[i] = 0;
 		}
-
 		for(int i=0;i<MAX_BUTTONS;i++)
 		{
 			mButton[i] = 0;
 			mButtonText[i] = 0;
 		}
-
-		for(int i = 0; i < MAX_SIZERS; i++)
-		{
-			mSizer[i] = 0;
-		}
-
-		for(int i = 0; i < MAX_MOVERS; i++)
-		{
-			mMover[i] = 0;
-		}
-
-		for(int i = 0; i < MAX_SCROLLERS; i++)
+		for(int i=0;i<MAX_SIZERS;i++)mSizer[i] = 0;
+		for(int i=0;i<MAX_MOVERS;i++)mMover[i] = 0;
+		for(int i=0;i<MAX_SCROLLERS;i++)
 		{
 			mScroller[i] = 0;
 			mScrollerMarker[i] = 0;
 			isScrollerHorz[i] = false;
 		}
-
-		for(int i = 0; i < MAX_CHARSCREENTEXT; i++)
-		{
-			mCharScreenText[i] = 0;
-		}
-		
-		for(int i = 0; i < MAX_CHECKBOXES; i++)
-		{
-			mCheckBox[i] = 0;
-		}
-
+		for(int i=0;i<MAX_CHARSCREENTEXT;i++)mCharScreenText[i] = 0;
+		for(int i=0;i<MAX_CHECKBOXES;i++)mCheckBox[i] = 0;
 		mHoverButton = 0;
 		hoverButtonType = GUITYPE_NONE;
 		mHoverWindow = 0;
@@ -463,14 +438,12 @@ public:
 		isEditAccount = false;
 		logonUsername = "";
 		logonPassword = "";
-
-		for(int i = 0; i < MAX_CREATEACCOUNTINFO; i++)
+		for(int i=0;i<MAX_CREATEACCOUNTINFO;i++)
 		{
 			mCreateAccountTextBox[i] = 0;
 			createAccountInfo[i] = (i==3?"@":"");
 		}
-
-		for(int i = 0; i < MAX_EDITACCOUNTINFO; i++)
+		for(int i=0;i<MAX_EDITACCOUNTINFO;i++)
 		{
 			mEditAccountTextBox[i] = 0;
 			editAccountInfo[i] = "";
@@ -481,20 +454,13 @@ public:
 	}
 	~MagixGUI()
 	{
-		// investigate : are these deleted in other cases than game quit ? if not, useless here ? or prevents an alt+f4 weird crash ?
 		delete mChatManager;
 		delete mCharScreenManager;
 		delete mInputManager;
 		delete mAlertBox;
 		delete mMiniMap;
-		
-		if(mRayQuery)
-		{
-			delete mRayQuery;
-		}
+		if(mRayQuery)delete mRayQuery;
 	}
-
-	// i dislike saying "intialise" : this is more the equivalent of "Awake" or "OnEnable" and in fact the whole should be modularized into an UIModules
 	void initialize(SceneManager *sceneMgr, RenderWindow *window, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixItemManager *itemManager, MagixCritterManager *critterMgr, MagixUnitManager *unitManager, MagixNetworkManager *networkManager, MagixCamera *camera, MagixSoundManager *soundMgr, MagixEffectsManager *effectsMgr, MagixCollisionManager *collisionMgr)
 	{
 		mSceneMgr = sceneMgr;
@@ -590,10 +556,8 @@ public:
 		mButton[BUTTON_OPTIONQUIT] = OverlayManager::getSingleton().getOverlayElement("GUI/OptionQuitButton");
 		mButtonText[BUTTON_OPTIONQUIT] = OverlayManager::getSingleton().getOverlayElement("GUI/OptionQuitButtonText");
 
-
 		mBox[GUI_SETTINGS] = OverlayManager::getSingleton().getOverlayElement("GUI/Settings");
-		// 3 ? why 3 ?
-		for(int i= 0; i < 3; i++)
+		for(int i=0;i<3;i++)
 		{
 			const String tNum = StringConverter::toString(i+1);
 			mButton[BUTTON_SETTINGS1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/SettingsButton" + tNum);
@@ -601,8 +565,7 @@ public:
 		}
 		mButton[BUTTON_SETTINGSBACK] = OverlayManager::getSingleton().getOverlayElement("GUI/SettingsButtonBack");
 		mButtonText[BUTTON_SETTINGSBACK] = OverlayManager::getSingleton().getOverlayElement("GUI/SettingsButtonBackText");
-		// same question as before. what do happen if i loop more than 4 entitities ? (ergo actually 0,1,2,3,4 ... 5)
-		for(int i = 0; i < 4; i++)
+		for(int i=0;i<4;i++)
 		{
 			const String tNum = StringConverter::toString(i+1);
 			mScroller[SCROLLER_SETTINGS1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/SettingsSlider" + tNum);
@@ -612,7 +575,7 @@ public:
 		}
 
 		mBox[GUI_INTERFACE] = OverlayManager::getSingleton().getOverlayElement("GUI/Interface");
-		for(int i = 0; i < 8; i++)
+		for(int i=0;i<8;i++)
 		{
 			const String tNum = StringConverter::toString(i+1);
 			mButton[BUTTON_INTERFACE1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/InterfaceButton" + tNum);
@@ -623,7 +586,7 @@ public:
 		mScroller[SCROLLER_INTERFACE1] = OverlayManager::getSingleton().getOverlayElement("GUI/InterfaceSlider1");
 		mScrollerMarker[SCROLLER_INTERFACE1] = OverlayManager::getSingleton().getOverlayElement("GUI/InterfaceSliderMarker1");
 		isScrollerHorz[SCROLLER_INTERFACE1] = true;
-		setScroll(SCROLLER_INTERFACE1, 1);
+		setScroll(SCROLLER_INTERFACE1,1);
 
 		showOptionsOverlay(false);
 
@@ -663,9 +626,7 @@ public:
 		mButtonText[BUTTON_CREATEACCOUNTBACK] = OverlayManager::getSingleton().getOverlayElement("GUI/CreateAccountButtonTextBack");
 
 		for(int i=0;i<MAX_CREATEACCOUNTINFO;i++)
-		{
-			mCreateAccountTextBox[i] = OverlayManager::getSingleton().getOverlayElement("GUI/CreateAccountText" + StringConverter::toString(i + 1));
-		}
+			mCreateAccountTextBox[i] = OverlayManager::getSingleton().getOverlayElement("GUI/CreateAccountText"+StringConverter::toString(i+1));
 
 		showCreateAccountOverlay(false);
 
@@ -677,10 +638,8 @@ public:
 		mButtonText[BUTTON_EDITACCOUNTBACK] = OverlayManager::getSingleton().getOverlayElement("GUI/EditAccountButtonTextBack");
 
 		for(int i=0;i<MAX_EDITACCOUNTINFO;i++)
-		{
-			mEditAccountTextBox[i] = OverlayManager::getSingleton().getOverlayElement("GUI/EditAccountText" + StringConverter::toString(i + 1));
-		}
-		
+			mEditAccountTextBox[i] = OverlayManager::getSingleton().getOverlayElement("GUI/EditAccountText"+StringConverter::toString(i+1));
+
 		showEditAccountOverlay(false);
 
 		//CampaignScreenGUI
@@ -689,7 +648,7 @@ public:
 		mButtonText[BUTTON_CAMPAIGNBACK] = OverlayManager::getSingleton().getOverlayElement("GUI/CampaignButtonTextBack");
 		mButton[BUTTON_CAMPAIGNNEXT] = OverlayManager::getSingleton().getOverlayElement("GUI/CampaignButtonNext");
 		mButtonText[BUTTON_CAMPAIGNNEXT] = OverlayManager::getSingleton().getOverlayElement("GUI/CampaignButtonTextNext");
-		for(int i = 0; i < 3; i++)
+		for(int i=0;i<3;i++)
 		{
 			const String tNum = StringConverter::toString(i+1);
 			mButton[BUTTON_CAMPAIGN1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/CampaignButton"+tNum);
@@ -707,7 +666,6 @@ public:
 		mButtonText[BUTTON_CHARSCREENNEXT] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonTextNext");
 		mButton[BUTTON_CHARSCREENDELETE] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonDelete");
 		mButtonText[BUTTON_CHARSCREENDELETE] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonTextDelete");
-		
 		for(int i=0;i<MAX_CHARSCREENTEXT;i++)
 		{
 			const String tNum = StringConverter::toString(i+1);
@@ -716,17 +674,16 @@ public:
 			mButtonText[BUTTON_CHARSCREEN_L1+i*2] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonTextL" + tNum);
 			mButton[BUTTON_CHARSCREEN_R1+i*2] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonR" + tNum);
 			mButtonText[BUTTON_CHARSCREEN_R1+i*2] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonTextR" + tNum);
-			mCharScreenManager->initializeText(i, mCharScreenText[i]);
-			mCharScreenManager->initializeLRButtons(i, mButton[BUTTON_CHARSCREEN_L1 + i * 2], mButton[BUTTON_CHARSCREEN_R1 + i * 2]);
+			mCharScreenManager->initializeText(i,mCharScreenText[i]);
+			mCharScreenManager->initializeLRButtons(i,mButton[BUTTON_CHARSCREEN_L1+i*2],mButton[BUTTON_CHARSCREEN_R1+i*2]);
 		}
-		
 		for(int i=0;i<3;i++)
 		{
-			const String tNum = StringConverter::toString(i + 1);
-			mScroller[SCROLLER_CHARSCREEN1 + i] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenSlider" + tNum);
-			mScrollerMarker[SCROLLER_CHARSCREEN1 + i] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenSliderMarker" + tNum);
-			isScrollerHorz[SCROLLER_CHARSCREEN1 + i] = true;
-			mCharScreenManager->initializeSliders(i, mScroller[SCROLLER_CHARSCREEN1 + i], mScrollerMarker[SCROLLER_CHARSCREEN1 + i]);
+			const String tNum = StringConverter::toString(i+1);
+			mScroller[SCROLLER_CHARSCREEN1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenSlider" + tNum);
+			mScrollerMarker[SCROLLER_CHARSCREEN1+i] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenSliderMarker" + tNum);
+			isScrollerHorz[SCROLLER_CHARSCREEN1+i] = true;
+			mCharScreenManager->initializeSliders(i,mScroller[SCROLLER_CHARSCREEN1+i],mScrollerMarker[SCROLLER_CHARSCREEN1+i]);
 		}
 		mCharScreenManager->initialize(mDef,mEffectsManager,mAlertBox,mUnitManager->getPlayer(),sceneMgr,mBoxText[GUI_CHARSCREENBOX],mBackdrop);
 		mCharScreenManager->initializeBackNextButtons(mButton[BUTTON_CHARSCREENBACK],mButton[BUTTON_CHARSCREENNEXT],mButton[BUTTON_CHARSCREENDELETE],mButtonText[BUTTON_CHARSCREENBACK],mButtonText[BUTTON_CHARSCREENNEXT],mButtonText[BUTTON_CHARSCREENDELETE]);
@@ -920,7 +877,6 @@ public:
 
 		initializeSettings();
 	}
-
 	void showFaderOverlay(bool flag)
 	{
 		if(flag)
@@ -934,7 +890,6 @@ public:
 			mFader->hide();
 		}
 	}
-
 	void showPseudoShaderOverlay(bool flag)
 	{
 		if(flag)
@@ -948,7 +903,6 @@ public:
 			mPseudoShader->hide();
 		}
 	}
-
 	void showCursorOverlay(bool flag)
 	{
 		if(flag)
@@ -963,7 +917,6 @@ public:
 			mAlertBox->hide();
 		}
 	}
-
 	void showBackdropOverlay(bool flag, bool showLoadingText=false, const String &loadingCaption="Loading...")
 	{
 		if(flag)
@@ -985,7 +938,6 @@ public:
 			OverlayManager::getSingleton().getOverlayElement("GUI/LoadingText")->hide();
 		}
 	}
-
 	void showHPPanelOverlay(bool flag)
 	{
 		if(flag)
@@ -1005,7 +957,6 @@ public:
 			mPickupText->hide();
 		}
 	}
-
 	void showTargetPanelOverlay(bool flag)
 	{
 		if(flag)
@@ -1019,7 +970,6 @@ public:
 			mTargetPanel->hide();
 		}
 	}
-
 	void showOptionsOverlay(bool flag)
 	{
 		if(flag)
@@ -1035,7 +985,6 @@ public:
 			mBox[GUI_INTERFACE]->hide();
 		}
 	}
-
 	void showStartScreenOverlay(bool flag)
 	{
 		if(flag)
@@ -1049,7 +998,6 @@ public:
 			mBox[GUI_STARTSCREENBOX]->hide();
 		}
 	}
-
 	void showCampaignOverlay(bool flag)
 	{
 		if(flag)
@@ -1063,7 +1011,6 @@ public:
 			mBox[GUI_CAMPAIGNBOX]->hide();
 		}
 	}
-
 	void showLogonOverlay(bool flag)
 	{
 		if(flag)
@@ -1077,7 +1024,6 @@ public:
 			mBox[GUI_LOGONBOX]->hide();
 		}
 	}
-
 	void showCreateAccountOverlay(bool flag)
 	{
 		if(flag)
@@ -1091,7 +1037,6 @@ public:
 			mBox[GUI_CREATEACCOUNTBOX]->hide();
 		}
 	}
-
 	void showEditAccountOverlay(bool flag)
 	{
 		if(flag)
@@ -1105,7 +1050,6 @@ public:
 			mBox[GUI_EDITACCOUNTBOX]->hide();
 		}
 	}
-
 	void showCharScreenOverlay(bool flag)
 	{
 		if(flag)
@@ -1119,7 +1063,6 @@ public:
 			mBox[GUI_CHARSCREENBOX]->hide();
 		}
 	}
-
 	void showServerOverlay(bool flag)
 	{
 		if(flag)
@@ -1133,7 +1076,6 @@ public:
 			mBox[GUI_SERVERBOX]->hide();
 		}
 	}
-
 	void showMultiplayerOverlay(bool flag)
 	{
 		if(flag)
@@ -1155,7 +1097,6 @@ public:
 			showStashBox(false);
 		}
 	}
-
 	void showHomeBox(bool flag)
 	{
 		if(flag)
@@ -1170,7 +1111,6 @@ public:
 			mBox[GUI_HOMEBOX]->hide();
 		}
 	}
-
 	void showFriendBox(bool flag)
 	{
 		if(flag)
@@ -1185,7 +1125,6 @@ public:
 			mBox[GUI_FRIENDBOX]->hide();
 		}
 	}
-
 	void showEmoteBox(bool flag)
 	{
 		if(flag)
@@ -1200,7 +1139,6 @@ public:
 			mBox[GUI_EMOTEBOX]->hide();
 		}
 	}
-
 	void showItemBox(bool flag)
 	{
 		if(flag)
@@ -1215,7 +1153,6 @@ public:
 			mBox[GUI_ITEMBOX]->hide();
 		}
 	}
-
 	void showStashBox(bool flag)
 	{
 		if(flag)
@@ -1230,7 +1167,6 @@ public:
 			mBox[GUI_STASHBOX]->hide();
 		}
 	}
-
 	void showPartyBox(bool flag, bool showAcceptDenyButtons=false)
 	{
 		if(flag)
@@ -1256,7 +1192,6 @@ public:
 			mBox[GUI_PARTYBOX]->setHeight(0.225);
 		}
 	}
-
 	void showBioBox(bool flag)
 	{
 		if(flag)
@@ -1271,7 +1206,6 @@ public:
 			mBox[GUI_BIOBOX]->hide();
 		}
 	}
-
 	void showTargetBioBox(bool flag)
 	{
 		if(flag)
@@ -1286,7 +1220,6 @@ public:
 			mBox[GUI_TARGETBIOBOX]->hide();
 		}
 	}
-
 	void showListSelectBox(bool flag)
 	{
 		if(flag)
@@ -1305,7 +1238,6 @@ public:
 			mListSelectTarget = 0;
 		}
 	}
-
 	void showChatOverlay(bool flag, bool showChat=true, bool bShowChatBox=false)
 	{
 		if(flag)
@@ -1324,7 +1256,6 @@ public:
 			mBox[GUI_TEXTOUTPUT]->hide();
 		}
 	}
-
 	void showCreditsOverlay(bool flag, bool showCreditsCaption=true, bool showGameOverButtons=false)
 	{
 		if(flag)
@@ -1347,7 +1278,6 @@ public:
 			mButton[BUTTON_GAMEOVERQUIT]->hide();
 		}
 	}
-
 	void scrollMouse(int x, int y, int winWidth, int winHeight, bool setPosition=false)
 	{
 		if(setPosition)mCursor->setPosition(x,y);
@@ -1432,7 +1362,6 @@ public:
 			}
 		}
 	}
-
 	void showMouse(bool flag)
 	{
 		if(flag)
@@ -1444,33 +1373,23 @@ public:
 			if(mCursor->isVisible())mCursor->hide();
 		}
 	}
-
 	const Real getMouseX()
 	{
 		return cursorX;
 	}
-
 	const Real getMouseY()
 	{
 		return cursorY;
 	}
-
 	void reset()
 	{
 		mChatManager->reset();
 		mMiniMap->reset();
 		showMouse(true);
 		isGUIVisible = true;
-
-		// this is not really UI
-		if(underwaterShaderFlag)
-		{
-			toggleUnderwaterShader();
-		}
-		
+		if(underwaterShaderFlag)toggleUnderwaterShader();
 		setWounded(mUnitManager->getPlayer()->getIsWounded());
 	}
-
 	void update(const FrameEvent &evt)
 	{
 		updateHover();
@@ -1510,8 +1429,6 @@ public:
 		}
 		updateNetworkMessage();
 	}
-
-	// this should be MagixPlayerUI
 	void updatePlayer(const FrameEvent &evt)
 	{
 		//Pickup Item
@@ -1623,21 +1540,11 @@ public:
 		}
 		
 	}
-
-	// to MagixUiUtils
 	void setWounded(bool flag)
 	{
-		if(flag)
-		{
-			mHPBar->setMaterialName("GUIMat/WoundBar");
-		}
-		else
-		{
-			mHPBar->setMaterialName("GUIMat/HPBar");
-		}
+		if(flag)mHPBar->setMaterialName("GUIMat/WoundBar");
+		else mHPBar->setMaterialName("GUIMat/HPBar");
 	}
-
-	// check the tabbing of this later
 	void updateNetworkMessage()
 	{
 		const NetworkMessage tMessage = mNetworkManager->popNetworkMessage();
@@ -1646,32 +1553,28 @@ public:
 		case NETWORK_CONNECTED:
 			if(isCreateAccount)
 			{
-				mNetworkManager->sendCreateAccount(createAccountInfo[0], createAccountInfo[1], createAccountInfo[3], createAccountInfo[4], createAccountInfo[5]);
+				mNetworkManager->sendCreateAccount(createAccountInfo[0],
+												createAccountInfo[1],
+												createAccountInfo[3],
+												createAccountInfo[4],
+												createAccountInfo[5]);
 			}
 			else if(isEditAccount)
 			{
-				mNetworkManager->sendEditAccount(editAccountInfo[0], editAccountInfo[1], editAccountInfo[2]);
+				mNetworkManager->sendEditAccount(editAccountInfo[0],
+												editAccountInfo[1],
+												editAccountInfo[2]);
 			}
 			else
 			{
-				mNetworkManager->sendLogon(logonUsername, logonPassword);
+				mNetworkManager->sendLogon(logonUsername,logonPassword);
 			}
 			break;
 		case NETWORK_CONNECTIONFAILED:
-			if(isCreateAccount)
-			{
-				showCreateAccountOverlay(true);
-			}
-			else if(isEditAccount)
-			{
-				showEditAccountOverlay(true);
-			}
-			else
-			{
-				showLogonOverlay(true);
-			}
-			
-			showBackdropOverlay(true, false);
+			if(isCreateAccount)showCreateAccountOverlay(true);
+			else if(isEditAccount)showEditAccountOverlay(true);
+			else showLogonOverlay(true);
+			showBackdropOverlay(true,false);
 			break;
 		case NETWORK_LOGONSUCCESS:
 			if(!isCheckBoxTrue(mCheckBox[CHECKBOX_LOGON]))
@@ -1679,11 +1582,7 @@ public:
 				logonPassword = "";
 				mDef->savePassword(false,logonPassword);
 			}
-			else
-			{
-				mDef->savePassword(true, logonPassword);
-			}
-
+			else mDef->savePassword(true,logonPassword);
 			OverlayManager::getSingleton().getOverlayElement("GUI/LogonPasswordText")->setCaption("Password: ");
 			mGameStateManager->setGameState(GAMESTATE_STARTCHARSCREEN);
 			showOptionsOverlay(false);
@@ -1691,84 +1590,84 @@ public:
 		case NETWORK_LOGONFAIL:
 			showLogonOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Invalid username or password", 0.5, 0.5, 3);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Invalid username or password",0.5,0.5,3);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_LOGONINUSE:
 			showLogonOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Username already logged in", 0.5, 0.5, 3);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Username already logged in",0.5,0.5,3);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_CREATEACCOUNTSUCCESS:
 			showLogonOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Account Created Successfully", 0.5, 0.5, 2);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Account Created Successfully",0.5,0.5,2);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_CREATEACCOUNTFAIL:
 			showCreateAccountOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Username is already in use", 0.5, 0.5, 3);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Username is already in use",0.5,0.5,3);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_EDITACCOUNTSUCCESS:
 			showLogonOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Password Changed Successfully", 0.5, 0.5, 2);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Password Changed Successfully",0.5,0.5,2);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_EDITACCOUNTFAIL:
 			showEditAccountOverlay(true);
 			showOptionsOverlay(false);
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Password change failed", 0.5, 0.5, 3);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Password change failed",0.5,0.5,3);
 			mNetworkManager->disconnect();
 			break;
 		case NETWORK_LOSTCONNECTION:
 			mGameStateManager->setGameState(GAMESTATE_RETURNSTARTSCREEN);
 			showCharScreenOverlay(false);
 			mBackdrop->setMaterialName("GUIMat/Backdrop1");
-			showBackdropOverlay(true, false);
+			showBackdropOverlay(true,false);
 			showOptionsOverlay(false);
 			break;
 		case NETWORK_LOADCHARSUCCESS:
-			showBackdropOverlay(true, false);
-			if(mUnitManager->getPlayer()->getHP() <= 0)
+			showBackdropOverlay(true,false);
+			if(mUnitManager->getPlayer()->getHP()<=0)
 			{
-				mUnitManager->getPlayer()->setWounded(true, true);
+				mUnitManager->getPlayer()->setWounded(true,true);
 				mUnitManager->getPlayer()->setHPRatio(1);
 			}
 			break;
 		case NETWORK_LOADCHARFAIL:
-			showBackdropOverlay(true, false);
-			mAlertBox->showAlert("Character load failed", 0.5, 0.5, 3);
+			showBackdropOverlay(true,false);
+			mAlertBox->showAlert("Character load failed",0.5,0.5,3);
 			break;
 		case NETWORK_CREATECHARSUCCESS:
-			showBackdropOverlay(true, false);
+			showBackdropOverlay(true,false);
 			showCharScreenOverlay(true);
 			mCharScreenManager->createCharSuccess();
 			break;
 		case NETWORK_CREATECHARFAIL:
-			showBackdropOverlay(false, false);
+			showBackdropOverlay(false,false);
 			showCharScreenOverlay(true);
-			mAlertBox->showAlert("Create Character failed", 0.5, 0.5, 3);
+			mAlertBox->showAlert("Create Character failed",0.5,0.5,3);
 			mCharScreenManager->refreshPage();
 			break;
 		case NETWORK_EDITCHARSUCCESS:
-			showBackdropOverlay(true, false);
+			showBackdropOverlay(true,false);
 			showCharScreenOverlay(true);
 			mCharScreenManager->editCharSuccess();
 			break;
 		case NETWORK_EDITCHARFAIL:
-			showBackdropOverlay(false, false);
+			showBackdropOverlay(false,false);
 			showCharScreenOverlay(true);
-			mAlertBox->showAlert("Edit Character failed", 0.5, 0.5, 3);
+			mAlertBox->showAlert("Edit Character failed",0.5,0.5,3);
 			mCharScreenManager->refreshPage();
 			break;
 		case NETWORK_PARTYREQUEST:
@@ -1778,8 +1677,8 @@ public:
 				if(tUnit)
 				{
 					showPartyBox(true,true);
-					String tCaption = tUnit->getUser() + " has\n";
-					tCaption += mUnitManager->hasParty() ? "requested" : "invited you";
+					String tCaption = tUnit->getUser()+" has\n";
+					tCaption += mUnitManager->hasParty()?"requested":"invited you";
 					tCaption += " to join party";
 					OverlayManager::getSingleton().getOverlayElement("GUI/PartyBoxText2")->setCaption(tCaption);
 				}
@@ -1789,20 +1688,11 @@ public:
 			editBlockedList(tMessage.param,true);
 		}
 	}
-
-	// this is an FX or beautification, why is this here ?
 	void updateCompositors()
 	{
-		if(mCamera->getIsUnderwater() && !underwaterShaderFlag)
-		{
-			toggleUnderwaterShader();
-		}
-		else if(!mCamera->getIsUnderwater() && underwaterShaderFlag)
-		{
-			toggleUnderwaterShader();
-		}
+		if(mCamera->getIsUnderwater() && !underwaterShaderFlag)toggleUnderwaterShader();
+		else if(!mCamera->getIsUnderwater() && underwaterShaderFlag)toggleUnderwaterShader();
 	}
-
 	void updateTargetIndicator()
 	{
 		if(mGameStateManager->isCinematic() || !mGameStateManager->isInGame())
@@ -1861,7 +1751,6 @@ public:
 		mTargetIndicatorNode->setScale(tScale,tScale,tScale);
 		if(!mTargetIndicator->isVisible())mTargetIndicator->setVisible(true);
 	}
-
 	void updateFader(const FrameEvent &evt)
 	{
 		#pragma warning(push)
@@ -1932,7 +1821,6 @@ public:
 		}
 		#pragma warning(pop)
 	}
-
 	void updateCinematicBars(const FrameEvent &evt)
 	{
 		//fade in
@@ -1962,7 +1850,6 @@ public:
 			}
 		}
 	}
-
 	void updateCinematicCaption(const FrameEvent &evt)
 	{
 		cinematicCaptionTimeout -= evt.timeSinceLastFrame;
@@ -1972,7 +1859,6 @@ public:
 			OverlayManager::getSingleton().getOverlayElement("GUI/CinematicCaption")->hide();
 		}
 	}
-
 	void updateHPPanel(const FrameEvent &evt)
 	{
 		Real tHPRatio = mUnitManager->getPlayer()->getHPRatio();
@@ -1993,7 +1879,6 @@ public:
 			}
 		}
 	}
-
 	void updateTargetPanel(const FrameEvent &evt)
 	{
 		if(!isGUIVisible)return;
@@ -2163,7 +2048,6 @@ public:
 		showFaderOverlay(true);
 		showBackdropOverlay(true);
 	}
-
 	void updateHomeBox()
 	{
 		if(!mBox[GUI_HOMEBOX]->isVisible())return;
@@ -2172,7 +2056,6 @@ public:
 		const String tCaption = StringConverter::toString(mGameStateManager->getDimension());
 		if(dimensionText->getCaption()!=tCaption)dimensionText->setCaption(tCaption);
 	}
-
 	void updateFriendBox()
 	{
 		if(!mBox[GUI_FRIENDBOX]->isVisible())return;
@@ -2184,13 +2067,11 @@ public:
 		}
 		updateBoxScrollerCaption(GUI_FRIENDBOX,SCROLLER_FRIENDBOX,friendBoxList);
 	}
-
 	void updateBioBox()
 	{
 		if(!mBox[GUI_BIOBOX]->isVisible())return;
 		if(mInputManager->getInputBox()!=mBoxText[GUI_BIOBOX] || mInputManager->getInputMode()!=INPUT_TEXT)updateBoxScrollerCaption(GUI_BIOBOX,SCROLLER_BIOBOX,bioList);
 	}
-
 	void updateTargetBioBox()
 	{
 		if(!mBox[GUI_TARGETBIOBOX]->isVisible())return;
@@ -2199,7 +2080,6 @@ public:
 		const String tBio = mNetworkManager->popTargetBioUpdated();
 		if(tBio!="")refreshTargetBio(tBio);
 	}
-
 	void updateEmoteBox()
 	{
 		if(!mBox[GUI_EMOTEBOX]->isVisible())return;
@@ -2245,7 +2125,6 @@ public:
 		for(int i=0;i<(int)mDef->emoteName.size();i++)tList.push_back(mDef->emoteName[i]);
 		updateBoxScrollerCaption(GUI_EMOTEBOX,SCROLLER_EMOTEBOX,tList);
 	}
-
 	void updateItemBox()
 	{
 		if(!mBox[GUI_ITEMBOX]->isVisible())return;
@@ -2258,7 +2137,6 @@ public:
 		}
 		mBoxText[GUI_ITEMBOX]->setCaption(tItemList);
 	}
-
 	void updateStashBox()
 	{
 		if(!mBox[GUI_STASHBOX]->isVisible())return;
@@ -2270,7 +2148,6 @@ public:
 		}
 		updateBoxScrollerCaption(GUI_STASHBOX,SCROLLER_STASHBOX,tList);
 	}
-
 	void updatePartyBox()
 	{
 		if(mUnitManager->popPartyChanged())
@@ -2296,7 +2173,6 @@ public:
 			for(int i=0;i<(int)tUnitList.size();i++)mMiniMap->updateUnitMarker(tUnitList[i]);
 		}
 	}
-
 	void updateSelectPanel(const FrameEvent &evt)
 	{
 		if(selectPanelTimeout>0)
@@ -2373,14 +2249,12 @@ public:
 
 		}
 	}
-
 	void updateListSelectBox()
 	{
 		if(!mBox[GUI_LISTSELECTBOX]->isVisible() && !mListSelectHighlight->isVisible())return;
 		if(!mListSelectTarget)showListSelectBox(false);
 		if(!mListSelectTarget->isVisible())showListSelectBox(false);
 	}
-
 	void refreshFriendList()
 	{
 		friendBoxList.clear();
@@ -2458,7 +2332,6 @@ public:
 			friendBoxListButton.push_back(LISTBUTTON_NONE);
 		}
 	}
-
 	void refreshBio()
 	{
 		const String tName = mUnitManager->getPlayer()->getName();
@@ -2479,7 +2352,6 @@ public:
 		}
 		if(tLine!="")bioList.push_back(tLine);
 	}
-
 	void refreshTargetBio(String bio, const String &name="")
 	{
 		if(name!="")OverlayManager::getSingleton().getOverlayElement("GUI/TargetBioBoxName")->setCaption(name);
@@ -2499,7 +2371,6 @@ public:
 		}
 		if(tLine!="")targetBioList.push_back(tLine);
 	}
-
 	void resetCampaignScreen()
 	{
 		showOptionsOverlay(false);
@@ -2515,7 +2386,6 @@ public:
 		showCampaignOverlay(true);
 		mSoundManager->playMusic(MUSIC_TITLE);
 	}
-
 	void updateCharScreen(const FrameEvent &evt)
 	{
 		if(mGameStateManager->getGameState()==GAMESTATE_CHARSCREEN)
@@ -2536,7 +2406,6 @@ public:
 			}
 		}
 	}
-
 	void updateChatBox(const FrameEvent &evt)
 	{
 		if(!mBox[GUI_TEXTOUTPUT]->isVisible() || !mBoxText[GUI_TEXTOUTPUT]->isVisible())return;
@@ -2571,7 +2440,6 @@ public:
 		mBoxText[GUI_TEXTOUTPUT]->setCaption( mChatManager->getChatBlock( Math::IFloor(tLines),mBoxText[GUI_TEXTOUTPUT]->getWidth(),tCharHeight,(1-getScroll(SCROLLER_TEXTOUTPUT)) ) );
 		mBoxText[GUI_TEXTOUTPUT]->setTop((tLines - Math::IFloor(tLines))*tCharHeight + 0.008);
 	}
-
 	void updateHover()
 	{
 		if(mHoverWindow)
@@ -2748,7 +2616,6 @@ public:
 			}
 		}
 	}
-
 	bool isCursorOverButton(OverlayElement *button, bool ignoreParent=false)
 	{
 		if(!button)return false;
@@ -2766,7 +2633,6 @@ public:
 		return (cursorX >= (button->getLeft()+button->getParent()->getLeft()) && cursorX <= (button->getLeft()+button->getWidth()+button->getParent()->getLeft())
 				&& cursorY >= (button->getTop()+button->getParent()->getTop()) && cursorY <= (button->getTop()+button->getHeight()+button->getParent()->getTop()) );
 	}
-
 	bool isCursorOverWindow(OverlayElement *window)
 	{
 		if(!window)return false;
@@ -2776,21 +2642,18 @@ public:
 				&& cursorY >= (window->getTop()) && cursorY <= (window->getTop()+window->getHeight())
 				&& window->isVisible() );
 	}
-
 	void setLeftClick(bool flag)
 	{
 		if(!leftClick && flag){mouseLeftDown();}
 		else if(leftClick && !flag){mouseLeftUp();}
 		leftClick = flag;
 	}
-
 	void setRightClick(bool flag)
 	{
 		if(!rightClick && flag){mouseRightDown();}
 		else if(rightClick && !flag){mouseRightUp();}
 		rightClick = flag;
 	}
-
 	void mouseLeftDown()
 	{
 		//hide alert box if clicked
@@ -3143,7 +3006,6 @@ public:
 		}
 		else if(mGameStateManager->getGameState()==GAMESTATE_CHARSCREEN)mCharScreenManager->doRotateUnit(cursorX,cursorY);
 	}
-
 	void mouseLeftUp()
 	{
 		if(mSelectPanel->isVisible())
@@ -3179,8 +3041,25 @@ public:
 				showCampaignOverlay(true);
 				return;
 			}
+			if(mHoverButton==mButton[BUTTON_MULTIPLAYER])	//multiplayer game
+			{
+				showStartScreenOverlay(false);
+				showOptionsOverlay(false);
+				showLogonOverlay(true);
 
-			if (mHoverButton == mButton[BUTTON_LOGONBACK])	//back to startscreen
+				logonPassword = mDef->loadPassword();
+				if(logonPassword!="" && !isCheckBoxTrue(mCheckBox[CHECKBOX_LOGON]))toggleCheckBox(mCheckBox[CHECKBOX_LOGON]);
+				String tPassword = "";
+				for(int i=0;i<(int)logonPassword.length();i++)tPassword += "*";
+				OverlayManager::getSingleton().getOverlayElement("GUI/LogonPasswordText")->setCaption("Password: "+tPassword);
+
+				if(logonUsername=="")
+					toggleInputMode(false,OverlayManager::getSingleton().getOverlayElement("GUI/LogonUsernameText"),"Username: ",15,false,logonUsername,false);
+				else
+					toggleInputMode(false,OverlayManager::getSingleton().getOverlayElement("GUI/LogonPasswordText"),"Password: ",15,false,logonPassword,false,false,true);
+				return;
+			}
+			if(mHoverButton==mButton[BUTTON_LOGONBACK])	//back to startscreen
 			{
 				mNetworkManager->disconnect();
 				showLogonOverlay(false);
@@ -3188,12 +3067,12 @@ public:
 				showStartScreenOverlay(true);
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_LOGON1])	//logon multiplayer
+			if(mHoverButton==mButton[BUTTON_LOGON1])	//logon multiplayer
 			{
 				logOn();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_NEWACCOUNT])	//new account screen
+			if(mHoverButton==mButton[BUTTON_NEWACCOUNT])	//new account screen
 			{
 				showLogonOverlay(false);
 				showOptionsOverlay(false);
@@ -3201,45 +3080,45 @@ public:
 				resetCreateAccountFields();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_EDITACCOUNT])	//edit account screen
+			if(mHoverButton==mButton[BUTTON_EDITACCOUNT])	//edit account screen
 			{
 				showLogonOverlay(false);
 				showOptionsOverlay(false);
 				showEditAccountOverlay(true);
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_CREATEACCOUNTBACK])	//back to logon screen
+			if(mHoverButton==mButton[BUTTON_CREATEACCOUNTBACK])	//back to logon screen
 			{
 				showCreateAccountOverlay(false);
 				showOptionsOverlay(false);
 				showLogonOverlay(true);
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_CREATEACCOUNT1])	//create new account
+			if(mHoverButton==mButton[BUTTON_CREATEACCOUNT1])	//create new account
 			{
 				createAccount();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_EDITACCOUNTBACK])	//back to logon screen
+			if(mHoverButton==mButton[BUTTON_EDITACCOUNTBACK])	//back to logon screen
 			{
 				showEditAccountOverlay(false);
 				showOptionsOverlay(false);
 				showLogonOverlay(true);
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_EDITACCOUNT1])	//confirm change password
+			if(mHoverButton==mButton[BUTTON_EDITACCOUNT1])	//confirm change password
 			{
 				confirmPasswordChange();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_OPTIONRESUME])	//Options resume
+			if(mHoverButton==mButton[BUTTON_OPTIONRESUME])	//Options resume
 			{
 				toggleShowOptions();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_OPTIONRESTART])	//Options restart
+			if(mHoverButton==mButton[BUTTON_OPTIONRESTART])	//Options restart
 			{
-				if (mGameStateManager->isCampaign())
+				if(mGameStateManager->isCampaign())
 				{
 					mGameStateManager->setGameState(GAMESTATE_QUITCAMPAIGN);
 				}
@@ -3250,32 +3129,27 @@ public:
 				}
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_OPTIONSETTINGS])	//Settings
+			if(mHoverButton==mButton[BUTTON_OPTIONSETTINGS])	//Settings
 			{
 				mBox[GUI_OPTIONS]->hide();
 				mBox[GUI_SETTINGS]->show();
 				return;
 			}
-			if (mHoverButton == mButton[BUTTON_OPTIONINTERFACE])	//Interface Settings
+			if(mHoverButton==mButton[BUTTON_OPTIONINTERFACE])	//Interface Settings
 			{
 				mBox[GUI_OPTIONS]->hide();
 				mBox[GUI_INTERFACE]->show();
 				return;
 			}
-			//
 			if(mHoverButton==mButton[BUTTON_CAMPAIGNBACK])	//Campaignscreen Back
 			{
-				if(campaignPage == 0)
+				if(campaignPage==0)
 				{
 					showCampaignOverlay(false);
 					showOptionsOverlay(false);
 					showStartScreenOverlay(true);
 				}
-				else
-				{
-					loadCampaigns(--campaignPage);
-				}
-
+				else loadCampaigns(--campaignPage);
 				return;
 			}
 			if(mHoverButton==mButton[BUTTON_CAMPAIGNNEXT])	//Campaignscreen Next
@@ -3296,7 +3170,6 @@ public:
 				fadeOut(0);
 				return;
 			}
-			//
 			if(mHoverButton==mButton[BUTTON_CHARSCREENBACK])	//Charscreen Back
 			{
 				mAlertBox->hide(true);
@@ -3738,11 +3611,9 @@ public:
 			if(!mHoverButton && !mHoverWindow)doRayPicking(true);
 		}
 	}
-
 	void mouseRightDown()
 	{
 	}
-
 	void mouseRightUp()
 	{
 		if(!mGameStateManager->isInGame() || mGameStateManager->isPaused() || mGameStateManager->isCinematic())return;
@@ -3764,12 +3635,14 @@ public:
 
 		doRayPicking(true);
 	}
-
 	const String getDebugText()
 	{
 		return mDebugText;
 	}
-
+	MagixInputManager* getInputManager()
+	{
+		return mInputManager;
+	}
 	void toggleInputMode(bool isEnter, OverlayElement *inputBox=0, String defaultCaption="Say: ", unsigned short charLimit=256, bool clearAtReturn=true, String startText="", bool allowTempStorage=true, bool allowNewLine=false, bool hideText=false)
 	{
 		if(mInputManager->getInputMode()==INPUT_CONTROL)
@@ -4059,7 +3932,6 @@ public:
 			}
 		}
 	}
-
 	bool selectCurrentObject(SceneNode *object, const unsigned int &flags=0, bool isRightClick=false)
 	{
 		if(object)
@@ -4191,7 +4063,6 @@ public:
 		}
 		return false;
 	}
-
 	void processSelectBoxClick()
 	{
 		if(!mHoverButton)return;
@@ -4319,7 +4190,6 @@ public:
 			}
 			
 	}
-
 	void showSelectPanel(bool flag, const String &name="Target")
 	{
 		if(flag)
@@ -4342,32 +4212,22 @@ public:
 			mHeldButtonWindow = 0;
 		}
 	}
-
-	MagixInputManager* getInputManager()
-	{
-		return mInputManager;
-	}
-
 	MagixChatManager* getChatManager()
 	{
 		return mChatManager;
 	}
-
 	MagixAlertBox* getAlertBox()
 	{
 		return mAlertBox;
 	}
-
 	MagixCharScreenManager* getCharScreenManager()
 	{
 		return mCharScreenManager;
 	}
-
 	MagixMiniMap* getMiniMap()
 	{
 		return mMiniMap;
 	}
-
 	void sizeWindowDrag(unsigned short sizeDir, const Real &minWidth=0, const Real &minHeight=0)
 	{
 		sizeWindowDir = sizeDir;
@@ -4435,7 +4295,6 @@ public:
 			else mUnitManager->getPlayer()->doAttack(mDef);
 		}
 	}
-
 	void doInGameLeftClick()
 	{
 		//Attack
@@ -4443,7 +4302,6 @@ public:
 		//Raypick
 		else doRayPicking(false);
 	}
-	
 	void doRayPicking(bool isRightClick)
 	{
 		const Ray mouseRay = mCamera->getCamera()->getCameraToViewportRay(cursorX,cursorY);
@@ -4496,7 +4354,6 @@ public:
 		mUnitManager->getPlayer()->setAutoAttack(0);
 		mUnitManager->getPlayer()->setTarget(mUnitManager->getPlayer()->getPosition());
 	}
-	
 	void doScroll(bool flag, short iID=0)
 	{
 		if(!flag)
@@ -4522,7 +4379,6 @@ public:
 			mScrollerMarker[iID]->setTop(mScrollerMarker[iID]->getTop()-mScrollerMarker[iID]->getHeight()/2);
 		}
 	}
-	
 	void doMove(bool flag)
 	{
 		if(flag && mMoverWindow)
@@ -4537,7 +4393,6 @@ public:
 			mMoverWindow = 0;
 		}
 	}
-	
 	const Real getScroll(unsigned short iID)
 	{
 		if(!mScroller[iID] || !mScrollerMarker[iID])return 0;
@@ -4551,7 +4406,6 @@ public:
 			return (mScrollerMarker[iID]->getTop() + mScrollerMarker[iID]->getHeight()/2 - mScroller[iID]->getTop())/mScroller[iID]->getHeight();
 		}
 	}
-	
 	void setScroll(unsigned short iID, Real ratio)
 	{
 		if(!mScroller[iID] || !mScrollerMarker[iID])return;
@@ -4565,7 +4419,6 @@ public:
 			mScrollerMarker[iID]->setTop(mScroller[iID]->getTop() + mScroller[iID]->getHeight()*ratio - mScrollerMarker[iID]->getHeight()/2);
 		}
 	}
-	
 	void resizeScrollbarByParent(OverlayElement *parent, const Real &dwidth, const Real &dheight)
 	{
 		for(int i=0;i<MAX_SCROLLERS;i++)
@@ -4587,14 +4440,12 @@ public:
 			}
 		}
 	}
-	
 	const short getScrollerID(OverlayElement *scroller)
 	{
 		for(int i=0;i<MAX_SCROLLERS;i++)
 			if(mScrollerMarker[i]&& mScrollerMarker[i]==scroller)return i;
 		return -1;
 	}
-	
 	void updateBoxScrollerCaption(const unsigned short &boxID, const unsigned short &scrollerID, const vector<String>::type &captionList)
 	{
 		if(boxID>=MAX_BOXES)return;
@@ -4617,7 +4468,6 @@ public:
 		}
 		mBoxText[boxID]->setCaption(tCaption);
 	}
-	
 	const short getListButtonLine(const unsigned short &boxID, const unsigned short &scrollerID, const unsigned short &listLines, Real &fontHeight, short &apparentLine)
 	{
 		if(boxID>=MAX_BOXES)return -1;
@@ -4635,7 +4485,6 @@ public:
 		apparentLine = tY/tCharHeight;
 		return short(apparentLine + start);
 	}
-	
 	const short getListButtonLine(const unsigned short &boxID, Real &fontHeight, short &apparentLine)
 	{
 		if(boxID>=MAX_BOXES)return -1;
@@ -4650,14 +4499,12 @@ public:
 		apparentLine = (short)tY/tCharHeight;
 		return short(apparentLine);
 	}
-	
 	OverlayElement* getMoverWindow(OverlayElement *mover)
 	{
 		for(int i=0;i<MAX_MOVERS;i++)
 			if(mMover[i]&& mMover[i]==mover)return mMover[i]->getParent();
 		return 0;
 	}
-	
 	void toggleShowOptions()
 	{
 		if(!mBox[GUI_OPTIONS]->isVisible() && !mBox[GUI_SETTINGS]->isVisible() && !mBox[GUI_INTERFACE]->isVisible())
@@ -4685,12 +4532,10 @@ public:
 			if(mGameStateManager->isCampaign() && mGameStateManager->isPaused())mGameStateManager->togglePause();
 		}
 	}
-	
 	bool isOptionsVisible()
 	{
 		return (mBox[GUI_OPTIONS]->isVisible()||mBox[GUI_SETTINGS]->isVisible()||mBox[GUI_INTERFACE]->isVisible());
 	}
-	
 	void showChatBox(bool flag, bool showInput=true)
 	{
 		if(!flag)
@@ -4732,7 +4577,6 @@ public:
 			}
 		}
 	}
-	
 	void initializeSettings()
 	{
 		bool tTablet=false,tShadowsOn=false,tBloom=false,tGeneralCharname=false,tLocalUsername=false,tChannelBlink=true,tRunMode=true,tDoubleJumpOn=true,tAutoLipSync=false;
@@ -4764,163 +4608,127 @@ public:
 
 		OverlayManager::getSingleton().getOverlayElement("GUI/LogonUsernameText")->setCaption("Username: "+logonUsername);
 	}
-
 	void saveSettings()
 	{
 		mDef->saveSettings(isTabletFlag, mouseSensitivity,
-			mSoundManager->getMusicVolume(),
-			mSoundManager->getGUISoundVolume(),
-			mSoundManager->getSoundVolume(),
-			isShadowsOnFlag,
-			isBloomFlag,
-			logonUsername,
-			mChatManager->doGeneralCharname,
-			mChatManager->doLocalUsername,
-			doChannelBlink,
-			mUnitManager->getPlayer()->defaultControlModeIsAbsolute,
-			isDoubleJumpOnFlag,
-			isAutoLipSyncFlag,
-			(mButtonText[BUTTON_INTERFACE8]->getCaption() == "On"));
+						mSoundManager->getMusicVolume(),
+						mSoundManager->getGUISoundVolume(),
+						mSoundManager->getSoundVolume(),
+						isShadowsOnFlag,
+						isBloomFlag,
+						logonUsername,
+						mChatManager->doGeneralCharname,
+						mChatManager->doLocalUsername,
+						doChannelBlink,
+						mUnitManager->getPlayer()->defaultControlModeIsAbsolute,
+						isDoubleJumpOnFlag,
+						isAutoLipSyncFlag,
+						(mButtonText[BUTTON_INTERFACE8]->getCaption()=="On"));
 	}
-
-	// tablet mode my ass or windows tablet ? this can be removed.
 	void toggleIsTablet(bool showAlert=false)
 	{
 		isTabletFlag = !isTabletFlag;
-		mButtonText[BUTTON_INTERFACE1]->setCaption((isTabletFlag ? "On" : "Off"));
-		if(showAlert)
-		{
-			mAlertBox->showAlert((isTabletFlag ? "Switched to Tablet Mode (Hotkey INSERT)" : "Switched to Mouse Mode (Hotkey INSERT)"), 0.5, 0.5);
-		}
+		mButtonText[BUTTON_INTERFACE1]->setCaption((isTabletFlag?"On":"Off"));
+		if(showAlert)mAlertBox->showAlert( (isTabletFlag?"Switched to Tablet Mode (Hotkey INSERT)":"Switched to Mouse Mode (Hotkey INSERT)") ,0.5,0.5);
 	}
-
 	bool isTablet()
 	{
 		return isTabletFlag;
 	}
-
 	void toggleShadowsOn()
 	{
 		isShadowsOnFlag = !isShadowsOnFlag;
-		mButtonText[BUTTON_SETTINGS1]->setCaption((isShadowsOnFlag ? "On" : "Off"));
+		mButtonText[BUTTON_SETTINGS1]->setCaption((isShadowsOnFlag?"On":"Off"));
 		mSceneMgr->setShadowTechnique((isShadowsOnFlag?SHADOWTYPE_TEXTURE_MODULATIVE:SHADOWTYPE_NONE));
 		if(isShadowsOnFlag)
 		{
 			mSceneMgr->setShadowFarDistance(350);
 			mSceneMgr->setShadowTextureSize(1024);
-			mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5, 1));
+			mSceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5,1));
 		}
 	}
-
 	bool isShadowsOn()
 	{
 		return isShadowsOnFlag;
 	}
-
 	void toggleIsBloom()
 	{
 		isBloomFlag = !isBloomFlag;
-		mButtonText[BUTTON_SETTINGS2]->setCaption((isBloomFlag ? "On" : "Off"));
+		mButtonText[BUTTON_SETTINGS2]->setCaption((isBloomFlag?"On":"Off"));
 		if(CompositorManager::getSingleton().hasCompositorChain(mWindow->getViewport(0)))
-		{
 			CompositorManager::getSingleton().setCompositorEnabled(mWindow->getViewport(0), "Bloom", isBloomFlag);
-		}
 	}
-
 	void toggleMotionBlur()
 	{
 		motionBlurFlag = !motionBlurFlag;
 		if(CompositorManager::getSingleton().hasCompositorChain(mWindow->getViewport(0)))
-		{
 			CompositorManager::getSingleton().setCompositorEnabled(mWindow->getViewport(0), "MotionBlur", motionBlurFlag);
-		}
 	}
-
 	void togglePagedGeometryOn()
 	{
 		mDef->pagedGeometryOn = !mDef->pagedGeometryOn;
-		mButtonText[BUTTON_SETTINGS3]->setCaption((mDef->pagedGeometryOn ? "On" : "Off"));
+		mButtonText[BUTTON_SETTINGS3]->setCaption((mDef->pagedGeometryOn?"On":"Off"));
 	}
-
-	// so, this set an underwater shader...
 	void toggleUnderwaterShader()
 	{
-		// basic inversion of the var.
 		underwaterShaderFlag = !underwaterShaderFlag;
-
 		showPseudoShaderOverlay(underwaterShaderFlag);
-
-		if(underwaterShaderFlag)
-		{
-			mPseudoShader->setMaterialName("PseudoShader/Underwater");
-		}
+		if(underwaterShaderFlag)mPseudoShader->setMaterialName("PseudoShader/Underwater");
 	}
-
 	void toggleDoChannelBlink()
 	{
 		doChannelBlink = !doChannelBlink;
 		mButtonText[BUTTON_INTERFACE4]->setCaption((doChannelBlink?"On":"Off"));
 	}
-
 	void toggleDoGeneralCharname()
 	{
 		mChatManager->doGeneralCharname = !mChatManager->doGeneralCharname;
 		mButtonText[BUTTON_INTERFACE2]->setCaption((mChatManager->doGeneralCharname?"Character":"Username"));
 		if(mChatManager->getChannel()==1)mMiniMap->setMapTagUseCharName(mChatManager->doGeneralCharname);
 	}
-
 	void toggleDoLocalUsername()
 	{
 		mChatManager->doLocalUsername = !mChatManager->doLocalUsername;
 		mButtonText[BUTTON_INTERFACE3]->setCaption((mChatManager->doLocalUsername?"Username":"Character"));
 		if(mChatManager->getChannel()==0||mChatManager->getChannel()==2)mMiniMap->setMapTagUseCharName(!mChatManager->doLocalUsername);
 	}
-
 	void toggleRunMode()
 	{
 		mUnitManager->getPlayer()->toggleControlMode();
 		mButtonText[BUTTON_INTERFACE5]->setCaption((mUnitManager->getPlayer()->defaultControlModeIsAbsolute?"Absolute":"Relative"));
 	}
-
 	void toggleDoubleJumpOn()
 	{
 		isDoubleJumpOnFlag = !isDoubleJumpOnFlag;
 		mButtonText[BUTTON_INTERFACE6]->setCaption((isDoubleJumpOnFlag?"On":"Off"));
 	}
-
 	void toggleAutoLipSync()
 	{
 		isAutoLipSyncFlag = !isAutoLipSyncFlag;
 		mButtonText[BUTTON_INTERFACE7]->setCaption((isAutoLipSyncFlag?"On":"Off"));
 	}
-
 	void toggleUseWindowsCursor(bool dontShowAlert=false)
 	{
 		const bool tOn = (mButtonText[BUTTON_INTERFACE8]->getCaption()=="On");
 		mButtonText[BUTTON_INTERFACE8]->setCaption((!tOn?"On":"Off"));
 		if(!dontShowAlert)mAlertBox->showAlert("Restart the game for this option to take effect",0.5,0.5,1.5);
 	}
-
 	bool getUseWindowsCursor()
 	{
 		return useWindowsCursor;
 	}
-
 	bool isBloom()
 	{
 		return isBloomFlag;
 	}
-
 	bool isMotionBlur()
 	{
 		return motionBlurFlag;
 	}
-
 	const Real getMouseSensitivity()
 	{
 		return mouseSensitivity;
 	}
-
 	void fadeIn(const Real &duration, const ColourValue &colour=ColourValue(0,0,0))
 	{
 		if(duration==0)
@@ -4935,7 +4743,6 @@ public:
 			faderColour = colour;
 		}
 	}
-
 	void fadeOut(const Real &duration, const ColourValue &colour=ColourValue(0,0,0))
 	{
 		if(duration==0)
@@ -4965,7 +4772,6 @@ public:
 			faderColour = colour;
 		}
 	}
-
 	void showCinematicBars(bool flag, bool skipTransition=false)
 	{
 		if(flag)
@@ -5001,14 +4807,12 @@ public:
 			}
 		}
 	}
-
 	void showCinematicCaption(const Real &duration, const String &caption)
 	{
 		OverlayManager::getSingleton().getOverlayElement("GUI/CinematicCaption")->setCaption(caption);
 		OverlayManager::getSingleton().getOverlayElement("GUI/CinematicCaption")->show();
 		cinematicCaptionTimeout = duration;
 	}
-
 	void showCreditsCaption(const String &caption)
 	{
 		if(!OverlayManager::getSingleton().getOverlayElement("GUI/Credits")->isVisible())
@@ -5018,26 +4822,22 @@ public:
 		vector<String>::type tLines = StringUtil::split(caption,"\n");
 		tCaption->setTop(0.5-StringConverter::parseReal(tCaption->getParameter("char_height"))*int(tLines.size())/2);
 	}
-
 	void updateSkillText(const Skill *skill)
 	{
 		if(skill)mSkillText->setCaption(skill->name+" x"+StringConverter::toString(skill->stock));
 		else mSkillText->setCaption("Attack");
 	}
-
 	const String getSkillText()
 	{
 		String tText = mSkillText->getCaption();
 		if(StringUtil::match(tText,"* x*"))tText.erase(tText.find_first_of(" x"));
 		return tText;
 	}
-
 	void showPickupText(const String &caption)
 	{
 		mPickupText->setCaption(caption);
 		pickupTextTimeout = 2;
 	}
-
 	void toggleShowGUI()
 	{
 		if(mUnitManager->getShouldNameTagsBeVisible() && isGUIVisible)
@@ -5066,7 +4866,6 @@ public:
 		}
 		
 	}
-
 	void showGUI(bool flag)
 	{
 		if(!flag)
@@ -5084,26 +4883,22 @@ public:
 		showHPPanelOverlay(isGUIVisible);
 		mMiniMap->show(isGUIVisible);
 	}
-
 	bool getWasGUIVisible()
 	{
 		return wasGUIVisible;
 	}
-
 	const String popCommand()
 	{
 		const String tCommand = commandLine;
 		commandLine = "";
 		return tCommand;
 	}
-
 	const String popCommandParam()
 	{
 		const String tParam = commandLineParam;
 		commandLineParam = "";
 		return tParam;
 	}
-
 	void setChatChannel(const unsigned char &channel)
 	{
 		mChatManager->setChannel(channel);
@@ -5139,53 +4934,43 @@ public:
 		}
 		if(mButton[BUTTON_TEXTINPUT3]->getMaterialName()=="GUIMat/ButtonHighlight")mButton[BUTTON_TEXTINPUT3]->setMaterialName("GUIMat/ButtonUp");
 	}
-
 	void toggleChatChannel()
 	{
 		mChatManager->toggleChannel();
 		setChatChannel(mChatManager->getChannel());
 	}
-
 	void toggleShowHomeBox()
 	{
 		showHomeBox(!mBox[GUI_HOMEBOX]->isVisible());
 	}
-
 	void toggleShowBioBox()
 	{
 		showBioBox(!mBox[GUI_BIOBOX]->isVisible());
 	}
-
 	void toggleShowFriendBox()
 	{
 		showFriendBox(!mBox[GUI_FRIENDBOX]->isVisible());
 	}
-
 	void toggleShowMiniMap()
 	{
 		mMiniMap->flipVisibility();
 	}
-
 	void toggleShowEmoteBox()
 	{
 		showEmoteBox(!mBox[GUI_EMOTEBOX]->isVisible());
 	}
-
 	void toggleShowItemBox()
 	{
 		showItemBox(!mBox[GUI_ITEMBOX]->isVisible());
 	}
-
 	void toggleShowStashBox()
 	{
 		showStashBox(!mBox[GUI_STASHBOX]->isVisible());
 	}
-
 	void toggleShowPartyBox()
 	{
 		showPartyBox(!mBox[GUI_PARTYBOX]->isVisible());
 	}
-
 	void editFriendList(const String &name, bool add)
 	{
 		if(name=="")return;
@@ -5197,7 +4982,6 @@ public:
 		if(tUnit)static_cast<MagixIndexedUnit*>(tUnit)->isFriend = add;
 		mChatManager->message( (add?"Added ":"Removed ")+name+" as Friend.");
 	}
-
 	void editBlockedList(const String &name, bool add)
 	{
 		if(name=="")return;
@@ -5217,7 +5001,6 @@ public:
 		}
 		mChatManager->message( (add?"Added ":"Removed ") +name+(add?" to":" from")+" Blocked List.");
 	}
-
 	void setCurrentWindow(OverlayElement *window)
 	{
 		if(!window)return;
@@ -5227,7 +5010,6 @@ public:
 		if(getParentOverlay(mCurrentWindow))getParentOverlay(mCurrentWindow)->setZOrder(488);
 		mHoverWindow = mCurrentWindow;
 	}
-
 	Overlay* getParentOverlay(OverlayElement *element)
 	{
 		if(!element)return 0;
@@ -5237,7 +5019,6 @@ public:
 		tName.erase(0,3);
 		return OverlayManager::getSingleton().getByName("GUIOverlay"+tName);
 	}
-
 	void logOn()
 	{
 		if(logonUsername=="")
@@ -5256,7 +5037,6 @@ public:
 		showBackdropOverlay(true,true,"Connecting...");
 		mNetworkManager->connectMainServer();
 	}
-
 	void createAccount()
 	{
 		if(createAccountInfo[0].length()==0)
@@ -5301,7 +5081,6 @@ public:
 		showBackdropOverlay(true,true,"Connecting...");
 		mNetworkManager->connectMainServer();
 	}
-
 	void resetCreateAccountFields()
 	{
 		const String tCaption[MAX_CREATEACCOUNTINFO] = {"Username: ",
@@ -5316,7 +5095,6 @@ public:
 			mCreateAccountTextBox[i]->setCaption(tCaption[i]+createAccountInfo[i]);
 		}
 	}
-
 	void confirmPasswordChange()
 	{
 		if(editAccountInfo[0].length()==0)
@@ -5350,12 +5128,10 @@ public:
 		showBackdropOverlay(true,true,"Connecting...");
 		mNetworkManager->connectMainServer();
 	}
-
 	const String getUsername()
 	{
 		return logonUsername;
 	}
-
 	void loadChar()
 	{
 		if(mCharScreenManager->getNumChars()!=0)
@@ -5369,7 +5145,6 @@ public:
 			mAlertBox->showAlert("Click here to create\na new character",0.70,0.85,5);
 		}
 	}
-
 	void setBackdrop(const String &name, bool resetSize)
 	{
 		mBackdrop->setMaterialName(name);
@@ -5379,45 +5154,33 @@ public:
 			mBackdrop->setPosition(0,0);
 		}
 	}
-
-
 	void doRoll(const String &input)
 	{
-		const vector<String>::type tInput = StringUtil::split(input, " ", 2);
-
+		const vector<String>::type tInput = StringUtil::split(input," ",2);
 		if(tInput.size()!=2)
 		{
 			mChatManager->message("Usage: /roll [dice] [sides]");
 			return;
 		}
-		
 		const short tDice = StringConverter::parseInt(tInput[0]);
 		const short tSides = StringConverter::parseInt(tInput[1])+1;
-		
-		if(Math::Abs(tDice) > 100 || Math::Abs(tSides) > 101)
+		if(Math::Abs(tDice)>100 || Math::Abs(tSides)>101)
 		{
 			mChatManager->message("Max dice 100, sides 100.");
 			return;
 		}
-		
 		short tTotal = 0;
-		
-		for(short i = 0; i < tDice; i++)
-		{
-			tTotal += (short)Math::RangeRandom(1, tSides);
-		}
+		for(short i=0; i<tDice; i++)tTotal += (short)Math::RangeRandom(1,tSides);
 
 		const String tCaption = "rolled "+tInput[0]+" of "+tInput[1]+" sides and got a "+StringConverter::toString(tTotal);
 		mChatManager->say(mUnitManager,mUnitManager->getPlayer(),tCaption,(mChatManager->getChannel()==0?CHAT_LOCALEVENT:(mChatManager->getChannel()==2?CHAT_PARTYEVENT:CHAT_EVENT)));
 		mNetworkManager->sendChat(tCaption,(mChatManager->getChannel()==0?CHAT_LOCALEVENT:(mChatManager->getChannel()==2?CHAT_PARTYEVENT:CHAT_EVENT)));
 	}
-
 	void pickupItem(MagixItem *item)
 	{
 		//Check if item is pickable, if yes, send pickup request
 		if(checkItemEquippable(item->getMesh()))mNetworkManager->sendItemPickup(item->getID());
 	}
-
 	bool checkItemEquippable(const String &meshName, bool isCreate=false,bool doEquip=false,bool ground=false)
 	{
 		if(isCreate && mDef->getItemIsPrivate(meshName))
@@ -5450,7 +5213,6 @@ public:
 		}
 		return true;
 	}
-
 	void equipItem(const String &meshName)
 	{
 		short tSlot = mUnitManager->getNextEmptyItemSlot(mUnitManager->getPlayer());
@@ -5464,7 +5226,6 @@ public:
 			}
 		}
 	}
-
 	void unequipItem(const unsigned short &iID, bool doDrop=true)
 	{
 		const String tEquip = mUnitManager->getPlayer()->getEquip(iID);
@@ -5482,40 +5243,27 @@ public:
 			if(doDrop)mUnitManager->createItem(mItemManager->getNextEmptyID(mUnitManager->getPlayer()->getIndex()*100),tEquip,mUnitManager->getPlayer()->getPosition().x,mUnitManager->getPlayer()->getPosition().z);
 		}
 	}
-
 	bool isDoubleJumpOn()
 	{
 		return isDoubleJumpOnFlag;
 	}
-
 	void loadCampaigns(const unsigned short &page)
 	{
 		campaignList.clear();
 		mDef->loadCampaignList(campaignList);
-		for(int i = 0; i < 3; i++)
+		for(int i=0;i<3;i++)
 		{
 			if((int)campaignList.size()>(i+campaignPage*3))
 			{
 				mButtonText[BUTTON_CAMPAIGN1+i]->setCaption(campaignList[(i+campaignPage*3)]);
 				mButton[BUTTON_CAMPAIGN1+i]->show();
 			}
-			else
-			{
-				mButton[BUTTON_CAMPAIGN1 + i]->hide();
-			}
+			else mButton[BUTTON_CAMPAIGN1+i]->hide();
 		}
-
-		if((((int)campaignList.size() - 1) / 3) > campaignPage)
-		{
-			mButton[BUTTON_CAMPAIGNNEXT]->show();
-		}
-		else
-		{
-			mButton[BUTTON_CAMPAIGNNEXT]->hide();
-		}
-		OverlayManager::getSingleton().getOverlayElement("GUI/CampaignText2")->setCaption("Page " + StringConverter::toString(campaignPage + 1));
+		if((((int)campaignList.size()-1)/3)>campaignPage)mButton[BUTTON_CAMPAIGNNEXT]->show();
+		else mButton[BUTTON_CAMPAIGNNEXT]->hide();
+		OverlayManager::getSingleton().getOverlayElement("GUI/CampaignText2")->setCaption("Page "+StringConverter::toString(campaignPage+1));
 	}
-
 	void toggleCheckBox(OverlayElement *checkBox)
 	{
 		if(!checkBox)return;
@@ -5523,13 +5271,11 @@ public:
 		if(isCheckBoxTrue(checkBox))checkBox->setMaterialName("GUIMat/CheckBoxFalse");
 		else checkBox->setMaterialName("GUIMat/CheckBoxTrue");
 	}
-
 	bool isCheckBoxTrue(OverlayElement *checkBox)
 	{
 		if(!checkBox)return false;
 		return (checkBox->getMaterialName()=="GUIMat/CheckBoxTrue");
 	}
-
 	void party(MagixUnit *unit)
 	{
 		if(!unit || !unit->isIndexedUnit())return;
@@ -5550,4 +5296,5 @@ public:
 		}
 	}
 };
+
 #endif
