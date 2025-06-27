@@ -1,5 +1,17 @@
+/*
+-----------------------------------------------------------------------------
+Filename:    MagixWorld.h
+-----------------------------------------------------------------------------
+This handle any world operations
+(c) KITF derivated work from Impressive Title by KOLVULKD
+
+KITF is public domain, see readme file.
+*/
+
 #ifndef __MagixWorld_h_
 #define __MagixWorld_h_
+
+#pragma once
 
 using namespace Ogre;
 
@@ -12,8 +24,8 @@ using namespace Ogre;
 #include "TreeLoader3D.h"
 #include "HeightFunction.h"
 
-
-
+// Ogre 1.8 and onwards new terrain needs these headers
+#include "KITFWorldMaterial.h"
 using namespace Forests;
 
 #define MAX_LIGHTS 3

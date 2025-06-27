@@ -19,6 +19,9 @@
     <ClCompile Include="src\client\src\MagixCollisionManager.cpp">
       <Filter>Sources\Magix</Filter>
     </ClCompile>
+    <ClCompile Include="src\client\src\KITFWorldMaterial.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client\include\ogremagix.h">
@@ -129,12 +132,17 @@
     <ClInclude Include="src\client\include\MagixStructs.h">
       <Filter>Headers\Magix</Filter>
     </ClInclude>
-    <ClInclude Include="src\client\include\fontTextureHelper.h" />
     <ClInclude Include="src\client\include\MagixEnums.h">
       <Filter>Headers\Magix</Filter>
     </ClInclude>
     <ClInclude Include="src\client\include\MagixUtils.h">
       <Filter>Headers\Magix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\KITFWorldMaterial.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\client\include\fontTextureHelper.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
