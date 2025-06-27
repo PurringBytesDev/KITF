@@ -329,7 +329,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodex64_vc.lib;OIS_d.lib;RakNetLibStaticDebug.lib;PagedGeometry.lib;OgreMain_d.lib;ws2_32.lib;zlibd.lib;zziplibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmodex64_vc.lib;OIS_d.lib;RakNetLibStaticDebug.lib;PagedGeometry.lib;OgreMain_d.lib;OgreTerrain_d.lib;ws2_32.lib;zlibd.lib;zziplibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)deps\fmodex-4.44.64\lib;$(SolutionDir)deps\OgreSDK_1.8-64\lib\debug;$(SolutionDir)deps\OgreSDK_1.8-64\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib\x64;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;$(SolutionDir)deps\zziplib-0.13.57\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -76,13 +76,13 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	TerrainMaterialGeneratorA::~TerrainMaterialGeneratorA()
+	KITFWorldMaterial::~KITFWorldMaterial()
 	{
 
 	}
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
-	TerrainMaterialGeneratorA::SM2Profile::SM2Profile(TerrainMaterialGenerator* parent, const String& name, const String& desc)
+	KITFWorldMaterial::SM2Profile::SM2Profile(TerrainMaterialGenerator* parent, const String& name, const String& desc)
 		: Profile(parent, name, desc)
 		, mShaderGen(0)
 		, mLayerNormalMappingEnabled(true)
@@ -99,12 +99,12 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	TerrainMaterialGeneratorA::SM2Profile::~SM2Profile()
+	KITFWorldMaterial::SM2Profile::~SM2Profile()
 	{
 		OGRE_DELETE mShaderGen;
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::requestOptions(Terrain* terrain)
+	void KITFWorldMaterial::SM2Profile::requestOptions(Terrain* terrain)
 	{
 		terrain->_setMorphRequired(true);
 		terrain->_setNormalMapRequired(true);
@@ -112,12 +112,12 @@ namespace Ogre
 		terrain->_setCompositeMapRequired(mCompositeMapEnabled);
 	}
 	//---------------------------------------------------------------------
-	bool TerrainMaterialGeneratorA::SM2Profile::isVertexCompressionSupported() const
+	bool KITFWorldMaterial::SM2Profile::isVertexCompressionSupported() const
 	{
 		return true;
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setLayerNormalMappingEnabled(bool enabled)
+	void KITFWorldMaterial::SM2Profile::setLayerNormalMappingEnabled(bool enabled)
 	{
 		if (enabled != mLayerNormalMappingEnabled)
 		{
@@ -126,7 +126,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setLayerParallaxMappingEnabled(bool enabled)
+	void KITFWorldMaterial::SM2Profile::setLayerParallaxMappingEnabled(bool enabled)
 	{
 		if (enabled != mLayerParallaxMappingEnabled)
 		{
@@ -135,7 +135,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setLayerSpecularMappingEnabled(bool enabled)
+	void KITFWorldMaterial::SM2Profile::setLayerSpecularMappingEnabled(bool enabled)
 	{
 		if (enabled != mLayerSpecularMappingEnabled)
 		{
@@ -144,7 +144,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void  TerrainMaterialGeneratorA::SM2Profile::setGlobalColourMapEnabled(bool enabled)
+	void  KITFWorldMaterial::SM2Profile::setGlobalColourMapEnabled(bool enabled)
 	{
 		if (enabled != mGlobalColourMapEnabled)
 		{
@@ -153,7 +153,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void  TerrainMaterialGeneratorA::SM2Profile::setLightmapEnabled(bool enabled)
+	void  KITFWorldMaterial::SM2Profile::setLightmapEnabled(bool enabled)
 	{
 		if (enabled != mLightmapEnabled)
 		{
@@ -162,7 +162,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void  TerrainMaterialGeneratorA::SM2Profile::setCompositeMapEnabled(bool enabled)
+	void  KITFWorldMaterial::SM2Profile::setCompositeMapEnabled(bool enabled)
 	{
 		if (enabled != mCompositeMapEnabled)
 		{
@@ -171,7 +171,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void  TerrainMaterialGeneratorA::SM2Profile::setReceiveDynamicShadowsEnabled(bool enabled)
+	void  KITFWorldMaterial::SM2Profile::setReceiveDynamicShadowsEnabled(bool enabled)
 	{
 		if (enabled != mReceiveDynamicShadows)
 		{
@@ -180,7 +180,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setReceiveDynamicShadowsPSSM(PSSMShadowCameraSetup* pssmSettings)
+	void KITFWorldMaterial::SM2Profile::setReceiveDynamicShadowsPSSM(PSSMShadowCameraSetup* pssmSettings)
 	{
 		if (pssmSettings != mPSSM)
 		{
@@ -189,7 +189,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setReceiveDynamicShadowsDepth(bool enabled)
+	void KITFWorldMaterial::SM2Profile::setReceiveDynamicShadowsDepth(bool enabled)
 	{
 		if (enabled != mDepthShadows)
 		{
@@ -199,7 +199,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::setReceiveDynamicShadowsLowLod(bool enabled)
+	void KITFWorldMaterial::SM2Profile::setReceiveDynamicShadowsLowLod(bool enabled)
 	{
 		if (enabled != mLowLodShadows)
 		{
@@ -208,7 +208,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	uint8 TerrainMaterialGeneratorA::SM2Profile::getMaxLayers(const Terrain* terrain) const
+	uint8 KITFWorldMaterial::SM2Profile::getMaxLayers(const Terrain* terrain) const
 	{
 		// count the texture units free
 		uint8 freeTextureUnits = 16;
@@ -235,7 +235,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	MaterialPtr TerrainMaterialGeneratorA::SM2Profile::generate(const Terrain* terrain)
+	MaterialPtr KITFWorldMaterial::SM2Profile::generate(const Terrain* terrain)
 	{
 		// re-use old material if exists
 		MaterialPtr mat = terrain->_getMaterial();
@@ -284,7 +284,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	MaterialPtr TerrainMaterialGeneratorA::SM2Profile::generateForCompositeMap(const Terrain* terrain)
+	MaterialPtr KITFWorldMaterial::SM2Profile::generateForCompositeMap(const Terrain* terrain)
 	{
 		// re-use old material if exists
 		MaterialPtr mat = terrain->_getCompositeMapMaterial();
@@ -312,7 +312,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::addTechnique(
+	void KITFWorldMaterial::SM2Profile::addTechnique(
 		const MaterialPtr& mat, const Terrain* terrain, TechniqueType tt)
 	{
 
@@ -335,11 +335,9 @@ namespace Ogre
 				mShaderGen = OGRE_NEW ShaderHelperHLSL();
 			else if (hmgr.isLanguageSupported("glsl"))
 				mShaderGen = OGRE_NEW ShaderHelperGLSL();
-			// Unsupported as of now
-			/*
 			else if (hmgr.isLanguageSupported("glsles"))
 				mShaderGen = OGRE_NEW ShaderHelperGLSLES();
-			*/
+			
 			else
 			{
 				// todo
@@ -348,7 +346,7 @@ namespace Ogre
 			// check SM3 features
 			mSM3Available = GpuProgramManager::getSingleton().isSyntaxSupported("ps_3_0");
 			// unsupported ?
-			//mSM4Available = GpuProgramManager::getSingleton().isSyntaxSupported("ps_4_0");
+			mSM4Available = GpuProgramManager::getSingleton().isSyntaxSupported("ps_4_0");
 
 		}
 		HighLevelGpuProgramPtr vprog = mShaderGen->generateVertexProgram(this, terrain, tt);
@@ -429,7 +427,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	bool TerrainMaterialGeneratorA::SM2Profile::isShadowingEnabled(TechniqueType tt, const Terrain* terrain) const
+	bool KITFWorldMaterial::SM2Profile::isShadowingEnabled(TechniqueType tt, const Terrain* terrain) const
 	{
 		return getReceiveDynamicShadowsEnabled() && tt != RENDER_COMPOSITE_MAP &&
 			(tt != LOW_LOD || mLowLodShadows) &&
@@ -437,20 +435,20 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::updateParams(const MaterialPtr& mat, const Terrain* terrain)
+	void KITFWorldMaterial::SM2Profile::updateParams(const MaterialPtr& mat, const Terrain* terrain)
 	{
 		mShaderGen->updateParams(this, mat, terrain, false);
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::updateParamsForCompositeMap(const MaterialPtr& mat, const Terrain* terrain)
+	void KITFWorldMaterial::SM2Profile::updateParamsForCompositeMap(const MaterialPtr& mat, const Terrain* terrain)
 	{
 		mShaderGen->updateParams(this, mat, terrain, true);
 	}
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::generateVertexProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelper::generateVertexProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramPtr ret = createVertexProgram(prof, terrain, tt);
@@ -470,7 +468,7 @@ namespace Ogre
 	}
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::generateFragmentProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelper::generateFragmentProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramPtr ret = createFragmentProgram(prof, terrain, tt);
@@ -489,7 +487,7 @@ namespace Ogre
 		return ret;
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::generateVertexProgramSource(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::generateVertexProgramSource(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		generateVpHeader(prof, terrain, tt, outStream);
@@ -507,7 +505,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::generateFragmentProgramSource(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::generateFragmentProgramSource(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		generateFpHeader(prof, terrain, tt, outStream);
@@ -524,7 +522,7 @@ namespace Ogre
 		generateFpFooter(prof, terrain, tt, outStream);
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::defaultVpParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::defaultVpParams(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, const HighLevelGpuProgramPtr& prog)
 	{
 		GpuProgramParametersSharedPtr params = prog->getDefaultParameters();
@@ -565,7 +563,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::defaultFpParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::defaultFpParams(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, const HighLevelGpuProgramPtr& prog)
 	{
 		GpuProgramParametersSharedPtr params = prog->getDefaultParameters();
@@ -609,7 +607,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::updateParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::updateParams(
 		const SM2Profile* prof, const MaterialPtr& mat, const Terrain* terrain, bool compositeMap)
 	{
 		Pass* p = mat->getTechnique(0)->getPass(0);
@@ -634,7 +632,7 @@ namespace Ogre
 		}
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::updateVpParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::updateVpParams(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, const GpuProgramParametersSharedPtr& params)
 	{
 		params->setIgnoreMissingParams(true);
@@ -662,7 +660,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::updateFpParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelper::updateFpParams(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, const GpuProgramParametersSharedPtr& params)
 	{
 		params->setIgnoreMissingParams(true);
@@ -672,7 +670,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	String TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::getChannel(uint idx)
+	String KITFWorldMaterial::SM2Profile::ShaderHelper::getChannel(uint idx)
 	{
 		uint rem = idx % 4;
 		switch (rem)
@@ -689,7 +687,7 @@ namespace Ogre
 		};
 	}
 	//---------------------------------------------------------------------
-	String TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::getVertexProgramName(
+	String KITFWorldMaterial::SM2Profile::ShaderHelper::getVertexProgramName(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		String progName = terrain->getMaterialName() + "/sm2/vp";
@@ -711,7 +709,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	String TerrainMaterialGeneratorA::SM2Profile::ShaderHelper::getFragmentProgramName(
+	String KITFWorldMaterial::SM2Profile::ShaderHelper::getFragmentProgramName(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 
@@ -735,7 +733,7 @@ namespace Ogre
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::createVertexProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperCg::createVertexProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -759,7 +757,7 @@ namespace Ogre
 	}
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::createFragmentProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperCg::createFragmentProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -786,7 +784,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateVpHeader(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateVpHeader(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		outStream <<
@@ -947,7 +945,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpHeader(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpHeader(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 
@@ -1156,13 +1154,13 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateVpLayer(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateVpLayer(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, uint layer, StringUtil::StrStreamType& outStream)
 	{
 		// nothing to do
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpLayer(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpLayer(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, uint layer, StringUtil::StrStreamType& outStream)
 	{
 		uint uvIdx = layer / 2;
@@ -1231,7 +1229,7 @@ namespace Ogre
 		*/
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateVpFooter(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateVpFooter(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 
@@ -1263,7 +1261,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpFooter(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpFooter(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 
@@ -1337,7 +1335,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpDynamicShadowsHelpers(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpDynamicShadowsHelpers(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		// TODO make filtering configurable
@@ -1458,7 +1456,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	uint TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateVpDynamicShadowsParams(
+	uint KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateVpDynamicShadowsParams(
 		uint texCoord, const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		// out semantics & params
@@ -1483,7 +1481,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateVpDynamicShadows(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateVpDynamicShadows(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		uint numTextures = 1;
@@ -1516,7 +1514,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpDynamicShadowsParams(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpDynamicShadowsParams(
 		uint* texCoord, uint* sampler, const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		if (tt == HIGH_LOD)
@@ -1548,7 +1546,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	void TerrainMaterialGeneratorA::SM2Profile::ShaderHelperCg::generateFpDynamicShadows(
+	void KITFWorldMaterial::SM2Profile::ShaderHelperCg::generateFpDynamicShadows(
 		const SM2Profile* prof, const Terrain* terrain, TechniqueType tt, StringUtil::StrStreamType& outStream)
 	{
 		if (prof->getReceiveDynamicShadowsPSSM())
@@ -1604,7 +1602,7 @@ namespace Ogre
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperHLSL::createVertexProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperHLSL::createVertexProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -1634,7 +1632,7 @@ namespace Ogre
 	}
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperHLSL::createFragmentProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperHLSL::createFragmentProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -1666,7 +1664,7 @@ namespace Ogre
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperGLSL::createVertexProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperGLSL::createVertexProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -1701,7 +1699,7 @@ namespace Ogre
 	}
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperGLSL::createFragmentProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperGLSL::createFragmentProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -1724,7 +1722,7 @@ namespace Ogre
 	//---------------------------------------------------------------------
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperGLSLES::createVertexProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperGLSLES::createVertexProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
@@ -1759,7 +1757,7 @@ namespace Ogre
 	}
 	//---------------------------------------------------------------------
 	HighLevelGpuProgramPtr
-		TerrainMaterialGeneratorA::SM2Profile::ShaderHelperGLSLES::createFragmentProgram(
+		KITFWorldMaterial::SM2Profile::ShaderHelperGLSLES::createFragmentProgram(
 			const SM2Profile* prof, const Terrain* terrain, TechniqueType tt)
 	{
 		HighLevelGpuProgramManager& mgr = HighLevelGpuProgramManager::getSingleton();
