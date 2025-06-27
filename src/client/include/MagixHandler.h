@@ -17,6 +17,11 @@
 #include "MagixOwnershipManager.h"
 #include "MagixCampaignManager.h"
 
+
+// 1.8 Terrains
+#include <Terrain/OgreTerrain.h>
+#include <Terrain/OgreTerrainGroup.h>
+
 using namespace Ogre;
 
 class MagixHandler
@@ -39,6 +44,8 @@ protected:
 	MagixCollisionManager *mCollisionManager;
 	MagixOwnershipManager *mOwnershipManager;
 	MagixCampaignManager *mCampaignManager;
+
+	TerrainGlobalOptions* TGO;
 
 	String mDebugText;
 	bool initialized;
@@ -100,7 +107,7 @@ public:
 		mSoundManager->initialize(mCamera);
 		mSkyManager->initialize(sceneMgr, mDef, mCamera, mSoundManager);
 		mItemManager->initialize(sceneMgr, mDef, mEffectsManager);
-		mWorld->initialize(sceneMgr, window, mDef, mGameStateManager, mSoundManager, mCollisionManager, mSkyManager);
+		mWorld->initialize(sceneMgr, window, mDef, mGameStateManager, mSoundManager, mCollisionManager, mSkyManager, TGO);
 		mCritterManager->initialize(sceneMgr, mDef, mGameStateManager, mEffectsManager, mCollisionManager, mSoundManager, mWorld, mCamera);
 		mUnitManager->initialize(sceneMgr, mDef,mGameStateManager,mWorld,mEffectsManager,mCollisionManager,mSoundManager,mItemManager,mCritterManager,mCamera);
 		mNetworkManager->initialize(mDef,mGameStateManager,mItemManager,mCritterManager,mUnitManager,mWorld,mSkyManager,mGui->getChatManager(),mGui->getAlertBox(),mGui->getCharScreenManager());
@@ -109,6 +116,9 @@ public:
 		mCampaignManager->initialize(mDef, mGameStateManager, mGui, mUnitManager, mWorld, mSkyManager, mCamera, mSoundManager, mCollisionManager, mEffectsManager);
 
 		initialized = true;
+
+		// 1.8 New terrains
+		TGO = OGRE_NEW TerrainGlobalOptions();
 	}
 	void shutdown()
 	{

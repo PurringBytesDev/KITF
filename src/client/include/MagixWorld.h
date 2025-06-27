@@ -26,7 +26,18 @@ using namespace Ogre;
 
 // Ogre 1.8 and onwards new terrain needs these headers
 #include "KITFWorldMaterial.h"
+#include <Terrain/OgreTerrainMaterialGenerator.h>
+#include <Terrain/OgreTerrainMaterialGeneratorA.h>
+#include <Terrain/OgreTerrain.h>
+#include <Terrain/OgreTerrainGroup.h>
+// later to do ?
+#include <Terrain/OgreTerrainPrerequisites.h>
+#include <Terrain/OgreTerrainQuadTreeNode.h>
+//#include <Terrain/OgreTerrainPaging.h>
+//#include <Terrain/OgreTerrainPagedWorldSection.h>
+
 using namespace Forests;
+using namespace Ogre;
 
 #define MAX_LIGHTS 3
 
@@ -43,9 +54,11 @@ protected:
 	SceneManager *mSceneMgr;
 	RenderWindow *mWindow;
 	PagedGeometry *mGrass,*mTrees,*mBushes,*mLargeTrees,*mFloatingBushes;
+
 	// all non class variables should be away
 	unsigned short numTreeMeshes;
 	unsigned short numBushMeshes;
+
 	Entity *mCeiling;
 	SceneNode *mCeilingNode;
 	Light *mLight[MAX_LIGHTS];
@@ -67,6 +80,36 @@ protected:
 	vector<WorldCritter>::type critterSpawnList;
 	vector<std::pair<Vector3,Vector3>>::type critterRoamAreaList;
 	unsigned short critterSpawnLimit;
+
+	// New terrain variables
+	bool areTerrainProcessed;
+	TerrainGlobalOptions* MagixTerrainGlobalOptions;
+	TerrainGroup* TerrainGroup;
+	bool useCustomMaterial;
+
+	// for a custom material and setting its name
+	String CustomMaterial;
+	
+	// LOD morph
+	bool useNamedLODMorph;
+	// its accessible / settable name
+	String MorphLODName;
+	// self explanatory
+	size_t MorphLODIndex;
+
+	// texture vars
+	String WordTextureName;
+	String WorldDetailTexture;
+
+	// Heightmap
+	String HeightmapName;
+	int HeightMaxHeight;
+	int HeightMaxPixelError;
+	int TerrainPageSize;
+	int TerrainMinBatchSize;
+	int TerrainMaxBatchSize;
+	int TerrainCompositeDistance;
+
 public:
 	MagixWorld()
 	{
@@ -105,6 +148,25 @@ public:
 		critterSpawnList.clear();
 		critterRoamAreaList.clear();
 		critterSpawnLimit = 0;
+
+		// terrain 
+		MagixTerrainGlobalOptions = 0;
+		TerrainGroup = 0;
+		useCustomMaterial = false;
+		useNamedLODMorph = false;
+		MorphLODIndex = 3;
+		
+		// Heightmap
+		HeightmapName = "";
+		// to check 
+		HeightMaxHeight = 300;
+		HeightMaxPixelError = 3;
+		TerrainPageSize = 513;
+		// to make configurable by client
+		TerrainMinBatchSize = 33;
+		TerrainMaxBatchSize = 65;
+		// to sync with visibility (because this is a magic number !!!)
+		TerrainCompositeDistance = 3000;
 	}
 	~MagixWorld()
 	{
@@ -114,7 +176,7 @@ public:
 	}
 
 	// mignt need mUtils here :D
-	void initialize(SceneManager *sceneMgr, RenderWindow *window, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixSoundManager *soundMgr, MagixCollisionManager *collisionMgr, MagixSkyManager *skyMgr)
+	void initialize(SceneManager *sceneMgr, RenderWindow *window, MagixExternalDefinitions *def, MagixGameStateManager *gameStateMgr, MagixSoundManager *soundMgr, MagixCollisionManager *collisionMgr, MagixSkyManager *skyMgr, TerrainGlobalOptions *tgo)
 	{
 		mSceneMgr = sceneMgr;
 		mWindow = window;
@@ -129,6 +191,9 @@ public:
 		mCeilingNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 		mCeilingNode->attachObject(mCeiling);
 		mCeilingNode->setVisible(false);
+
+		// 1.8 New terrains
+		MagixTerrainGlobalOptions = tgo;
 	}
 	void initializeCustomMeshes()
 	{

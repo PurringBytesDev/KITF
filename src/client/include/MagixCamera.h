@@ -2,6 +2,7 @@
 #define __MagixCamera_h_
 
 #include "MagixPlayer.h"
+#include "MagixCollisionManager.h" 
 
 #define CAMERA_LOCKED 1
 #define CAMERA_FREECURSOR 2
