@@ -8,8 +8,8 @@
 class MagixAlertBox
 {
 protected:
-	OverlayElement* mAlertBox;
-	OverlayElement* mAlertBoxText;
+	OverlayElement *mAlertBox;
+	OverlayElement *mAlertBoxText;
 	Real alertCount;
 	Real alertTimeout;
 	Real startWidth;
