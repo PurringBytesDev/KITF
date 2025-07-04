@@ -19,9 +19,6 @@
     <ClCompile Include="src\client\src\MagixCollisionManager.cpp">
       <Filter>Sources\Magix</Filter>
     </ClCompile>
-    <ClCompile Include="src\client\src\KITFWorldMaterial.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client\include\ogremagix.h">
