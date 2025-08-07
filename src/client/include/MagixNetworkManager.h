@@ -266,7 +266,7 @@ public:
 						Math::RangeRandom(0,50)>0 && mItemManager->getNumItems()<(unsigned short)playerList.size())
 					{
 						const String tItems[] = {"Egg","Egg","Egg","Egg","Egg2","Egg2","Egg2","Egg2","Egg3","Egg3","Egg3","Egg3","Egg4","Egg5","Egg4"};
-						short tRand = (short)Math::RangeRandom(-1,15);
+						short tRand = Math::RangeRandom(-1,15);
 						if(tRand<0)tRand = 0;
 						if(tRand>14)tRand = 14;
 						const Vector2 tSize = mWorld->getWorldSize();

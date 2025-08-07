@@ -24,6 +24,7 @@ using namespace Ogre;
 #include "TreeLoader3D.h"
 #include "HeightFunction.h"
 
+<<<<<<< HEAD
 // Ogre 1.8 and onwards new terrain needs these headers
 #include "KITFWorldMaterial.h"
 #include <Terrain/OgreTerrainMaterialGenerator.h>
@@ -36,6 +37,8 @@ using namespace Ogre;
 //#include <Terrain/OgreTerrainPaging.h>
 //#include <Terrain/OgreTerrainPagedWorldSection.h>
 
+=======
+>>>>>>> main
 using namespace Forests;
 using namespace Ogre;
 

@@ -310,7 +310,7 @@ public:
 			shadow->setAlliance(ALLIANCE_ENEMY);
 			mUnitManager->createNameTag(shadow,"Shadow");
 			mUnitManager->clampUnitToTerrain(shadow,true);
-			shadow->setHP((short)Math::RangeRandom(100, 150));
+			shadow->setHP(Math::RangeRandom(100, 150));
 			shadow->pushAttackList("Dash");
 			shadow->pushAttackList("Roundhouse");
 			mSpawn.push_back(shadow);
@@ -647,7 +647,7 @@ public:
 					
 					if(unit)
 					{
-						unit->setHP((short)StringConverter::parseReal(tPart[1]));
+						unit->setHP(StringConverter::parseReal(tPart[1]));
 					}
 				}
 			}
@@ -670,7 +670,7 @@ public:
 				if(tPart.size()==2)
 				{
 					MagixUnit *unit = parseUnit(tPart[0],sUnit);
-					if(unit)unit->addHP((short)StringConverter::parseReal(tPart[1]));
+					if(unit)unit->addHP(StringConverter::parseReal(tPart[1]));
 				}
 			}
 			else if(compare(cEvent[i].first,"Unit_ClearAttackList"))

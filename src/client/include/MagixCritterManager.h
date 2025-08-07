@@ -706,7 +706,7 @@ public:
 						//Only create collisions for wild critters or my pet (or offline)
 						if(!tCritter->getIsPet() || tCritter->imTheOwner() || mGameStateManager->isCampaign())
 						{
-							mCollisionManager->createCollision(tCritter->getObjectNode(), tAttack.range, tAttack.hitForce, tOffset, (short)tHP, tCritter->getAlliance(), tAttack.hitAlly);
+							mCollisionManager->createCollision(tCritter->getObjectNode(), tAttack.range, tAttack.hitForce, tOffset, tHP, tCritter->getAlliance(), tAttack.hitAlly);
 						}
 
 						const String tSound = tAttackAndSound.second;
@@ -819,7 +819,7 @@ public:
 			return;
 		}
 		
-		critter->addHP((short)damage);
+		critter->addHP(damage);
 
 		if(damage<0)
 		{
@@ -926,7 +926,7 @@ public:
 		tC->setAlliance(critter.friendly?ALLIANCE_FRIEND:ALLIANCE_ENEMY);
 		// C4244
 		// this should be "addhealth", in fact the whole health system needs out of there
-		tC->setHP((short)critter.hp);
+		tC->setHP(critter.hp);
 		tC->setAntiGravity(critter.flying);
 		tC->setOwnerIndex(owner);
 		tC->setTarget(position);

@@ -667,7 +667,11 @@ public:
 		mButton[BUTTON_CHARSCREENDELETE] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonDelete");
 		mButtonText[BUTTON_CHARSCREENDELETE] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenButtonTextDelete");
 
+<<<<<<< HEAD
 		for (int i = 0; i < MAX_CHARSCREENTEXT; i++)
+=======
+		for(int i=0;i<MAX_CHARSCREENTEXT;i++)
+>>>>>>> main
 		{
 			const String tNum = StringConverter::toString(i + 1);
 			mCharScreenText[i] = OverlayManager::getSingleton().getOverlayElement("GUI/CharScreenText" + tNum);
@@ -1464,18 +1468,30 @@ public:
 		const vector<Skill>::type tSkillChange = mUnitManager->getPlayer()->popSkillChangedList();
 		for (int i = 0; i < (int)tSkillChange.size(); i++)
 		{
+<<<<<<< HEAD
 			if (!mGameStateManager->isCampaign())
 			{
 				mNetworkManager->sendSkillUpdate(tSkillChange[i].name, tSkillChange[i].stock);
 			}
 			if (getSkillText() == tSkillChange[i].name)
+=======
+			if(!mGameStateManager->isCampaign())
+			{
+				mNetworkManager->sendSkillUpdate(tSkillChange[i].name, tSkillChange[i].stock);
+			}
+			if(getSkillText()==tSkillChange[i].name)
+>>>>>>> main
 			{
 				updateSkillText(tSkillChange[i].stock > 0 ? &tSkillChange[i] : 0);
 			}
 		}
 		//Skill pickup
 		const String tPickup = mUnitManager->popPickupText();
+<<<<<<< HEAD
 		if (tPickup != "")
+=======
+		if(tPickup != "")
+>>>>>>> main
 		{
 			showPickupText(tPickup);
 		}
@@ -2945,7 +2961,11 @@ public:
 				mListSelectTarget = mHoverWindow;
 				const String tItem = mUnitManager->getPlayer()->getEquip(tButtonLine);
 
+<<<<<<< HEAD
 				if (tItem != "")
+=======
+				if(tItem!="")
+>>>>>>> main
 				{
 					listButtonData = mDef->getItemName(tItem);
 				}
@@ -2976,6 +2996,7 @@ public:
 						mButton[BUTTON_LISTSELECT3]->hide();
 					}
 
+<<<<<<< HEAD
 					mBox[GUI_LISTSELECTBOX]->setDimensions(0.1, 0.04 * (mButton[BUTTON_LISTSELECT3]->isVisible() ? 3 : 2));
 					mBox[GUI_LISTSELECTBOX]->setPosition(cursorX + 0.02, cursorY + 0.02);
 				}
@@ -2983,11 +3004,24 @@ public:
 				{
 					mBox[GUI_LISTSELECTBOX]->hide();
 				}
+=======
+					mBox[GUI_LISTSELECTBOX]->setDimensions(0.1,0.04*(mButton[BUTTON_LISTSELECT3]->isVisible()?3:2));
+					mBox[GUI_LISTSELECTBOX]->setPosition(cursorX+0.02,cursorY+0.02);
+				}
+				else
+				{
+					mBox[GUI_LISTSELECTBOX]->hide();
+				}
+>>>>>>> main
 
 				return;
 			}
 
+<<<<<<< HEAD
 			if (mHoverWindow == mBox[GUI_STASHBOX])	//stashbox options
+=======
+			if(mHoverWindow==mBox[GUI_STASHBOX])	//stashbox options
+>>>>>>> main
 			{
 				Real tFontHeight = 0;
 				short tApparentLine = 0;
@@ -4518,6 +4552,7 @@ public:
 	}
 	const short getListButtonLine(const unsigned short& boxID, Real& fontHeight, short& apparentLine)
 	{
+<<<<<<< HEAD
 		if (boxID >= MAX_BOXES)
 		{
 			return -1;
@@ -4530,6 +4565,20 @@ public:
 
 		const Real tCharHeight = StringConverter::parseReal(mBoxText[boxID]->getParameter("char_height"));
 		if (tCharHeight == 0)
+=======
+		if(boxID>=MAX_BOXES)
+		{
+			return -1;
+		}
+		
+		if(!mBox[boxID] || !mBoxText[boxID])
+		{
+			return -1;
+		}
+		
+		const Real tCharHeight = StringConverter::parseReal(mBoxText[boxID]->getParameter("char_height"));
+		if(tCharHeight==0)
+>>>>>>> main
 		{
 			return -1;
 		}
@@ -4537,11 +4586,19 @@ public:
 		{
 			fontHeight = tCharHeight;
 		}
+<<<<<<< HEAD
 
 		const Real tLines = (mBox[boxID]->getHeight() - mBoxText[boxID]->getTop()) / tCharHeight - 1;
 
 		const Real tY = cursorY - mBox[boxID]->getTop();
 		apparentLine = tY / tCharHeight;
+=======
+		
+		const Real tLines = (mBox[boxID]->getHeight()-mBoxText[boxID]->getTop())/tCharHeight - 1;
+		
+		const Real tY = cursorY - mBox[boxID]->getTop();
+		apparentLine = tY/tCharHeight;
+>>>>>>> main
 		return short(apparentLine);
 	}
 	OverlayElement* getMoverWindow(OverlayElement* mover)
@@ -5215,7 +5272,11 @@ public:
 			return;
 		}
 		short tTotal = 0;
+<<<<<<< HEAD
 		for (short i = 0; i < tDice; i++)tTotal += (short)Math::RangeRandom(1, tSides);
+=======
+		for(short i=0; i<tDice; i++)tTotal += Math::RangeRandom(1,tSides);
+>>>>>>> main
 
 		const String tCaption = "rolled " + tInput[0] + " of " + tInput[1] + " sides and got a " + StringConverter::toString(tTotal);
 		mChatManager->say(mUnitManager, mUnitManager->getPlayer(), tCaption, (mChatManager->getChannel() == 0 ? CHAT_LOCALEVENT : (mChatManager->getChannel() == 2 ? CHAT_PARTYEVENT : CHAT_EVENT)));
